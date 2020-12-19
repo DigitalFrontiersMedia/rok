@@ -46,6 +46,8 @@
     <modules>
         <module platform="android">hyperloop</module>
         <module platform="iphone">hyperloop</module>
+        <module platform="android">ti.paint</module>
+        <module platform="iphone">ti.paint</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
