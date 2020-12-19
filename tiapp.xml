@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.digitalfrontiersmedia.com</id>
     <name>ROK</name>
-    <version>1.0</version>
+    <version>0.1.0</version>
     <publisher>Digital Frontiers Media</publisher>
     <url>https://www.digitalfrontiersmedia.com</url>
     <description>undefined</description>
@@ -52,7 +52,7 @@
         <target device="ipad">false</target>
         <target device="iphone">false</target>
     </deployment-targets>
-    <sdk-version>9.2.2.GA</sdk-version>
+    <sdk-version>9.3.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
