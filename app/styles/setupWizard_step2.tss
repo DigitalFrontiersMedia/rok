@@ -1,0 +1,24 @@
+".container": {
+},
+"#Label_wizardTitle": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "SYSTEM SETUP",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%"
+},
+"#Label_wizardStep": {
+	"text": "Step 2",
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": "Connect to a Network",
+	"textAlign": "center",
+	"top": "20.83%",
+},
+"#ListView_networks": {
+	"height": "63.96%",
+	"top": "28.61%",
+	"width": "30.00%",
+}

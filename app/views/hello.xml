@@ -1,0 +1,10 @@
+<Alloy>
+    <Window class="container">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_greeting"/>
+        <Label id="Label_greeting_2"/>
+        <ImageView class="imgBtn-up" id="imgBtn_start"/>
+    </Window>
+</Alloy>

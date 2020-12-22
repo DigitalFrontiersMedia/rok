@@ -1,0 +1,95 @@
+".container": {
+},
+"#Label_wizardTitle": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "SYSTEM SETUP",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%",
+},
+"#Label_wizardStep": {
+	"text": "Step 4",
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": "Confirm Settings",
+	"textAlign": "center",
+	"top": "20.76%",
+},
+"#View_settingsForm": {
+	"height": Ti.UI.SIZE,
+	"top": "35%",
+	"width": "35%",
+	"layout": "vertical",
+},
+"#Label_user": {
+	"text": "Account"
+},
+"#Label_accountValue": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#Label_network": {
+	"text": "Network"
+},
+"#Label_networkValue": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#Label_app": {
+	"text": "Construction App"
+},
+"#Label_appValue": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1",
+},
+"#Label_superName": {
+	"text": "Superintendent"
+},
+"#Label_superNameValue": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#Label_superPhone": {
+	"text": "Superintendent Phone"
+},
+"#Label_superPhoneValue": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#imgBtn_edit": {
+	"height": "20",
+	"width": "120",
+	"top": "10"
+},
+"#imgBtn_continue": {
+	"height": "20",
+	"width": "120",
+	"top": "10"
+},
+"#Label_message": {
+	"text": "The following settings have been imported from your ROK account.",
+	"color": "#ff9200",
+	"textAlign": "center",
+	"top": "25%",
+},
+"#View_superPhoneLine": {
+},
+"#View_networkLine": {
+}

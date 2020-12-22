@@ -11,10 +11,12 @@
 // Alloy.Globals.someGlobalFunction = function(){};
 
 global.jDrupal = require('jdrupal');
-global.Promise = require('bluebird.core');
+//global.Promise = require('bluebird.core');
+/*
 global.Promise.config({
     warnings: false
  });
+*/
 global.UTIL = require("utilities");
 //var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');

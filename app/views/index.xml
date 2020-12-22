@@ -1,5 +1,9 @@
 <Alloy>
-	<Window class="container">
-		<Label id="label" onClick="doClick">Hello, World</Label>
-	</Window>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Label id="lbl_select">Select Startup Type:</Label>
+        <ImageView id="imgBtn_Initial"/>
+        <ImageView id="imgBtn_Established"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+    </Window>
 </Alloy>

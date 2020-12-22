@@ -1,0 +1,11 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_wizardTitle"/>
+        <Label id="Label_wizardStep"/>
+        <Label id="Label_configSelect"/>
+        <ListView id="ListView_networks"/>
+    </Window>
+</Alloy>

@@ -1,0 +1,12 @@
+".container": {
+},
+"#ImageView_1": {
+	"left": "0.00%",
+	"top": "0.00%"
+},
+"#ImageView_configBackground": {
+	"bottom": "0",
+	"height": "5%",
+	"right": "0",
+	"width": "20%",
+}

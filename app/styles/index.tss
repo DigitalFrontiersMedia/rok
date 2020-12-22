@@ -1,15 +1,39 @@
 ".container": {
-	backgroundColor:"white"
-}
-
+	"backgroundColor": "white"
+},
 "Label": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	color: "#000"
-}
-
-"#label": {
-	font: {
-		fontSize: 12
-	}
+	"width": Ti.UI.SIZE,
+	"height": Ti.UI.SIZE,
+	"color": "#000"
+},
+"#lbl_select": {
+	"font": {fontSize:'36',fontFamily:'Arial',fontStyle:'normal',fontWeight:'normal'},
+	"height": "5.0%",
+	"left": "40%",
+	"textAlign": "center",
+	"top": "10%",
+	"width": "20%"
+},
+"#imgBtn_Initial": {
+	"left": "0",
+	"top": "33%",
+	"height": "33%",
+	"width": "40%",
+	"backgroundColor": "#000000",
+},
+"#imgBtn_Established": {
+	"top": "33%",
+	"height": "33%",
+	"right": "0",
+	"width": "40%"
+},
+"#ImageView_homeBackground": {
+	"left": "0.00%",
+	"top": "0.00%"
+},
+"#ImageView_configBackground": {
+	"left": "0.00%",
+	"top": "0.00%"
+},
+"#configCorner": {
 }

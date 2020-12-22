@@ -1,0 +1,56 @@
+".container": {
+},
+"#Label_wizardTitle": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "SYSTEM SETUP",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%"
+},
+"#Label_wizardStep": {
+	"text": "Step 3",
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": "Sign in to your ROK account",
+	"textAlign": "center",
+	"top": "20.76%"
+},
+"#View_loginForm": {
+	"height": Ti.UI.SIZE,
+	"top": "30%",
+	"width": "35%",
+	"layout": "vertical"
+},
+"#View_userLine": {
+	"layout": "horizontal"
+},
+"#Label_user": {
+	"text": "Username"
+},
+"#TextField_user": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#View_passLine": {
+	"layout": "horizontal"
+},
+"#Label_pass": {
+	"text": "Password"
+},
+"#TextField_pass": {
+	"width": "200",
+	"height": "30dp",
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#imgBtn_login": {
+	"height": "20",
+	"width": "120",
+	"top": "10",
+}

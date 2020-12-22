@@ -1,0 +1,9 @@
+".container": {
+},
+"#ImageView_homeBackground": {
+	"left": "0.00%",
+	"canScale": "true",
+	"height": "5%",
+	"width": "20%",
+	"bottom": "0",
+}

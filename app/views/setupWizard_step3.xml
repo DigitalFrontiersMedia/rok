@@ -1,0 +1,21 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_wizardTitle"/>
+        <Label id="Label_wizardStep"/>
+        <Label id="Label_configSelect"/>
+        <View id="View_loginForm">
+            <View class="inputLine" id="View_userLine">
+                <Label id="Label_user"/>
+                <TextField id="TextField_user"/>
+            </View>
+            <View class="inputLine" id="View_passLine">
+                <Label id="Label_pass"/>
+                <TextField id="TextField_pass"/>
+            </View>
+            <ImageView class="imgBtn-up" id="imgBtn_login"/>
+        </View>
+    </Window>
+</Alloy>

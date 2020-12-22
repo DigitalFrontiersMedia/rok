@@ -1,0 +1,24 @@
+".container": {
+},
+"#Label_wizardTitle": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "SYSTEM SETUP",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%"
+},
+"#Label_wizardStep": {
+	"text": "Step 1",
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": "Select Language",
+	"textAlign": "center",
+	"top": "20.90%",
+},
+"#ListView_languages": {
+	"height": "63.96%",
+	"top": "28.61%",
+	"width": "30.00%",
+}

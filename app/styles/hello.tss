@@ -1,0 +1,52 @@
+".container": {
+},
+"#configCorner": {
+	"height": "5%",
+	"width": "20%",
+	"bottom": "0",
+	"right": "0"
+},
+"#ImageView_configBackground": {
+	"left": "0.00%",
+	"top": "0.00%"
+},
+"#homeCorner": {
+	"height": "5%",
+	"left": "0",
+	"width": "20%",
+	"bottom": "0"
+},
+"#ImageView_homeBackground": {
+	"left": "0.00%",
+	"top": "0.00%"
+},
+"#lbl_greeting": {
+	"text": "Hello.",
+	"left": "35%",
+	"top": "30%",
+	"font": {fontSize:'64',fontFamily:'',fontStyle:'',fontWeight:''},
+	"height": "20%",
+	"textAlign": "center",
+	"width": "30%"
+},
+"#View_1": {
+	"height": "5%",
+	"left": "0",
+	"width": "20%",
+	"bottom": "0"
+},
+"#imgBtn_start": {
+	"height": "5%",
+	"width": "15%",
+	"top": "75%"
+},
+"#Label_greeting": {
+	"text": "Hello.",
+	"font": { fontSize: '64', fontFamily: '', fontStyle: '', fontWeight: ''},
+	"textAlign": "center",
+	"top": "25%",
+},
+"#Label_greeting_2": {
+	"text": "Welcome to the ROK family.",
+	"textAlign": "center",
+}

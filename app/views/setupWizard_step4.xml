@@ -1,0 +1,37 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_wizardTitle"/>
+        <Label id="Label_wizardStep"/>
+        <Label id="Label_configSelect"/>
+        <Label id="Label_message"/>
+        <View id="View_settingsForm">
+            <View class="inputLine" id="View_userLine">
+                <Label id="Label_user"/>
+                <Label id="Label_accountValue"/>
+            </View>
+            <View class="inputLine" id="View_networkLine">
+                <Label id="Label_network"/>
+                <Label id="Label_networkValue"/>
+            </View>
+            <View class="inputLine" id="View_appLine">
+                <Label id="Label_app"/>
+                <Label id="Label_appValue"/>
+            </View>
+            <View class="inputLine" id="View_superNameLine">
+                <Label id="Label_superName"/>
+                <Label id="Label_superNameValue"/>
+            </View>
+            <View class="inputLine" id="View_superPhoneLine">
+                <Label id="Label_superPhone"/>
+                <Label id="Label_superPhoneValue"/>
+            </View>
+            <View class="inputLine" id="View_operationsLine">
+                <ImageView class="imgBtn-up" id="imgBtn_edit"/>
+                <ImageView class="imgBtn-up" id="imgBtn_continue"/>
+            </View>
+        </View>
+    </Window>
+</Alloy>

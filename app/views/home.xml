@@ -1,0 +1,18 @@
+<Alloy>
+    <Window class="container">
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <View id="View_drawings">
+            <Label id="Label_drawings"/>
+            <ImageView id="imgBtn_drawings"/>
+        </View>
+        <View id="View_rfis">
+            <Label id="Label_rfis"/>
+            <ImageView id="imgBtn_rfis"/>
+        </View>
+        <View id="View_submittals">
+            <Label id="Label_submittals"/>
+            <ImageView id="imgBtn_submittals"/>
+        </View>
+    </Window>
+</Alloy>
