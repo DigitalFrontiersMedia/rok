@@ -1,0 +1,21 @@
+<Alloy>
+    <Window class="container" id="whiteboard" left="0.00%" top="0.00%">
+        <View id="canvas"/>
+        <View id="controls">
+            <ImageView id="imgBtn_draw"/>
+            <ImageView id="imgBtn_erase"/>
+            <ImageView id="imgBtn_shapeSquare"/>
+            <ImageView id="imgBtn_shapeCircle"/>
+            <Label id="Label_color"/>
+            <ImageView id="imgBtn_red"/>
+            <ImageView id="imgBtn_orange"/>
+            <ImageView id="imgBtn_yellow"/>
+            <ImageView id="imgBtn_green"/>
+            <ImageView id="imgBtn_blue"/>
+            <ImageView id="imgBtn_black"/>
+        </View>
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+    </Window>
+</Alloy>

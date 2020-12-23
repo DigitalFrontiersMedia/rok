@@ -14,5 +14,15 @@
             <Label id="Label_submittals"/>
             <ImageView id="imgBtn_submittals"/>
         </View>
+        <View id="View_secondaryButtons">
+            <View class="btnRow" id="View_row1">
+                <ImageView class="imgBtn-up" id="imgBtn_whiteboard"/>
+                <ImageView class="imgBtn-up" id="imgBtn_pageSuper"/>
+                <ImageView class="imgBtn-up" id="ImageView_rules"/>
+            </View>
+            <View class="btnRow" id="View_row2">
+                <ImageView class="imgBtn-dn" id="ImageView_1"/>
+            </View>
+        </View>
     </Window>
 </Alloy>

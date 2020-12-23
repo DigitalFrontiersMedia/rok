@@ -1,5 +1,3 @@
 <Alloy>
-    <View class="container">
-        <ImageView id="ImageView_configBackground"/>
-    </View>
+    <ImageView id="ImageView_configBackground"/>
 </Alloy>

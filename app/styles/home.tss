@@ -21,8 +21,7 @@
 	"layout": "vertical",
 	"left": "0",
 	"top": "20%",
-	"width": "40%",
-	"transform": "Ti.UI.createMatrix2D({a:1,b:1,c:0.33,d:1,tx:0,ty:0})"
+	"width": "40%"
 },
 "#Label_drawings": {
 	"text": "PROJECT DRAWINGS",
@@ -50,7 +49,7 @@
 	"layout": "vertical",
 	"right": "0",
 	"top": "20%",
-	"width": "40%",
+	"width": "40%"
 },
 "#Label_submittals": {
 	"text": "SUBMITTALS",
@@ -59,4 +58,33 @@
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_LEFT
 },
 "#imgBtn_submittals": {
+},
+"#View_secondaryButtons": {
+	"height": "25%",
+	"layout": "vertical",
+	"top": "65%"
+},
+"#View_row1": {
+},
+"#View_row2": {
+},
+"#ImageView_1": {
+	"width": "15%",
+	"left": "42%",
+},
+"#View_btnContainer": {
+	"layout": "horizontal",
+	"left": "26%"
+},
+"#imgBtn_whiteboard": {
+	"width": "15%",
+	"left": "22%",
+},
+"#imgBtn_pageSuper": {
+	"width": "15%",
+	"left": "5%"
+},
+"#ImageView_rules": {
+	"width": "15%",
+	"left": "5%"
 }

@@ -1,0 +1,51 @@
+".container": {
+},
+"#controls": {
+	"borderColor": "#000000",
+	"borderWidth": "1",
+	"bottom": "0",
+	"height": "5%",
+	"layout": "horizontal",
+	"width": "50%"
+},
+"#imgBtn_draw": {
+	"width": "9%"
+},
+"#imgBtn_erase": {
+	"width": "9%"
+},
+"#imgBtn_shapeSquare": {
+	"width": "9%"
+},
+"#imgBtn_shapeCircle": {
+	"width": "9%"
+},
+"#imgBtn_red": {
+	"width": "9%"
+},
+"#imgBtn_green": {
+	"width": "9%"
+},
+"#imgBtn_yellow": {
+	"width": "9%"
+},
+"#imgBtn_blue": {
+	"width": "9%"
+},
+"#imgBtn_black": {
+	"width": "9%"
+},
+"#imgBtn_orange": {
+	"width": "9%"
+},
+"#Label_color": {
+	"text": "COLOR",
+	"borderWidth": "hairline",
+	"font": {fontSize:'6',fontFamily:'monospace',fontStyle:'',fontWeight:''},
+	"textAlign": "center",
+	"top": "10",
+	"left": "10"
+},
+"#canvas": {
+	"zIndex": "-99"
+}

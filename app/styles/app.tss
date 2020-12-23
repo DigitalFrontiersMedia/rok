@@ -20,4 +20,9 @@ overrode the settings with other TSS, XML, or JS settings:
 ".inputLine": {
 	"height": 30,
 	"layout": "horizontal"
+},
+".btnRow": {
+	"height": 30,
+	"top": 15,
+	"layout": "horizontal"
 }
