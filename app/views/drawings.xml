@@ -3,10 +3,14 @@
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
+        <Require id="filterCorner" src="filterCorner" type="view"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
         <Widget columns="4" gap="35" id="drawingsGrid" src="br.com.coredigital.GridLayout">
-            <View backgroundColor="blue" class="gridItem" height=Ti.UI.SIZE><ImageView width="75" height="115"></ImageView><Label bottom="0">Test</Label></View>
+            <View backgroundColor="blue" class="gridItem">
+                <ImageView height="115" width="75"/>
+                <Label bottom="0">Test</Label>
+            </View>
             <View backgroundColor="yellow" class="gridItem"/>
             <View backgroundColor="green" class="gridItem"/>
             <View backgroundColor="black" class="gridItem"/>
