@@ -1,0 +1,20 @@
+".container": {
+},
+"#Label_Title": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "PROJECT DRAWINGS",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "25%"
+},
+"#Label_subTitle": {
+	"text": "Project Name",
+	"top": "10%"
+},
+"#drawingsGrid": {
+	"top": "20%"
+},
+".gridItem": {
+	"layout": "vertical"
+}
