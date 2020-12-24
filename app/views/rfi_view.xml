@@ -1,0 +1,42 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <ImageView id="imgBtn_edit"/>
+        <Label id="Label_Title"/>
+        <Label id="Label_subTitle"/>
+        <View id="View_rfiForm">
+            <View class="inputLine" id="View_titleLine">
+                <Label class="rfiFormElement" id="Label_title"/>
+                <TextField class="rfiFormElement" id="TextField_title"/>
+            </View>
+            <View class="inputLine" id="View_questionLine">
+                <Label class="rfiFormElement" id="Label_question"/>
+                <TextArea class="rfiFormElement" id="TextArea_question"/>
+            </View>
+            <View class="inputLine" id="View_answerLine">
+                <Label class="rfiFormElement" id="Label_answer"/>
+                <TextArea class="rfiFormElement" id="TextArea_answer"/>
+            </View>
+            <View class="inputLine" id="View_referencesLine">
+                <Label class="rfiFormElement" id="Label_references"/>
+                <TextField class="rfiFormElement" id="TextField_references"/>
+            </View>
+        </View>
+        <View id="View_rfiMetaForm">
+            <View class="inputLine" id="View_sendDateLine">
+                <Label class="rfiFormElement" id="Label_sendDate"/>
+                <TextField class="rfiFormElement" id="TextField_sendDate"/>
+            </View>
+            <View class="inputLine" id="View_dueDateLine">
+                <Label class="rfiFormElement" id="Label_dueDate"/>
+                <TextField class="rfiFormElement" id="TextField_dueDate"/>
+            </View>
+            <View class="inputLine" id="View_assignedLine">
+                <Label class="rfiFormElement" id="Label_assigned"/>
+                <TextField class="rfiFormElement" id="TextField_assigned"/>
+            </View>
+        </View>
+    </Window>
+</Alloy>

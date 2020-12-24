@@ -1,0 +1,8 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <WebView id="WebView_drawing"/>
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+    </Window>
+</Alloy>

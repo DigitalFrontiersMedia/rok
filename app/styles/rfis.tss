@@ -1,0 +1,25 @@
+".container": {
+},
+"#Label_Title": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "RFI",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "25%"
+},
+"#Label_subTitle": {
+	"text": "Project Name",
+	"top": "10%"
+},
+"#ListView_rfis": {
+	"height": "70%",
+	"left": "5%",
+	"right": "5%",
+	"top": "20%"
+},
+"#imgBtn_addRfi": {
+	"bottom": "0",
+	"height": "5%",
+	"width": "15%",
+}

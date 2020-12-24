@@ -1,0 +1,68 @@
+<Alloy>
+    <Window class="container" left="0.00%" top="0.00%">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_Title"/>
+        <Label id="Label_subTitle"/>
+        <View id="l__submittalInfo">
+            <View id="View_column">
+                <View id="View_information">
+                    <Label id="Label_title"/>
+                    <View class="inputLine" id="View_line1">
+                        <View id="View_formElement1">
+                            <Label class="formElement" id="Label_submittalNum"/>
+                            <Label class="formElement" id="Label_submittalNumValue"/>
+                        </View>
+                        <View id="View_formElement2">
+                            <Label class="formElement" id="Label_spec"/>
+                            <Label class="formElement" id="Label_specValue"/>
+                        </View>
+                        <View id="View_formElement3">
+                            <Label class="formElement" id="Label_version"/>
+                            <Label class="formElement" id="Label_versionValue"/>
+                        </View>
+                        <View id="View_formElement4">
+                            <Label class="formElement" id="Label_due"/>
+                            <Label class="formElement" id="Label_dueValue"/>
+                        </View>
+                    </View>
+                    <View class="inputLine" id="View_line2">
+                        <View id="View_formElement5">
+                            <Label class="formElement" id="Label_status"/>
+                            <Label class="formElement" id="Label_statusValue"/>
+                        </View>
+                    </View>
+                    <View class="inputLine" id="View_line3">
+                        <View id="View_formElement6">
+                            <Label class="formElement" id="Label_submitter"/>
+                            <Label class="formElement" id="Label_submitterValue"/>
+                        </View>
+                        <View id="View_formElement7">
+                            <Label class="formElement" id="Label_manager"/>
+                            <Label class="formElement" id="Label_managerValue"/>
+                        </View>
+                        <View id="View_formElement8">
+                            <Label class="formElement" id="Label_reviewer"/>
+                            <Label class="formElement" id="Label_reviewerValue"/>
+                        </View>
+                    </View>
+                    <View class="inputLine" id="View_line4">
+                        <View id="View_formElement9">
+                            <Label class="formElement" id="Label_watching"/>
+                            <Label class="formElement" id="Label_watchingValue"/>
+                        </View>
+                    </View>
+                </View>
+                <View id="View_files">
+                    <Label id="Label_files"/>
+                    <ListView id="ListView_files"/>
+                </View>
+            </View>
+            <View id="View_history">
+                <Label id="Label_history"/>
+                <ScrollView id="ScrollView_history"/>
+            </View>
+        </View>
+    </Window>
+</Alloy>

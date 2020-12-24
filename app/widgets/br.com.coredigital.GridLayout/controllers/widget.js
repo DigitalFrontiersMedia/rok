@@ -14,7 +14,7 @@
 	}
 
 	var widthView = (widthScreen - gap * (totalColumns + 1)) / totalColumns;
-	var heightView = ((widthScreen - gap * (totalColumns + 1)) / totalColumns) * 1.5;
+	var heightView = ((widthScreen - gap * (totalColumns + 1)) / totalColumns) * global.gridHeightMultiplier;
 	var horizontalView ;
 
 	$.footer.height = gap;

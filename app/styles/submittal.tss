@@ -1,0 +1,176 @@
+".container": {
+},
+"#Label_Title": {
+	"borderColor": "#ff9200",
+	"borderWidth": "1",
+	"text": "SUBMITTAL #00000",
+	"textAlign": "center",
+	"top": "5%",
+	"width": "25%"
+},
+"#Label_subTitle": {
+	"text": "Project Name",
+	"top": "10%"
+},
+"#View_information": {
+	"height": Ti.UI.SIZE,
+	"layout": "vertical",
+	"left": "0"
+},
+"#Label_Title": {
+},
+"#View_titleLine": {
+},
+"#Label_title": {
+	"text": "Information",
+	"class": "formElement",
+	"left": "0"
+},
+".formElement": {
+	"left": "0"
+},
+"#TextField_sendDate": {
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#TextArea_dueDate": {
+	"value": "TextArea",
+	"left": "84%",
+	"top": "59%"
+},
+"#Label_submittalNum": {
+	"text": "Submittal No."
+},
+"#Label_answer": {
+	"text": "Answer"
+},
+"#Label_reference": {
+	"text": "References"
+},
+"#Label_references": {
+	"text": "References"
+},
+"#View_history": {
+	"width": "25%",
+	"layout": "vertical",
+	"right": "5%"
+},
+"#Label_sendDate": {
+	"text": "Send Date",
+	"class": "formElement"
+},
+"#Label_dueDate": {
+	"text": "Due Date"
+},
+"#Label_assigned": {
+	"text": "Assigned"
+},
+"#l__submittalInfo": {
+	"layout": "horizontal",
+	"top": "20%",
+	"height": "70%"
+},
+"#View_line2": {
+},
+"#View_column": {
+	"layout": "vertical",
+	"left": "5%",
+	"width": "60%"
+},
+"#TextArea_question": {
+},
+"#View_files": {
+	"layout": "vertical"
+},
+"#Label_files": {
+	"text": "Files",
+	"left": "0"
+},
+"#ListView_files": {
+},
+"#ScrollView_history": {
+},
+"#Label_history": {
+	"text": "History",
+	"left": "0"
+},
+"#View_line1": {
+},
+"#View_line3": {
+},
+"#TextField_references": {
+},
+"#Label_spec": {
+	"text": "Spec"
+},
+"#Label_submittalNumValue": {
+},
+"#View_formElement": {
+	"layout": "horizontal"
+},
+"#View_formElement1": {
+	"layout": "vertical",
+	"width": "25%"
+},
+"#View_formElement2": {
+	"layout": "vertical",
+	"width": "25%"
+},
+"#Label_specValue": {
+},
+"#View_formElement3": {
+	"layout": "vertical",
+	"width": "25%"
+},
+"#Label_version": {
+	"text": "Version"
+},
+"#Label_versionValue": {
+},
+"#View_formElement4": {
+	"layout": "vertical",
+	"width": "25%"
+},
+"#Label_due": {
+	"text": "Due"
+},
+"#Label_dueValue": {
+},
+"#Label_status": {
+	"text": "Status"
+},
+"#Label_statusValue": {
+},
+"#View_formElement5": {
+	"layout": "horizontal"
+},
+"#Label_submitter": {
+	"text": "Submitter"
+},
+"#Label_manager": {
+	"text": "Manager"
+},
+"#Label_reviewer": {
+	"text": "Reviewer"
+},
+"#View_formElement6": {
+	"layout": "horizontal",
+	"width": "33%"
+},
+"#View_formElement7": {
+	"layout": "horizontal",
+	"width": "33%"
+},
+"#Label_submitterValue": {
+},
+"#View_formElement8": {
+	"layout": "horizontal",
+	"width": "33%"
+},
+"#View_formElement9": {
+	"layout": "horizontal"
+},
+"#Label_watching": {
+	"text": "Watching"
+}

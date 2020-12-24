@@ -20,3 +20,5 @@ global.Promise.config({
 global.UTIL = require("utilities");
 //var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');
+
+global.gridHeightMultiplier = 1.5;
