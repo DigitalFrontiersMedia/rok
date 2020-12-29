@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 2.0.0
+apiversion: 4
+architectures: arm64-v8a armeabi-v7a x86 x86_64
+description: wifimanager
+author: Rainer Schleevoigt
+license: Specify your license
+copyright: Copyright (c) 2017 by Hamburger Appwerft
+
+# these should not be edited
+name: wifimanager
+moduleid: ti.wifimanager
+guid: 1deb4ba3-333b-4014-9676-e938d1e1f59c
+platform: android
+minsdk: 9.0.0.GA
