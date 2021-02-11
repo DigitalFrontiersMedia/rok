@@ -3,8 +3,7 @@
 },
 "Label": {
 	"width": Ti.UI.SIZE,
-	"height": Ti.UI.SIZE,
-	"color": "#000"
+	"height": Ti.UI.SIZE
 },
 "#lbl_select": {
 	"font": {fontSize:'36',fontFamily:'Arial',fontStyle:'normal',fontWeight:'normal'},
@@ -19,12 +18,14 @@
 	"top": "33%",
 	"height": "33%",
 	"width": "40%",
+	"image": "/images/btn_main_left.png",
 },
 "#imgBtn_Established": {
 	"top": "33%",
 	"height": "33%",
 	"right": "0",
-	"width": "40%"
+	"width": "40%",
+	"image": "/images/btn_main_right.png"
 },
 "#ImageView_homeBackground": {
 	"left": "0.00%",
@@ -35,4 +36,6 @@
 	"top": "0.00%"
 },
 "#configCorner": {
+},
+"#index": {
 }

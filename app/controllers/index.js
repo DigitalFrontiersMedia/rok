@@ -1,30 +1,31 @@
 
-//$.index.open();
+$.index.open();
 
-    var win2 = Alloy.createController('whiteboard').getView();
-    // For Alloy projects, you can pass context
-    // to the controller in the Alloy.createController method.
-    // var win2 = Alloy.createController('win2', {foobar: 42}).getView();
-    win2.open();
+var goSetup = function() {
+	var helloWindow = Alloy.createController('hello').getView();
+	helloWindow.open();
+};
 
-var Wifi = require('ti.wifimanager');
-Wifi.startWifiScan({
-    complete : function(scanned) {
-	    Ti.API.info("runtime="+ scanned.runtime);
-	    if (scanned.scanResults) {
-	    	Ti.API.info("scanResults = " + scanned.scanResults);
-	        scanned.scanResults.forEach(function(scanResult) {
-		        if (scanResult) {
-		            Ti.API.info("bssid=" + scanResult.getBSSID() + "   rssi=" + scanResult.getRSSI() + "   ssid=" + scanResult.getSSID());
-		        }
-	        });
-	    }
-    }
-});
+var goHome = function() {
+	global.homeWindow.open();
+};
 
-//var intent = Ti.Android.createIntent({
-//    action: Ti.Android.ACTION_WIFI_SETTINGS
-//});
-//intent.addCategory(Ti.Android.ACTION_WIFI_SETTINGS);
-//Ti.Android.currentActivity.startActivity(intent);
-//Ti.Android.currentActivity.startActivity(intent);
+Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
+function getLocation() {
+	Ti.Geolocation.addEventListener('location', function(e) {
+		Ti.API.info(JSON.stringify(e));
+	});
+}
+if (Ti.Geolocation.hasLocationPermissions()) {
+	getLocation();
+} else {
+	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
+		if (e.success) {
+			getLocation();
+		} else {
+			Ti.API.info('could not obtain location permissions');
+		}
+	});
+}
+
+

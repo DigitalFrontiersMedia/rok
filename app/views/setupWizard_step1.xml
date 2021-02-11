@@ -6,6 +6,12 @@
         <Label id="Label_wizardTitle"/>
         <Label id="Label_wizardStep"/>
         <Label id="Label_configSelect"/>
-        <ListView id="ListView_languages"/>
+        <TableView id="ListView_languages" onClick="chooseLanguage">
+        	<TableViewSection id="listSection">
+            	<TableViewRow>
+            		<Label class="choice">English</Label>
+        		</TableViewRow>
+            </TableViewSection>
+        </TableView>
     </Window>
 </Alloy>

@@ -5,6 +5,6 @@
         <Require id="configCorner" src="configCorner" type="view"/>
         <Label id="Label_greeting"/>
         <Label id="Label_greeting_2"/>
-        <ImageView class="imgBtn-up" id="imgBtn_start"/>
+        <ImageView class="imgBtn-up" id="imgBtn_start" onClick="startWizard" />
     </Window>
 </Alloy>

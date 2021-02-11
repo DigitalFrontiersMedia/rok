@@ -20,15 +20,6 @@
 	"left": "0.00%",
 	"top": "0.00%"
 },
-"#lbl_greeting": {
-	"text": "Hello.",
-	"left": "35%",
-	"top": "30%",
-	"font": {fontSize:'64',fontFamily:'',fontStyle:'',fontWeight:''},
-	"height": "20%",
-	"textAlign": "center",
-	"width": "30%"
-},
 "#View_1": {
 	"height": "5%",
 	"left": "0",
@@ -38,15 +29,18 @@
 "#imgBtn_start": {
 	"height": "5%",
 	"width": "15%",
-	"top": "75%"
+	"top": "75%",
+	"image": "/images/btn_main_secondary.png"
 },
 "#Label_greeting": {
 	"text": "Hello.",
-	"font": { fontSize: '64', fontFamily: '', fontStyle: '', fontWeight: ''},
+	"font": {fontSize:'64',fontFamily:'',fontStyle:'',fontWeight:''},
 	"textAlign": "center",
-	"top": "25%",
+	"top": "25%"
 },
 "#Label_greeting_2": {
 	"text": "Welcome to the ROK family.",
+	"font": {fontSize:'32',fontFamily:'',fontStyle:'',fontWeight:''},
 	"textAlign": "center",
+	"color": "#ff9200"
 }

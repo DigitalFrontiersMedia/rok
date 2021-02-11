@@ -17,6 +17,10 @@ overrode the settings with other TSS, XML, or JS settings:
 	height: Ti.UI.SIZE
 }
 */
+"Window": {
+	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
+	"extendSafeArea": true
+},
 ".inputLine": {
 	"height": 30,
 	"layout": "horizontal"
@@ -25,4 +29,18 @@ overrode the settings with other TSS, XML, or JS settings:
 	"height": 30,
 	"top": 15,
 	"layout": "horizontal"
+},
+"Label": {
+	"color": "#ccc"
+},
+".right": {
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_RIGHT,
+	"width": "100%"
+},
+".left": {
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_LEFT,
+	"width": "100%"
+},
+".fontSize24": {
+	"font": {fontSize:'24'}
 }

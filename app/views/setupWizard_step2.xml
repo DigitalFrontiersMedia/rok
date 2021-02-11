@@ -6,6 +6,12 @@
         <Label id="Label_wizardTitle"/>
         <Label id="Label_wizardStep"/>
         <Label id="Label_configSelect"/>
-        <ListView id="ListView_networks"/>
+        <TableView id="ListView_networks" onClick="chooseNetwork">
+            <TableViewSection id="listSection">
+                <TableViewRow>
+                    <Label class="choice" top="0" bottom="0">Scanning...</Label>
+                </TableViewRow>
+            </TableViewSection>
+        </TableView>
     </Window>
 </Alloy>

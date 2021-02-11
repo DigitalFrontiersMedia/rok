@@ -8,14 +8,18 @@
         <Label id="Label_configSelect"/>
         <View id="View_loginForm">
             <View class="inputLine" id="View_userLine">
-                <Label id="Label_user"/>
-                <TextField id="TextField_user"/>
+                <View class="inputWrapper">
+                    <Label id="Label_user"/>
+                    <TextField id="TextField_user"/>
+                </View>
             </View>
             <View class="inputLine" id="View_passLine">
-                <Label id="Label_pass"/>
-                <TextField id="TextField_pass"/>
+                <View class="inputWrapper">
+                    <Label id="Label_pass"/>
+                    <TextField id="TextField_pass"/>
+                </View>
             </View>
-            <ImageView class="imgBtn-up" id="imgBtn_login"/>
+            <ImageView class="imgBtn-up" id="imgBtn_login" onClick="login"/>
         </View>
     </Window>
 </Alloy>

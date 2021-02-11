@@ -17,8 +17,10 @@ global.Promise.config({
     warnings: false
  });
 */
-global.UTIL = require("utilities");
+global.UTIL = require("utilities")
 //var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');
 
 global.gridHeightMultiplier = 1.5;
+var home = Alloy.createController('home').getView();
+global.homeWindow = home;
