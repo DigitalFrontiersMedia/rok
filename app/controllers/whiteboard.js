@@ -1,6 +1,22 @@
+// 
+//  whiteboard.js
+//  ROK
+//  
+//  Created by S.Barker on 2020-11-17.
+//  Copyright 2020 S.Barker. All rights reserved.
+// 
+
+// TODO:  Add button icons.
+// TODO:  Recompile Paint to fix strokeWidth.
+// TODO:  Determine method for adding pre-fab circle/squares.
+// TODO:  Add clear button?
+
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
-var matrix = Ti.UI.createMatrix2D().rotate(-90)
+
+var lastColor = '#000000';
+
+var matrix = Ti.UI.createMatrix2D().rotate(-90);
 $.Label_color.transform = matrix;
 
 var Paint = require('ti.paint');
@@ -14,39 +30,25 @@ var paintView = Paint.createPaintView({
 });
 $.canvas.add(paintView);
 
-var buttonStrokeWidth = Ti.UI.createButton({ left:10, bottom:10, right:10, height:30, title:'Decrease Stroke Width' });
-buttonStrokeWidth.addEventListener('click', function(e) {
-	paintView.strokeWidth = (paintView.strokeWidth === 10) ? 5 : 10;
-	e.source.title = (paintView.strokeWidth === 10) ? 'Decrease Stroke Width' : 'Increase Stroke Width';
+
+$.imgBtn_red.addEventListener('click', function() { paintView.strokeColor = '#ff0000'; });
+$.imgBtn_orange.addEventListener('click', function() { paintView.strokeColor = '#ffa500'; });
+$.imgBtn_yellow.addEventListener('click', function() { paintView.strokeColor = '#ffff00'; });
+$.imgBtn_green.addEventListener('click', function() { paintView.strokeColor = '#00ff00'; });
+$.imgBtn_blue.addEventListener('click', function() { paintView.strokeColor = '#0000ff'; });
+$.imgBtn_black.addEventListener('click', function() { paintView.strokeColor = '#000000'; });
+
+//clear.addEventListener('click', function() { paintView.clear(); });
+
+
+$.imgBtn_draw.addEventListener('click', function(e) {
+	paintView.strokeColor = lastColor;
+	paintView.eraseMode = false;
 });
-$.whiteboard.add(buttonStrokeWidth);
-
-var buttonStrokeColorRed = Ti.UI.createButton({ bottom:100, left:10, width:75, height:30, title:'Red' });
-buttonStrokeColorRed.addEventListener('click', function() { paintView.strokeColor = 'red'; });
-var buttonStrokeColorGreen = Ti.UI.createButton({ bottom:70, left:10, width:75, height:30, title:'Green' });
-buttonStrokeColorGreen.addEventListener('click', function() { paintView.strokeColor = '#0f0'; });
-var buttonStrokeColorBlue = Ti.UI.createButton({ bottom:40, left:10, width:75, height:30, title:'Blue' });
-buttonStrokeColorBlue.addEventListener('click', function() { paintView.strokeColor = '#0000ff'; });
-$.whiteboard.add(buttonStrokeColorRed);
-$.whiteboard.add(buttonStrokeColorGreen);
-$.whiteboard.add(buttonStrokeColorBlue);
-
-var clear = Ti.UI.createButton({ bottom:40, left:100, width:75, height:30, title:'Clear' });
-clear.addEventListener('click', function() { paintView.clear(); });
-$.whiteboard.add(clear);
-
-var buttonStrokeAlpha = Ti.UI.createButton({ bottom:70, right:10, width:100, height:30, title:'Alpha : 100%' });
-buttonStrokeAlpha.addEventListener('click', function(e) {
-	paintView.strokeAlpha = (paintView.strokeAlpha === 255) ? 127 : 255;
-	e.source.title = (paintView.strokeAlpha === 255) ? 'Alpha : 100%' : 'Alpha : 50%';
+$.imgBtn_erase.addEventListener('click', function(e) {
+	lastColor = paintView.strokeColor;
+	paintView.eraseMode = true;
+	//paintView.strokeWidth = 20;
 });
-$.whiteboard.add(buttonStrokeAlpha);
-
-var buttonStrokeColorEraser = Ti.UI.createButton({ bottom:40, right:10, width:100, height:30, title:'Erase : Off' });
-buttonStrokeColorEraser.addEventListener('click', function(e) {
-	paintView.eraseMode = (paintView.eraseMode) ? false : true;
-	e.source.title = (paintView.eraseMode) ? 'Erase : On' : 'Erase : Off';
-});
-$.whiteboard.add(buttonStrokeColorEraser);
 
 

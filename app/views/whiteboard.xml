@@ -2,17 +2,17 @@
     <Window class="container" id="whiteboard" left="0.00%" top="0.00%">
         <View id="canvas"/>
         <View id="controls">
-            <ImageView id="imgBtn_draw"/>
-            <ImageView id="imgBtn_erase"/>
-            <ImageView id="imgBtn_shapeSquare"/>
-            <ImageView id="imgBtn_shapeCircle"/>
+            <ImageView id="imgBtn_draw" class="dwgControl"/>
+            <ImageView id="imgBtn_erase" class="dwgControl"/>
+            <ImageView id="imgBtn_shapeSquare" class="dwgControl"/>
+            <ImageView id="imgBtn_shapeCircle" class="dwgControl"/>
             <Label id="Label_color"/>
-            <ImageView id="imgBtn_red"/>
-            <ImageView id="imgBtn_orange"/>
-            <ImageView id="imgBtn_yellow"/>
-            <ImageView id="imgBtn_green"/>
-            <ImageView id="imgBtn_blue"/>
-            <ImageView id="imgBtn_black"/>
+            <ImageView id="imgBtn_red" class="dwgControl"/>
+            <ImageView id="imgBtn_orange" class="dwgControl"/>
+            <ImageView id="imgBtn_yellow" class="dwgControl"/>
+            <ImageView id="imgBtn_green" class="dwgControl"/>
+            <ImageView id="imgBtn_blue" class="dwgControl"/>
+            <ImageView id="imgBtn_black" class="dwgControl"/>
         </View>
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>

@@ -18,7 +18,7 @@
             <View class="btnRow" id="View_row1">
                 <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_whiteboard" onClick="goWhiteboard"/>
                 <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_pageSuper"/>
-                <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_rules"/>
+                <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_info" onClick="siteInfoMenu"/>
             </View>
             <View class="btnRow" id="View_row2">
                 <ImageView class="imgBtn-dn imgBtn-secondary" id="imgBtn_documents"/>
