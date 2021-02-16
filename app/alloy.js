@@ -9,6 +9,9 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
+//
+// TODO:  Setup REST API endpoint for siteInfo links
+// TODO:  Populate and handle siteInfoPickerValues choices
 
 global.jDrupal = require('jdrupal');
 //global.Promise = require('bluebird.core');
@@ -71,6 +74,13 @@ if (!Ti.Network.online) {
 	});
 	*/
 }
+
+global.Wifi = require('ti.wifimanager');
+//var intent = Ti.Android.createIntent({
+//    action: Wifi.ACTION_PICK_WIFI_NETWORK
+//});
+//intent.addCategory(Ti.Android.CATEGORY_LAUNCHER);
+//Ti.Android.currentActivity.startActivity(intent);
 
 /*
  * Get global.siteInfo List

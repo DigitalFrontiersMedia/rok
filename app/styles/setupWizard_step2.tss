@@ -1,4 +1,5 @@
 ".container": {
+	windowSoftInputMode : Ti.UI.Android.SOFT_INPUT_ADJUST_PAN
 },
 "#Label_wizardTitle": {
 	"text": "SYSTEM SETUP",

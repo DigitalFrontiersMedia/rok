@@ -9,7 +9,7 @@ var goHome = function() {
 	global.homeWindow.open();
 };
 
-Ti.App.Properties.setBool('configured', true);
+Ti.App.Properties.setBool('configured', false);
 Ti.API.info('Configured == ' + JSON.stringify(Ti.App.Properties.getBool('configured')));
 if (Ti.App.Properties.getBool('configured')) {
 	goHome();

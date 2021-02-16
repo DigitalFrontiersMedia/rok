@@ -18,6 +18,7 @@ overrode the settings with other TSS, XML, or JS settings:
 }
 */
 "Window": {
+	windowSoftInputMode : Ti.UI.Android.SOFT_INPUT_ADJUST_PAN,
 	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
 	"extendSafeArea": true
 },

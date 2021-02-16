@@ -1,5 +1,5 @@
 <Alloy>
-    <Window class="container" left="0.00%" top="0.00%">
+    <Window id="setupWizard2Container" class="container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
@@ -9,7 +9,7 @@
         <TableView id="ListView_networks" onClick="chooseNetwork">
             <TableViewSection id="listSection">
                 <TableViewRow>
-                    <Label class="choice" top="0" bottom="0">Scanning...</Label>
+                    <Label bottom="0" class="choice" top="0">Scanning...</Label>
                 </TableViewRow>
             </TableViewSection>
         </TableView>
