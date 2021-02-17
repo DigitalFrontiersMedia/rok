@@ -13,12 +13,12 @@ var chooseNetwork = function(e) {
 	Ti.API.info(ssid);
 	Ti.API.info(currentSSID.substring(1, currentSSID.length-1));
 	if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
-		alert('Connected!');
 		var password = Alloy.createController('password').getView();
     	$.setupWizard2Container.remove(password);
     	//$.open();
 		var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
 		setupWizard_step3Window.open();
+		alert('Connected!');
 		return;
 	}
     var arg = {
@@ -31,15 +31,15 @@ var chooseNetwork = function(e) {
 var netConnect = function(pass) {
 	var networkNotRemembered = true;
 	var rememberedNetwork;	
-	Ti.Network.addEventListener('change', function(e) {
+	var networkListener = Ti.Network.addEventListener('change', function(e) {
 		var currentSSID = global.Wifi.getCurrentConnection().ssid;
 		if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
-			alert('Connected!');
 			var password = Alloy.createController('password').getView();
 	    	$.setupWizard2Container.remove(password);
     		//$.open();
 			var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
 			setupWizard_step3Window.open();
+			alert('Connected!');
 			return;
 		} else if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
 			alert('System connected to a previously remembered network before we could connect to the newly chosen one. Try again?');
@@ -73,15 +73,18 @@ var netConnect = function(pass) {
 		if (!Ti.Network.online) {
 			global.Wifi.reconnect(rememberedNetwork);
 		} else {
-			alert('Connected to remembered network.');
 			var password = Alloy.createController('password').getView();
 	    	$.setupWizard2Container.remove(password);
 			$.open();
 			var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
 			setupWizard_step3Window.open();
+			alert('Connected to remembered network.');
 			return;
 		}
 	}
+	setTimeout(function() {
+		networkListener = null;
+	}, 10000);
 };
 
 global.Wifi.startWifiScan({

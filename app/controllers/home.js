@@ -9,11 +9,12 @@ var goWhiteboard = function() {
 };
 
 var sendSMS = function() {
-	var accountSid = "<<account_sid>>";
-	var authToken = "<<auth_token>>";
+	// TODO:  Change to LIVE Twilio Creds.
+	var accountSid = "AC2bbfa4d5a99d3ebdbe9baf356a89eec3";
+	var authToken = "e0913d84503ea6c8ce0445879280d6f3";
 	var fromNumber = "<<fromNumber>>";
-	var toNumber = "<<toNumber>>";
-	var text = "<<text>>";
+	var toNumber = "+19417732036";
+	var text = "ROK Page Superintendent Test SMS";
 	
 	var xhr = Titanium.Network.createHTTPClient();
 	//xhr.onerror = function(e){alert('Transmission error: ' + e.error);};
