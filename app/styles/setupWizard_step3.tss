@@ -1,7 +1,7 @@
 ".container": {
 },
 "#Label_wizardTitle": {
-	"text": "SYSTEM SETUP",
+	"text": L("system_setup"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%",
@@ -9,11 +9,11 @@
 	"font": {fontSize:'36'}
 },
 "#Label_wizardStep": {
-	"text": "Step 3",
+	"text": L("step_3"),
 	"top": "10%"
 },
 "#Label_configSelect": {
-	"text": "Sign in to your ROK account",
+	"text": L("rok_sign_in"),
 	"textAlign": "center",
 	"top": "20.76%",
 	"font": {fontSize:'36'}
@@ -29,7 +29,7 @@
 	top: 10
 },
 "#Label_user": {
-	"text": "Username:",
+	"text": L("username_colon"),
 	"font": {fontSize:'24'}
 },
 "#TextField_user": {
@@ -43,7 +43,7 @@
 	top: "20"
 },
 "#Label_pass": {
-	"text": "Password:",
+	"text": L("password_colon"),
 	"font": {fontSize:'24'}
 },
 "#TextField_pass": {

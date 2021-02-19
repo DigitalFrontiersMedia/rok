@@ -1,7 +1,7 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
-$.Label_pass_prompt.text = "Enter the password for\r\n" + args.title;
+$.Label_pass_prompt.text = String.format(L('wifi_password'), args.title);
 $.TextField_pass.focus();
 
 var connect = function() {
@@ -10,7 +10,7 @@ var connect = function() {
 		return;
 	}
 	if ($.TextField_pass.value.length < 8) {
-		alert('Password not long enough for WiFi password.');
+		alert(L("wifi_password_too_short"));
 		return;
 	}
 	global.netConnect($.TextField_pass.value);

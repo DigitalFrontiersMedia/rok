@@ -3,13 +3,13 @@
 "#Label_Title": {
 	"borderColor": "#ff9200",
 	"borderWidth": "1",
-	"text": "SUBMITTALS",
+	"text": L("submittals"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "25%",
 },
 "#Label_subTitle": {
-	"text": "Project Name",
+	"text": L("project_name"),
 	"top": "10%"
 },
 "#TableView_submittals": {

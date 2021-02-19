@@ -49,7 +49,7 @@
 	left: "2%"
 },
 "#Label_color": {
-	"text": "COLOR",
+	"text": L("color"),
 	color: "#000000",
 	"borderWidth": "hairline",
 	"font": {fontSize:'15',fontFamily:'monospace',fontStyle:'',fontWeight:''},

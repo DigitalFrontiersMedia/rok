@@ -1,7 +1,7 @@
 ".container": {
 },
 "#Label_wizardTitle": {
-	"text": "SYSTEM SETUP",
+	"text": L("system_setup"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%",
@@ -9,11 +9,11 @@
 	"font": {fontSize:'36'}
 },
 "#Label_wizardStep": {
-	"text": "Step 1",
+	"text": L("step_1"),
 	"top": "10%"
 },
 "#Label_configSelect": {
-	"text": "Select Language",
+	"text": L("select_lang"),
 	"textAlign": "center",
 	"top": "20.90%",
 	"font": {fontSize:'36'}

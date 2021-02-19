@@ -1,7 +1,7 @@
-".container": {
+ ".container": {
 },
 "#Label_wizardTitle": {
-	"text": "SYSTEM SETUP",
+	"text": L("system_setup"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%",
@@ -9,11 +9,11 @@
 	"font": {fontSize:'36'}
 },
 "#Label_wizardStep": {
-	"text": "Step 4",
+	"text": L("step_4"),
 	"top": "10%"
 },
 "#Label_configSelect": {
-	"text": "Confirm Settings",
+	"text": L("confirm_settings"),
 	"textAlign": "center",
 	"top": "20.76%",
 	"font": {fontSize:'36'}
@@ -25,27 +25,27 @@
 	"layout": "vertical"
 },
 "#Label_user": {
-	"text": "Account:"
+	"text": L("account_field_label")
 },
 "#Label_accountValue": {
 },
 "#Label_network": {
-	"text": "Network:"
+	"text": L("network_field_label")
 },
 "#Label_networkValue": {
 },
 "#Label_app": {
-	"text": "Construction App:"
+	"text": "mgmt_app_field_label"
 },
 "#Label_appValue": {
 },
 "#Label_superName": {
-	"text": "Superintendent:"
+	"text": L("super_field_label")
 },
 "#Label_superNameValue": {
 },
 "#Label_superPhone": {
-	"text": "Superintendent Phone:"
+	"text": L("super_phone_field_label")
 },
 "#Label_superPhoneValue": {
 },
@@ -59,7 +59,7 @@
 	"image": "/images/btn_main_secondary.png",
 },
 "#Label_message": {
-	"text": "The following settings have been imported from your ROK account.",
+	"text": L("import_message"),
 	"color": "#ff9200",
 	"textAlign": "center",
 	"top": "26%",

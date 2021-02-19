@@ -33,13 +33,13 @@
 	"image": "/images/btn_main_secondary.png"
 },
 "#Label_greeting": {
-	"text": "Hello.",
+	text: L("hello"),
 	"font": {fontSize:'64',fontFamily:'',fontStyle:'',fontWeight:''},
 	"textAlign": "center",
 	"top": "25%"
 },
 "#Label_greeting_2": {
-	"text": "Welcome to the ROK family.",
+	"text": L("welcome"),
 	"font": {fontSize:'32',fontFamily:'',fontStyle:'',fontWeight:''},
 	"textAlign": "center",
 	"color": "#ff9200"

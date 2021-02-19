@@ -13,6 +13,8 @@
 // TODO:  Setup REST API endpoint for siteInfo links
 // TODO:  Populate and handle siteInfoPickerValues choices
 
+Ti.Locale.setLanguage('en');
+
 global.jDrupal = require('jdrupal');
 //global.Promise = require('bluebird.core');
 /*

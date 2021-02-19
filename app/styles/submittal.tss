@@ -3,13 +3,13 @@
 "#Label_Title": {
 	"borderColor": "#ff9200",
 	"borderWidth": "1",
-	"text": "SUBMITTAL #00000",
+	"text": L("submittal"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "25%"
 },
 "#Label_subTitle": {
-	"text": "Project Name",
+	"text": L("project_name"),
 	"top": "10%"
 },
 "#View_information": {
@@ -22,7 +22,7 @@
 "#View_titleLine": {
 },
 "#Label_title": {
-	"text": "Information",
+	"text": L("information"),
 	"class": "formElement",
 	"left": "0"
 },
@@ -40,31 +40,12 @@
 	"top": "59%"
 },
 "#Label_submittalNum": {
-	"text": "Submittal No."
-},
-"#Label_answer": {
-	"text": "Answer"
-},
-"#Label_reference": {
-	"text": "References"
-},
-"#Label_references": {
-	"text": "References"
+	"text": L("submittal_num")
 },
 "#View_history": {
 	"width": "25%",
 	"layout": "vertical",
 	"right": "5%"
-},
-"#Label_sendDate": {
-	"text": "Send Date",
-	"class": "formElement"
-},
-"#Label_dueDate": {
-	"text": "Due Date"
-},
-"#Label_assigned": {
-	"text": "Assigned"
 },
 "#l__submittalInfo": {
 	"layout": "horizontal",
@@ -84,7 +65,7 @@
 	"layout": "vertical"
 },
 "#Label_files": {
-	"text": "Files",
+	"text": L("files"),
 	"left": "0"
 },
 "#ListView_files": {
@@ -92,7 +73,7 @@
 "#ScrollView_history": {
 },
 "#Label_history": {
-	"text": "History",
+	"text": L("history"),
 	"left": "0"
 },
 "#View_line1": {
@@ -102,7 +83,7 @@
 "#TextField_references": {
 },
 "#Label_spec": {
-	"text": "Spec"
+	"text": L("spec")
 },
 "#Label_submittalNumValue": {
 },
@@ -124,7 +105,7 @@
 	"width": "25%"
 },
 "#Label_version": {
-	"text": "Version"
+	"text": L("version")
 },
 "#Label_versionValue": {
 },
@@ -133,12 +114,12 @@
 	"width": "25%"
 },
 "#Label_due": {
-	"text": "Due"
+	"text": L("due")
 },
 "#Label_dueValue": {
 },
 "#Label_status": {
-	"text": "Status"
+	"text": L("status")
 },
 "#Label_statusValue": {
 },
@@ -146,13 +127,13 @@
 	"layout": "horizontal"
 },
 "#Label_submitter": {
-	"text": "Submitter"
+	"text": L("submitter")
 },
 "#Label_manager": {
-	"text": "Manager"
+	"text": L("manager")
 },
 "#Label_reviewer": {
-	"text": "Reviewer"
+	"text": L("reviewer")
 },
 "#View_formElement6": {
 	"layout": "horizontal",
@@ -172,5 +153,5 @@
 	"layout": "horizontal"
 },
 "#Label_watching": {
-	"text": "Watching"
+	"text": L("watching")
 }

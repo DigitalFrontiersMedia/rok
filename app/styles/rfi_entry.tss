@@ -3,13 +3,13 @@
 "#Label_Title": {
 	"borderColor": "#ff9200",
 	"borderWidth": "1",
-	"text": "CREATE RFI",
+	"text": L("create_rfi"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%"
 },
 "#Label_subTitle": {
-	"text": "Project Name",
+	"text": L("project_name"),
 	"top": "10%"
 },
 "#View_rfiForm": {
@@ -20,7 +20,7 @@
 	"left": "5%"
 },
 "#Label_title": {
-	"text": "Title",
+	"text": L("title"),
 	"class": "rfiFormElement"
 },
 ".inputLine": {
@@ -41,16 +41,13 @@
 	"top": "59%"
 },
 "#Label_question": {
-	"text": "Question"
+	"text": L("question")
 },
 "#Label_answer": {
-	"text": "Answer"
-},
-"#Label_reference": {
-	"text": "References"
+	"text": L("answer")
 },
 "#Label_references": {
-	"text": "References"
+	"text": L("references")
 },
 "#View_rfiMetaForm": {
 	"height": Ti.UI.SIZE,
@@ -60,14 +57,14 @@
 	"right": "5%"
 },
 "#Label_sendDate": {
-	"text": "Send Date",
+	"text": L("send_date"),
 	"class": "rfiFormElement"
 },
 "#Label_dueDate": {
-	"text": "Due Date"
+	"text": L("due_date")
 },
 "#Label_assigned": {
-	"text": "Assigned"
+	"text": L("assigned")
 },
 "#imgBtn_save": {
 	"height": "5%",

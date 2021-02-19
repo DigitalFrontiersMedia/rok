@@ -21,7 +21,7 @@
 	"width": "40%"
 },
 "#Label_drawings": {
-	"text": "PROJECT DRAWINGS",
+	"text": L("project_drawings"),
 	"width": "100%",
 	"right": "20%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_RIGHT
@@ -38,7 +38,7 @@
 "#imgBtn_rfis": {
 },
 "#Label_rfis": {
-	"text": "RFI",
+	"text": L("rfi"),
 	"width": "100%",
 	"textAlign": "center"
 },
@@ -50,7 +50,7 @@
 	"width": "40%"
 },
 "#Label_submittals": {
-	"text": "SUBMITTALS",
+	"text": L('submittals'),
 	"width": "100%",
 	"left": "20%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_LEFT

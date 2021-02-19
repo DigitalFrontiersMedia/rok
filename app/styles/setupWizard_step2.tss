@@ -2,7 +2,7 @@
 	windowSoftInputMode : Ti.UI.Android.SOFT_INPUT_ADJUST_PAN
 },
 "#Label_wizardTitle": {
-	"text": "SYSTEM SETUP",
+	"text": L("system_setup"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%",
@@ -10,11 +10,11 @@
 	"font": {fontSize:'36'}
 },
 "#Label_wizardStep": {
-	"text": "Step 2",
+	"text": L("step_2"),
 	"top": "10%"
 },
 "#Label_configSelect": {
-	"text": "Connect to a Network",
+	"text": L("connect_network"),
 	"textAlign": "center",
 	"top": "20.83%",
 	"font": {fontSize:'36'}

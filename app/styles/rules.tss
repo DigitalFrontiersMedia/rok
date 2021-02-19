@@ -3,13 +3,13 @@
 "#Label_Title": {
 	"borderColor": "#ff9200",
 	"borderWidth": "1",
-	"text": "Project Rules",
+	"text": L("project_rules"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "25%"
 },
 "#Label_subTitle": {
-	"text": "Project Name",
+	"text": L("project_name"),
 	"top": "10%"
 },
 "#ScrollView_rules": {
