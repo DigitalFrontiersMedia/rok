@@ -1,5 +1,5 @@
 <Alloy>
-    <Window id="setupWizard2Container" class="container" left="0.00%" top="0.00%">
+    <Window class="container" id="setupWizard2Container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
@@ -13,5 +13,9 @@
                 </TableViewRow>
             </TableViewSection>
         </TableView>
+        <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
+            <ImageView class="btnMainSecondary"/>
+            <Label class="btnText skip"/>
+        </View>
     </Window>
 </Alloy>

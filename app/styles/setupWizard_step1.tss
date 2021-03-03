@@ -19,12 +19,12 @@
 	"font": {fontSize:'36'}
 },
 "#ListView_languages": {
-	"height": "63.96%",
+	"height": "50%",
 	"top": "28.61%",
 	"width": "30.00%",
 	"backgroundColor": "rgba(0,0,0,0.5)",
-	separatorColor: "#fff"
+	"separatorColor": "#fff",
 },
 ".choice": {
 	"font": {fontSize:'24'}
-}
+},

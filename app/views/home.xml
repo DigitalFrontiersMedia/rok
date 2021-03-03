@@ -16,12 +16,24 @@
         </View>
         <View id="View_secondaryButtons">
             <View class="btnRow" id="View_row1">
-                <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_whiteboard" onClick="goWhiteboard"/>
-                <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_pageSuper" onClick="sendSMS"/>
-                <ImageView class="imgBtn-up imgBtn-secondary" id="imgBtn_info" onClick="siteInfoMenu"/>
+		        <View class="button-wrapper largeBtn" id="imgBtn_whiteboard" onClick="goWhiteboard">
+		            <ImageView class="btnMainSecondary largeBtn"/>
+		            <Label class="btnText whiteboard"/>
+		        </View>
+		        <View class="button-wrapper largeBtn" id="imgBtn_pageSuper" onClick="sendSMS">
+		            <ImageView class="btnMainSecondary largeBtn"/>
+		            <Label class="btnText pageSuper"/>
+		        </View>
+		        <View class="button-wrapper largeBtn" id="imgBtn_info" onClick="siteInfoMenu">
+		            <ImageView class="btnMainSecondary largeBtn"/>
+		            <Label class="btnText siteInfo"/>
+		        </View>
             </View>
             <View class="btnRow" id="View_row2">
-                <ImageView class="imgBtn-dn imgBtn-secondary" id="imgBtn_documents"/>
+		        <View class="button-wrapper largeBtn" id="imgBtn_documents">
+		            <ImageView class="btnMainSecondary largeBtn rotate180"/>
+		            <Label class="btnText documents"/>
+		        </View>
             </View>
         </View>
     </Window>

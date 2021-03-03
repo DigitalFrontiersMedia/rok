@@ -13,7 +13,26 @@
 // TODO:  Setup REST API endpoint for siteInfo links
 // TODO:  Populate and handle siteInfoPickerValues choices
 
-Ti.Locale.setLanguage('en');
+if (!Ti.Locale.currentLanguage) {
+	Ti.Locale.setLanguage('en');
+}
+// For development purposes to bypass or induce setup.
+// Uncomment and set as desired.
+// configured = false -> setup
+// configured = true -> bypass setup
+Ti.App.Properties.setBool('configured', false);
+
+// For development purposes to bypass or induce language setup.
+// Uncomment and set as desired.
+// language = 'English' -> skip button
+// language = '' -> no skip button
+//Ti.App.Properties.setString('language', '');
+
+// For development purposes to bypass or induce setup.
+// Uncomment and set as desired.
+// global.userId = 0 -> setup
+// global.userId = 1 -> bypass setup
+//global.userId = 1;
 
 global.jDrupal = require('jdrupal');
 //global.Promise = require('bluebird.core');
@@ -26,9 +45,13 @@ global.UTIL = require("utilities");
 //var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');
 
+Alloy.Globals.rotate180 = Ti.UI.create2DMatrix().rotate(180);
+
 global.gridHeightMultiplier = 1.5;
 var home = Alloy.createController('home').getView();
 global.homeWindow = home;
+var setupWizard_step1Window = Alloy.createController('setupWizard_step1').getView();
+global.setupWizardWindow = setupWizard_step1Window;
 
 global.userId = null;
 global.usingBasicAuth = false;

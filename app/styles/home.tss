@@ -70,28 +70,31 @@
 },
 "#imgBtn_documents": {
 	"width": "30%",
-	"image": "/images/btn_main_secondary.png",
 },
 ".btnRow": {
 	"layout": "horizontal",
 	width: "70%",
-	height: 100,
+	height: Ti.UI.SIZE,
 	left: "15%"
 },
 "#imgBtn_whiteboard": {
 	"width": "33%",
-	"image": "/images/btn_main_secondary.png",
 },
 "#imgBtn_pageSuper": {
 	"width": "33%",
-	"image": "/images/btn_main_secondary.png",
 },
 "#imgBtn_info": {
 	"width": "33%",
-	"image": "/images/btn_main_secondary.png",
 },
-".imgBtn-secondary": {
-	height: 100,
-	/* "image": "/images/btn_main_secondary.png",
-	"width": "30%",  */
-}
+".whiteboard": {
+	text: L("whiteboard")
+},
+".pageSuper": {
+	text: L("page_super")
+},
+".siteInfo": {
+	text: L("site_info")
+},
+".documents": {
+	text: L("documents")
+},

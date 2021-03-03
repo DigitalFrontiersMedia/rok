@@ -7,6 +7,9 @@
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
         <ListView id="ListView_rfis"/>
-        <ImageView id="imgBtn_addRfi"/>
+        <View class="button-wrapper" id="imgBtn_addRfi">
+            <ImageView class="btnMainSecondary"/>
+            <Label class="btnText add_rfi"/>
+        </View>
     </Window>
 </Alloy>

@@ -5,6 +5,11 @@ var scan;
 var network;
 var ssid;
 
+var wizardContinue = function() {
+	var nextWindow = Alloy.createController('setupWizard_step3').getView();
+	nextWindow.open();
+};
+
 var chooseNetwork = function(e) {
 	//Ti.API.info(JSON.stringify(e));
 	network = e.index;
@@ -16,9 +21,12 @@ var chooseNetwork = function(e) {
 		var password = Alloy.createController('password').getView();
     	$.setupWizard2Container.remove(password);
     	//$.open();
-		var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
-		setupWizard_step3Window.open();
+		wizardContinue();
+		setWifi(ssid);
 		alert('Connected!');
+		setTimeout(function() {
+			$.nxtBtn.visible = true;
+		}, 500);
 		return;
 	}
     var arg = {
@@ -26,6 +34,11 @@ var chooseNetwork = function(e) {
     };
 	var password = Alloy.createController('password', arg).getView();
 	$.setupWizard2Container.add(password);
+};
+
+var setWifi = function(ssid) {
+	Ti.App.Properties.setString('wifi', ssid);
+	Ti.API.info('*** ' + ssid + ' ***');
 };
 
 var netConnect = function(pass) {
@@ -37,9 +50,12 @@ var netConnect = function(pass) {
 			var password = Alloy.createController('password').getView();
 	    	$.setupWizard2Container.remove(password);
     		//$.open();
-			var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
-			setupWizard_step3Window.open();
+			wizardContinue();
+			setWifi(ssid);
 			alert('Connected!');
+			setTimeout(function() {
+				$.nxtBtn.visible = true;
+			}, 500);
 			return;
 		} else if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
 			alert('System connected to a previously remembered network before we could connect to the newly chosen one. Try again?');
@@ -61,7 +77,7 @@ var netConnect = function(pass) {
 		var networkId = global.Wifi.addNetwork(scan.scanResults[network].setPassword(pass));
 		Wifi.enableNetwork({
 		    netId : networkId
-		});  
+		});
 		setTimeout(function() {
 			if (!Ti.Network.online) {
 				Ti.API.info('*** FORGETTING NETWORK ' + networkId + ' ***');
@@ -76,8 +92,7 @@ var netConnect = function(pass) {
 			var password = Alloy.createController('password').getView();
 	    	$.setupWizard2Container.remove(password);
 			$.open();
-			var setupWizard_step3Window = Alloy.createController('setupWizard_step3').getView();
-			setupWizard_step3Window.open();
+			wizardContinue();
 			alert('Connected to remembered network.');
 			return;
 		}
@@ -86,6 +101,12 @@ var netConnect = function(pass) {
 		networkListener = null;
 	}, 10000);
 };
+
+if (!Ti.App.Properties.getString('wifi')) {
+	$.nxtBtn.visible = false;
+} else {
+	$.nxtBtn.visible = true;
+}
 
 global.Wifi.startWifiScan({
 	complete : function(scanned) {

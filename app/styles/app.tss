@@ -18,7 +18,7 @@ overrode the settings with other TSS, XML, or JS settings:
 }
 */
 "Window": {
-	windowSoftInputMode : Ti.UI.Android.SOFT_INPUT_ADJUST_PAN,
+	"windowSoftInputMode": Ti.UI.Android.SOFT_INPUT_ADJUST_PAN,
 	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
 	"extendSafeArea": true
 },
@@ -44,4 +44,42 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".fontSize24": {
 	"font": {fontSize:'24'}
+},
+"#nxtBtn": {
+	"top": "85%",
+},
+".button-wrapper": {
+	"height": "48",
+	"width": "180"
+},
+".btnMainSecondary": {
+	"image": "/images/btn_main_secondary.png",
+	"height": "48"
+},
+".btnText": {
+	"font": {fontSize:'20'}
+},
+".skip": {
+	"text": L("skip")
+},
+".finish": {
+	"text": L("finish")
+},
+".finish": {
+	"text": L("finish")
+},
+".cont": {
+	"text": L("cont")
+},
+".connect": {
+	"text": L("connect")
+},
+".cancel": {
+	"text": L("cancel")
+},
+".largeBtn": {
+	height: 100,
+},
+".rotate180": {
+	transform: Alloy.Globals.rotate180
 }

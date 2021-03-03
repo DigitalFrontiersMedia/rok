@@ -26,11 +26,8 @@
 	"width": "20%",
 	"bottom": "0"
 },
-"#imgBtn_start": {
-	"height": "5%",
-	"width": "15%",
+"#nxtBtn": {
 	"top": "75%",
-	"image": "/images/btn_main_secondary.png"
 },
 "#Label_greeting": {
 	text: L("hello"),
@@ -43,4 +40,7 @@
 	"font": {fontSize:'32',fontFamily:'',fontStyle:'',fontWeight:''},
 	"textAlign": "center",
 	"color": "#ff9200"
+},
+".getStarted": {
+	text: L("get_started")
 }

@@ -9,26 +9,26 @@ var goWhiteboard = function() {
 };
 
 var sendSMS = function() {
-	// TODO:  Change to LIVE Twilio Creds.
-	var accountSid = "AC2bbfa4d5a99d3ebdbe9baf356a89eec3";
-	var authToken = "e0913d84503ea6c8ce0445879280d6f3";
-	var fromNumber = "<<fromNumber>>";
+	var accountSid = "ACaab834c22e540ff5fc703ad65195b686";
+	var authToken = "c7b5409b787dd9336939e446156e23e7";
+	var fromNumber = "+18138561613";
 	var toNumber = "+19417732036";
 	var text = "ROK Page Superintendent Test SMS";
 	
 	var xhr = Titanium.Network.createHTTPClient();
-	//xhr.onerror = function(e){alert('Transmission error: ' + e.error);};
 	xhr.onreadystatechange = function (e) {
 	    if (xhr.readyState === 4) {
-	        if (xhr.status === 200) {
+	        if (xhr.status === 201) {
 	           Ti.API.info(xhr.responseText);
 	        } else {
-	           Ti.API.info("Error", xhr.statusText);
+	           Ti.API.info("Error", JSON.stringify(xhr));
 	        }
 	    }
 	};
-	
-	xhr.open("POST", "https://" + accountSid + ":" + authToken + "@api.twilio.com/2010-04-01/Accounts/" + accountSid + "/Messages", true);
+	xhr.open("POST", "https://api.twilio.com/2010-04-01/Accounts/" + accountSid + "/Messages.json", true);
+	// Add Basic Authentication Header (Android doesn't support user:pass@domain.tld format)
+	var h = Titanium.Utils.base64encode(accountSid + ':' + authToken);
+	xhr.setRequestHeader('Authorization', 'Basic ' + h);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("From=" + encodeURIComponent(fromNumber) + "&To=" + encodeURIComponent(toNumber) + "&Body=" + encodeURIComponent(text));
 };

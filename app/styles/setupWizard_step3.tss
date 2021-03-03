@@ -55,10 +55,7 @@
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
 },
 "#imgBtn_login": {
-	"height": "48",
-	"width": "180",
 	"top": "36",
-	image: "/images/btn_main_secondary.png",
 	bottom: "24"
 },
 ".inputWrapper": {
@@ -67,4 +64,7 @@
 	right: "20%",
 	height: 43,
 	layout: "horizontal"
+},
+"#alreadyLoggedIn": {
+	text: L('already_logged_in')
 }

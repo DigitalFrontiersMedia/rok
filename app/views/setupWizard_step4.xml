@@ -44,9 +44,10 @@
                     </View>
                 </View>
             </View>
-            <View class="inputLine" id="View_operationsLine">
-                <ImageView class="imgBtn-up" id="imgBtn_continue" onClick="goHome"/>
-            </View>
+        </View>
+        <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
+            <ImageView class="btnMainSecondary"/>
+            <Label class="btnText finish"/>
         </View>
     </Window>
 </Alloy>

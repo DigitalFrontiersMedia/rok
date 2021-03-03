@@ -1,5 +1,5 @@
 ".container": {
-	windowSoftInputMode : Ti.UI.Android.SOFT_INPUT_ADJUST_PAN
+	"windowSoftInputMode": Ti.UI.Android.SOFT_INPUT_ADJUST_PAN
 },
 "#Label_wizardTitle": {
 	"text": L("system_setup"),
@@ -20,13 +20,12 @@
 	"font": {fontSize:'36'}
 },
 "#ListView_networks": {
-	"height": "63.96%",
+	"height": "50%",
 	"top": "28.61%",
 	"width": "30.00%",
 	"backgroundColor": "rgba(0,0,0,0.5)",
-	separatorColor: "#fff"
+	"separatorColor": "#fff",
 },
 ".choice": {
-	"font": {fontSize:'24'},
+	"font": {fontSize:'24'}
 }
-

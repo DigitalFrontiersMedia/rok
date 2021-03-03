@@ -35,7 +35,7 @@
 "#Label_networkValue": {
 },
 "#Label_app": {
-	"text": "mgmt_app_field_label"
+	"text": L("mgmt_app_field_label")
 },
 "#Label_appValue": {
 },

@@ -4,12 +4,16 @@
 	<string name="project_name">Project Name</string>
 	<string name="hello">Hello.</string>
 	<string name="welcome">Welcome to the ROK family.</string>
+	<string name="get_started">Get Started</string>
+	<string name="cont">Continue</string>
 	<string name="rfi">RFI</string>
 	<string name="submittals">SUBMITTALS</string>
 	<string name="connect">Connect</string>
+	<string name="cancel">Cancel</string>
 	<string name="wifi_password">Enter the password for\r\n%s</string>
 	<string name="wifi_password_too_short">Password not long enough for WiFi password.</string>
 	<string name="create_rfi">CREATE RFI</string>
+	<string name="add_rfi">Add RFI</string>
 	<string name="title">Title</string>
 	<string name="question">Question</string>
 	<string name="answer">Answer</string>
@@ -29,7 +33,7 @@
 	<string name="rok_sign_in">Sign in to your ROK account</string>
 	<string name="username_colon">Username:</string>
 	<string name="password_colon">Password:</string>
-	<string name="confirm_settings">Confirm Settings</string>
+	<string name="confirm_settings">Confirm/Edit Settings</string>
 	<string name="account_field_label">Account:</string>
 	<string name="network_field_label">Network:</string>
 	<string name="mgmt_app_field_label">Construction App:</string>
@@ -51,4 +55,12 @@
 	<string name="manager">Manager</string>
 	<string name="reviewer">Reviewer</string>
 	<string name="watching">Watching</string>
+	<string name="skip">Skip</string>
+	<string name="already_logged_in">Already logged in.  You may skip this step.</string>
+	<string name="sign_in">ROK Sign in</string>
+	<string name="finish">Finish</string>
+	<string name="whiteboard">WHITEBOARD</string>
+	<string name="page_super">PAGE SUPERINTENDANT</string>
+	<string name="site_info">SITE INFO</string>
+	<string name="documents">DOCUMENTS</string>
 </resources>

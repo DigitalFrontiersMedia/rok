@@ -1,38 +1,31 @@
+// 
+//  index.js
+//  ROK
+//  
+//  Created by S.Barker on 2020-11-17.
+//  Copyright 2020 S.Barker. All rights reserved.
+// 
 
 
 var goSetup = function() {
-	var helloWindow = Alloy.createController('hello').getView();
-	helloWindow.open();
+	// Original behavior went to hello screen to begin setup.
+	// var helloWindow = Alloy.createController('hello').getView();
+	// helloWindow.open();
+	// New behavior selects language first.
+	global.setupWizardWindow.open();
 };
 
 var goHome = function() {
 	global.homeWindow.open();
 };
 
-Ti.App.Properties.setBool('configured', false);
 Ti.API.info('Configured == ' + JSON.stringify(Ti.App.Properties.getBool('configured')));
 if (Ti.App.Properties.getBool('configured')) {
 	goHome();
 } else {
-	$.index.open();
+	// Original behavior opened this selection window.
+	//$.index.open();
+	// New behavior jumps straight into setup.
+	goSetup();
 }
 
-
-/*
-Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
-function getLocation() {
-	Ti.Geolocation.addEventListener('location', function(e) {
-		Ti.API.info(JSON.stringify(e));
-	});
-}
-if (Ti.Geolocation.hasLocationPermissions()) {
-	getLocation();
-} else {
-	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
-		if (e.success) {
-			getLocation();
-		} else {
-			Ti.API.info('could not obtain location permissions');
-		}
-	});
-}*/
