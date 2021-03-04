@@ -2,6 +2,5 @@
 var args = $.args;
 
 var goBack = function() {
-    var activity = Titanium.Android.currentActivity;
-    activity.finish();
+    Titanium.Android.currentActivity.finish();
 };

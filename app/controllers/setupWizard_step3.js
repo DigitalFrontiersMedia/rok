@@ -2,8 +2,7 @@
 var args = $.args;
 
 var wizardContinue = function() {
-	var nextWindow = Alloy.createController('setupWizard_step4').getView();
-	nextWindow.open();
+	Alloy.createController('setupWizard_step4').getView().open();
 };
 
 var login = function() {

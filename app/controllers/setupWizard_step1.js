@@ -13,8 +13,7 @@ var setLang = function(lang) {
 };
 
 var wizardContinue = function() {
-	var nextWindow = Alloy.createController('setupWizard_step2').getView();
-	nextWindow.open();
+	Alloy.createController('setupWizard_step2').getView().open();
 };
 
 var chooseLanguage = function(e) {

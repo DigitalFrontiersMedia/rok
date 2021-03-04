@@ -6,8 +6,7 @@ var network;
 var ssid;
 
 var wizardContinue = function() {
-	var nextWindow = Alloy.createController('setupWizard_step3').getView();
-	nextWindow.open();
+	Alloy.createController('setupWizard_step3').getView().open();
 };
 
 var chooseNetwork = function(e) {

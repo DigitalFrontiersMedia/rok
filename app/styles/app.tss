@@ -82,4 +82,10 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".rotate180": {
 	transform: Alloy.Globals.rotate180
-}
+},
+".rotate45": {
+	transform: Alloy.Globals.rotate45
+},
+".rotateM45": {
+	transform: Alloy.Globals.rotateM45
+},

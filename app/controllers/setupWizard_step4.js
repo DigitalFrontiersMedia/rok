@@ -8,6 +8,5 @@ var goHome = function() {
 var wizardContinue = function() {
 	Ti.App.Properties.setBool('configured', true);
 	//goHome();
-	var nextWindow = Alloy.createController('hello').getView();
-	nextWindow.open();
+	Alloy.createController('hello').getView().open();
 };

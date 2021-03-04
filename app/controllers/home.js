@@ -4,8 +4,7 @@ var args = $.args;
 
 
 var goWhiteboard = function() {
-	var whiteboardWindow = Alloy.createController('whiteboard').getView();
-	whiteboardWindow.open();	
+	Alloy.createController('whiteboard').getView().open();
 };
 
 var sendSMS = function() {
@@ -44,7 +43,8 @@ var siteInfoMenu = function() {
 		title: 'Site Info'
 	});
 	siteInfoDialog.show();
-	
-	//var whiteboardWindow = Alloy.createController('whiteboard').getView();
-	//whiteboardWindow.open();	
 };
+
+$.home.addEventListener('androidback', function() {
+	return;
+});

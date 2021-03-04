@@ -1,6 +1,6 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
-var oldWindow;
+var windowName;
 
 var goHome = function() {
 	global.homeWindow.open();
@@ -8,9 +8,11 @@ var goHome = function() {
 
 var wizardContinue = function() {
 	goHome();
+	$.hello.close();
 };
 
 for (i = 4; i > 0; i--) {
-	oldWindow = Alloy.createController('setupWizard_step' + i).getView();
-	oldWindow.close();
+	windowName = 'setupWizard_step' + i;
+	Ti.API.info('*** Closing:  ' + windowName + ' ***');
+	Alloy.createController(windowName).getView().close();
 }

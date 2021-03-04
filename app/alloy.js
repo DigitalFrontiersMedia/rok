@@ -20,7 +20,7 @@ if (!Ti.Locale.currentLanguage) {
 // Uncomment and set as desired.
 // configured = false -> setup
 // configured = true -> bypass setup
-Ti.App.Properties.setBool('configured', false);
+//Ti.App.Properties.setBool('configured', false);
 
 // For development purposes to bypass or induce language setup.
 // Uncomment and set as desired.
@@ -46,6 +46,8 @@ global.UTIL = require("utilities");
 global.xp = require('xp.ui');
 
 Alloy.Globals.rotate180 = Ti.UI.create2DMatrix().rotate(180);
+Alloy.Globals.rotate45 = Ti.UI.create2DMatrix().rotate(45);
+Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 
 global.gridHeightMultiplier = 1.5;
 var home = Alloy.createController('home').getView();
