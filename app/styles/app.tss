@@ -81,7 +81,8 @@ overrode the settings with other TSS, XML, or JS settings:
 	height: 100,
 },
 ".rotate180": {
-	transform: Alloy.Globals.rotate180
+	/*transform: Alloy.Globals.rotate180*/
+	scaleY: -1
 },
 ".rotate45": {
 	transform: Alloy.Globals.rotate45

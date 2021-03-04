@@ -45,6 +45,14 @@ var siteInfoMenu = function() {
 	siteInfoDialog.show();
 };
 
+var goDrawings = function() {
+	Ti.API.info('*** DRAWINGS ***');
+};
+
+var goSubmittals = function() {
+	Ti.API.info('*** SUBMITTALS ***');
+};
+
 $.home.addEventListener('androidback', function() {
 	return;
 });
