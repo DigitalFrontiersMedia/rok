@@ -28,8 +28,8 @@
 },
 ".imgBtn_drawings": {
 	"image": "/images/btn_main_left.png",
-	height: Titanium.UI.SIZE,
-	width: Titanium.UI.SIZE,
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
 	top: 0,
 	left: 0
 },
@@ -64,17 +64,13 @@
 },
 ".imgBtn_submittals": {
 	"image": "/images/btn_main_right.png",
-	height: Titanium.UI.SIZE,
-	width: Titanium.UI.SIZE,
-	top: 0,
-	right: 0
-},
-"#imgBtn_submittals_hotspot": {
-	zIndex: 99,
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL,
 	top: 0,
 	right: 0
+},
+"#imgBtn_submittals_hotspot": {
+	zIndex: 99
 },
 "#View_secondaryButtons": {
 	"height": "25%",
@@ -117,5 +113,5 @@
 	text: L("documents")
 },
 ".image-wrapper": {
-	backgroundColor: "red"
+	/*backgroundColor: "red"*/
 }
