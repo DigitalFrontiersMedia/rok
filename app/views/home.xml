@@ -3,7 +3,7 @@
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
         <View id="View_drawings">
-            <Label id="Label_drawings"/>
+            <Label id="Label_drawings" class="fontSize20"/>
             <View>
 	            <ImageView id="imgBtn_drawings_background" class="imgBtn_drawings"/>
 	            <View class="image-wrapper rotateM45">
@@ -12,11 +12,11 @@
             </View>
         </View>
         <View id="View_rfis">
-            <Label id="Label_rfis"/>
+            <Label id="Label_rfis" class="fontSize20"/>
             <ImageView id="imgBtn_rfis"/>
         </View>
         <View id="View_submittals">
-            <Label id="Label_submittals"/>
+            <Label id="Label_submittals" class="fontSize20"/>
             <View>
 	            <ImageView id="imgBtn_submittals_background" class="imgBtn_submittals"/>
 	            <View class="image-wrapper rotate45">

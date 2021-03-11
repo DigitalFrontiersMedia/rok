@@ -42,6 +42,9 @@ overrode the settings with other TSS, XML, or JS settings:
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_LEFT,
 	"width": "100%"
 },
+".fontSize20": {
+	"font": {fontSize:'20'}
+},
 ".fontSize24": {
 	"font": {fontSize:'24'}
 },

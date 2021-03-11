@@ -92,13 +92,13 @@
 	left: "15%"
 },
 "#imgBtn_whiteboard": {
-	"width": "33%",
+	"width": "33.3%",
 },
 "#imgBtn_pageSuper": {
-	"width": "33%",
+	"width": "33.3%",
 },
 "#imgBtn_info": {
-	"width": "33%",
+	"width": "33.3%",
 },
 ".whiteboard": {
 	text: L("whiteboard")
