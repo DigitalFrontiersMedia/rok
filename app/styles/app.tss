@@ -20,7 +20,9 @@ overrode the settings with other TSS, XML, or JS settings:
 "Window": {
 	"windowSoftInputMode": Ti.UI.Android.SOFT_INPUT_ADJUST_PAN,
 	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
-	"extendSafeArea": true
+	"extendSafeArea": false,
+	fullscreen: false,
+	windowFlags: Ti.UI.Android.FLAG_TRANSLUCENT_NAVIGATION | Ti.UI.Android.FLAG_TRANSLUCENT_STATUS
 },
 ".inputLine": {
 	"height": 30,

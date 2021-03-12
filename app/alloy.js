@@ -44,6 +44,8 @@ global.Promise.config({
 global.UTIL = require("utilities");
 //var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');
+//include ti.xhr
+global.xhr = new(require("ti.xhr"))();
 
 Alloy.Globals.rotate180 = Ti.UI.create2DMatrix().rotate(180);
 Alloy.Globals.rotate45 = Ti.UI.create2DMatrix().rotate(45);
@@ -66,6 +68,10 @@ global.siteInfoPickerValues = new Array();
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
+
+global.xhr.setStaticOptions({
+		
+});
 
 if (!Ti.Network.online) {
 	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
