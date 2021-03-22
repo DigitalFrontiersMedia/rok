@@ -45,6 +45,7 @@ XHR.prototype.GET = function(e) {
 
         // When there was an error
         xhr.onerror = function(err) {
+/*
         	var cache = readCache(xhr.url);
         	if (cache) {
         		var result = {};
@@ -56,8 +57,9 @@ XHR.prototype.GET = function(e) {
 		
 		        onSuccess(result);
         	} else {
+*/
             	onError(handleError(xhr, err));
-          	}
+          	// }
         };
 
         xhr.send();
@@ -310,11 +312,11 @@ function handleSuccess(xhr, extraParams) {
             result.data = xhr.responseXML;
         } else {
             result.data = extraParams.parseJSON ? JSON.parse(xhr.responseText) : xhr.responseText;
-            result.metaData = extraParams.parseJSON ? JSON.parse(xhr.metaData) : xhr.metaData;
+            // result.metaData = extraParams.parseJSON ? JSON.parse(xhr.metaData) : xhr.metaData;
         }
     } catch(e) {
         result.data = xhr.responseData;
-        result.metaData = xhr.metaData;
+        // result.metaData = xhr.metaData;
     }
 
     return result;
