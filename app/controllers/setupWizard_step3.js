@@ -6,9 +6,22 @@ var wizardContinue = function() {
 };
 
 var login = function() {
+	// Ti.UI.Android.hideSoftKeyboard();
 	$.TextField_user.blur();
 	$.TextField_pass.blur();
-	wizardContinue();	
+	Alloy.Globals.loading.show('Logging in...');
+	global.jDrupal.userLogin($.TextField_user.value, $.TextField_pass.value, Alloy.Globals.loading).then(function(e) {
+		Alloy.Globals.loading.hide();
+		var account = global.jDrupal.currentUser();
+		global.userId = account.id();
+		if (global.userId) {
+			Ti.API.info('User id: ' + global.userId);
+			Ti.API.info('Logged in!');
+			wizardContinue();
+		} else {
+			//alert('Could not login. Try again.')
+		}
+	});
 };
 
 var account = global.jDrupal.currentUser();

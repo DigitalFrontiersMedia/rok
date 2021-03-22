@@ -344,9 +344,13 @@ jDrupal.userLogin = function (name, pass, indicator) {
       var appNotReadyLoginFailureDialog = Ti.UI.createAlertDialog({
         cancel: 0,
         buttonNames: ['Okay'],
-        message: 'Did you change your email or password on ' + global.domain + ' recently?  Try logging in manually with updated credentials.',
-        title: 'Auto-Login Failure'
+        message: 'Did you change your email or password on ' + global.domain + ' recently?  Try logging in with updated credentials.',
+        title: 'Login Failure'
 	  });
+
+      if (indicator) {
+        indicator.hide();
+      }
 
       if (e.code == 400) {
         //Alloy.Globals.Index.open();
@@ -355,10 +359,6 @@ jDrupal.userLogin = function (name, pass, indicator) {
         Ti.API.info('*** onerror ***\r\n' + JSON.stringify(e));
         appNotReadyLoginFailureDialog.show();
         return;
-      }
-
-      if (indicator) {
-        indicator.hide();
       }
 
       var dialog = Ti.UI.createAlertDialog({
@@ -398,7 +398,6 @@ jDrupal.userLogin = function (name, pass, indicator) {
     req.send(JSON.stringify({
       name: name,
       pass: pass }));
-
   });
 };
 

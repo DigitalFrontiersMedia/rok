@@ -8,6 +8,7 @@
   "os:windows": {},
   "dependencies": {
     "br.com.coredigital.GridLayout": "*",
-    "danielhanold.pickerWidget": "*"
+    "danielhanold.pickerWidget": "*",
+    "nl.fokkezb.loading":"*"
   }
 }

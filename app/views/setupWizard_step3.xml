@@ -19,10 +19,10 @@
                     <TextField id="TextField_pass"/>
                 </View>
             </View>
-	        <View class="button-wrapper" id="imgBtn_login" onClick="login">
-	            <ImageView class="btnMainSecondary"/>
-	            <Label class="btnText cont"/>
-	        </View>
+            <View class="button-wrapper" id="imgBtn_login" onClick="login">
+                <ImageView class="btnMainSecondary"/>
+                <Label class="btnText cont"/>
+            </View>
         </View>
         <Label class="fontSize24" id="alreadyLoggedIn"/>
         <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">

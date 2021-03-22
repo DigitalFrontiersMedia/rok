@@ -34,7 +34,7 @@ var sendSMS = function(e) {
 };
 
 var pageSuperMenu = function(e) {
-	if (!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) {
+	if ((!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
@@ -69,7 +69,7 @@ var displaySiteInfo = function(e) {
 };
 
 var siteInfoMenu = function() {
-	if (!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) {
+	if ((!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
 	}

@@ -125,9 +125,11 @@ global.Wifi.startWifiScan({
 					dataRow = Ti.UI.createTableViewRow();
 					dataRow.add(networkName);
 					tableData.push(dataRow);
-					$.ListView_networks.data = tableData;
 				}
 			});
+			if (tableData.length) {
+				$.ListView_networks.data = tableData;
+			}
 		}
 	}
 });

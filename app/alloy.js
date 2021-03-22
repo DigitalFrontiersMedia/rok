@@ -20,7 +20,7 @@ if (!Ti.Locale.currentLanguage) {
 // Uncomment and set as desired.
 // configured = false -> setup
 // configured = true -> bypass setup
-//Ti.App.Properties.setBool('configured', false);
+Ti.App.Properties.setBool('configured', false);
 
 // For development purposes to bypass or induce language setup.
 // Uncomment and set as desired.
@@ -36,8 +36,8 @@ if (!Ti.Locale.currentLanguage) {
 
 // For development purposes to bypass or induce setup.
 // Uncomment and set as desired.
-Ti.App.Properties.setString("email", 'stephen@digitalfrontiersmedia.com');
-Ti.App.Properties.setString("password", 'DL9Xptgo.irdt');
+//Ti.App.Properties.setString("email", 'stephen@digitalfrontiersmedia.com');
+//Ti.App.Properties.setString("password", 'DL9Xptgo.irdt');
 
 // For development purposes to bypass or induce setup.
 // Uncomment and set as desired.
@@ -51,14 +51,14 @@ global.Promise.config({
  });
 */
 global.UTIL = require("utilities");
-//var Waterwheel = require('waterwheel');
 global.xp = require('xp.ui');
-//include ti.xhr
 global.xhr = new(require("ti.xhr"))();
 
 Alloy.Globals.rotate180 = Ti.UI.create2DMatrix().rotate(180);
 Alloy.Globals.rotate45 = Ti.UI.create2DMatrix().rotate(45);
 Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
+
+Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
 
 global.gridHeightMultiplier = 1.5;
 var home = Alloy.createController('home').getView();
@@ -100,6 +100,7 @@ if (!Ti.Network.online) {
 			Ti.API.info('email = ' + Ti.App.Properties.getString("email"));
 		    if (Ti.App.Properties.getString("password") && Ti.App.Properties.getString("email")) {
 		    	Ti.API.info('Attempting auto-login...');
+/*
 				global.jDrupal.userLogin(Ti.App.Properties.getString("email"), Ti.App.Properties.getString("password")).then(function(e) {
 					account = global.jDrupal.currentUser();
 					global.userId = account ? account.id() : null;
@@ -110,6 +111,7 @@ if (!Ti.Network.online) {
 					global.getDeviceInfo();
 					Ti.App.fireEvent('loggedIn');
 				});
+*/
 			} else {
 				// Optional default action if not logged in and can't do so.
 			}	

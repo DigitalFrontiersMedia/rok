@@ -37,7 +37,8 @@
 	"height": "41",
 	"font": {fontSize:'20'},
 	"backgroundGradient": {type:"linear",startPoint:{x:0,y:27},endPoint:{x:0,y:28},colors:["transparent","#ff9200"]},
-	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	autocorrect: false
 },
 "#View_passLine": {
 	top: "20"
