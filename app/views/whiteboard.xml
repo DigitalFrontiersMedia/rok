@@ -6,7 +6,7 @@
             <ImageView class="dwgControl" id="imgBtn_erase"/>
             <ImageView class="dwgControl" id="imgBtn_clear"/>
             <!--ImageView class="dwgControl" id="imgBtn_shapeSquare"/-->
-            <!--ImageView class="dwgControl" id="imgBtn_shapeCircle"/-->
+            <ImageView class="dwgControl" id="imgBtn_shapeCircle" visible="false" />
             <Label id="Label_color"/>
             <ImageView class="dwgControl" id="imgBtn_red"/>
             <ImageView class="dwgControl" id="imgBtn_orange"/>

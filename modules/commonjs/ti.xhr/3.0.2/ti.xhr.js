@@ -45,13 +45,24 @@ XHR.prototype.GET = function(e) {
 
         // When there was an error
         xhr.onerror = function(err) {
-            onError(handleError(xhr, err));
+        	var cache = readCache(xhr.url);
+        	if (cache) {
+        		var result = {};
+		        result.result = "cache";
+		        result.status = 304;
+		        // not modified
+		        result.data = cache;
+		        result.metaData = err;
+		
+		        onSuccess(result);
+        	} else {
+            	onError(handleError(xhr, err));
+          	}
         };
 
         xhr.send();
 
     } else {
-
         var result = {};
         result.result = "cache";
         result.status = 304;
@@ -299,9 +310,11 @@ function handleSuccess(xhr, extraParams) {
             result.data = xhr.responseXML;
         } else {
             result.data = extraParams.parseJSON ? JSON.parse(xhr.responseText) : xhr.responseText;
+            result.metaData = extraParams.parseJSON ? JSON.parse(xhr.metaData) : xhr.metaData;
         }
     } catch(e) {
         result.data = xhr.responseData;
+        result.metaData = xhr.metaData;
     }
 
     return result;
