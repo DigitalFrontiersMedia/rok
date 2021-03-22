@@ -63,4 +63,7 @@
 	<string name="page_super">PAGE SUPERINTENDANT</string>
 	<string name="site_info">SITE INFO</string>
 	<string name="documents">DOCUMENTS</string>
+	<string name="page_super_prompt">Choose desired message to send:</string>
+	<string name="site_info_prompt">Choose desired Site Info:</string>
+	<string name="device_info_not_synced">Device information not synchronized yet or device selection has not yet been made. Please try again when ready.</string>
 </resources>

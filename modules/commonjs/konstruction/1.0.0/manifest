@@ -1,0 +1,10 @@
+version: 1.0.0
+description: Construction Management Unified API Client for Appcelerator Titanium
+author: Stephen Barker
+license: Apache 2.0
+copyright: Copyright © 2021 Stephen Barker
+name: konstruction
+moduleid: konstruction
+guid: 3a9e2108-da93-441a-90cf-7a4baa1ae4f1
+platform: commonjs
+minsdk: 6.0.0.GA

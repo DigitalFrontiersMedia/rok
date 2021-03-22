@@ -1,0 +1,5 @@
+<Alloy>
+    <Window class="container">
+        <Require id="backCorner" src="backCorner" type="view"/>
+    </Window>
+</Alloy>

@@ -34,6 +34,15 @@ if (!Ti.Locale.currentLanguage) {
 // global.userId = 1 -> bypass setup
 //global.userId = 1;
 
+// For development purposes to bypass or induce setup.
+// Uncomment and set as desired.
+Ti.App.Properties.setString("email", 'stephen@digitalfrontiersmedia.com');
+Ti.App.Properties.setString("password", 'DL9Xptgo.irdt');
+
+// For development purposes to bypass or induce setup.
+// Uncomment and set as desired.
+Ti.App.Properties.setInt("deviceIndex", 0);
+
 global.jDrupal = require('jdrupal');
 //global.Promise = require('bluebird.core');
 /*
@@ -58,12 +67,13 @@ var setupWizard_step1Window = Alloy.createController('setupWizard_step1').getVie
 global.setupWizardWindow = setupWizard_step1Window;
 
 global.userId = null;
-global.usingBasicAuth = false;
+global.usingBasicAuth = true;
 global.basicAuthUser = 'guest';
-global.basicAuthPass = 'rokkor';
-global.domain = 'www.rok.com';
+global.basicAuthPass = 'dfmrokkormfd';
+global.basicAuthHeader = Titanium.Utils.base64encode(global.basicAuthUser + ':' + global.basicAuthPass);
+global.domain = 'dev-dfm-rok.pantheonsite.io';
 global.scheme = 'https://';
-global.siteInfo = new Array();
+global.deviceInfo = Ti.App.Properties.getObject('deviceInfo') ? Ti.App.Properties.getObject('deviceInfo') : new Array();
 global.siteInfoPickerValues = new Array();
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
@@ -76,14 +86,14 @@ global.xhr.setStaticOptions({
 if (!Ti.Network.online) {
 	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
 } else {
-	/*
+	Ti.API.info('Attempting to connect...');
 	global.jDrupal.connect().then(function() {
 		// global.jDrupal.currentUser() is now ready...
 		var account = global.jDrupal.currentUser();
-		global.userId = account.id();
-		//Ti.API.info('Initial User id: ' + global.userId);
+		global.userId = account ? account.id() : null;
+		Ti.API.info('Initial User id: ' + global.userId);
 		if (global.userId) {
-			global.getSiteInfo();
+			global.getDeviceInfo();
 			Ti.App.fireEvent('loggedIn');
 		} else {
 			Ti.API.info('*** No Active Session ***');
@@ -92,12 +102,12 @@ if (!Ti.Network.online) {
 		    	Ti.API.info('Attempting auto-login...');
 				global.jDrupal.userLogin(Ti.App.Properties.getString("email"), Ti.App.Properties.getString("password")).then(function(e) {
 					account = global.jDrupal.currentUser();
-					global.userId = account.id();
+					global.userId = account ? account.id() : null;
 					if (global.userId) {
 						Ti.API.info('Auto-logged in!');
 						//Ti.App.fireEvent('loggedIn');
 					}
-					global.getSiteInfo();
+					global.getDeviceInfo();
 					Ti.App.fireEvent('loggedIn');
 				});
 			} else {
@@ -105,41 +115,44 @@ if (!Ti.Network.online) {
 			}	
 		}
 	});
-	*/
 }
 
 global.Wifi = require('ti.wifimanager');
-//var intent = Ti.Android.createIntent({
-//    action: Wifi.ACTION_PICK_WIFI_NETWORK
-//});
-//intent.addCategory(Ti.Android.CATEGORY_LAUNCHER);
-//Ti.Android.currentActivity.startActivity(intent);
 
 /*
- * Get global.siteInfo List
+ * Get global.getDeviceInfo List
  */
-global.getSiteInfo = function() {
-	global.jDrupal.viewsLoad('rest/views/site-info').then(function(view) {
+global.getDeviceInfo = function() {
+	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
-		//Ti.API.info('results = ' + JSON.stringify(results));
-		var valuesObject = {};
-		global.siteInfo[0] = {};
-		global.siteInfo[0].id = 0;
-		global.siteInfo[0].title = '- Any -';
-		valuesObject[0] = global.siteInfo[0].title;
-		//valuesObject[0].color = '#ffffff';
-		for (var i = 0; i < results.length; i++) {
-			//var entity = new global.jDrupal.Entity('taxonomy_term', 'global.siteInfo', results[i].tid);
-			//Ti.API.info('entity = ' + JSON.stringify(entity));
-			var url = results[i].url[0].value;
-			var name = results[i].name[0].value;
-			global.siteInfo[i + 1] = {};
-			global.siteInfo[i + 1].url = url;
-			global.siteInfo[i + 1].title = name;
-			valuesObject[i + 1] = global.siteInfo[i + 1].title;
-			//valuesObject[i + 1].color = '#ffffff';
+		Ti.API.info('results = ' + JSON.stringify(results));
+		global.deviceInfo = results;
+		Ti.App.Properties.setObject('deviceInfo', results);
+		if (results.length == 1) {
+			Ti.App.Properties.setInt("deviceIndex", 0);
 		}
-		global.siteInfoPickerValues[0] = valuesObject;
 	});
 };
 
+global.showOptions = function(prompt, opts, context, callback) {
+	var options = {};
+	for (var i = 0; i < opts.length; i++) {
+		options[i] = global.UTIL.cleanString(opts[i].option_label);
+	}
+	Alloy.createWidget('danielhanold.pickerWidget', {
+		id : 'picker',
+		outerView : context,
+		hideNavBar : false,
+		type : 'single-column',
+		selectedValues : [0],
+		pickerValues : [options],
+		onDone : function(e) {
+			// Do something
+			Ti.API.info(JSON.stringify(e));
+			if (!e.cancel && e.data[0].key && callback) {
+				callback(e);
+			}
+		},
+		title: global.UTIL.cleanString(prompt)
+	});
+};

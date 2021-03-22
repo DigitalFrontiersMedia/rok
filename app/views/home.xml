@@ -2,26 +2,26 @@
     <Window class="container">
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
+        <View id="View_rfis">
+            <Label class="fontSize20" id="Label_rfis"/>
+            <ImageView id="imgBtn_rfis" onClick="goRfis"/>
+        </View>
         <View id="View_drawings">
-            <Label id="Label_drawings" class="fontSize20"/>
+            <Label class="fontSize20" id="Label_drawings"/>
             <View>
-	            <ImageView id="imgBtn_drawings_background" class="imgBtn_drawings"/>
-	            <View class="image-wrapper rotateM45">
-	            	<ImageView id="imgBtn_drawings_hotspot" class="imgBtn_drawings rotate45" onClick="goDrawings" />
-	            </View>
+                <ImageView class="imgBtn_drawings" id="imgBtn_drawings_background"/>
+                <View class="image-wrapper rotateM45">
+                    <ImageView class="imgBtn_drawings rotate45" id="imgBtn_drawings_hotspot" onClick="goDrawings"/>
+                </View>
             </View>
         </View>
-        <View id="View_rfis">
-            <Label id="Label_rfis" class="fontSize20"/>
-            <ImageView id="imgBtn_rfis"/>
-        </View>
         <View id="View_submittals">
-            <Label id="Label_submittals" class="fontSize20"/>
+            <Label class="fontSize20" id="Label_submittals"/>
             <View>
-	            <ImageView id="imgBtn_submittals_background" class="imgBtn_submittals"/>
-	            <View class="image-wrapper rotate45">
-	            	<ImageView id="imgBtn_submittals_hotspot" class="imgBtn_submittals rotateM45" onClick="goSubmittals" />
-	            </View>
+                <ImageView class="imgBtn_submittals" id="imgBtn_submittals_background"/>
+                <View class="image-wrapper rotate45">
+                    <ImageView class="imgBtn_submittals rotateM45" id="imgBtn_submittals_hotspot" onClick="goSubmittals"/>
+                </View>
             </View>
         </View>
         <View id="View_secondaryButtons">
@@ -30,7 +30,7 @@
                     <ImageView class="btnMainSecondary largeBtn"/>
                     <Label class="btnText whiteboard"/>
                 </View>
-                <View class="button-wrapper largeBtn" id="imgBtn_pageSuper" onClick="sendSMS">
+                <View class="button-wrapper largeBtn" id="imgBtn_pageSuper" onClick="pageSuperMenu">
                     <ImageView class="btnMainSecondary largeBtn"/>
                     <Label class="btnText pageSuper"/>
                 </View>
@@ -40,7 +40,7 @@
                 </View>
             </View>
             <View class="btnRow" id="View_row2">
-                <View class="button-wrapper largeBtn" id="imgBtn_documents">
+                <View class="button-wrapper largeBtn" id="imgBtn_documents" onClick="goDocuments">
                     <ImageView class="btnMainSecondary largeBtn rotate180"/>
                     <Label class="btnText documents"/>
                 </View>

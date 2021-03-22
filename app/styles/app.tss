@@ -94,4 +94,4 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".rotateM45": {
 	transform: Alloy.Globals.rotateM45
-},
+}

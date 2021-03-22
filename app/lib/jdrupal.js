@@ -225,10 +225,10 @@ jDrupal.modulesLoad = function () {
 jDrupal.token = function () {
   return new Promise(function (resolve, reject) {
     var req = Titanium.Network.createHTTPClient();
-    req.withCredentials = usingBasicAuth;
-    if (usingBasicAuth) {
-      req.username = basicAuthUser;
-      req.password = basicAuthPass;
+    req.withCredentials = global.usingBasicAuth;
+    if (global.usingBasicAuth) {
+      req.username = global.basicAuthUser;
+      req.password = global.basicAuthPass;
     }
 
     req.dg = {
@@ -258,15 +258,19 @@ jDrupal.token = function () {
 jDrupal.connect = function () {
   return new Promise(function (resolve, reject) {
     var req = Titanium.Network.createHTTPClient();
-    req.withCredentials = usingBasicAuth;
-    if (usingBasicAuth) {
-      req.username = basicAuthUser;
-      req.password = basicAuthPass;
+    req.withCredentials = global.usingBasicAuth;
+    if (global.usingBasicAuth) {
+      req.username = global.basicAuthUser;
+      req.password = global.basicAuthPass;
     }
 
     req.dg = {
       service: 'system',
       resource: 'connect' };
+
+    if (global.usingBasicAuth) {
+		req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+    }
 
     req.open('GET', jDrupal.restPath() + 'jdrupal/connect?_format=json');
     var connected = function () {
@@ -304,10 +308,10 @@ jDrupal.userLogin = function (name, pass, indicator) {
   var indicator = indicator;
   return new Promise(function (resolve, reject) {
     var req = Titanium.Network.createHTTPClient();
-    req.withCredentials = usingBasicAuth;
-    if (usingBasicAuth) {
-      req.username = basicAuthUser;
-      req.password = basicAuthPass;
+    req.withCredentials = global.usingBasicAuth;
+    if (global.usingBasicAuth) {
+      req.username = global.basicAuthUser;
+      req.password = global.basicAuthPass;
     }
 
     req.dg = {
@@ -318,6 +322,9 @@ jDrupal.userLogin = function (name, pass, indicator) {
     req.open('POST', jDrupal.restPath() + 'user/login?_format=json');
 
     req.setRequestHeader('Content-type', 'application/json');
+    if (global.usingBasicAuth) {
+		req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+    }
     var connected = function () {
       jDrupal.connect().then(resolve);
     };
@@ -337,25 +344,29 @@ jDrupal.userLogin = function (name, pass, indicator) {
       var appNotReadyLoginFailureDialog = Ti.UI.createAlertDialog({
         cancel: 0,
         buttonNames: ['Okay'],
-        message: 'Did you change your email or password on huhradio.com recently?  Try logging in manually with updated credentials.',
-        title: 'Auto-Login Failure' });
+        message: 'Did you change your email or password on ' + global.domain + ' recently?  Try logging in manually with updated credentials.',
+        title: 'Auto-Login Failure'
+	  });
 
-      if (currentTab == null && e.code == 400) {
-        Alloy.Globals.Index.open();
-        Alloy.Globals.Index.setActiveTab(3);
-        getPlaylists();
+      if (e.code == 400) {
+        //Alloy.Globals.Index.open();
+        //Alloy.Globals.Index.setActiveTab(3);
+        //getPlaylists();
+        Ti.API.info('*** onerror ***\r\n' + JSON.stringify(e));
         appNotReadyLoginFailureDialog.show();
         return;
       }
+
       if (indicator) {
         indicator.hide();
       }
+
       var dialog = Ti.UI.createAlertDialog({
-        cancel: 1,
-        register: 0,
-        buttonNames: ['Create New Account', 'Try again'],
-        message: 'Try again & recheck email/password OR create a new account?',
-        title: 'Login Failure' });
+        cancel: 0,
+        buttonNames: ['Try again'],
+        message: 'Try again & recheck email/password.',
+        title: 'Login Failure'
+	  });
 
       dialog.addEventListener('click', function (e) {
         if (e.index === e.source.cancel) {
@@ -394,10 +405,10 @@ jDrupal.userLogin = function (name, pass, indicator) {
 jDrupal.userLogout = function () {
   return new Promise(function (resolve, reject) {
     var req = Titanium.Network.createHTTPClient();
-    req.withCredentials = usingBasicAuth;
-    if (usingBasicAuth) {
-      req.username = basicAuthUser;
-      req.password = basicAuthPass;
+    req.withCredentials = global.usingBasicAuth;
+    if (global.usingBasicAuth) {
+      req.username = global.basicAuthUser;
+      req.password = global.basicAuthPass;
     }
 
     req.dg = {
@@ -408,6 +419,9 @@ jDrupal.userLogout = function () {
     req.open('GET', jDrupal.restPath() + 'user/logout');
 
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    if (global.usingBasicAuth) {
+		req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+    }
     var connected = function () {
       jDrupal.setCurrentUser(jDrupal.userDefaults());
       jDrupal.connect().then(resolve);
@@ -452,10 +466,10 @@ jDrupal.userRegister = function (name, pass, mail, indicator) {
   return new Promise(function (resolve, reject) {
     jDrupal.token().then(function (token) {
       var req = Titanium.Network.createHTTPClient();
-      req.withCredentials = usingBasicAuth;
-      if (usingBasicAuth) {
-        req.username = basicAuthUser;
-        req.password = basicAuthPass;
+      req.withCredentials = global.usingBasicAuth;
+      if (global.usingBasicAuth) {
+        req.username = global.basicAuthUser;
+        req.password = global.basicAuthPass;
       }
 
       req.dg = {
@@ -465,6 +479,9 @@ jDrupal.userRegister = function (name, pass, mail, indicator) {
       req.open('POST', jDrupal.restPath() + 'user/register?_format=json');
       req.setRequestHeader('Content-type', 'application/json');
       req.setRequestHeader('X-CSRF-Token', token);
+	  if (global.usingBasicAuth) {
+	  	req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+	  }
 
       var connected = function () {
         jDrupal.connect().then(resolve);
@@ -536,10 +553,10 @@ jDrupal.Views.prototype.getView = function () {
   var self = this;
   return new Promise(function (resolve, reject) {
     var req = Titanium.Network.createHTTPClient();
-    req.withCredentials = usingBasicAuth;
-    if (usingBasicAuth) {
-      req.username = basicAuthUser;
-      req.password = basicAuthPass;
+    req.withCredentials = global.usingBasicAuth;
+    if (global.usingBasicAuth) {
+      req.username = global.basicAuthUser;
+      req.password = global.basicAuthPass;
     }
 
     req.dg = {
@@ -680,10 +697,10 @@ jDrupal.Entity.prototype.load = function () {
 
         var path = jDrupal.restPath() + entityType + '/' + _entity.id() + '?_format=json';
         var req = Titanium.Network.createHTTPClient();
-        req.withCredentials = usingBasicAuth;
-        if (usingBasicAuth) {
-          req.username = basicAuthUser;
-          req.password = basicAuthPass;
+        req.withCredentials = global.usingBasicAuth;
+        if (global.usingBasicAuth) {
+          req.username = global.basicAuthUser;
+          req.password = global.basicAuthPass;
         }
 
         req.dg = {
@@ -763,10 +780,10 @@ jDrupal.Entity.prototype.save = function () {
         path += '?_format=json';
 
         var req = Titanium.Network.createHTTPClient();
-        req.withCredentials = usingBasicAuth;
-        if (usingBasicAuth) {
-          req.username = basicAuthUser;
-          req.password = basicAuthPass;
+        req.withCredentials = global.usingBasicAuth;
+        if (global.usingBasicAuth) {
+          req.username = global.basicAuthUser;
+          req.password = global.basicAuthPass;
         }
 
         req.dg = {
@@ -777,7 +794,10 @@ jDrupal.Entity.prototype.save = function () {
 
         req.setRequestHeader('Content-type', 'application/json');
         req.setRequestHeader('X-CSRF-Token', token);
-        req.onload = function () {
+	    if (global.usingBasicAuth) {
+			req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+	    }
+       req.onload = function () {
           _entity.postSave(req).then(function () {
             if (method == 'POST' && req.status == 201 || method == 'PATCH' && req.status == 204 || req.status == 200) {
               var invoke = jDrupal.moduleInvokeAll('rest_post_process', req);
@@ -852,10 +872,10 @@ jDrupal.Entity.prototype.delete = function (options) {
           target_id: _entity.getBundle() }];
 
         var req = Titanium.Network.createHTTPClient();
-        req.withCredentials = usingBasicAuth;
-        if (usingBasicAuth) {
-          req.username = basicAuthUser;
-          req.password = basicAuthPass;
+        req.withCredentials = global.usingBasicAuth;
+        if (global.usingBasicAuth) {
+          req.username = global.basicAuthUser;
+          req.password = global.basicAuthPass;
         }
 
         req.dg = {
@@ -865,6 +885,9 @@ jDrupal.Entity.prototype.delete = function (options) {
         req.open('DELETE', path);
         req.setRequestHeader('Content-type', 'application/json');
         req.setRequestHeader('X-CSRF-Token', token);
+	    if (global.usingBasicAuth) {
+			req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+	    }
         req.onload = function () {
           _entity.postDelete(req).then(function () {
             if (req.status == 204) {
@@ -1172,10 +1195,10 @@ jDrupal.File.prototype.upload = function (fileData, target_type, target_bundle, 
         path += '?_format=json';
 
         var req = Titanium.Network.createHTTPClient();
-        req.withCredentials = usingBasicAuth;
-        if (usingBasicAuth) {
-          req.username = basicAuthUser;
-          req.password = basicAuthPass;
+        req.withCredentials = global.usingBasicAuth;
+        if (global.usingBasicAuth) {
+          req.username = global.basicAuthUser;
+          req.password = global.basicAuthPass;
         }
 
         Ti.API.info('fileData.size = ' + fileData.size);
@@ -1187,6 +1210,9 @@ jDrupal.File.prototype.upload = function (fileData, target_type, target_bundle, 
         req.setRequestHeader('Content-type', 'application/octet-stream');
         req.setRequestHeader('Content-Disposition', 'file; filename="' + filename + '"');
         req.setRequestHeader('X-CSRF-Token', token);
+	    if (global.usingBasicAuth) {
+			req.setRequestHeader('Authorization', 'Basic ' + global.basicAuthHeader);
+	    }
         req.onload = function () {
           _entity.postSave(req).then(function () {
             if (method == 'POST' && req.status == 201 || method == 'PATCH' && req.status == 204 || req.status == 200) {
