@@ -38,7 +38,7 @@ $.imgBtn_green.addEventListener('click', function() { paintView.strokeColor = '#
 $.imgBtn_blue.addEventListener('click', function() { paintView.strokeColor = '#0000ff'; });
 $.imgBtn_black.addEventListener('click', function() { paintView.strokeColor = '#000000'; });
 
-//clear.addEventListener('click', function() { paintView.clear(); });
+$.imgBtn_clear.addEventListener('click', function() { paintView.clear(); });
 
 
 $.imgBtn_draw.addEventListener('click', function(e) {

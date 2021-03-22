@@ -21,9 +21,14 @@ XHR.prototype.GET = function(e) {
     }
 
     var cache = readCache(e.url);
+    
+    // Hash the URL
+    var hashedURL = Titanium.Utils.md5HexDigest(e.url);
+    // Check if the file exists in the manager
+    var cachedFile = cacheManager[hashedURL];
 
-    // If there is nothing cached, send the request
-    if (cache === false || !extraParams.ttl) {
+    // If there is nothing cached, no TTL expected, or cachedFile TTL has been exceeded, send the request
+    if (cache === false || !extraParams.ttl || cachedFile.timestamp < new Date().getTime()) {
 
         var xhr = initXHRRequest('GET', e.url, extraParams);
 
@@ -374,12 +379,14 @@ function readCache(url) {
         var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 
         // Check that the TTL is further than the current date
-        if (cache.timestamp >= new Date().getTime()) {
+        // if (cache.timestamp >= new Date().getTime()) {
             //Titanium.API.info("CACHE FOUND");
 
             // Return the content of the file
             result = file.read();
+            // Return if found regardless of TTL and let GET decide whether or not to return it or get new based on TTL. *** DFM ***
 
+/*
         } else {
             //Titanium.API.info("OLD CACHE");
 
@@ -390,6 +397,7 @@ function readCache(url) {
             // Update the cache manager
             updateCacheManager();
         }
+*/
     } else {
         //Titanium.API.info("CACHE " + hashedURL + " NOT FOUND");
     }
