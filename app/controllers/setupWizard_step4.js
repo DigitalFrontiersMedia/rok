@@ -10,3 +10,7 @@ var wizardContinue = function() {
 	//goHome();
 	Alloy.createController('hello').getView().open();
 };
+
+$.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
+$.superNameValue.value = Ti.App.Properties.getString('superName');
+$.superPhoneValue.value = Ti.App.Properties.getString('superPhone');

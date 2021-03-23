@@ -100,7 +100,7 @@ if (!Ti.Network.online) {
 			Ti.API.info('email = ' + Ti.App.Properties.getString("email"));
 		    if (Ti.App.Properties.getString("password") && Ti.App.Properties.getString("email")) {
 		    	Ti.API.info('Attempting auto-login...');
-/*
+	    		Alloy.Globals.loading.show('Attempting auto-login...');
 				global.jDrupal.userLogin(Ti.App.Properties.getString("email"), Ti.App.Properties.getString("password")).then(function(e) {
 					account = global.jDrupal.currentUser();
 					global.userId = account ? account.id() : null;
@@ -108,10 +108,10 @@ if (!Ti.Network.online) {
 						Ti.API.info('Auto-logged in!');
 						//Ti.App.fireEvent('loggedIn');
 					}
+					Alloy.Globals.loading.hide();
 					global.getDeviceInfo();
 					Ti.App.fireEvent('loggedIn');
 				});
-*/
 			} else {
 				// Optional default action if not logged in and can't do so.
 			}	
@@ -121,6 +121,18 @@ if (!Ti.Network.online) {
 
 global.Wifi = require('ti.wifimanager');
 
+var setDeviceConfig = function(results) {
+	global.deviceInfo = results;
+	Ti.App.Properties.setObject('deviceInfo', results);
+	if (results.length == 1) {
+		Ti.App.Properties.setInt("deviceIndex", 0);
+	}
+	Ti.App.Properties.setString('deviceName', results[Ti.App.Properties.getInt("deviceIndex")].title);
+	Ti.App.Properties.setString('superName', results[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
+	Ti.App.Properties.setString('superPhone', results[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
+	Ti.App.Properties.setString('admin_secret', results[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+};
+
 /*
  * Get global.getDeviceInfo List
  */
@@ -128,11 +140,7 @@ global.getDeviceInfo = function() {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
 		Ti.API.info('results = ' + JSON.stringify(results));
-		global.deviceInfo = results;
-		Ti.App.Properties.setObject('deviceInfo', results);
-		if (results.length == 1) {
-			Ti.App.Properties.setInt("deviceIndex", 0);
-		}
+		setDeviceConfig(results);
 	});
 };
 

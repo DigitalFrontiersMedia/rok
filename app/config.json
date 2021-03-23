@@ -9,6 +9,8 @@
   "dependencies": {
     "br.com.coredigital.GridLayout": "*",
     "danielhanold.pickerWidget": "*",
-    "nl.fokkezb.loading":"*"
+    "nl.fokkezb.loading": "*",
+    "nl.fokkezb.form": "*",
+    "nl.fokkezb.color": "*"
   }
 }

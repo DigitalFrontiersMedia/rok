@@ -20,43 +20,46 @@
 },
 "#View_settingsForm": {
 	"height": Ti.UI.SIZE,
-	"top": "35%",
+	"top": "31%",
 	"width": "60%",
 	"layout": "vertical"
 },
-"#Label_user": {
-	"text": L("account_field_label")
+"#Label_deviceName": {
+	"text": L("deviceName_field_label")
 },
-"#Label_accountValue": {
-},
-"#Label_network": {
-	"text": L("network_field_label")
-},
-"#Label_networkValue": {
+"#Label_project": {
+	"text": L("project_field_label")
 },
 "#Label_app": {
 	"text": L("mgmt_app_field_label")
 },
-"#Label_appValue": {
-},
 "#Label_superName": {
 	"text": L("super_field_label")
-},
-"#Label_superNameValue": {
 },
 "#Label_superPhone": {
 	"text": L("super_phone_field_label")
 },
-"#Label_superPhoneValue": {
+"#superPhoneValue": {
+	hintText: '+11234567890',
+	keyboardType: Titanium.UI.KEYBOARD_TYPE_PHONE_PAD
 },
-"#imgBtn_edit": {
-	"height": "40",
-	"width": "200",
+"#Label_superSMSMessage": {
+	"text": L("super_sms_message_field_label")
 },
-"#imgBtn_continue": {
-	"height": "40",
-	"width": "200",
-	"image": "/images/btn_main_secondary.png",
+"#Label_siteInfo": {
+	"text": L("site_info_field_label")
+},
+"#Label_adminSecret": {
+	"text": L("admin_secret_field_label")
+},
+"#btnSuperSMSMessage": {
+	 title: L("view_edit")
+},
+"#btnSiteInfo": {
+	 title: L("view_edit")
+},
+"#adminSecretValue": {
+	passwordMask: true
 },
 "#Label_message": {
 	"text": L("import_message"),
@@ -84,10 +87,7 @@
 	"top": 20,
 	height: 45
 },
-"#View_operationsLine": {
-	layout: "vertical",
-	top: 20
-},
 "TextField": {
+	returnKeyType: Titanium.UI.RETURNKEY_DONE,
 	/* "backgroundGradient": {type:"linear",startPoint:{x:0,y:42},endPoint:{x:0,y:43},colors:["transparent","#ff9200"]}, */
 }

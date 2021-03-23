@@ -9,6 +9,11 @@ var wizardContinue = function() {
 	Alloy.createController('setupWizard_step3').getView().open();
 };
 
+var setWifi = function(ssid) {
+	Ti.App.Properties.setString('wifi', ssid);
+	Ti.API.info('*** ' + ssid + ' ***');
+};
+
 var chooseNetwork = function(e) {
 	//Ti.API.info(JSON.stringify(e));
 	network = e.index;
@@ -33,11 +38,6 @@ var chooseNetwork = function(e) {
     };
 	var password = Alloy.createController('password', arg).getView();
 	$.setupWizard2Container.add(password);
-};
-
-var setWifi = function(ssid) {
-	Ti.App.Properties.setString('wifi', ssid);
-	Ti.API.info('*** ' + ssid + ' ***');
 };
 
 var netConnect = function(pass) {
@@ -134,11 +134,5 @@ global.Wifi.startWifiScan({
 	}
 });
 
-//var intent = Ti.Android.createIntent({
-//    action: Ti.Android.ACTION_WIFI_SETTINGS
-//});
-//intent.addCategory(Ti.Android.ACTION_WIFI_SETTINGS);
-//Ti.Android.currentActivity.startActivity(intent);
-//Ti.Android.currentActivity.startActivity(intent);
 
 global.netConnect = netConnect;

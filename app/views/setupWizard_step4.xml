@@ -10,37 +10,55 @@
         <View id="View_settingsForm">
             <View id="form-top">
                 <View id="left-label-wrapper">
-                    <View class="inputLine" id="View_userLine">
-                        <Label class="right fontSize24" id="Label_user"/>
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_deviceName"/>
                     </View>
-                    <View class="inputLine" id="View_networkLine">
-                        <Label class="right fontSize24" id="Label_network"/>
-                    </View>
-                    <View class="inputLine" id="View_appLine">
+                    <View class="inputLine">
                         <Label class="right fontSize24" id="Label_app"/>
                     </View>
-                    <View class="inputLine" id="View_superNameLine">
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_project"/>
+                    </View>
+                    <View class="inputLine">
                         <Label class="right fontSize24" id="Label_superName"/>
                     </View>
-                    <View class="inputLine" id="View_superPhoneLine">
+                    <View class="inputLine">
                         <Label class="right fontSize24" id="Label_superPhone"/>
+                    </View>
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_superSMSMessage"/>
+                    </View>
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_siteInfo"/>
+                    </View>
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_adminSecret"/>
                     </View>
                 </View>
                 <View id="right-values-wrapper">
-                    <View class="inputLine" id="View_userLine">
-                        <TextField class="left fontSize24" id="Label_accountValue"/>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="deviceNameValue"/>
                     </View>
-                    <View class="inputLine" id="View_networkLine">
-                        <TextField class="left fontSize24" id="Label_networkValue"/>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="appValue"/>
                     </View>
-                    <View class="inputLine" id="View_appLine">
-                        <TextField class="left fontSize24" id="Label_appValue"/>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="projectValue"/>
                     </View>
-                    <View class="inputLine" id="View_superNameLine">
-                        <TextField class="left fontSize24" id="Label_superNameValue"/>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="superNameValue"/>
                     </View>
-                    <View class="inputLine" id="View_superPhoneLine">
-                        <TextField class="left fontSize24" id="Label_superPhoneValue"/>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="superPhoneValue"/>
+                    </View>
+                    <View class="inputLine">
+                        <Button id="btnSuperSMSMessage"/>
+                    </View>
+                    <View class="inputLine">
+                        <Button id="btnSiteInfo"/>
+                    </View>
+                    <View class="inputLine">
+                        <TextField class="left fontSize24" id="adminSecretValue"/>
                     </View>
                 </View>
             </View>
