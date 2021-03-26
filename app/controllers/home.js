@@ -38,6 +38,10 @@ var pageSuperMenu = function(e) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
+	if (!global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export) {
+		alert(L('no_options'));
+		return;
+	}
 	global.showOptions(L('page_super_prompt'), global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export, $, sendSMS);
 };
 
@@ -71,6 +75,10 @@ var displaySiteInfo = function(e) {
 var siteInfoMenu = function() {
 	if ((!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
+		return;
+	}
+	if (!global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export) {
+		alert(L('no_options'));
 		return;
 	}
 	global.showOptions(L('site_info_prompt'), global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);

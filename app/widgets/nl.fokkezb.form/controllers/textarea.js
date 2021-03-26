@@ -38,7 +38,7 @@ exports.baseController = '../widgets/nl.fokkezb.form/controllers/field';
     if (inputProp.returnKeyType && inputProp.returnKeyType === Ti.UI.RETURNKEY_NEXT) {
 
       $.input.addEventListener('return', function() {
-        $.next();
+        //$.next();
       });
     }
 

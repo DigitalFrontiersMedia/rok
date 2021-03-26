@@ -194,7 +194,7 @@ function blur() {
  * Set focus on the next field and blur this one
  */
 function next() {
-  var nextField = $.form.getNextField($.name);
+  //var nextField = $.form.getNextField($.name);
 
   if (nextField) {
     nextField.focus();

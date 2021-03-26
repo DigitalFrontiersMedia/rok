@@ -12,7 +12,6 @@
   top: 19,
   left: 15,
 
-  color: '#000'
 }
 
 ".label[platform=ios]": {

@@ -6,5 +6,7 @@
   color: "#999",
   font: {
     fontSize: 17
-  }
+  },
+  returnKeyType: Titanium.UI.RETURNKEY_DONE,
+  autocorrect: false
 }

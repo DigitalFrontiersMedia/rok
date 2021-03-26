@@ -321,7 +321,7 @@ function render(opts) {
   // set the table
   // FIXME: applyProperties not working on Android (https://jira.appcelerator.org/browse/TIMOB-19556)
   if (OS_ANDROID){
-    $.table.setSections(tableProp.sections);
+    $.table.setData(tableProp.sections);
     _.each(opts.table, function (value, key) {
 
       // Skip sections

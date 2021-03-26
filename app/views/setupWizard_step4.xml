@@ -1,5 +1,5 @@
 <Alloy>
-    <Window class="container" left="0.00%" top="0.00%">
+    <Window class="container" id="setupWizard4Container">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
@@ -52,10 +52,10 @@
                         <TextField class="left fontSize24" id="superPhoneValue"/>
                     </View>
                     <View class="inputLine">
-                        <Button id="btnSuperSMSMessage"/>
+                        <Button id="btnSuperSMSMessage" onClick="view_edit_messages" />
                     </View>
                     <View class="inputLine">
-                        <Button id="btnSiteInfo"/>
+                        <Button id="btnSiteInfo" onClick="view_edit_siteInfo_options" />
                     </View>
                     <View class="inputLine">
                         <TextField class="left fontSize24" id="adminSecretValue"/>

@@ -1,0 +1,12 @@
+<Alloy>
+    <View class="container">
+        <View class="wrapper">
+            <Label id="Label_title"/>
+            <ScrollView id="contentWrapper"/>
+            <View class="button-wrapper" id="imgBtn_done" onClick="done">
+                <ImageView class="btnMainSecondary"/>
+                <Label class="btnText done"/>
+            </View>
+        </View>
+    </View>
+</Alloy>

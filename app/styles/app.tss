@@ -82,6 +82,9 @@ overrode the settings with other TSS, XML, or JS settings:
 ".cancel": {
 	"text": L("cancel")
 },
+".done": {
+	"text": L("done")
+},
 ".largeBtn": {
 	height: 100,
 },
@@ -94,4 +97,8 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".rotateM45": {
 	transform: Alloy.Globals.rotateM45
+},
+"TableView": {
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "#fff",
 }
