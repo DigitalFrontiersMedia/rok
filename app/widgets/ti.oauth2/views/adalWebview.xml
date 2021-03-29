@@ -1,0 +1,10 @@
+<Alloy>
+    <NavigationWindow id="win" platform="ios">
+        <Window id="adalWidgetIosWindow" layout="vertical" platform="ios">
+            <WebView height="Ti.UI.FILL" id="webview" platform="ios" width="Ti.UI.FILL"/>
+        </Window>
+    </NavigationWindow>
+    <Window id="win" layout="vertical" platform="android">
+        <WebView height="Ti.UI.FILL" id="webview" platform="android" width="Ti.UI.FILL" zIndex="300"/>
+    </Window>
+</Alloy>

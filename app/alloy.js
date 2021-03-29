@@ -83,6 +83,60 @@ global.xhr.setStaticOptions({
 		
 });
 
+global.Wifi = require('ti.wifimanager');
+global.oauth = Alloy.createWidget('ti.oauth2');
+
+global.oauth.customServer = true;  
+global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";  
+global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";  
+global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";  
+global.oauth.state = "ROK-standard";  
+global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
+global.oauth.scope = "write:projects";  
+global.oauth.redirectUrl = "https://dev-dfm-rok.pantheonsite.io/";  
+global.oauth.responseType = "code";  
+global.oauth.grantType = "authorization_code";  
+global.oauth.customTitleText = "PlanGrid Authorization";  
+global.oauth.saveTokensToTiProperties = true;    //saves to Ti.App.Properties.getString  ('azure-ad-access-token');
+
+global.onOauthSuccess = function (authResults) {
+    var secondsToSetExpiration = parseInt(authResults.expires_in) - 600;  //subtract 10 minutes
+    var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
+    Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
+    global.oauth.close();
+};
+
+global.onOauthError = function (authResults) {
+	Ti.API.info('ERROR: ', JSON.stringify(authResults));
+		global.oauth.close();
+};
+
+global.onOauthCancel = function (authResults) {
+	global.oauth.close();
+};
+
+Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
+	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
+	var currentExp = Date.now();
+	if (currentExp > tokenExp) {
+		// TODO:  update to slightly different callbacks for refresh purposes?
+		global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+	} //else no refresh needed, more than 10 minnutes before expiring
+});
+/*
+ * Add below to onError callbacks of ti.XHR REST calls to trigger re-authorization in event of 401.
+ */
+/*
+    if (e.code === 401) {
+        Alloy.PersistentEvents.trigger('app:unauthorizedRequest');
+    } else {
+        //handle other errors here
+    }
+*/
+
+//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+
 if (!Ti.Network.online) {
 	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
 } else {
@@ -118,8 +172,6 @@ if (!Ti.Network.online) {
 		}
 	});
 }
-
-global.Wifi = require('ti.wifimanager');
 
 var setDeviceConfig = function(results) {
 	global.deviceInfo = results;

@@ -11,6 +11,7 @@
     "danielhanold.pickerWidget": "*",
     "nl.fokkezb.loading": "*",
     "nl.fokkezb.form": "*",
-    "nl.fokkezb.color": "*"
+    "nl.fokkezb.color": "*",
+    "ti.oauth2": "*"
   }
 }
