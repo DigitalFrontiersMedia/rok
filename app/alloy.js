@@ -53,6 +53,7 @@ global.Promise.config({
 global.UTIL = require("utilities");
 global.xp = require('xp.ui');
 global.xhr = new(require("ti.xhr"))();
+global.konstruction = new(require("konstruction"))();
 
 Alloy.Globals.rotate180 = Ti.UI.create2DMatrix().rotate(180);
 Alloy.Globals.rotate45 = Ti.UI.create2DMatrix().rotate(45);
@@ -73,30 +74,29 @@ global.basicAuthPass = 'dfmrokkormfd';
 global.basicAuthHeader = Titanium.Utils.base64encode(global.basicAuthUser + ':' + global.basicAuthPass);
 global.domain = 'dev-dfm-rok.pantheonsite.io';
 global.scheme = 'https://';
-global.deviceInfo = Ti.App.Properties.getObject('deviceInfo') ? Ti.App.Properties.getObject('deviceInfo') : new Array();
+//global.deviceInfo = Ti.App.Properties.getObject('deviceInfo') ? Ti.App.Properties.getObject('deviceInfo') : new Array();
 global.siteInfoPickerValues = new Array();
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
 
-global.xhr.setStaticOptions({
-		
-});
+global.xhrOptions = {
+	ttl : 60,
+	debug : true	
+};
+global.xhr.setStaticOptions(global.xhrOptions);
+
+global.onXHRError = function (xhrResults) {
+	Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+	alert('An error occurred: \n', JSON.stringify(xhrResults));
+};
 
 global.Wifi = require('ti.wifimanager');
 global.oauth = Alloy.createWidget('ti.oauth2');
 
 global.oauth.customServer = true;  
-global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";  
-global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";  
-global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";  
-global.oauth.state = "ROK-standard";  
-global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
-global.oauth.scope = "write:projects";  
-global.oauth.redirectUrl = "https://dev-dfm-rok.pantheonsite.io/";  
 global.oauth.responseType = "code";  
 global.oauth.grantType = "authorization_code";  
-global.oauth.customTitleText = "PlanGrid Authorization";  
 global.oauth.saveTokensToTiProperties = true;    //saves to Ti.App.Properties.getString  ('azure-ad-access-token');
 
 global.onOauthSuccess = function (authResults) {
@@ -108,7 +108,8 @@ global.onOauthSuccess = function (authResults) {
 
 global.onOauthError = function (authResults) {
 	Ti.API.info('ERROR: ', JSON.stringify(authResults));
-		global.oauth.close();
+	global.oauth.close();
+	alert('An error occurred: \n', JSON.stringify(authResults));
 };
 
 global.onOauthCancel = function (authResults) {
@@ -135,7 +136,7 @@ Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 */
 
 //prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+//global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
 
 if (!Ti.Network.online) {
 	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
@@ -173,16 +174,23 @@ if (!Ti.Network.online) {
 	});
 }
 
-var setDeviceConfig = function(results) {
-	global.deviceInfo = results;
-	Ti.App.Properties.setObject('deviceInfo', results);
-	if (results.length == 1) {
+global.setDeviceConfig = function() {
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
 	}
-	Ti.App.Properties.setString('deviceName', results[Ti.App.Properties.getInt("deviceIndex")].title);
-	Ti.App.Properties.setString('superName', results[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
-	Ti.App.Properties.setString('superPhone', results[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
-	Ti.App.Properties.setString('admin_secret', results[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
+		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
+		Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app);
+		Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project);
+		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
+		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
+		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+	}
+	if (Ti.App.Properties.getString('constructionApp')) {
+		global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
+		Ti.API.info('konstruction.platform = ', global.konstruction.platform);
+	}
 };
 
 /*
@@ -192,7 +200,8 @@ global.getDeviceInfo = function() {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
 		Ti.API.info('results = ' + JSON.stringify(results));
-		setDeviceConfig(results);
+		Ti.App.Properties.setObject('deviceInfo', results);
+		global.setDeviceConfig();
 	});
 };
 

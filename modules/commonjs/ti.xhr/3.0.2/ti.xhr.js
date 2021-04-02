@@ -28,6 +28,7 @@ XHR.prototype.GET = function(e) {
     var cachedFile = cacheManager[hashedURL];
 
     // If there is nothing cached, no TTL expected, or cachedFile TTL has been exceeded, send the request
+    //if(true) {
     if (cache === false || !extraParams.ttl || cachedFile.timestamp < new Date().getTime()) {
 
         var xhr = initXHRRequest('GET', e.url, extraParams);
@@ -396,6 +397,9 @@ function readCache(url) {
         // Check that the TTL is further than the current date
         // if (cache.timestamp >= new Date().getTime()) {
             //Titanium.API.info("CACHE FOUND");
+if (!file.exists()) {
+	alert('file not there!');
+}
 
             // Return the content of the file
             result = file.read();
@@ -438,7 +442,9 @@ function writeCache(data, url, ttl) {
     // TODO: There appears to be a bug in Titanium and makes the method
     // below always return false when dealing with binary files
     file.write(data);
-
+if (!file.exists()) {
+	alert('file not saved!');
+}
     // Insert the cached object in the cache manager
     cacheManager[hashedURL] = {
         "timestamp" : (new Date().getTime()) + (ttl * 60 * 1000)

@@ -2,7 +2,13 @@
 var args = $.args;
 
 var wizardContinue = function() {
-	Alloy.createController('setupWizard_step4').getView().open();
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	if (deviceInfo.length == 1) {
+		Ti.App.Properties.setInt("deviceIndex", 0);
+		Alloy.createController('setupWizard_step3_2').getView().open();
+	} else {
+		Alloy.createController('setupWizard_step3_1').getView().open();
+	}
 };
 
 var login = function() {
@@ -17,6 +23,9 @@ var login = function() {
 		if (global.userId) {
 			Ti.API.info('User id: ' + global.userId);
 			Ti.API.info('Logged in!');
+			Ti.App.Properties.setString("email", $.TextField_user.value);
+			Ti.App.Properties.setString("password", $.TextField_pass.value);			
+			global.getDeviceInfo();
 			wizardContinue();
 		} else {
 			//alert('Could not login. Try again.')

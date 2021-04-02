@@ -1,0 +1,18 @@
+<Alloy>
+    <Window class="container">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
+        <Label id="Label_wizardTitle"/>
+        <Label id="Label_wizardStep"/>
+        <Label id="Label_configSelect"/>
+        <TableView id="ListView_devices" onClick="chooseDevice">
+            <TableViewSection id="listSection">
+            </TableViewSection>
+        </TableView>
+        <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
+            <ImageView class="btnMainSecondary"/>
+            <Label class="btnText skip"/>
+        </View>
+    </Window>
+</Alloy>

@@ -1,0 +1,30 @@
+".container": {
+},
+"#Label_wizardTitle": {
+	"text": L("system_setup"),
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
+},
+"#Label_wizardStep": {
+	"text": L("step_4"),
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": L("select_device"),
+	"textAlign": "center",
+	"top": "20.90%",
+	"font": {fontSize:'36'}
+},
+"#ListView_devices": {
+	"height": "50%",
+	"top": "28.61%",
+	"width": "30.00%",
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "#fff",
+},
+".choice": {
+	"font": {fontSize:'24'}
+},

@@ -7,7 +7,8 @@ var goHome = function() {
 };
 
 var wizardContinue = function() {
-	goHome();
+	Alloy.createController('setupWizard_step2').getView().open();
+	//goHome();
 	$.hello.close();
 };
 

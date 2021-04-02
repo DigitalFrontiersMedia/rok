@@ -7,8 +7,8 @@ var goHome = function() {
 
 var wizardContinue = function() {
 	Ti.App.Properties.setBool('configured', true);
-	//goHome();
-	Alloy.createController('hello').getView().open();
+	goHome();
+	//Alloy.createController('home').getView().open();
 };
 
 $.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
@@ -16,7 +16,8 @@ $.superNameValue.value = Ti.App.Properties.getString('superName');
 $.superPhoneValue.value = Ti.App.Properties.getString('superPhone');
 
 var view_edit_messages = function() {
-	var options = global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export;
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	var options = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export;
 	var fieldsets = [];
 	var fieldset = {};
 	for (i=0; i < options.length; i++) {
@@ -52,7 +53,8 @@ var view_edit_messages = function() {
 };
 
 var view_edit_siteInfo_options = function() {
-	var options = global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export;
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	var options = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export;
 	var fieldsets = [];
 	var fieldset = {};
 	var val;

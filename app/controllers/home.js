@@ -8,11 +8,12 @@ var goWhiteboard = function() {
 };
 
 var sendSMS = function(e) {
-	var option = global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[e.data[0].key];
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[e.data[0].key];
 	var accountSid = "ACaab834c22e540ff5fc703ad65195b686";
 	var authToken = "c7b5409b787dd9336939e446156e23e7";
 	var fromNumber = "+18138561613";
-	var toNumber = global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb;
+	var toNumber = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb;
 	var text = global.UTIL.cleanString(option.message);
 	
 	var xhr = Titanium.Network.createHTTPClient();
@@ -34,19 +35,21 @@ var sendSMS = function(e) {
 };
 
 var pageSuperMenu = function(e) {
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	if ((!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
-	if (!global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export) {
+	if (!deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export) {
 		alert(L('no_options'));
 		return;
 	}
-	global.showOptions(L('page_super_prompt'), global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export, $, sendSMS);
+	global.showOptions(L('page_super_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export, $, sendSMS);
 };
 
 var displaySiteInfo = function(e) {
-	var option = global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
 	switch (option.bundle) {
 		case 'link_component':
 			var dialog = require('ti.webdialog');
@@ -73,15 +76,16 @@ var displaySiteInfo = function(e) {
 };
 
 var siteInfoMenu = function() {
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	if ((!Ti.App.Properties.getObject('deviceInfo') && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
-	if (!global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export) {
+	if (!deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export) {
 		alert(L('no_options'));
 		return;
 	}
-	global.showOptions(L('site_info_prompt'), global.deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
+	global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
 var goRfis = function() {
