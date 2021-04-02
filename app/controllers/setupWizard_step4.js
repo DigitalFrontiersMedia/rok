@@ -12,8 +12,11 @@ var wizardContinue = function() {
 };
 
 $.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
+$.appValue.value = Ti.App.Properties.getString('constructionApp');
+$.projectValue.value = Ti.App.Properties.getString('project');
 $.superNameValue.value = Ti.App.Properties.getString('superName');
 $.superPhoneValue.value = Ti.App.Properties.getString('superPhone');
+$.adminSecretValue.value = Ti.App.Properties.getString('admin_secret');
 
 var view_edit_messages = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');

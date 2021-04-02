@@ -32,9 +32,16 @@ Konstruction.prototype.getProjects = function(onSuccessCallback) {
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = this.apiURL;
+	var endpoint;
 	var onErrorCallback = global.onXHRError || function() {};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects';
+			break;
+	}
 	global.xhr.GET({
-	    url: apiURL + 'projects',
+	    url: apiURL + endpoint,
 	    onSuccess: onSuccessCallback,
 	    onError: onErrorCallback
 	});

@@ -46,7 +46,7 @@ var showProjects = function(results) {
 	var dataRow;
 	var tableData = [];
 	// TODO: Get list of projects via ti.xhr and populate table for selection.
-	var projects = JSON.parse(results.data.text).data;
+	var projects = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	if (projects) {
 		projects.forEach(function(project) {
 			if (project.name) {

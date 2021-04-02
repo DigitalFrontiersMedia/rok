@@ -6,9 +6,9 @@
         <Label id="Label_wizardTitle"/>
         <Label id="Label_wizardStep"/>
         <Label id="Label_configSelect"/>
+        <Label id="Label_message"/>
         <TableView id="ListView_devices" onClick="chooseDevice">
-            <TableViewSection id="listSection">
-            </TableViewSection>
+            <TableViewSection id="listSection"/>
         </TableView>
         <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
             <ImageView class="btnMainSecondary"/>

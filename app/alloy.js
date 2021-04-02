@@ -74,7 +74,6 @@ global.basicAuthPass = 'dfmrokkormfd';
 global.basicAuthHeader = Titanium.Utils.base64encode(global.basicAuthUser + ':' + global.basicAuthPass);
 global.domain = 'dev-dfm-rok.pantheonsite.io';
 global.scheme = 'https://';
-//global.deviceInfo = Ti.App.Properties.getObject('deviceInfo') ? Ti.App.Properties.getObject('deviceInfo') : new Array();
 global.siteInfoPickerValues = new Array();
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
@@ -181,8 +180,9 @@ global.setDeviceConfig = function() {
 	}
 	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
 		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
-		Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app);
-		Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project);
+		// TODO: add below commented fields and then correct and uncomment.
+		//Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app);
+		//Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project);
 		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);

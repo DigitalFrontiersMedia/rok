@@ -7,8 +7,7 @@
         <Label id="Label_wizardStep"/>
         <Label id="Label_configSelect"/>
         <TableView id="ListView_projects" onClick="chooseProject">
-            <TableViewSection id="listSection">
-            </TableViewSection>
+            <TableViewSection id="listSection"/>
         </TableView>
         <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
             <ImageView class="btnMainSecondary"/>

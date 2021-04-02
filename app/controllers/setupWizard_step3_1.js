@@ -14,7 +14,7 @@ var chooseDevice = function(e) {
 	}, 500);
 };
 
-if (!Ti.App.Properties.getInt('deviceIndex')) {
+if (Ti.App.Properties.getInt('deviceIndex') === null) {
 	$.nxtBtn.visible = false;
 } else {
 	$.nxtBtn.visible = true;

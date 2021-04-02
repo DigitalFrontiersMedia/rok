@@ -52,10 +52,10 @@
                         <TextField class="left fontSize24" id="superPhoneValue"/>
                     </View>
                     <View class="inputLine">
-                        <Button id="btnSuperSMSMessage" onClick="view_edit_messages" />
+                        <Button id="btnSuperSMSMessage" onClick="view_edit_messages"/>
                     </View>
                     <View class="inputLine">
-                        <Button id="btnSiteInfo" onClick="view_edit_siteInfo_options" />
+                        <Button id="btnSiteInfo" onClick="view_edit_siteInfo_options"/>
                     </View>
                     <View class="inputLine">
                         <TextField class="left fontSize24" id="adminSecretValue"/>

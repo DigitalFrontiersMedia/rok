@@ -35,6 +35,7 @@
 	<string name="system_setup">SYSTEM SETUP</string>
 	<string name="select_lang">Select Language</string>
 	<string name="select_device">Select Device</string>
+	<string name="device_prompt">You have more than one device profile listed on your ROK account.\nPlease choose the one intended for this device.</string>
 	<string name="select_app">Select Construction Management App</string>
 	<string name="select_project">Select Project</string>
 	<string name="oauth_alert">After clicking on your chosen construction management software,\nwe will have you log into that software here and grant ROK access to its data.</string>

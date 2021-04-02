@@ -18,9 +18,16 @@
 	"top": "20.90%",
 	"font": {fontSize:'36'}
 },
+"#Label_message": {
+	"text": L("device_prompt"),
+	"color": "#ff9200",
+	"textAlign": "center",
+	"top": "26%",
+	"font": {fontSize:'24'}
+},
 "#ListView_devices": {
-	"height": "50%",
-	"top": "28.61%",
+	"height": "40%",
+	"top": "38.61%",
 	"width": "30.00%",
 	"backgroundColor": "rgba(0,0,0,0.5)",
 	"separatorColor": "#fff",
