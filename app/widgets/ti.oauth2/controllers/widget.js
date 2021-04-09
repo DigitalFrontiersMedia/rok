@@ -161,6 +161,7 @@ function _getBearerToken(_authCode, callback){
 					var response = JSON.parse(this.responseText);		Ti.API.info("ADAL responseText: " + JSON.stringify(response));
 					if (_saveTokensToTiProperties) {
 						Ti.App.Properties.setString('azure-ad-access-token', response.access_token);
+						Ti.App.Properties.setString('azure-ad-refresh-token', response.refresh_token);
 					}
 					callback && callback(null, response);
 				}
@@ -178,6 +179,70 @@ function _getBearerToken(_authCode, callback){
 		xhr.send(bodyParms);
 	}
 }
+
+/**
+ * Refreshes the Azure Bearer Token
+ * @public
+ *
+ */
+function _refresh(callback, callbackParam) {
+	if(_clientId && Ti.App.Properties.getString('azure-ad-refresh-token') && _clientSecret && _redirectUrl) {
+		Ti.API.info('Refreshing OAuth token...');
+		/**
+		* Format Token Url and Post Body params
+		*/
+		if (_customServer) {
+			var tokenUrl = String.format(_customAdalTokenUrl, _customTokenUrl);
+		} else {
+			var tokenUrl = _tenant ? String.format(_azureAdalTenantTokenUrl,  _tenant) : _azureAdalTokenUrl;
+		}
+		var bodyParms = {
+			client_id: _clientId,
+			redirect_uri: _redirectUrl,
+			grant_type: 'refresh_token',
+			client_secret: _clientSecret,
+			refresh_token: Ti.App.Properties.getString('azure-ad-refresh-token')
+		};
+		
+		/**
+		* Make Request to Azure for Bearer Token
+		*/
+		var xhr = Ti.Network.createHTTPClient({
+			onload: function(e){
+				/**
+				* Success! Return the access and refresh tokens to calling function
+				*/
+				if(e.source.status == 200){
+					var response = JSON.parse(this.responseText);
+					Ti.API.info("ADAL responseText: " + JSON.stringify(response));
+					if (_saveTokensToTiProperties) {
+						Ti.App.Properties.setString('azure-ad-access-token', response.access_token);
+						Ti.App.Properties.setString('azure-ad-refresh-token', response.refresh_token);
+						global.setXHROauthParams();
+					}
+					if (callback) {
+						callback(callbackParam);// && callback(null, response);
+					} else {
+						global.onOauthSuccess(response);
+					}
+				} else {
+					Ti.API.info('Refresh response = ', JSON.stringify(e));
+				}
+			},
+      		onerror: function(e){
+				/**
+				* Oops! Something went wrong here
+				*/
+				global.onOauthError(e);
+			},
+			timeout: 10000
+		});
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.open('POST', tokenUrl, true, null, null);
+		xhr.send(bodyParms);
+	}
+}
+exports.refresh = _refresh;
 
 /**
  * Log Out current user

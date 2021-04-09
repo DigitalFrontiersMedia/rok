@@ -20,7 +20,7 @@ var OauthSuccess = function(authResults) {
 	Ti.App.Properties.setString("constructionApp", constructionApp);
 
 	// Set Konstruction vars.
-	global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
+	global.konstruction.setPlatform(constructionApp);
 
 	wizardContinue();
 	setTimeout(function() {
@@ -29,24 +29,13 @@ var OauthSuccess = function(authResults) {
 };
 
 var chooseApp = function(e) {
-	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token')) {
+	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token') || !Ti.App.Properties.getString('azure-ad-refresh-token')) {
 		constructionApp = e.source.text;
-		switch(e.source.text) {
-			case 'PlanGrid':
-				global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";  
-				global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";  
-				global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";  
-				global.oauth.state = "ROK-standard";  
-				global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
-				global.oauth.scope = "write:projects";  
-				global.oauth.redirectUrl = "https://dev-dfm-rok.pantheonsite.io/";  
-				global.oauth.customTitleText = "PlanGrid Authorization"; 
-	
-				//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-				global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
-			default:
-				break;
-		}
+		global.setOauthParams(constructionApp);
+		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+		global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+	} else {
+		wizardContinue();
 	}
 };
 

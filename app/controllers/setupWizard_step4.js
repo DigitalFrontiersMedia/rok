@@ -7,6 +7,7 @@ var goHome = function() {
 
 var wizardContinue = function() {
 	Ti.App.Properties.setBool('configured', true);
+	global.closeAllWindows();
 	goHome();
 	//Alloy.createController('home').getView().open();
 };

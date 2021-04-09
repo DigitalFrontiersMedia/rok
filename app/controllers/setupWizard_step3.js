@@ -3,7 +3,6 @@ var args = $.args;
 
 var wizardContinue = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
-	// TODO: test if this works when we have more than one device profile available.
 	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
 		Alloy.createController('setupWizard_step3_2').getView().open();

@@ -88,8 +88,20 @@ var siteInfoMenu = function() {
 	global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
+var rfiRouter = function(e) {
+	switch (parseInt(e.data[0].key)) {
+		case 0:
+			Alloy.createController('rfi_entry').getView().open();
+			break;
+		case 1:
+			Alloy.createController('rfis').getView().open();
+			break;
+	}
+};
+
 var goRfis = function() {
 	Ti.API.info('*** RFIs ***');
+	global.showOptions(L('rfi'), [{option_label: 'Create RFI'}, {option_label: 'View RFI'}], $, rfiRouter);
 };
 
 var goDrawings = function() {

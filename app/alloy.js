@@ -10,8 +10,6 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 //
-// TODO:  Setup REST API endpoint for siteInfo links
-// TODO:  Populate and handle siteInfoPickerValues choices
 
 if (!Ti.Locale.currentLanguage) {
 	Ti.Locale.setLanguage('en');
@@ -20,7 +18,7 @@ if (!Ti.Locale.currentLanguage) {
 // Uncomment and set as desired.
 // configured = false -> setup
 // configured = true -> bypass setup
-Ti.App.Properties.setBool('configured', false);
+//Ti.App.Properties.setBool('configured', false);
 
 // For development purposes to bypass or induce language setup.
 // Uncomment and set as desired.
@@ -85,9 +83,20 @@ global.xhrOptions = {
 };
 global.xhr.setStaticOptions(global.xhrOptions);
 
+global.setXHROauthParams = function() {
+    // Add received tokens to xhr config for subsequent requests.
+    global.xhrOptions.shouldAuthenticate = true;
+    global.xhrOptions.oAuthToken = Ti.App.Properties.getString('azure-ad-access-token');
+	global.xhr.setStaticOptions(global.xhrOptions);
+};
+
 global.onXHRError = function (xhrResults) {
-	Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
-	alert('An error occurred: \n', JSON.stringify(xhrResults));
+    if (xhrResults.status === 401) {
+        Ti.App.fireEvent('app:unauthorizedRequest');
+    } else {
+		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		alert('An error occurred: \n', JSON.stringify(xhrResults));
+	}
 };
 
 global.Wifi = require('ti.wifimanager');
@@ -115,28 +124,31 @@ global.onOauthCancel = function (authResults) {
 	global.oauth.close();
 };
 
+global.closeAllWindows = function() {
+	for (i = 4; i > 0; i--) {
+		windowName = 'setupWizard_step' + i;
+		Ti.API.info('*** Closing:  ' + windowName + ' ***');
+		Alloy.createController(windowName).getView().close();
+	}
+};
+
 Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentExp = Date.now();
 	if (currentExp > tokenExp) {
 		// TODO:  update to slightly different callbacks for refresh purposes?
 		global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
-	} //else no refresh needed, more than 10 minnutes before expiring
+	} //else no refresh needed, more than 10 minutes before expiring
 });
-/*
- * Add below to onError callbacks of ti.XHR REST calls to trigger re-authorization in event of 401.
- */
-/*
-    if (e.code === 401) {
-        Alloy.PersistentEvents.trigger('app:unauthorizedRequest');
-    } else {
-        //handle other errors here
-    }
-*/
 
-//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-//global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+Ti.App.addEventListener('app:unauthorizedRequest', function(e) {
+	// TODO:  update to slightly different callbacks for refresh purposes?
+	global.oauth.refresh();
+});
 
+if (Ti.App.Properties.getString('azure-ad-access-token')) {
+	global.setXHROauthParams();
+}
 if (!Ti.Network.online) {
 	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
 } else {
@@ -173,6 +185,31 @@ if (!Ti.Network.online) {
 	});
 }
 
+global.setProjects = function(projects) {
+	switch(Ti.App.Properties.getString("constructionApp")) {
+		case 'PlanGrid':
+		default:
+			Ti.App.Properties.setObject("projects", projects);
+			break;
+	}
+};
+
+global.setOauthParams = function(platform) {
+	switch(platform) {
+		case 'PlanGrid':
+			global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";  
+			global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";  
+			global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";  
+			global.oauth.state = "ROK-standard";  
+			global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
+			global.oauth.scope = "write:projects";  
+			global.oauth.redirectUrl = "https://dev-dfm-rok.pantheonsite.io/";  
+			global.oauth.customTitleText = "PlanGrid Authorization"; 
+		default:
+			break;
+	}
+};
+
 global.setDeviceConfig = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	if (deviceInfo.length == 1) {
@@ -180,7 +217,7 @@ global.setDeviceConfig = function() {
 	}
 	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
 		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
-		// TODO: add below commented fields and then correct and uncomment.
+		// TODO: add below commented fields to Drupal and then correct and uncomment.
 		//Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app);
 		//Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project);
 		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
@@ -190,6 +227,7 @@ global.setDeviceConfig = function() {
 	if (Ti.App.Properties.getString('constructionApp')) {
 		global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
 		Ti.API.info('konstruction.platform = ', global.konstruction.platform);
+		global.setOauthParams(global.konstruction.platform);
 	}
 };
 

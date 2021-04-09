@@ -1,25 +1,28 @@
 ".container": {
 },
 "#Label_Title": {
-	"borderColor": "#ff9200",
-	"borderWidth": "1",
 	"text": L("rfi"),
 	"textAlign": "center",
 	"top": "5%",
-	"width": "25%"
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
 },
 "#Label_subTitle": {
-	"text": L("project_name"),
 	"top": "10%"
 },
 "#ListView_rfis": {
 	"height": "70%",
 	"left": "5%",
 	"right": "5%",
-	"top": "20%"
+	"top": "20%",
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "rgba(255,255,255,0.5)",
 },
 "#imgBtn_addRfi": {
-	"bottom": "0",
-	"height": "5%",
-	"width": "15%",
+	"bottom": "-1.5%"
+},
+".add_rfi": {
+	text: L('add_rfi'),
+	"font": {fontSize:'12'}
 }

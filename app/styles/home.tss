@@ -43,6 +43,11 @@
 	"width": "40%"
 },
 "#imgBtn_rfis": {
+	"image": "/images/btn_main_left.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
 },
 "#Label_rfis": {
 	"text": L("rfi"),
