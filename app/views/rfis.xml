@@ -6,8 +6,14 @@
         <Require id="filterCorner" src="filterCorner" type="view"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
-        <ListView id="ListView_rfis"/>
-        <View class="button-wrapper" id="imgBtn_addRfi">
+        <TableView id="ListView_rfis" onClick="chooseRfi">
+            <TableViewSection id="listSection">
+                <TableViewRow>
+                    <Label bottom="0" class="choice" top="0">Retrieving...</Label>
+                </TableViewRow>
+            </TableViewSection>
+        </TableView>
+        <View class="button-wrapper" id="imgBtn_addRfi" onClick="createRFI">
             <ImageView class="btnMainSecondary"/>
             <Label class="btnText add_rfi"/>
         </View>

@@ -8,34 +8,58 @@
         <Label id="Label_subTitle"/>
         <View id="View_rfiForm">
             <View class="inputLine" id="View_titleLine">
-                <Label class="rfiFormElement" id="Label_title"/>
-                <TextField class="rfiFormElement" id="TextField_title"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_rfi_title"/>
+                <ScrollView class="textWrapper">
+             	   <TextField class="rfiFormElement" id="TextField_title"/>
+                </ScrollView>
             </View>
             <View class="inputLine" id="View_questionLine">
-                <Label class="rfiFormElement" id="Label_question"/>
-                <TextArea class="rfiFormElement" id="TextArea_question"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_question"/>
+                <ScrollView class="areaWrapper">
+           	    	<TextArea class="rfiFormElement" id="TextArea_question"/>
+                </ScrollView>
             </View>
             <View class="inputLine" id="View_answerLine">
-                <Label class="rfiFormElement" id="Label_answer"/>
-                <TextArea class="rfiFormElement" id="TextArea_answer"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_answer"/>
+                <ScrollView class="areaWrapper">
+           	    	<TextArea class="rfiFormElement" id="TextArea_answer"/>
+                </ScrollView>
             </View>
             <View class="inputLine" id="View_referencesLine">
-                <Label class="rfiFormElement" id="Label_references"/>
-                <TextField class="rfiFormElement" id="TextField_references"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_references"/>
+                <ScrollView id="referencesParent" class="areaWrapper">
+			        <TableView id="ListView_refs" onClick="chooseRef">
+			            <TableViewSection id="listSection"/>
+			        </TableView>
+                </ScrollView>
             </View>
         </View>
         <View id="View_rfiMetaForm">
             <View class="inputLine" id="View_sendDateLine">
-                <Label class="rfiFormElement" id="Label_sendDate"/>
-                <TextField class="rfiFormElement" id="TextField_sendDate"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_sendDate"/>
+                <View class="textWrapper">
+                	<TextField class="rfiFormElement" id="TextField_sendDate"/>
+                </View>
             </View>
             <View class="inputLine" id="View_dueDateLine">
-                <Label class="rfiFormElement" id="Label_dueDate"/>
-                <TextField class="rfiFormElement" id="TextField_dueDate"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_dueDate"/>
+                <View class="textWrapper">
+                	<TextField class="rfiFormElement" id="TextField_dueDate"/>
+                </View>
             </View>
             <View class="inputLine" id="View_assignedLine">
-                <Label class="rfiFormElement" id="Label_assigned"/>
-                <TextField class="rfiFormElement" id="TextField_assigned"/>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_assigned"/>
+                <ScrollView class="areaWrapper">
+                	<TextArea class="rfiFormElement" id="TextField_assigned"/>
+                </ScrollView>
+            </View>
+            <View class="inputLine" id="View_historyLine">
+                <Label class="rfiFormElement rfiFormLabel" id="Label_history"/>
+                <ScrollView id="historyParent" class="areaWrapper">
+			        <TableView id="ListView_historyEntries">
+			            <TableViewSection id="listSection"/>
+			        </TableView>
+                </ScrollView>
             </View>
         </View>
     </Window>

@@ -7,7 +7,7 @@ var wizardContinue = function() {
 };
 
 var OauthSuccess = function(authResults) {
-    var secondsToSetExpiration = parseInt(authResults.expires_in) - 600;  //subtract 10 minutes
+    var secondsToSetExpiration = parseInt(authResults.expires_in) - 86400;  //subtract 10 minutes
     var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
     Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
     global.oauth.close();

@@ -127,10 +127,16 @@ global.Wifi.startWifiScan({
 					tableData.push(dataRow);
 				}
 			});
-			if (tableData.length) {
-				$.ListView_networks.data = tableData;
-			}
+		} else {
+			emptyText = $.UI.create('Label', {
+				text: "No WiFi networks found.",
+				classes: ["choice"]
+			});
+			dataRow = Ti.UI.createTableViewRow();
+			dataRow.add(emptyText);
+			tableData.push(dataRow);
 		}
+		$.ListView_networks.data = tableData;
 	}
 });
 

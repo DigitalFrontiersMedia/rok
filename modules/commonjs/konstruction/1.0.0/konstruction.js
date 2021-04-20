@@ -99,5 +99,107 @@ Konstruction.prototype.getRfis = function(onSuccessCallback) {
 	});
 };
 
+Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || {};
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getUserInfo, user, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/users/' + user.uid;
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback
+	});
+};
+
+Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || {};
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getRfiPhotos, rfiUid, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/photos';
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback
+	});
+};
+
+Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || {};
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getRfiDocuments, rfiUid, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/attachments';
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback
+	});
+};
+
 // Returns everything. 
 module.exports = Konstruction;

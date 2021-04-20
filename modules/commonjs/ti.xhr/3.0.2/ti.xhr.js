@@ -29,6 +29,9 @@ XHR.prototype.GET = function(e) {
 
     // If there is nothing cached, no TTL expected, or cachedFile TTL has been exceeded, send the request
     //if(true) {
+    
+    Ti.API.info('cache = ' + cache);
+    Ti.API.info('extraParams = ' + JSON.stringify(extraParams));
     if (cache === false || !extraParams.ttl || cachedFile.timestamp < new Date().getTime()) {
 
         var xhr = initXHRRequest('GET', e.url, extraParams);
@@ -289,7 +292,7 @@ function addDefaultsToOptions(providedParams) {
     extraParams.async = (extraParams.hasOwnProperty('async')) ? extraParams.async : true;
     extraParams.ttl = (extraParams.hasOwnProperty('ttl')) ? extraParams.ttl : false;
     extraParams.shouldAuthenticate = extraParams.shouldAuthenticate || false;
-    extraParams.contentType = extraParams.contentType || "application/json";
+    extraParams.contentType = (extraParams.hasOwnProperty('contentType')) ? extraParams.contentType : "application/json";
     extraParams.parseJSON = (extraParams.hasOwnProperty('parseJSON')) ? extraParams.parseJSON : false;
     extraParams.returnXML = (extraParams.hasOwnProperty('returnXML')) ? extraParams.returnXML : false;
     extraParams.debug = (extraParams.hasOwnProperty('debug')) ? extraParams.debug : false;
@@ -397,9 +400,9 @@ function readCache(url) {
         // Check that the TTL is further than the current date
         // if (cache.timestamp >= new Date().getTime()) {
             //Titanium.API.info("CACHE FOUND");
-if (!file.exists()) {
-	alert('file not there!');
-}
+		if (!file.exists()) {
+			Ti.API.info('Cache file not found!');
+		}
 
             // Return the content of the file
             result = file.read();
@@ -442,9 +445,10 @@ function writeCache(data, url, ttl) {
     // TODO: There appears to be a bug in Titanium and makes the method
     // below always return false when dealing with binary files
     file.write(data);
-if (!file.exists()) {
-	alert('file not saved!');
-}
+    
+	if (!file.exists()) {
+		Ti.API.info('Cache file not saved!');
+	}
     // Insert the cached object in the cache manager
     cacheManager[hashedURL] = {
         "timestamp" : (new Date().getTime()) + (ttl * 60 * 1000)

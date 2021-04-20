@@ -1,22 +1,14 @@
 ".container": {
 },
 "#Label_Title": {
-	"borderColor": "#ff9200",
-	"borderWidth": "1",
-	"text": "RFI #00000",
 	"textAlign": "center",
 	"top": "5%",
-	"width": "25%"
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
 },
 "#Label_subTitle": {
-	"text": L("project_name"),
 	"top": "10%"
-},
-"#imgBtn_edit": {
-	"height": "5%",
-	"width": "15%",
-	"right": "0",
-	"top": "0"
 },
 "#View_rfiForm": {
 	"height": Ti.UI.SIZE,
@@ -25,30 +17,17 @@
 	"layout": "vertical",
 	"left": "5%"
 },
-"#Label_Title": {
-},
-"#View_titleLine": {
-},
-"#Label_title": {
+"#Label_rfi_title": {
 	"text": L("title"),
 	"class": "rfiFormElement"
 },
 ".inputLine": {
-	"height": 30,
-	"layout": "vertical"
+	"height": Ti.UI.SIZE,
+	"layout": "vertical",
+	top: 15
 },
 ".rfiFormElement": {
 	"left": "0"
-},
-"#TextField_sendDate": {
-	"borderRadius": "10",
-	"borderColor": "#E5E5E5",
-	"borderWidth": "1"
-},
-"#TextArea_dueDate": {
-	"value": "TextArea",
-	"left": "84%",
-	"top": "59%"
 },
 "#Label_question": {
 	"text": L("question")
@@ -67,8 +46,7 @@
 	"right": "5%"
 },
 "#Label_sendDate": {
-	"text": L("send_date"),
-	"class": "rfiFormElement"
+	"text": L("send_date")
 },
 "#Label_dueDate": {
 	"text": L("due_date")
@@ -76,5 +54,44 @@
 "#Label_assigned": {
 	"text": L("assigned")
 },
-"#TextField_title": {
-}
+"#Label_history": {
+	"text": L("history")
+},
+"TextField": {
+	editable: false,
+	height: 40,
+	top: 0
+},
+"TextArea": {
+	editable: false,
+	height: 164,
+	top: 0
+},
+".textWrapper": {
+	height: 31,
+	backgroundColor: "rgba(0,0,0,0.5)"
+},
+".areaWrapper": {
+	height: 155,
+	backgroundColor: "rgba(0,0,0,0.5)",
+	layout: "vertical"
+},
+".rfiFormLabel": {
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
+	width: Ti.UI.FILL,
+	"font": {fontSize:'20'}
+},
+".listLabels": {
+	"font": {fontSize:'18'},
+	width: Ti.UI.FILL,
+	left: 5
+},
+/*
+".sectionLabel": {
+	backgroundColor: '#666'
+},
+*/
+"#ListView_refs": {
+	"separatorColor": "rgba(255,255,255,0.25)",
+},
+

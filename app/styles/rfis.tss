@@ -17,7 +17,7 @@
 	"right": "5%",
 	"top": "20%",
 	"backgroundColor": "rgba(0,0,0,0.5)",
-	"separatorColor": "rgba(255,255,255,0.5)",
+	"separatorColor": "rgba(255,255,255,0.25)",
 },
 "#imgBtn_addRfi": {
 	"bottom": "-1.5%"
@@ -25,4 +25,7 @@
 ".add_rfi": {
 	text: L('add_rfi'),
 	"font": {fontSize:'12'}
-}
+},
+".choice": {
+	"font": {fontSize:'24'}
+},

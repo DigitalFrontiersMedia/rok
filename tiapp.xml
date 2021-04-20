@@ -66,6 +66,7 @@
         <module platform="commonjs">ti.xhr</module>
         <module platform="android">ti.webdialog</module>
         <module platform="commonjs">konstruction</module>
+        <module platform="commonjs">nl.fokkezb.html2as</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>

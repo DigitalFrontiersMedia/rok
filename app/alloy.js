@@ -108,7 +108,7 @@ global.oauth.grantType = "authorization_code";
 global.oauth.saveTokensToTiProperties = true;    //saves to Ti.App.Properties.getString  ('azure-ad-access-token');
 
 global.onOauthSuccess = function (authResults) {
-    var secondsToSetExpiration = parseInt(authResults.expires_in) - 600;  //subtract 10 minutes
+    var secondsToSetExpiration = parseInt(authResults.expires_in) - 86400;  //subtract 10 minutes
     var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
     Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
     global.oauth.close();
@@ -137,12 +137,12 @@ Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 	var currentExp = Date.now();
 	if (currentExp > tokenExp) {
 		// TODO:  update to slightly different callbacks for refresh purposes?
-		global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+		//global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+		global.oauth.refresh();
 	} //else no refresh needed, more than 10 minutes before expiring
 });
 
 Ti.App.addEventListener('app:unauthorizedRequest', function(e) {
-	// TODO:  update to slightly different callbacks for refresh purposes?
 	global.oauth.refresh();
 });
 
@@ -190,6 +190,15 @@ global.setProjects = function(projects) {
 		case 'PlanGrid':
 		default:
 			Ti.App.Properties.setObject("projects", projects);
+			break;
+	}
+};
+
+global.setRfis = function(rfis) {
+	switch(Ti.App.Properties.getString("constructionApp")) {
+		case 'PlanGrid':
+		default:
+			Ti.App.Properties.setObject("rfis", rfis);
 			break;
 	}
 };
@@ -264,4 +273,35 @@ global.showOptions = function(prompt, opts, context, callback) {
 		},
 		title: global.UTIL.cleanString(prompt)
 	});
+};
+
+
+global.copyFileToAppData = function(name) {
+	var oldfile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, name);
+	Ti.API.info('#### oldfile path: ' + oldfile.nativePath);
+	var newfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, name);
+	newfile.write(oldfile.read()); // both old.txt and new.txt exist now
+	Ti.API.info('#### newfile path: ' + newfile.nativePath + '\n\n');
+	return newfile;
+};
+
+global.recursiveResourcesCopy = function(name) {
+	var node;
+	var nodeHandle;
+    var secDir = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, name);
+    var secDirArr = secDir.getDirectoryListing();
+	Ti.API.info(name + ' Dir = ' + JSON.stringify(secDirArr));
+    if (secDirArr != null) {
+	    for (i = 0; i < secDirArr.length; i++) {
+	    	node = secDirArr[i].toString();
+	        Ti.API.info('Processing.....' + name + Titanium.Filesystem.separator + node);
+	        nodeHandle = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, name + Titanium.Filesystem.separator + node);
+	        if (nodeHandle.isDirectory()) {
+	        	global.recursiveResourcesCopy(name + Titanium.Filesystem.separator + node);
+	        } else {
+	        	global.copyFileToAppData(name + Titanium.Filesystem.separator + node);
+	        }
+    	}	
+    }
+    return;
 };

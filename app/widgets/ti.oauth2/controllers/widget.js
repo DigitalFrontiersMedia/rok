@@ -185,7 +185,7 @@ function _getBearerToken(_authCode, callback){
  * @public
  *
  */
-function _refresh(callback, callbackParam) {
+function _refresh(callback, callbackParam, callbackParamTwo) {
 	if(_clientId && Ti.App.Properties.getString('azure-ad-refresh-token') && _clientSecret && _redirectUrl) {
 		Ti.API.info('Refreshing OAuth token...');
 		/**
@@ -218,10 +218,13 @@ function _refresh(callback, callbackParam) {
 					if (_saveTokensToTiProperties) {
 						Ti.App.Properties.setString('azure-ad-access-token', response.access_token);
 						Ti.App.Properties.setString('azure-ad-refresh-token', response.refresh_token);
+					    var secondsToSetExpiration = parseInt(response.expires_in) - 86400;  //subtract 10 minutes
+					    var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
+					    Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
 						global.setXHROauthParams();
 					}
 					if (callback) {
-						callback(callbackParam);// && callback(null, response);
+						callback(callbackParam, callbackParamTwo);// && callback(null, response);
 					} else {
 						global.onOauthSuccess(response);
 					}
