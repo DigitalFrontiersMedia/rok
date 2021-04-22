@@ -123,21 +123,68 @@ var listDocuments = function(results) {
 	$.ListView_refs.appendRow(tableData);
 };
 
-var listSnapshot = function(results) {
-	var snapshotInfo = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
-	Ti.API.info('snapshotInfo = ' + JSON.stringify(snapshotInfo));
-	$.TextField_references.value += snapshotInfo.first_name + ' ' + snapshotInfo.last_name + '\n';
-};
-
-var getAndListSnapshots = function(snapshots) {
+var listSnapshots = function(results) {
+	var snapshotLabel;
+	var x = 1;
+	var dataRow;
+	var tableData = [];
+	var snapshots = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('snapshots = ' + JSON.stringify(snapshots));
+	if (snapshots.length) {
+		snapshotLabel = $.UI.create('Label', {text: 'Snapshots', classes: ['listLabels']});
+		dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'zebra']});
+		dataRow.add(snapshotLabel);
+		tableData.push(dataRow);
+	}
 	snapshots.forEach(function(snapshot) {
-		global.konstruction.getSnapshot(snapshot, listSnapshot);
+		snapshotTitle = global.UTIL.cleanString(snapshot.title) ? '• ' + global.UTIL.cleanString(snapshot.title) : "• Snapshot " + x;
+		snapshotLabel = $.UI.create('Label', {text: snapshotTitle, classes: ["listLabels"]});
+		dataRow = Ti.UI.createTableViewRow({url: snapshot.url});
+		dataRow.add(snapshotLabel);
+		x++;
+		if (x % 2) {
+			//$.addClass(dataRow, 'zebra');
+		}
+		tableData.push(dataRow);
 	});
+	$.ListView_refs.appendRow(tableData);
 };
 
-var getAndListHistory = function(historicalEntries) {
-	historicalEntries.forEach(function(historicalEntry) {
-		//global.konstruction.getSnapshot(snapshot, listSnapshot);
+var listHistoryEvents = function(results) {
+	var historyEventLabel;
+	var userInfo;
+	var username;
+	var x = 0;
+	var dataRow;
+	//var tableData = [];
+	var historyEvents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('historyEvents = ' + JSON.stringify(historyEvents));
+	historyEvents.forEach(function(historyEvent) {
+		var myPromise = new Promise(function(resolve, reject) { 
+			global.konstruction.getUserInfo(historyEvent.updated_by, resolve);
+		});
+		myPromise.then(function(userInfo) {
+			Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+			userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+			username = global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name);
+			if (historyEvent.field == 'locked') {
+				historyEventLine = (historyEvent.new_value == true) ? historyEvent.field : 'un' + historyEvent.field;
+			} else {
+				historyEventLine = historyEvent.field + ' updated';
+			}
+			historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
+			historyEventLine += '. | ' + username + ', ' + formatDate(historyEvent.updated_at) + '.';
+			//Ti.API.info('historyEventLine = ' + historyEventLine);
+			historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
+			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
+			dataRow.add(historyEventLabel);
+			x++;
+			if (x % 2) {
+				$.addClass(dataRow, 'zebra');
+			}
+			//tableData.push(dataRow);
+			$.ListView_historyEvents.appendRow(dataRow);
+		});
 	});
 };
 
@@ -153,6 +200,6 @@ $.TextField_dueDate.value = formatDate(rfi[args.index].due_at);
 getAndListAssignedUserInfo(rfi[args.index].assigned_to);
 global.konstruction.getRfiPhotos(rfi[args.index].uid, listPhotos);
 global.konstruction.getRfiDocuments(rfi[args.index].uid, listDocuments);
-//getAndListSnapshots(rfi[args.index].snapshots);
-//getAndListHistory(rfi[args.index].uid);
+global.konstruction.getRfiSnapshots(rfi[args.index].uid, listSnapshots);
+global.konstruction.getRfiHistoryEvents(rfi[args.index].uid, listHistoryEvents);
 

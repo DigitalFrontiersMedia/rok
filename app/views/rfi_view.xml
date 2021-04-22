@@ -56,7 +56,7 @@
             <View class="inputLine" id="View_historyLine">
                 <Label class="rfiFormElement rfiFormLabel" id="Label_history"/>
                 <ScrollView class="areaWrapper" id="historyParent">
-                    <TableView id="ListView_historyEntries">
+                    <TableView id="ListView_historyEvents">
                         <TableViewSection id="listSection"/>
                     </TableView>
                 </ScrollView>
