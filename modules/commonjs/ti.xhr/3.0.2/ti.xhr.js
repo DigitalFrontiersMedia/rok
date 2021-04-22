@@ -43,7 +43,7 @@ XHR.prototype.GET = function(e) {
 
             // only cache if there is a ttl
             if (extraParams.ttl) {
-                writeCache(result.data, e.url, extraParams.ttl);
+                writeCache(result.data, e.url, extraParams.ttl, e.responseType);
             }
         };
 
@@ -293,6 +293,7 @@ function addDefaultsToOptions(providedParams) {
     extraParams.ttl = (extraParams.hasOwnProperty('ttl')) ? extraParams.ttl : false;
     extraParams.shouldAuthenticate = extraParams.shouldAuthenticate || false;
     extraParams.contentType = (extraParams.hasOwnProperty('contentType')) ? extraParams.contentType : "application/json";
+    extraParams.responseType = (extraParams.hasOwnProperty('responseType')) ? extraParams.responseType : "json";
     extraParams.parseJSON = (extraParams.hasOwnProperty('parseJSON')) ? extraParams.parseJSON : false;
     extraParams.returnXML = (extraParams.hasOwnProperty('returnXML')) ? extraParams.returnXML : false;
     extraParams.debug = (extraParams.hasOwnProperty('debug')) ? extraParams.debug : false;
@@ -314,15 +315,23 @@ function handleSuccess(xhr, extraParams) {
     try {
         if (extraParams.returnXML && xhr.responseXML) {
             result.data = xhr.responseXML;
+        	Ti.API.info('*************** XML **************');
         } else {
-            result.data = extraParams.parseJSON ? JSON.parse(xhr.responseText) : xhr.responseText;
-            // result.metaData = extraParams.parseJSON ? JSON.parse(xhr.metaData) : xhr.metaData;
+        	if (extraParams.responseType == 'blob') {
+        		Ti.API.info('*************** BLOB **************');
+        		result.data = xhr.responseData;
+        	} else {
+            	result.data = extraParams.parseJSON ? JSON.parse(xhr.responseText) : xhr.responseText;
+            	// result.metaData = extraParams.parseJSON ? JSON.parse(xhr.metaData) : xhr.metaData;
+            	Ti.API.info('*************** JSON/responseText **************');
+           }
         }
     } catch(e) {
         result.data = xhr.responseData;
         // result.metaData = xhr.metaData;
+        Ti.API.info('*************** responseData Catch **************');
     }
-
+	//Ti.API.info('*************** result.data **************\n' + JSON.stringify(result.data));
     return result;
 }
 
@@ -431,7 +440,7 @@ function updateCacheManager() {
     Titanium.App.Properties.setObject("cachedXHRDocuments", cacheManager);
 };
 
-function writeCache(data, url, ttl) {
+function writeCache(data, url, ttl, type) {
 
     //Titanium.API.info("WRITING CACHE");
 
@@ -441,6 +450,10 @@ function writeCache(data, url, ttl) {
     // Write the file to the disk
     var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 
+	if (type == 'blob') {
+		//data = data.toBlob();
+		Ti.API.info('*************** Writing Cache file ' + hashedURL + '***************')
+	}
     // Write the file to the disk
     // TODO: There appears to be a bug in Titanium and makes the method
     // below always return false when dealing with binary files

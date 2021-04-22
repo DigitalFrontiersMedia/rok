@@ -12,6 +12,7 @@
     "nl.fokkezb.loading": "*",
     "nl.fokkezb.form": "*",
     "nl.fokkezb.color": "*",
-    "ti.oauth2": "*"
+    "ti.oauth2": "*",
+    "com.caffeinalab.titanium.modalwindow": "*"
   }
 }

@@ -109,5 +109,9 @@ overrode the settings with other TSS, XML, or JS settings:
 ".hidden": {
 	hiddenBehavior: Titanium.UI.HIDDEN_BEHAVIOR_GONE,
 	visible: false
+},
+"#closeButton": {
+	showAsAction: Ti.Android.SHOW_AS_ACTION_ALWAYS
 }
+
 

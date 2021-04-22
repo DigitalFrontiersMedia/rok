@@ -37,18 +37,18 @@ var showRef = function(title, url) {
 		   });
 	   }
 	 } else {
-   		var hashedURL = Titanium.Utils.md5HexDigest(url);
-		var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, hashedURL);
-		Ti.API.info('f = ' + JSON.stringify(f));
-		Ti.API.info('file_exists = ' + f.exists());
-/*
-		Ti.Android.currentActivity.startActivity(Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-		    type: 'application/pdf',
-		    data: f.getNativePath()
-		}));
-*/
-		Ti.Platform.openURL(f.nativePath);
+	    var hashedURL = Titanium.Utils.md5HexDigest(url);
+	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
+	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+			title : 'ROK ' + title,//file.name,
+			classes : ["modal"]
+		});
+		var webview = Titanium.UI.createWebView({
+			backgroundColor: 'transparent',
+			url: Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath
+		});
+		modal.add(webview);
+		modal.open();
 	}
 };
 
@@ -56,10 +56,10 @@ var chooseRef = function(e) {
 	Ti.API.info('e.section.rows[e.index].url = ' + e.section.rows[e.index].url);
 	if (e.section.rows[e.index].url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
-			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60},
+			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
 		    url: e.section.rows[e.index].url,
 		    onSuccess: function (results) {
-		    	Ti.API.info('getDocument = ' + JSON.stringify(results));
+		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
 		    	showRef(e.source.text, e.section.rows[e.index].url);
 		    },
 		    onError: global.onXHRError
@@ -76,10 +76,12 @@ var listPhotos = function(results) {
 	var tableData = [];
 	var photos = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('photos = ' + JSON.stringify(photos));
-	photoLabel = $.UI.create('Label', {text: 'Photos', classes: ['listLabels', 'zebra']});
-	dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
-	dataRow.add(photoLabel);
-	tableData.push(dataRow);
+	if (photos.length) {
+		photoLabel = $.UI.create('Label', {text: 'Photos', classes: ['listLabels']});
+		dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'zebra']});
+		dataRow.add(photoLabel);
+		tableData.push(dataRow);
+	}
 	photos.forEach(function(photo) {
 		photoTitle = global.UTIL.cleanString(photo.title) ? '• ' + global.UTIL.cleanString(photo.title) : "• Photo " + x;
 		photoLabel = $.UI.create('Label', {text: photoTitle, classes: ["listLabels"]});
@@ -101,10 +103,12 @@ var listDocuments = function(results) {
 	var tableData = [];
 	var attachments = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('attachments = ' + JSON.stringify(attachments));
-	attachmentLabel = $.UI.create('Label', {text: 'Documents', classes: ['listLabels', 'zebra']});
-	dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
-	dataRow.add(attachmentLabel);
-	tableData.push(dataRow);
+	if (attachments.length) {
+		attachmentLabel = $.UI.create('Label', {text: 'Documents', classes: ['listLabels']});
+		dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'zebra']});
+		dataRow.add(attachmentLabel);
+		tableData.push(dataRow);
+	}
 	attachments.forEach(function(attachment) {
 		attachmentTitle = global.UTIL.cleanString(attachment.name) ? '• ' + global.UTIL.cleanString(attachment.name) : "• Document " + x;
 		attachmentLabel = $.UI.create('Label', {text: attachmentTitle, classes: ["listLabels"]});

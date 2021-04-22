@@ -2855,13 +2855,7 @@ function webViewerInitialized() {
   var file;
   var queryString = document.location.search.substring(1);
   var params = (0, _ui_utils.parseQueryString)(queryString);
-  if ("local" in params && "file" in params) {
-  	file = params.file;
-  } else if ("file" in params) {
-  	file = params.file;
-  } else {
-  	file = _app_options.AppOptions.get("defaultUrl");
-  }
+  file = ("file" in params) ? params.file : _app_options.AppOptions.get("defaultUrl");
   validateFileURL(file);
   var fileInput = document.createElement("input");
   fileInput.id = appConfig.openFileInputName;

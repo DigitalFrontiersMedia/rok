@@ -590,7 +590,7 @@
   --doorhanger-icon-opacity: 0.9;
 
   --main-color: rgba(12, 12, 13, 1);
-  --body-bg-color: rgba(237, 237, 240, 1);
+  --body-bg-color: rgba(0, 0, 0, 0.7);
   --errorWrapper-bg-color: rgba(255, 74, 74, 1);
   --progressBar-color: rgba(10, 132, 255, 1);
   --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
@@ -896,7 +896,7 @@ html[dir="rtl"] #sidebarContent {
   left: 0;
   outline: none;
   width: 1920px;
-  height: 968px;
+  height: 904px;
 }
 #viewerContainer:not(.pdfPresentationMode) {
   transition-duration: var(--sidebar-transition-duration);
@@ -2501,4 +2501,14 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
   #scaleSelectContainer {
     display: none;
   }
+}
+
+/* Added by DFM */
+.presentationMode,
+.openFile,
+.print,
+.download,
+.bookmark
+{
+	display: none;
 }

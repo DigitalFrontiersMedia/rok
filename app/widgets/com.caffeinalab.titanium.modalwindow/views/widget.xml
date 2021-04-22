@@ -1,0 +1,15 @@
+<Alloy>
+	<NavigationWindow id="nav" module="xp.ui">
+		<Window id="win" theme="Theme.AppCompat.Translucent">
+			<LeftNavButton platform="ios">
+				<View>
+					<Button id="closeButton" class="navButton" titleid="Close" onClick="close" />
+				</View>
+			</LeftNavButton>
+			<ActionBar id="actionbar" platform="android" />
+	        <Menu platform="android">
+	            <MenuItem id="closeButton" title="Close" onClick="close" />
+	        </Menu>
+		</Window>
+	</NavigationWindow>
+</Alloy>
