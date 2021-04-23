@@ -1,21 +1,22 @@
-<Alloy>
+<Alloy autoStyle="true">
     <Window class="container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
+        <Require id="optionCorner" src="optionCorner" type="view"/>
         <ImageView id="imgBtn_edit"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
         <View id="View_rfiForm">
             <View class="inputLine" id="View_titleLine">
-                <Label class="rfiFormElement rfiFormLabel" id="Label_rfi_title"/>
-                <ScrollView class="textWrapper">
+                <Label class="rfiFormElement rfiFormLabel" id="Label_TextField_title"/>
+                <ScrollView id="TextField_titleWrapper" class="textWrapper">
                     <TextField class="rfiFormElement" id="TextField_title"/>
                 </ScrollView>
             </View>
             <View class="inputLine" id="View_questionLine">
-                <Label class="rfiFormElement rfiFormLabel" id="Label_question"/>
-                <ScrollView class="areaWrapper">
+                <Label class="rfiFormElement rfiFormLabel" id="Label_TextArea_question"/>
+                <ScrollView id="TextArea_questionWrapper" class="areaWrapper">
                     <TextArea class="rfiFormElement" id="TextArea_question"/>
                 </ScrollView>
             </View>
@@ -42,8 +43,8 @@
                 </View>
             </View>
             <View class="inputLine" id="View_dueDateLine">
-                <Label class="rfiFormElement rfiFormLabel" id="Label_dueDate"/>
-                <View class="textWrapper">
+                <Label class="rfiFormElement rfiFormLabel" id="Label_TextField_dueDate"/>
+                <View id="TextField_dueDateWrapper" class="textWrapper">
                     <TextField class="rfiFormElement" id="TextField_dueDate"/>
                 </View>
             </View>

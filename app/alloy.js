@@ -243,12 +243,15 @@ global.setDeviceConfig = function() {
 /*
  * Get global.getDeviceInfo List
  */
-global.getDeviceInfo = function() {
+global.getDeviceInfo = function(callback) {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
 		Ti.API.info('results = ' + JSON.stringify(results));
 		Ti.App.Properties.setObject('deviceInfo', results);
 		global.setDeviceConfig();
+		if (callback) {
+			callback();
+		}
 	});
 };
 

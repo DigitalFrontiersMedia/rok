@@ -119,3 +119,7 @@ var goDocuments = function() {
 $.home.addEventListener('androidback', function() {
 	return;
 });
+
+Ti.App.addEventListener('androidhome', function() {
+	global.homeWindow.open(); 
+});

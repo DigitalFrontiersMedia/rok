@@ -11,29 +11,37 @@ var wizardContinue = function() {
 	}
 };
 
+var doJDrupalLogin = function() {
+	global.jDrupal.userLogin($.TextField_user.value, $.TextField_pass.value, Alloy.Globals.loading).then(function(e) {
+		Alloy.Globals.loading.hide();
+		var account = global.jDrupal.currentUser();
+		global.userId = account ? account.id() : null;
+		if (global.userId) {
+			Ti.API.info('User id: ' + global.userId);
+			Ti.API.info('Logged in!');
+			Ti.App.Properties.setString("email", $.TextField_user.value);
+			Ti.App.Properties.setString("password", $.TextField_pass.value);			
+			global.getDeviceInfo(wizardContinue);
+			//wizardContinue();
+		} else {
+			//alert('Could not login. Try again.')
+		}
+	});
+};
+
 var login = function() {
 	// Ti.UI.Android.hideSoftKeyboard();
 	$.TextField_user.blur();
 	$.TextField_pass.blur();
-	Ti.API.info('Clearing any logins to prevent 403 login access problems...');
-	global.jDrupal.userLogout().then(function(e) {
-		Alloy.Globals.loading.show('Logging in...');
-		global.jDrupal.userLogin($.TextField_user.value, $.TextField_pass.value, Alloy.Globals.loading).then(function(e) {
-			Alloy.Globals.loading.hide();
-			var account = global.jDrupal.currentUser();
-			global.userId = account ? account.id() : null;
-			if (global.userId) {
-				Ti.API.info('User id: ' + global.userId);
-				Ti.API.info('Logged in!');
-				Ti.App.Properties.setString("email", $.TextField_user.value);
-				Ti.App.Properties.setString("password", $.TextField_pass.value);			
-				global.getDeviceInfo();
-				wizardContinue();
-			} else {
-				//alert('Could not login. Try again.')
-			}
+	if (global.userId) {
+		Ti.API.info('Clearing any logins to prevent 403 login access problems...');
+		global.jDrupal.userLogout().then(function(e) {
+			Alloy.Globals.loading.show('Logging in...');
+			doJDrupalLogin();
 		});
-	});
+	} else {
+		doJDrupalLogin();
+	}
 };
 
 var account = global.jDrupal.currentUser();

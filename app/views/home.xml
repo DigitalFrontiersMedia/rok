@@ -41,7 +41,7 @@
             </View>
             <View class="btnRow" id="View_row2">
                 <View class="button-wrapper largeBtn" id="imgBtn_documents" onClick="goDocuments">
-                    <ImageView class="btnMainSecondary largeBtn rotate180"/>
+                    <ImageView class="btnMainSecondary largeBtn flip"/>
                     <Label class="btnText documents"/>
                 </View>
             </View>

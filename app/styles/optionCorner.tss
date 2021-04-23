@@ -1,0 +1,22 @@
+".container": {
+},
+"#imgBtn_optionCorner": {
+	"top": "0",
+	"height": "5%",
+	"right": "0",
+	"width": "15%",
+},
+'#ImageView_optionBackground': {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL
+},
+"#lbl_optionCorner": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL,
+	"textAlign": Titanium.UI.TEXT_ALIGNMENT_CENTER,
+},
+".cornerButtonsWrapper": {
+	left: 10,
+	top: -10
+}
+

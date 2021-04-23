@@ -57,9 +57,15 @@ overrode the settings with other TSS, XML, or JS settings:
 	"height": "48",
 	"width": "180"
 },
+".cornerButtonsWrapper": {
+	layout: "horizontal"
+},
 ".btnMainSecondary": {
 	"image": "/images/btn_main_secondary.png",
 	"height": "48"
+},
+".cornerBG": {
+	"image": "/images/bkg_btn_topLeft.png"
 },
 ".btnText": {
 	"font": {fontSize:'20'}
@@ -85,12 +91,20 @@ overrode the settings with other TSS, XML, or JS settings:
 ".done": {
 	"text": L("done")
 },
+".edit": {
+	"text": L("edit")
+},
+".save": {
+	"text": L("save")
+},
 ".largeBtn": {
 	height: 100,
 },
-".rotate180": {
-	/*transform: Alloy.Globals.rotate180*/
+".flip": {
 	scaleY: -1
+},
+".mirror": {
+	scaleX: -1
 },
 ".rotate45": {
 	transform: Alloy.Globals.rotate45

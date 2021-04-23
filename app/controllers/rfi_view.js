@@ -1,6 +1,8 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 var rfi = Ti.App.Properties.getObject("rfis");
+var editMode = false;
+var editableFields = ['TextField_title', 'TextArea_question', 'TextField_dueDate'];
 
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
@@ -187,6 +189,43 @@ var listHistoryEvents = function(results) {
 		});
 	});
 };
+
+var editSaveRfi = function() {
+	editMode = !editMode;
+	if (editMode) {
+		$.removeClass($.optionCorner.lbl_optionCorner, 'edit');
+		$.addClass($.optionCorner.lbl_optionCorner, 'save');
+		editableFields.forEach(function(field) {
+			$[field].editable = true;
+			$.addClass($[field + 'Wrapper'], 'editable');
+			$.addClass($['Label_' + field], 'noUnderline');
+			$[field + 'Wrapper'].addEventListener('click', function(e) {
+				$[field].focus();
+			});
+		});
+	} else {
+		$.removeClass($.optionCorner.lbl_optionCorner, 'save');
+		$.addClass($.optionCorner.lbl_optionCorner, 'edit');
+		editableFields.forEach(function(field) {
+			$[field].editable = false;
+			$.removeClass($[field + 'Wrapper'], 'editable');
+			$.removeClass($['Label_' + field], 'noUnderline');
+			$[field + 'Wrapper'].removeEventListener('click', function() {});
+		});
+	}
+};
+
+// Dismiss keyboard if user "clicks away" from fields being edited.
+$.rfi_view.addEventListener('click', function(e) {
+	if (editMode) {
+		if (!editableFields.includes(e.source.id)) {
+			Ti.UI.Android.hideSoftKeyboard();
+		}
+	}
+});
+
+$.addClass($.optionCorner.lbl_optionCorner, 'edit');
+$.optionCorner.lbl_optionCorner.addEventListener('click', editSaveRfi);
 
 $.Label_Title.text = L("rfi") + ' #' + rfi[args.index].number;
 $.Label_subTitle.text = Ti.App.Properties.getString("project");

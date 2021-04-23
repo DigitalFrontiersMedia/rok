@@ -17,7 +17,7 @@
 	"layout": "vertical",
 	"left": "5%"
 },
-"#Label_rfi_title": {
+"#Label_TextField_title": {
 	"text": L("title"),
 	"class": "rfiFormElement"
 },
@@ -29,7 +29,7 @@
 ".rfiFormElement": {
 	"left": "0"
 },
-"#Label_question": {
+"#Label_TextArea_question": {
 	"text": L("question")
 },
 "#Label_answer": {
@@ -48,7 +48,7 @@
 "#Label_sendDate": {
 	"text": L("send_date")
 },
-"#Label_dueDate": {
+"#Label_TextField_dueDate": {
 	"text": L("due_date")
 },
 "#Label_assigned": {
@@ -60,26 +60,33 @@
 "TextField": {
 	editable: false,
 	height: 40,
-	top: 0
+	top: 0,
+	bubbleParent : false,
 },
 "TextArea": {
 	editable: false,
 	height: 177,
-	top: 0
+	top: 0,
+	bubbleParent : false,
 },
 ".textWrapper": {
 	height: 31,
-	backgroundColor: "rgba(0,0,0,0.5)"
+	backgroundColor: "rgba(0,0,0,0.5)",
+	bubbleParent : false,
 },
 ".areaWrapper": {
 	height: 168,
 	backgroundColor: "rgba(0,0,0,0.5)",
-	layout: "vertical"
+	layout: "vertical",
+	bubbleParent : false,
 },
 ".rfiFormLabel": {
 	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
 	width: Ti.UI.FILL,
 	"font": {fontSize:'20'}
+},
+".noUnderline": {
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","transparent"]},
 },
 ".listLabels": {
 	"font": {fontSize:'18'},
@@ -95,5 +102,11 @@
 	"separatorColor": "rgba(255,255,255,0.25)",
 },
 '#View_historyLine': {
-	top: 155
-}
+	top: 152
+},
+".editable": {
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+

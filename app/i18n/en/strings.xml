@@ -24,6 +24,8 @@
 	<string name="wifi_password_too_short">Password not long enough for WiFi password.</string>
 	<string name="create_rfi">CREATE RFI</string>
 	<string name="add_rfi">Add RFI</string>
+	<string name="save">SAVE</string>
+	<string name="edit">EDIT</string>
 	<string name="title">Title</string>
 	<string name="question">Question</string>
 	<string name="answer">Answer</string>
