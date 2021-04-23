@@ -1,8 +1,21 @@
 ".container": {
 },
-"#ImageView_backBackground": {
+"#imgBtn_backCorner": {
 	"left": "0",
 	"top": "0",
 	"height": "5%",
 	"width": "15%",
+},
+'#ImageView_backBackground': {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL
+},
+"#lbl_backCorner": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL,
+	"textAlign": Titanium.UI.TEXT_ALIGNMENT_CENTER,
+},
+".cornerButtonsWrapper": {
+	right: 20,
+	top: -10
 }

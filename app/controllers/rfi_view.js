@@ -204,6 +204,7 @@ var editSaveRfi = function() {
 			});
 		});
 	} else {
+		Ti.UI.Android.hideSoftKeyboard();
 		$.removeClass($.optionCorner.lbl_optionCorner, 'save');
 		$.addClass($.optionCorner.lbl_optionCorner, 'edit');
 		editableFields.forEach(function(field) {
@@ -220,6 +221,9 @@ $.rfi_view.addEventListener('click', function(e) {
 	if (editMode) {
 		if (!editableFields.includes(e.source.id)) {
 			Ti.UI.Android.hideSoftKeyboard();
+			// editableFields.forEach(function(field) {
+				// $[field].top = 0;
+			// });
 		}
 	}
 });

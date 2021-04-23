@@ -4,3 +4,5 @@ var args = $.args;
 var goBack = function() {
     Titanium.Android.currentActivity.finish();
 };
+
+$.lbl_backCorner.html = '<font color="#ff9200">❮</font>&nbsp;' + L('back');
