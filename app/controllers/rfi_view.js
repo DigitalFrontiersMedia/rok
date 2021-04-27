@@ -282,12 +282,10 @@ var editSaveRfi = function() {
 			}
 		});
 		// Perform RFI update if required
-		Ti.API.info('data = ' + JSON.stringify(data));
 		if (dirty) {
 			data.sent_at = new Date().toISOString();
 			if (data.due_at) {
 				data.due_at = new Date(data.due_at).toISOString();
-				Ti.API.info('due_at = ' + data.due_at);
 			}
 			global.konstruction.updateRfi(rfi[args.index].uid, JSON.stringify(data), saveSuccess);
 		}
