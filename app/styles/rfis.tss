@@ -26,6 +26,18 @@
 	text: L('add_rfi'),
 	"font": {fontSize:'12'}
 },
-".choice": {
-	"font": {fontSize:'24'}
+".rfiChoice": {
+	"font": {fontSize:'24'},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	left: 20,
+	width: '67%'
 },
+".details": {
+	"font": {fontSize:'24'},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: '15%'
+},
+"TableViewRow": {
+	layout: "horizontal",
+	horizontalWrap: false
+}

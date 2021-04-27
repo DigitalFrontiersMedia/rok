@@ -97,6 +97,9 @@ overrode the settings with other TSS, XML, or JS settings:
 ".save": {
 	"text": L("save")
 },
+".filter": {
+	"text": L("filter")
+},
 ".largeBtn": {
 	height: 100,
 },

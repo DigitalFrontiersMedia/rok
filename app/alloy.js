@@ -132,6 +132,10 @@ global.closeAllWindows = function() {
 	}
 };
 
+global.formatDate = function(dateString) {
+	return dateString ? new Date(dateString).toLocaleDateString(Ti.Locale.currentLanguage) : '';
+};
+
 Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentExp = Date.now();

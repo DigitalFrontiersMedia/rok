@@ -6,10 +6,6 @@ var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'
 
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
-var formatDate = function(dateString) {
-	return dateString ? new Date(dateString).toLocaleDateString(Ti.Locale.currentLanguage) : '';
-};
-
 var listUser = function(results) {
 	var userInfo = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
 	Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
@@ -175,7 +171,7 @@ var listHistoryEvents = function(results) {
 				historyEventLine = historyEvent.field.split('_').join(' ') + ' updated';
 			}
 			historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
-			historyEventLine += '. | ' + username + ', ' + formatDate(historyEvent.updated_at) + '.';
+			historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.updated_at) + '.';
 			//Ti.API.info('historyEventLine = ' + historyEventLine);
 			historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
 			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
@@ -198,7 +194,7 @@ var handleEdit = function(clicked) {
 	} else {
 		var minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 		var maxDate = new Date(new Date().getFullYear() + 3, 11, 31);
-		var defaultValue = formatDate(new Date());
+		var defaultValue = global.formatDate(new Date());
 		var maxSelectedDate = maxDate;
 		var datePicker = Alloy.createWidget('danielhanold.pickerWidget', {
 			id: 'datePicker',
@@ -215,7 +211,7 @@ var handleEdit = function(clicked) {
 			onDone: function(e) {
 				//Ti.API.info('e = ' + JSON.stringify(e));
 				if (e.data) {
-					$[clickedField].value = formatDate(e.data.date);
+					$[clickedField].value = global.formatDate(e.data.date);
 					//$[clickedField].width = Ti.UI.FILL;
 				}
 			},
@@ -316,8 +312,8 @@ $.Label_subTitle.text = Ti.App.Properties.getString("project");
 $.TextField_title.value = global.UTIL.cleanString(rfi[args.index].title);
 $.TextArea_question.value = global.UTIL.cleanString(rfi[args.index].question);
 $.TextArea_answer.value = global.UTIL.cleanString(rfi[args.index].answer);
-$.TextField_sendDate.value = formatDate(rfi[args.index].sent_at);
-$.TextField_due_at.value = formatDate(rfi[args.index].due_at);
+$.TextField_sendDate.value = global.formatDate(rfi[args.index].sent_at);
+$.TextField_due_at.value = global.formatDate(rfi[args.index].due_at);
 
 getAndListAssignedUserInfo(rfi[args.index].assigned_to);
 global.konstruction.getRfiPhotos(rfi[args.index].uid, listPhotos);
