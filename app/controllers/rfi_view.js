@@ -2,7 +2,7 @@
 var args = $.args;
 var rfi = Ti.App.Properties.getObject("rfis");
 var editMode = false;
-var editableFields = ['TextField_title', 'TextArea_question', 'TextField_dueDate'];
+var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'];
 
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
@@ -166,13 +166,13 @@ var listHistoryEvents = function(results) {
 			global.konstruction.getUserInfo(historyEvent.updated_by, resolve);
 		});
 		myPromise.then(function(userInfo) {
-			Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+			//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
 			userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
 			username = global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name);
 			if (historyEvent.field == 'locked') {
 				historyEventLine = (historyEvent.new_value == true) ? historyEvent.field : 'un' + historyEvent.field;
 			} else {
-				historyEventLine = historyEvent.field + ' updated';
+				historyEventLine = historyEvent.field.split('_').join(' ') + ' updated';
 			}
 			historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
 			historyEventLine += '. | ' + username + ', ' + formatDate(historyEvent.updated_at) + '.';
@@ -190,6 +190,62 @@ var listHistoryEvents = function(results) {
 	});
 };
 
+var handleEdit = function(clicked) {
+	Ti.API.info('handleEdit clicked = ' + JSON.stringify(clicked));
+	var clickedField = clicked.split('Wrapper').join('');
+	if (clickedField != 'TextField_due_at') {
+		$[clickedField].focus();
+	} else {
+		var minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+		var maxDate = new Date(new Date().getFullYear() + 3, 11, 31);
+		var defaultValue = formatDate(new Date());
+		var maxSelectedDate = maxDate;
+		var datePicker = Alloy.createWidget('danielhanold.pickerWidget', {
+			id: 'datePicker',
+			outerView: $.rfi_view,
+			hideNavBar: false,
+			type: 'date-picker',
+			pickerParams: {
+				minDate: minDate,
+				maxDate: maxDate,
+				value: defaultValue,
+				//maxSelectedDate: maxSelectedDate,
+				//maxSelectedDateErrorMessage: 'You must be at least 18 years old.'
+			},
+			onDone: function(e) {
+				//Ti.API.info('e = ' + JSON.stringify(e));
+				if (e.data) {
+					$[clickedField].value = formatDate(e.data.date);
+					//$[clickedField].width = Ti.UI.FILL;
+				}
+			},
+			title: 'Due Date',
+			height: '50%',
+			top: '25%',
+			bottom: '10%',
+			width: '33%',
+			backgroundColor: '#333'
+		});
+	}
+};
+
+var saveSuccess = function() {
+	var dialog = Ti.UI.createAlertDialog({
+		okay: 0,
+	    buttonNames: ['OK'],
+		message: 'Changes saved to ' + global.konstruction.platform + ' successfully.',
+		title: 'Saved'
+	});
+	dialog.addEventListener('click', function(e) {
+		if (e.index === e.source.okay) {
+			$.rfi_view.close();
+			Alloy.createController('rfis').getView().close();
+			Alloy.createController('rfis', {forceRefresh: true}).getView().open();
+		}
+	});
+	dialog.show();
+};
+
 var editSaveRfi = function() {
 	editMode = !editMode;
 	if (editMode) {
@@ -200,19 +256,41 @@ var editSaveRfi = function() {
 			$.addClass($[field + 'Wrapper'], 'editable');
 			$.addClass($['Label_' + field], 'noUnderline');
 			$[field + 'Wrapper'].addEventListener('click', function(e) {
-				$[field].focus();
+				handleEdit(e.source.id);
 			});
 		});
 	} else {
+		var dirty = false;
+		var data = {};
 		Ti.UI.Android.hideSoftKeyboard();
 		$.removeClass($.optionCorner.lbl_optionCorner, 'save');
 		$.addClass($.optionCorner.lbl_optionCorner, 'edit');
 		editableFields.forEach(function(field) {
+			var originalFieldName = field.split('TextField_').join('').split('TextArea_').join('');
+			var originalFieldValue = rfi[args.index][originalFieldName];
 			$[field].editable = false;
 			$.removeClass($[field + 'Wrapper'], 'editable');
 			$.removeClass($['Label_' + field], 'noUnderline');
 			$[field + 'Wrapper'].removeEventListener('click', function() {});
+			if ($[field].value == '') {
+				alert('Field values cannot be left empty.');
+				return;
+			}
+			if ($[field].value !== global.UTIL.cleanString(originalFieldValue)) {
+				data[originalFieldName] = $[field].value;
+				dirty = true;
+			}
 		});
+		// Perform RFI update if required
+		Ti.API.info('data = ' + JSON.stringify(data));
+		if (dirty) {
+			data.sent_at = new Date().toISOString();
+			if (data.due_at) {
+				data.due_at = new Date(data.due_at).toISOString();
+				Ti.API.info('due_at = ' + data.due_at);
+			}
+			global.konstruction.updateRfi(rfi[args.index].uid, JSON.stringify(data), saveSuccess);
+		}
 	}
 };
 
@@ -224,6 +302,9 @@ $.rfi_view.addEventListener('click', function(e) {
 			// editableFields.forEach(function(field) {
 				// $[field].top = 0;
 			// });
+			editableFields.forEach(function(field) {
+				$[field].blur();
+			});
 		}
 	}
 });
@@ -238,7 +319,7 @@ $.TextField_title.value = global.UTIL.cleanString(rfi[args.index].title);
 $.TextArea_question.value = global.UTIL.cleanString(rfi[args.index].question);
 $.TextArea_answer.value = global.UTIL.cleanString(rfi[args.index].answer);
 $.TextField_sendDate.value = formatDate(rfi[args.index].sent_at);
-$.TextField_dueDate.value = formatDate(rfi[args.index].due_at);
+$.TextField_due_at.value = formatDate(rfi[args.index].due_at);
 
 getAndListAssignedUserInfo(rfi[args.index].assigned_to);
 global.konstruction.getRfiPhotos(rfi[args.index].uid, listPhotos);

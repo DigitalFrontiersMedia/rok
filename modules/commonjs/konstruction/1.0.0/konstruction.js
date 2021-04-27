@@ -65,11 +65,11 @@ Konstruction.prototype.getProjects = function(onSuccessCallback) {
 	});
 };
 
-Konstruction.prototype.getRfis = function(onSuccessCallback) {
+Konstruction.prototype.getRfis = function(onSuccessCallback, options) {
     // Create some default params
     var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
-    var options = options || {};
+    var options = options || null;
 	var apiURL = global.konstruction.apiURL;
 	var endpoint;
 	//var onErrorCallback = global.onXHRError || function() {};
@@ -95,7 +95,8 @@ Konstruction.prototype.getRfis = function(onSuccessCallback) {
 	global.xhr.GET({
 	    url: apiURL + endpoint,
 	    onSuccess: onSuccessCallback,
-	    onError: onErrorCallback
+	    onError: onErrorCallback,
+	    extraParams: options
 	});
 };
 
@@ -263,6 +264,33 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback)
 			break;
 	}
 	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback
+	});
+};
+
+Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function(results) { return results; };
+    var options = options || {};
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		alert('An error occurred: \n', JSON.stringify(xhrResults));
+		nonce = null;
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid;
+			break;
+	}
+	global.xhr.PATCH({
+		data: data,
 	    url: apiURL + endpoint,
 	    onSuccess: onSuccessCallback,
 	    onError: onErrorCallback

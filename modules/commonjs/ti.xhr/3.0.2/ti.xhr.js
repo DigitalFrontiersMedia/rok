@@ -32,7 +32,7 @@ XHR.prototype.GET = function(e) {
     
     Ti.API.info('cache = ' + cache);
     Ti.API.info('extraParams = ' + JSON.stringify(extraParams));
-    if (cache === false || !extraParams.ttl || cachedFile.timestamp < new Date().getTime()) {
+    if (cache === false || !extraParams.ttl || extraParams.forceRefresh || cachedFile.timestamp < new Date().getTime()) {
 
         var xhr = initXHRRequest('GET', e.url, extraParams);
 

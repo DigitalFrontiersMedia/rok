@@ -6,7 +6,7 @@ var pickerParams = args.pickerParams || {};
 // after they picker is created.
 if (args.type === 'date-picker') {
   // Set picker type to "Date Picker".
-  $.picker.type = Ti.UI.PICKER_TYPE_DATE;
+  $.picker.type = Ti.UI.PICKER_TYPE_DATE; //PICKER_TYPE_DATE_AND_TIME
 
   // Hide the visual selection indicator.
   // On iOS 7 and later, the picker indicator is always shown and you cannot control it.

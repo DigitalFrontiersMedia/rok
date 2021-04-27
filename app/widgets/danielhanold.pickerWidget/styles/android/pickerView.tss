@@ -11,7 +11,7 @@
 }
 
 "#picker": {
-  top: 30,
+  top: -10,
   selectionIndicator: true,
   useSpinner: true,
   visibleItems: 10,
@@ -27,12 +27,13 @@
 }
 
 "Button": {
-  backgroundGradient: {
+  /*backgroundGradient: {
     type: 'linear',
     colors: [{color: '#55acee', offset: 0.0}, {color: '#359ade', offset: 1.0}]
-  },
+  },*/
+  backgroundColor: "#ff9200",
   borderRadius: 2,
-  borderColor: '#3399dd',
+  /*borderColor: '#3399dd',*/
   color: 'white',
   font: {
     fontWeight: 'bold'

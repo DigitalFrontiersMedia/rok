@@ -1,5 +1,6 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
+var editableFields = ['TextField_user', 'TextField_pass'];
 
 var wizardContinue = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
@@ -40,6 +41,7 @@ var login = function() {
 			doJDrupalLogin();
 		});
 	} else {
+		Alloy.Globals.loading.show('Logging in...');
 		doJDrupalLogin();
 	}
 };
@@ -72,3 +74,10 @@ if (global.userId) {
 	$.alreadyLoggedIn.visible = false;
 	$.nxtBtn.visible = false;
 }
+
+// Dismiss keyboard if user "clicks away" from fields being edited.
+$.setupWizard_step3.addEventListener('click', function(e) {
+	if (!editableFields.includes(e.source.id)) {
+		Ti.UI.Android.hideSoftKeyboard();
+	}
+});

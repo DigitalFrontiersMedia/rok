@@ -126,6 +126,7 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 "#closeButton": {
 	showAsAction: Ti.Android.SHOW_AS_ACTION_ALWAYS
+},
+"ScrollView": {
+	showVerticalScrollIndicator: true
 }
-
-

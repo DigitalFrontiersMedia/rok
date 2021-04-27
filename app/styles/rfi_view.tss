@@ -48,8 +48,13 @@
 "#Label_sendDate": {
 	"text": L("send_date")
 },
-"#Label_TextField_dueDate": {
+"#Label_TextField_due_at": {
 	"text": L("due_date")
+},
+"#TextField_due_at": {
+	softKeyboardOnFocus: Titanium.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS,
+	width: 100,
+	bubbleParent: true
 },
 "#Label_assigned": {
 	"text": L("assigned")
@@ -60,14 +65,18 @@
 "TextField": {
 	editable: false,
 	height: 40,
+	width: Ti.UI.SIZE,
+	left: 0,
 	top: 0,
-	bubbleParent : false,
+	returnKeyType:Ti.UI.RETURNKEY_DONE,
+	bubbleParent: false
 },
 "TextArea": {
 	editable: false,
 	height: 177,
+	width: Ti.UI.SIZE,
 	top: 0,
-	bubbleParent : false,
+	bubbleParent: false
 },
 ".textWrapper": {
 	height: 31,
@@ -109,4 +118,10 @@
 	"borderColor": "#E5E5E5",
 	"borderWidth": "1"
 },
-
+"#datePicker": {
+	backgroundColor: "#ccc",
+	height: "50%",
+	top: "25%",
+	bottom: "25%",
+	width: "50%"
+}

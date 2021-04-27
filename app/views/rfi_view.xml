@@ -43,10 +43,10 @@
                 </View>
             </View>
             <View class="inputLine" id="View_dueDateLine">
-                <Label class="rfiFormElement rfiFormLabel" id="Label_TextField_dueDate"/>
-                <View id="TextField_dueDateWrapper" class="textWrapper">
-                    <TextField class="rfiFormElement" id="TextField_dueDate"/>
-                </View>
+                <Label class="rfiFormElement rfiFormLabel" id="Label_TextField_due_at"/>
+                <ScrollView id="TextField_due_atWrapper" class="textWrapper">
+                    <TextField class="rfiFormElement" id="TextField_due_at"/>
+                </ScrollView>
             </View>
             <View class="inputLine" id="View_assignedLine">
                 <Label class="rfiFormElement rfiFormLabel" id="Label_assigned"/>

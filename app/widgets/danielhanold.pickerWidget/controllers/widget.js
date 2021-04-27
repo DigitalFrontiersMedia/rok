@@ -55,9 +55,11 @@ else {
   picker = pickerController.getView('picker');
   
   // Allow direct widget control and overrides via global element (from alloy.js)
-  pickerView.top = args.top;
-  pickerView.bottom = args.bottom;
-  //pickerView.height = 1;
+  pickerView.top = args.top ? args.top : pickerView.top;
+  pickerView.bottom = args.bottom ? args.bottom : pickerView.bottom;
+  pickerView.width = args.width ? args.width : pickerView.width;
+  pickerView.height = args.height ? args.height : pickerView.height;
+  pickerView.backgroundColor = args.backgroundColor ? args.backgroundColor : pickerView.backgroundColor;
   pickerElement = pickerView;
   
   outerView.add(overlay);
@@ -338,7 +340,7 @@ function done(e) {
 
   case 'date-picker':
     // Determine the selected date.
-    var selectedDate = picker.getValue();
+    var selectedDate = picker.value;
 
     // Error checking for minimum selected date.
     if (_.isDate(args.pickerParams.maxSelectedDate) && (selectedDate > args.pickerParams.maxSelectedDate)) {

@@ -1,5 +1,7 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
+var opts = global.xhrOptions;
+opts.forceRefresh = args.forceRefresh || null;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
@@ -49,4 +51,4 @@ var showRfis = function(results) {
 	$.ListView_rfis.data = tableData;
 };
 
-global.konstruction.getRfis(showRfis);
+global.konstruction.getRfis(showRfis, opts);
