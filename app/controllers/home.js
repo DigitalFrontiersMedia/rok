@@ -88,9 +88,13 @@ var siteInfoMenu = function() {
 	global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
-var rfiRouter = function(e) {
+var resetRfiActions = function() {
 	$.View_rfis.opacity = 1;
 	$.home.remove(rfiActions);
+};
+
+var rfiRouter = function(e) {
+	resetRfiActions();
 	switch (e.source.id) {  //parseInt(e.data[0].key)) {
 		case 'createRfi':  //0:
 			Alloy.createController('rfi_entry').getView().open();
@@ -133,4 +137,12 @@ $.home.addEventListener('androidback', function() {
 
 Ti.App.addEventListener('androidhome', function() {
 	global.homeWindow.open(); 
+});
+
+// Cancel RFI Action selection.
+$.home.addEventListener('click', function(e) {
+	var cancelableButtons = ['View_rfis', 'createRfi', 'viewRfi'];
+	if (!cancelableButtons.includes(e.source.id)) {
+		resetRfiActions();
+	}
 });
