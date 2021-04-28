@@ -1,6 +1,6 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
-
+var rfiActions = {};
 
 
 var goWhiteboard = function() {
@@ -89,11 +89,13 @@ var siteInfoMenu = function() {
 };
 
 var rfiRouter = function(e) {
-	switch (parseInt(e.data[0].key)) {
-		case 0:
+	$.View_rfis.opacity = 1;
+	$.home.remove(rfiActions);
+	switch (e.source.id) {  //parseInt(e.data[0].key)) {
+		case 'createRfi':  //0:
 			Alloy.createController('rfi_entry').getView().open();
 			break;
-		case 1:
+		case  'viewRfi':  //1:
 			Alloy.createController('rfis').getView().open();
 			break;
 	}
@@ -101,7 +103,16 @@ var rfiRouter = function(e) {
 
 var goRfis = function() {
 	Ti.API.info('*** RFIs ***');
-	global.showOptions(L('rfi'), [{option_label: 'Create RFI'}, {option_label: 'View RFI'}], $, rfiRouter);
+	rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions']});
+	var createRfi = $.UI.create('Label', {id: 'createRfi', classes: ['rfiActionChoice'], text: L('create_rfi')});
+	createRfi.addEventListener('click', rfiRouter);
+	rfiActions.add(createRfi);
+	var viewRfi = $.UI.create('Label', {id: 'viewRfi', classes: ['rfiActionChoice'], text: L('view_rfi')});
+	viewRfi.addEventListener('click', rfiRouter);
+	rfiActions.add(viewRfi);
+	$.home.add(rfiActions);
+	$.View_rfis.opacity = 0.7;
+	//global.showOptions(L('rfi'), [{option_label: L('create_rfi')}, {option_label: L('view_rfi')}], $, rfiRouter);
 };
 
 var goDrawings = function() {

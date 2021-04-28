@@ -192,6 +192,7 @@ var handleEdit = function(clicked) {
 	if (clickedField != 'TextField_due_at') {
 		$[clickedField].focus();
 	} else {
+		Ti.UI.Android.hideSoftKeyboard();
 		var minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 		var maxDate = new Date(new Date().getFullYear() + 3, 11, 31);
 		var defaultValue = global.formatDate(new Date());

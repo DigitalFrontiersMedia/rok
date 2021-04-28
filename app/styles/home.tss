@@ -119,4 +119,21 @@
 },
 ".image-wrapper": {
 	/*backgroundColor: "red"*/
+},
+".rfiActions": {
+	layout: "horizontal",
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE
+},
+".rfiActionChoice": {
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	backgroundColor: "#fff",
+	borderWidth: 1,
+	borderColor: "#000",
+	color: "#000",
+	width: 100,
+	height: 75,
+	left: 5,
+	right: 5
 }
+

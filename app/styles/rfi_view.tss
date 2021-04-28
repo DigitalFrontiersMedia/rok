@@ -65,7 +65,7 @@
 "TextField": {
 	editable: false,
 	height: 40,
-	width: Ti.UI.SIZE,
+	width: Ti.UI.FILL,
 	left: 0,
 	top: 0,
 	returnKeyType:Ti.UI.RETURNKEY_DONE,
@@ -74,7 +74,7 @@
 "TextArea": {
 	editable: false,
 	height: 177,
-	width: Ti.UI.SIZE,
+	width: Ti.UI.FILL,
 	top: 0,
 	bubbleParent: false
 },

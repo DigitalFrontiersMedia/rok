@@ -23,6 +23,7 @@
 	<string name="wifi_password">Enter the password for\n%s</string>
 	<string name="wifi_password_too_short">Password not long enough for WiFi password.</string>
 	<string name="create_rfi">CREATE RFI</string>
+	<string name="view_rfi">VIEW RFI</string>
 	<string name="add_rfi">Add RFI</string>
 	<string name="save">SAVE</string>
 	<string name="edit">EDIT</string>

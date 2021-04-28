@@ -1,15 +1,14 @@
 ".container": {
 },
 "#Label_Title": {
-	"borderColor": "#ff9200",
-	"borderWidth": "1",
-	"text": L("create_rfi"),
 	"textAlign": "center",
 	"top": "5%",
-	"width": "20%"
+	"width": "20%",
+	"text": L("create_rfi"),
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
 },
 "#Label_subTitle": {
-	"text": L("project_name"),
 	"top": "10%"
 },
 "#View_rfiForm": {
@@ -19,28 +18,19 @@
 	"layout": "vertical",
 	"left": "5%"
 },
-"#Label_title": {
+"#Label_TextField_title": {
 	"text": L("title"),
 	"class": "rfiFormElement"
 },
 ".inputLine": {
-	"height": 30,
-	"layout": "vertical"
+	"height": Ti.UI.SIZE,
+	"layout": "vertical",
+	top: 15
 },
 ".rfiFormElement": {
 	"left": "0"
 },
-"#TextField_sendDate": {
-	"borderRadius": "10",
-	"borderColor": "#E5E5E5",
-	"borderWidth": "1"
-},
-"#TextArea_dueDate": {
-	"value": "TextArea",
-	"left": "84%",
-	"top": "59%"
-},
-"#Label_question": {
+"#Label_TextArea_question": {
 	"text": L("question")
 },
 "#Label_answer": {
@@ -57,18 +47,80 @@
 	"right": "5%"
 },
 "#Label_sendDate": {
-	"text": L("send_date"),
-	"class": "rfiFormElement"
+	"text": L("send_date")
 },
-"#Label_dueDate": {
+"#Label_TextField_due_at": {
 	"text": L("due_date")
+},
+"#TextField_due_at": {
+	softKeyboardOnFocus: Titanium.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS,
+	width: 100,
+	bubbleParent: true
 },
 "#Label_assigned": {
 	"text": L("assigned")
 },
-"#imgBtn_save": {
-	"height": "5%",
-	"right": "0",
-	"top": "0",
-	"width": "15%",
+"#Label_history": {
+	"text": L("history")
 },
+"TextField": {
+	height: 40,
+	width: Ti.UI.FILL,
+	left: 0,
+	top: 0,
+	returnKeyType:Ti.UI.RETURNKEY_DONE,
+	bubbleParent: false
+},
+"TextArea": {
+	height: 177,
+	width: Ti.UI.FILL,
+	top: 0,
+	bubbleParent: false
+},
+".textWrapper": {
+	height: 31,
+	backgroundColor: "rgba(0,0,0,0.5)",
+	bubbleParent : false,
+},
+".areaWrapper": {
+	height: 168,
+	backgroundColor: "rgba(0,0,0,0.5)",
+	layout: "vertical",
+	bubbleParent : false,
+},
+".rfiFormLabel": {
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
+	width: Ti.UI.FILL,
+	"font": {fontSize:'20'}
+},
+".noUnderline": {
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","transparent"]},
+},
+".listLabels": {
+	"font": {fontSize:'18'},
+	width: Ti.UI.FILL,
+	left: 5
+},
+/*
+".sectionLabel": {
+	backgroundColor: '#666'
+},
+*/
+"#ListView_refs": {
+	"separatorColor": "rgba(255,255,255,0.25)",
+},
+'#View_historyLine': {
+	top: 152
+},
+".editable": {
+	"borderRadius": "10",
+	"borderColor": "#E5E5E5",
+	"borderWidth": "1"
+},
+"#datePicker": {
+	backgroundColor: "#ccc",
+	height: "50%",
+	top: "25%",
+	bottom: "25%",
+	width: "50%"
+}
