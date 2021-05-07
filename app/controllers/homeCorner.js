@@ -2,5 +2,7 @@
 var args = $.args;
 
 var goHome = function() {
-	global.homeWindow.open();
+	Ti.API.info('Going home...');
+	//global.homeWindow.open();
+	Alloy.createController('home').getView().open();
 };

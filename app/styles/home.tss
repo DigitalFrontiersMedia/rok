@@ -18,7 +18,8 @@
 	"layout": "vertical",
 	"left": "0",
 	"top": "20%",
-	"width": "40%"
+	"width": "40%",
+	bubbleParent: false
 },
 "#Label_drawings": {
 	"text": L("project_drawings"),
@@ -60,7 +61,8 @@
 	"layout": "vertical",
 	"right": "0",
 	"top": "20%",
-	"width": "40%"
+	"width": "40%",
+	bubbleParent: false
 },
 "#Label_submittals": {
 	"text": L('submittals'),
@@ -90,6 +92,7 @@
 },
 "#imgBtn_documents": {
 	"width": "30%",
+	bubbleParent: false
 },
 ".btnRow": {
 	"layout": "horizontal",
@@ -99,12 +102,15 @@
 },
 "#imgBtn_whiteboard": {
 	"width": "33.3%",
+	bubbleParent: false
 },
 "#imgBtn_pageSuper": {
 	"width": "33.3%",
+	bubbleParent: false
 },
 "#imgBtn_info": {
 	"width": "33.3%",
+	bubbleParent: false
 },
 ".whiteboard": {
 	text: L("whiteboard")

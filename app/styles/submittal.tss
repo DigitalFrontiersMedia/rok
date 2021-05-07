@@ -1,15 +1,14 @@
 ".container": {
 },
 "#Label_Title": {
-	"borderColor": "#ff9200",
-	"borderWidth": "1",
 	"text": L("submittal"),
-	"textAlign": "center",
+	"textAlign": Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	"top": "5%",
-	"width": "25%"
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
 },
 "#Label_subTitle": {
-	"text": L("project_name"),
 	"top": "10%"
 },
 "#View_information": {
@@ -17,11 +16,12 @@
 	"layout": "vertical",
 	"left": "0"
 },
-"#Label_Title": {
-},
 "#View_titleLine": {
 },
-"#Label_title": {
+".inputLine": {
+	
+},
+"#Label_iTitle": {
 	"text": L("information"),
 	"class": "formElement",
 	"left": "0"
@@ -45,7 +45,8 @@
 "#View_history": {
 	"width": "25%",
 	"layout": "vertical",
-	"right": "5%"
+	"right": "5%",
+	"left": "5%"
 },
 "#l__submittalInfo": {
 	"layout": "horizontal",
@@ -62,7 +63,8 @@
 "#TextArea_question": {
 },
 "#View_files": {
-	"layout": "vertical"
+	"layout": "vertical",
+	top: "5%"
 },
 "#Label_files": {
 	"text": L("files"),
@@ -154,4 +156,15 @@
 },
 "#Label_watching": {
 	"text": L("watching")
-}
+},
+"#TableView_information": {
+	"height": Ti.UI.SIZE,
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "#ff9200",
+},
+"#TableView_history": {
+	"height": Ti.UI.SIZE,
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "#ff9200",
+},
+

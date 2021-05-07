@@ -1,7 +1,7 @@
 ".container": {
 },
 "#Label_Title": {
-	text: L("project_drawings"),
+	text: L("documents"),
 	"textAlign": "center",
 	"top": "5%",
 	"width": "20%",
@@ -11,7 +11,7 @@
 "#Label_subTitle": {
 	"top": "10%"
 },
-"#drawingsGrid": {
+"#documentsGrid": {
 	"top": "20%"
 },
 ".gridItem": {

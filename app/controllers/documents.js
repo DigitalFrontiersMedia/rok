@@ -3,11 +3,7 @@ var args = $.args;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
-var showDrawing = function(title, url) {
-	if (!url) {
-		alert('*** No URL for requested resource!!! ***');
-		return;
-	}
+var showDocument = function(title, url) {
 	if (url.indexOf('response-content-disposition=attachment') == -1) {
 		var dialog = require('ti.webdialog');
 		if (dialog.isSupported()) {
@@ -41,57 +37,49 @@ var showDrawing = function(title, url) {
 	}
 };
 
-var processDrawing = function(results) {
-	Ti.API.info('results = ' + JSON.stringify(results));
-	var drawing = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
-	Ti.API.info('drawing = ' + JSON.stringify(drawing));
-	if (drawing.uid.indexOf('response-content-disposition=attachment') > -1) {
+var chooseDocument = function(e) {
+	Ti.API.info('e = ' + JSON.stringify(e));
+	if (e.url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
 			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
-		    url: drawing.url,
+		    url: e.url,
 		    onSuccess: function (results) {
-		    	//Ti.API.info('getDrawing = ' + JSON.stringify(results));
-		    	showDrawing(drawing.name, drawing.uid);
+		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
+		    	showDocument(e.text, e.url);
 		    },
 		    onError: global.onXHRError
 		});
 	} else {
-		showDrawing(drawing.name, drawing.url);
+		showDocument(e.text, e.url);
 	}
 };
 
-var chooseDrawing = function(e) {
-	Ti.API.info('e = ' + JSON.stringify(e));
-	global.konstruction.getDrawing(e.uid, processDrawing);
-};
-
-var listDrawings = function(results) {
-	Ti.API.info('konstruction.getDrawings results = ' + JSON.stringify(results));
+var listDocuments = function(results) {
+	Ti.API.info('konstruction.getDocuments results = ' + JSON.stringify(results));
 	//var x = 1;
 	var item = null;
 	//var tableData = [];
-	var drawings = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
-	Ti.API.info('drawings = ' + JSON.stringify(drawings));
-	//var drawingsGrid = Alloy.createController('br.com.coredigital.GridLayout');
-	if (drawings) {
-		global.setDrawings(drawings);
-		drawings.forEach(function(drawing) {
-			if (!drawing.deleted) {
-				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
-				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/locked.png';
+	var documents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	//var documentsGrid = Alloy.createController('br.com.coredigital.GridLayout');
+	if (documents) {
+		global.setDocuments(documents);
+		documents.forEach(function(document) {
+			if (!document.deleted) {
+				item = $.UI.create('View', {url: document.url, text: document.name, classes: ["gridItem"]});
+				var imageUrl = (document.url.indexOf('.jpg') > -1 || document.url.indexOf('.png') > -1) ? document.url : '/images/locked.png';
 				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
-				item.add($.UI.create('Label', {text: drawing.name, classes: ["itemLabel"]}));
+				item.add($.UI.create('Label', {text: document.name, classes: ["itemLabel"]}));
 				item.addEventListener('click', function() {
-					chooseDrawing({uid: drawing.uid, text: drawing.name});
+					chooseDocument({url: document.url, text: document.name});
 				});
-				$.drawingsGrid.addItem(item);
+				$.documentsGrid.addItem(item);
 			}
 		});
 	} else {
 		item = $.UI.create('View', {classes: ["gridItem"]});
 		item.add($.UI.create('Label', {text: L('no_items'), classes: ["itemLabel"]}));
-		$.drawingsGrid.addItem(item);
+		$.documentsGrid.addItem(item);
 	}
 };
 
-global.konstruction.getDrawings(listDrawings);
+global.konstruction.getDocuments(listDocuments);

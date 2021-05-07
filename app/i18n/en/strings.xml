@@ -70,7 +70,7 @@
 	<string name="view_edit">View/Edit</string>
 	<string name="import_message">The following settings have been imported from your ROK account where available.</string>
 	<string name="color">COLOR</string>
-	<string name="submittal">SUBMITTAL #00000</string>
+	<string name="submittal">SUBMITTAL</string>
 	<string name="submittals">SUBMITTALS</string>
 	<string name="information">Information</string>
 	<string name="submittal_num">Submittal #</string>
@@ -92,6 +92,7 @@
 	<string name="page_super">PAGE SUPERINTENDANT</string>
 	<string name="site_info">SITE INFO</string>
 	<string name="documents">DOCUMENTS</string>
+	<string name="no_items">No items.</string>
 	<string name="page_super_prompt">Choose desired message to send:</string>
 	<string name="site_info_prompt">Choose desired Site Info:</string>
 	<string name="device_info_not_synced">Either you are not logged in,\nthe device information has not yet been synchronized,\nor the device selection has not yet been made.\nPlease try again when ready.</string>

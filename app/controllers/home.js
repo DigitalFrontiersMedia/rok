@@ -121,14 +121,17 @@ var goRfis = function() {
 
 var goDrawings = function() {
 	Ti.API.info('*** DRAWINGS ***');
+	Alloy.createController('drawings').getView().open();
 };
 
 var goSubmittals = function() {
 	Ti.API.info('*** SUBMITTALS ***');
+	Alloy.createController('submittal').getView().open();
 };
 
 var goDocuments = function() {
 	Ti.API.info('*** DOCUMENTS ***');
+	Alloy.createController('documents').getView().open();
 };
 
 $.home.addEventListener('androidback', function() {

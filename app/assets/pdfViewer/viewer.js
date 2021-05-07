@@ -57,7 +57,7 @@ var defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: '/android_asset/Resources/pdfViewer/pdf.pdf',//"compressed.tracemonkey-pldi-09.pdf",
+    value: '/android_asset/Resources/pdfViewer/compressed.tracemonkey-pldi-09.pdf',
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {

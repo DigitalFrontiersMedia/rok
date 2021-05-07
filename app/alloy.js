@@ -59,9 +59,8 @@ Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 
 Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
 
-global.gridHeightMultiplier = 1.5;
-var home = Alloy.createController('home').getView();
-global.homeWindow = home;
+global.gridHeightMultiplier = 1.05;
+global.homeWindow = Alloy.createController('home').getView();
 var setupWizard_step1Window = Alloy.createController('setupWizard_step1').getView();
 global.setupWizardWindow = setupWizard_step1Window;
 
@@ -203,6 +202,33 @@ global.setRfis = function(rfis) {
 		case 'PlanGrid':
 		default:
 			Ti.App.Properties.setObject("rfis", rfis);
+			break;
+	}
+};
+
+global.setDocuments = function(documents) {
+	switch(Ti.App.Properties.getString("constructionApp")) {
+		case 'PlanGrid':
+		default:
+			Ti.App.Properties.setObject("documents", documents);
+			break;
+	}
+};
+
+global.setDrawings = function(drawings) {
+	switch(Ti.App.Properties.getString("constructionApp")) {
+		case 'PlanGrid':
+		default:
+			Ti.App.Properties.setObject("drawings", drawings);
+			break;
+	}
+};
+
+global.setSubmittals = function(submittals) {
+	switch(Ti.App.Properties.getString("constructionApp")) {
+		case 'PlanGrid':
+		default:
+			Ti.App.Properties.setObject("submittals", submittals);
 			break;
 	}
 };

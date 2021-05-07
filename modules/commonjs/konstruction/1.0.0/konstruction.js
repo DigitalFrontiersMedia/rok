@@ -332,5 +332,147 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 	});
 };
 
+Konstruction.prototype.getDocuments = function(onSuccessCallback, options) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getDocuments, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/attachments';
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
+Konstruction.prototype.getDrawings = function(onSuccessCallback, options) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getDrawings, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets';
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
+Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, options) {
+    // Create some default params
+    var self = this;
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getDrawings, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets/' + drawingUid;
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
+Konstruction.prototype.getSubmittals = function(onSuccessCallback, options) {
+    // Create some default params
+    var self = this;
+    if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
+    
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getRfis, onSuccessCallback);
+	       }
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/items';
+			break;
+	}
+	global.xhr.GET({
+	    url: apiURL + endpoint,
+	    onSuccess: onSuccessCallback,
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
 // Returns everything. 
 module.exports = Konstruction;

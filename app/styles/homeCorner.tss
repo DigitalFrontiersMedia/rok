@@ -6,4 +6,6 @@
 	"height": "5%",
 	"width": "15%",
 	"bottom": "0",
+	zIndex: 9999,
+	bubbleParent: false
 }

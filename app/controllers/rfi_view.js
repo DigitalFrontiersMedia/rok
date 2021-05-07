@@ -41,9 +41,11 @@ var showRef = function(title, url) {
 			title : 'ROK ' + title,//file.name,
 			classes : ["modal"]
 		});
+		Ti.API.info('url = ' + url);
+		Ti.API.info('file.nativePath = ' + file.nativePath);
 		var webview = Titanium.UI.createWebView({
 			backgroundColor: 'transparent',
-			url: Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath
+			url: Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '/pdfViewer/viewer.html').nativePath + '?file=compressed.tracemonkey-pldi-09.pdf'// + file.nativePath
 		});
 		modal.add(webview);
 		modal.open();

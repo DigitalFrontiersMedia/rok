@@ -4,6 +4,7 @@
 	var totalColumns = parseInt(args.columns) || 2;
 	var gap = parseInt(args.gap) || 3;
 	var totalItens = 0;
+	var row = 0;
 
 	var widthScreen = OS_ANDROID ? px2dpi(Ti.Platform.displayCaps.platformWidth) : Ti.Platform.displayCaps.platformWidth;
 
@@ -28,11 +29,16 @@
 		view.left = gap;
 		view.top = gap;
 		if (totalItens % totalColumns == 0) {
+			row++;
 			horizontalView = Ti.UI.createView({
 				layout: 'horizontal',
-				height: heightView
+				height: row == 1 ? heightView - gap : heightView
 			});
 			$.wrapperGridLayout.add(horizontalView);
+		}
+		if (row == 1) {
+			view.top = 0;
+			view.height = heightView - gap;
 		}
 		horizontalView.add(view);
 		totalItens ++ ;

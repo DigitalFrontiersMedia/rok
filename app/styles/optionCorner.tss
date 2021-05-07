@@ -5,6 +5,8 @@
 	"height": "5%",
 	"right": "0",
 	"width": "15%",
+	zIndex: 9999,
+	bubbleParent: false
 },
 '#ImageView_optionBackground': {
 	width: Titanium.UI.FILL,

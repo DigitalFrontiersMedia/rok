@@ -1,15 +1,14 @@
 ".container": {
 },
 "#Label_Title": {
-	"borderColor": "#ff9200",
-	"borderWidth": "1",
 	"text": L("submittals"),
 	"textAlign": "center",
 	"top": "5%",
-	"width": "25%",
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
 },
 "#Label_subTitle": {
-	"text": L("project_name"),
 	"top": "10%"
 },
 "#TableView_submittals": {
@@ -17,4 +16,24 @@
 	"left": "5%",
 	"right": "5%",
 	"top": "20%",
+	"backgroundColor": "rgba(0,0,0,0.5)",
+	"separatorColor": "rgba(255,255,255,0.25)",
+},
+".submittalChoice": {
+	"font": {fontSize:'24'},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	left: 20,
+	width: '67%'
+},
+".details": {
+	"font": {fontSize:'24'},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: '15%'
+},
+"TableViewRow": {
+	layout: "horizontal",
+	horizontalWrap: false
+},
+"#loadingText": {
+	width: "100%"
 }
