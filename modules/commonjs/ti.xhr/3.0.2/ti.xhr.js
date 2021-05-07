@@ -331,7 +331,7 @@ function handleSuccess(xhr, extraParams) {
         // result.metaData = xhr.metaData;
         Ti.API.info('*************** responseData Catch **************');
     }
-	//Ti.API.info('*************** result.data **************\n' + JSON.stringify(result.data));
+	//Ti.API.info('*************** result.data **************\n' + JSON.stringify(result));
     return result;
 }
 
@@ -352,6 +352,7 @@ function handleError(xhr, error) {
     } catch(e) {
         result.data = xhr.responseData;
     }
+    Ti.API.info('****** error result ******\n' + JSON.stringify(result) + '\n******************');
     return result;
 }
 

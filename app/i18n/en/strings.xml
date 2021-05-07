@@ -76,6 +76,9 @@
 	<string name="files">Files</string>
 	<string name="history">History</string>
 	<string name="spec">Spec</string>
+	<string name="name">Name</string>
+	<string name="ball_in_court">Ball-in-court</string>
+	<string name="last_activity">Last Activity</string>
 	<string name="version">Version</string>
 	<string name="due">Due</string>
 	<string name="status">Status</string>

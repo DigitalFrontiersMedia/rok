@@ -126,7 +126,7 @@ var goDrawings = function() {
 
 var goSubmittals = function() {
 	Ti.API.info('*** SUBMITTALS ***');
-	Alloy.createController('submittal').getView().open();
+	Alloy.createController('submittals').getView().open();
 };
 
 var goDocuments = function() {

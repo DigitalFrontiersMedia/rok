@@ -12,10 +12,7 @@
 	"top": "10%"
 },
 "#TableView_submittals": {
-	"height": "70%",
-	"left": "5%",
-	"right": "5%",
-	"top": "20%",
+	top: 5,
 	"backgroundColor": "rgba(0,0,0,0.5)",
 	"separatorColor": "rgba(255,255,255,0.25)",
 },
@@ -36,4 +33,48 @@
 },
 "#loadingText": {
 	width: "100%"
+},
+"#tableWrapper": {
+	layout: "vertical",
+	"height": "75%",
+	"left": "5%",
+	"right": "5%",
+	"top": "20%",
+},
+"#headerRow": {
+	layout: "horizontal",
+	height: Ti.UI.SIZE
+},
+".colS": {
+	width: "10%"
+},
+".colM": {
+	width: "15%"
+},
+".colL": {
+	width: "18%"
+},
+"#submittalNum": {
+	text: L('submittal_num')
+},
+"#spec": {
+	text: L('spec')
+},
+"#name": {
+	text: L('name')
+},
+"#ballInCourt": {
+	text: L('ball_in_court')
+},
+"#lastActivity": {
+	text: L('last_activity')
+},
+"#due": {
+	text: L('due')
+},
+"#status": {
+	text: L('status')
+},
+"#specWrapper": {
+	layout: "vertical"
 }

@@ -20,26 +20,45 @@ var showSubmittals = function(results) {
 	if (submittals) {
 		global.setSubmittals(submittals);
 		submittals.forEach(function(submittal) {
-			if (submittal.title) {
-				dataRow = $.UI.create('TableViewRow', {uid: submittal.uid});
-				dataRow.leftImage = submittal.locked ? '/images/locked.png' : '/images/unlocked.png';
-				dataRow.add($.UI.create('Label', {
-					text: submittal.title,
-					classes: ["submittalChoice"]
-				}));
-			}
-			if (submittal.status.label) {
-				dataRow.add($.UI.create('Label', {
-					text: submittal.status.label.charAt(0).toUpperCase() + submittal.status.label.slice(1),
-					classes: ["details"]
-				}));
-			}
-			if (submittal.due_at) {			
-				dataRow.add($.UI.create('Label', {
-					text: 'Due: ' + global.formatDate(submittal.due_at),
-					classes: ["details"]
-				}));
-			}
+			dataRow = $.UI.create('TableViewRow', {uid: submittal.uid});
+			dataRow.add($.UI.create('Label', {
+				text: submittal.spec_section ? submittal.spec_section : '',
+				classes: ["submittalChoice", "colS"]
+			}));
+			var specWrapper = $.UI.create('View', {
+				classes: ["submittalChoice", "specWrapper", "colL"]
+			});
+			var spec1 = $.UI.create('Label', {
+				text: submittal.spec_section ? submittal.spec_section : '',
+				classes: ["submittalChoice", "colL"]
+			});
+			var spec2 = $.UI.create('Label', {
+				text: submittal.spec_section_name ? submittal.spec_section_name : '',
+				classes: ["submittalChoice", "colL"]
+			});
+			specWrapper.add(spec1);
+			specWrapper.add(spec2);
+			dataRow.add(specWrapper);
+			dataRow.add($.UI.create('Label', {
+				text: submittal.name ? submittal.name : '',
+				classes: ["submittalChoice", "colL"]
+			}));
+			dataRow.add($.UI.create('Label', {
+				text: submittal.ball_in_court ? submittal.ball_in_court : '',
+				classes: ["submittalChoice", "colL"]
+			}));
+			dataRow.add($.UI.create('Label', {
+				text: submittal.updated_at ? submittal.updated_at : '',
+				classes: ["submittalChoice", "colS"]
+			}));
+			dataRow.add($.UI.create('Label', {
+				text: submittal.submittal_due_date ? submittal.submittal_due_date : '',
+				classes: ["submittalChoice", "colS"]
+			}));
+			dataRow.add($.UI.create('Label', {
+				text: submittal.transmission_status ? submittal.transmission_status : '',
+				classes: ["submittalChoice", "colM"]
+			}));
 			if (x % 2) {
 				$.addClass(dataRow, 'zebra');
 			}
