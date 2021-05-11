@@ -41,11 +41,17 @@ var showRef = function(title, url) {
 			title : 'ROK ' + title,//file.name,
 			classes : ["modal"]
 		});
-		Ti.API.info('url = ' + url);
-		Ti.API.info('file.nativePath = ' + file.nativePath);
+		// Ti.API.info('url = ' + url);
+		// Ti.API.info('file.nativePath = ' + file.nativePath);
+		// Ti.API.info('Ti.Filesystem.applicationDataDirectory = ' + Ti.Filesystem.applicationDataDirectory);
+		// Ti.API.info('Ti.Filesystem.resourcesDirectory = ' + Ti.Filesystem.resourcesDirectory);
+		// Ti.API.info('Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).nativePath = ' + Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).nativePath);
+		// Ti.API.info('Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory).nativePath = ' + Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory).nativePath);
+		// ResourcesDir = /android_asset/Resources/
+		// AppDataDir = /data/user/0/com.digitalfrontiersmedia.rok/app_appdata/
 		var webview = Titanium.UI.createWebView({
 			backgroundColor: 'transparent',
-			url: Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '/pdfViewer/viewer.html').nativePath + '?file=compressed.tracemonkey-pldi-09.pdf'// + file.nativePath
+			url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
 		});
 		modal.add(webview);
 		modal.open();

@@ -30,7 +30,7 @@ var showDocument = function(title, url) {
 		Ti.API.info('file.nativePath = ' + file.nativePath);
 		var webview = Titanium.UI.createWebView({
 			backgroundColor: 'transparent',
-			url: Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath
+			url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
 		});
 		modal.add(webview);
 		modal.open();
