@@ -60,7 +60,7 @@ var showRef = function(title, url) {
 
 var chooseRef = function(e) {
 	Ti.API.info('e.section.rows[e.index].url = ' + e.section.rows[e.index].url);
-	Alloy.Globals.loading.show('Loading...');
+	Alloy.Globals.loading.show(L('loading'));
 	if (e.section.rows[e.index].url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
 			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
@@ -216,8 +216,6 @@ var handleEdit = function(clicked) {
 				minDate: minDate,
 				maxDate: maxDate,
 				value: defaultValue,
-				//maxSelectedDate: maxSelectedDate,
-				//maxSelectedDateErrorMessage: 'You must be at least 18 years old.'
 			},
 			onDone: function(e) {
 				//Ti.API.info('e = ' + JSON.stringify(e));
@@ -240,8 +238,8 @@ var saveSuccess = function() {
 	var dialog = Ti.UI.createAlertDialog({
 		okay: 0,
 	    buttonNames: ['OK'],
-		message: 'Changes saved to ' + global.konstruction.platform + ' successfully.',
-		title: 'Saved'
+		message: L('changes_saved', global.konstruction.platform),
+		title: L('saved')
 	});
 	dialog.addEventListener('click', function(e) {
 		if (e.index === e.source.okay) {
@@ -280,7 +278,7 @@ var editSaveRfi = function() {
 			$.removeClass($['Label_' + field], 'noUnderline');
 			$[field + 'Wrapper'].removeEventListener('click', function() {});
 			if ($[field].value == '') {
-				alert('Field values cannot be left empty.');
+				alert(L('fields_empty'));
 				return;
 			}
 			if ($[field].value !== global.UTIL.cleanString(originalFieldValue)) {

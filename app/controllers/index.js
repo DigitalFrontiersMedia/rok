@@ -20,14 +20,6 @@ var goHome = function() {
 };
 
 Ti.API.info('Configured == ' + JSON.stringify(Ti.App.Properties.getBool('configured')));
-if (!Ti.App.Properties.getBool('configured') || !Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'pdfViewer/viewer.html').exists()) {
-	global.recursiveResourcesCopy('pdfViewer/build');
-	global.recursiveResourcesCopy('pdfViewer/cmaps');
-	global.recursiveResourcesCopy('pdfViewer/images');
-	global.recursiveResourcesCopy('pdfViewer/locale/en-US');
-	global.copyFileToAppData('pdfViewer/viewer.html');
-	global.copyFileToAppData('pdfViewer/viewer.css');
-}
 if (Ti.App.Properties.getBool('configured')) {
 	goHome();
 } else {

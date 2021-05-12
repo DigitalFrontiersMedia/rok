@@ -344,8 +344,8 @@ jDrupal.userLogin = function (name, pass, indicator) {
       var appNotReadyLoginFailureDialog = Ti.UI.createAlertDialog({
         cancel: 0,
         buttonNames: ['Okay'],
-        message: 'Did you change your email or password on ' + global.domain + ' recently?  Try logging in with updated credentials.',
-        title: 'Login Failure'
+        message: L('creds_changed_recently', global.domain),
+        title: L('login_failure')
 	  });
 
       if (indicator) {
@@ -364,8 +364,8 @@ jDrupal.userLogin = function (name, pass, indicator) {
       var dialog = Ti.UI.createAlertDialog({
         cancel: 0,
         buttonNames: ['Try again'],
-        message: 'Try again & recheck email/password.',
-        title: 'Login Failure'
+        message: L('retry_creds'),
+        title: L('login_failure')
 	  });
 
       dialog.addEventListener('click', function (e) {
@@ -505,8 +505,8 @@ jDrupal.userRegister = function (name, pass, mail, indicator) {
           var dialog = Ti.UI.createAlertDialog({
             cancel: 0,
             buttonNames: ['Okay'],
-            message: 'Email address is either already in use or not properly formed!  Try a different email address.',
-            title: 'New Account Failure' });
+            message: L('email_failure'),
+            title: L('new_account_failure') });
 
           dialog.addEventListener('click', function (e) {
             if (e.index === e.source.cancel) {}
@@ -516,8 +516,8 @@ jDrupal.userRegister = function (name, pass, mail, indicator) {
           var dialog = Ti.UI.createAlertDialog({
             cancel: 0,
             buttonNames: ['Okay'],
-            message: 'A problem occurred.\r\nCode: ' + e.code,
-            title: 'Failure' });
+            message: L('problem_occurred') + e.code,
+            title: L('failure') });
 
           dialog.addEventListener('click', function (e) {
             if (e.index === e.source.cancel) {}
@@ -806,7 +806,7 @@ jDrupal.Entity.prototype.save = function () {
                 invoke.then(resolve(req));
               }
             } else {
-              alert('An error occurred.');
+              alert(L('error_occurred') + '.');
               reject(req);
             }
           });
@@ -815,8 +815,8 @@ jDrupal.Entity.prototype.save = function () {
           var dialog = Ti.UI.createAlertDialog({
             cancel: 0,
             buttonNames: ['Okay'],
-            message: 'A problem occurred.\r\nCode: ' + e.code,
-            title: 'Failure' });
+            message: L('problem_occurred') + e.code,
+            title: L('failure') });
 
           dialog.addEventListener('click', function (e) {
             if (e.index === e.source.cancel) {}
@@ -1222,7 +1222,7 @@ jDrupal.File.prototype.upload = function (fileData, target_type, target_bundle, 
                 invoke.then(resolve(_entity));
               }
             } else {
-              alert('An error occurred.');
+              alert(L('error_occurred') + '.');
               reject(req);
             }
           });
@@ -1231,8 +1231,8 @@ jDrupal.File.prototype.upload = function (fileData, target_type, target_bundle, 
           var dialog = Ti.UI.createAlertDialog({
             cancel: 0,
             buttonNames: ['Okay'],
-            message: 'A problem occurred.\r\nCode: ' + e.code,
-            title: 'Failure' });
+            message: L('problem_occurred') + e.code,
+            title: L('failure') });
 
           global.shoutoutEl.show();
           dialog.addEventListener('click', function (e) {

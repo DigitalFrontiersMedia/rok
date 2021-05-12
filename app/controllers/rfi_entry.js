@@ -27,8 +27,6 @@ var handleEdit = function(e) {
 				minDate: minDate,
 				maxDate: maxDate,
 				value: defaultValue,
-				//maxSelectedDate: maxSelectedDate,
-				//maxSelectedDateErrorMessage: 'You must be at least 18 years old.'
 			},
 			onDone: function(e) {
 				//Ti.API.info('e = ' + JSON.stringify(e));
@@ -38,7 +36,7 @@ var handleEdit = function(e) {
 				}
 			},
 			title: 'Due Date',
-			height: '50%',
+			height: 0,
 			top: '25%',
 			bottom: '10%',
 			width: '33%',
@@ -51,8 +49,8 @@ var saveSuccess = function() {
 	var dialog = Ti.UI.createAlertDialog({
 		okay: 0,
 	    buttonNames: ['OK'],
-		message: 'RFI created on ' + global.konstruction.platform + ' successfully.',
-		title: 'Created'
+		message: L('rfi_created', global.konstruction.platform),
+		title: L('created')
 	});
 	dialog.addEventListener('click', function(e) {
 		if (e.index === e.source.okay) {
@@ -71,7 +69,7 @@ var saveRfi = function() {
 	editableFields.forEach(function(field) {
 		var originalFieldName = field.split('TextField_').join('').split('TextArea_').join('');
 		if ($[field].value == '') {
-			alert('Field values cannot be left empty.');
+			alert(L('fields_empty'));
 			return;
 		}
 		data[originalFieldName] = $[field].value;

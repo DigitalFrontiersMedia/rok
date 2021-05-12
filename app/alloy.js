@@ -94,7 +94,7 @@ global.onXHRError = function (xhrResults) {
         Ti.App.fireEvent('app:unauthorizedRequest');
     } else {
 		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
-		alert('An error occurred: \n', JSON.stringify(xhrResults));
+		alert(L('error_occurred') + ': \n', JSON.stringify(xhrResults));
 	}
 };
 
@@ -116,7 +116,7 @@ global.onOauthSuccess = function (authResults) {
 global.onOauthError = function (authResults) {
 	Ti.API.info('ERROR: ', JSON.stringify(authResults));
 	global.oauth.close();
-	alert('An error occurred: \n', JSON.stringify(authResults));
+	alert(L('error_occurred') + ': \n', JSON.stringify(authResults));
 };
 
 global.onOauthCancel = function (authResults) {
@@ -153,7 +153,7 @@ if (Ti.App.Properties.getString('azure-ad-access-token')) {
 	global.setXHROauthParams();
 }
 if (!Ti.Network.online) {
-	alert("It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.");
+	alert(L('offline_warning'));
 } else {
 	Ti.API.info('Attempting to connect...');
 	global.jDrupal.connect().then(function() {
@@ -169,7 +169,7 @@ if (!Ti.Network.online) {
 			Ti.API.info('email = ' + Ti.App.Properties.getString("email"));
 		    if (Ti.App.Properties.getString("password") && Ti.App.Properties.getString("email")) {
 		    	Ti.API.info('Attempting auto-login...');
-	    		Alloy.Globals.loading.show('Attempting auto-login to your ROK account...');
+	    		Alloy.Globals.loading.show(L('auto_login'));
 				global.jDrupal.userLogin(Ti.App.Properties.getString("email"), Ti.App.Properties.getString("password")).then(function(e) {
 					account = global.jDrupal.currentUser();
 					global.userId = account ? account.id() : null;

@@ -41,7 +41,7 @@ var showDocument = function(title, url) {
 
 var chooseDocument = function(e) {
 	Ti.API.info('e = ' + JSON.stringify(e));
-	Alloy.Globals.loading.show('Loading...');
+	Alloy.Globals.loading.show(L('loading'));
 	if (e.url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
 			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},

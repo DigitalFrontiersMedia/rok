@@ -138,10 +138,6 @@ $.home.addEventListener('androidback', function() {
 	return;
 });
 
-Ti.App.addEventListener('androidhome', function() {
-	global.homeWindow.open(); 
-});
-
 // Cancel RFI Action selection.
 $.home.addEventListener('click', function(e) {
 	var cancelableButtons = ['View_rfis', 'createRfi', 'viewRfi'];

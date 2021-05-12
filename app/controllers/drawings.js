@@ -11,7 +11,7 @@ $.Label_subTitle.text = Ti.App.Properties.getString("project");
 var showDrawing = function(title, url) {
 	Alloy.Globals.loading.hide();
 	if (!url) {
-		alert('*** No URL for requested resource!!! ***');
+		alert(L('no_url'));
 		return;
 	}
 	if (url.indexOf('response-content-disposition=attachment') == -1) {
@@ -73,7 +73,7 @@ var preProcessDrawing = function(results) {
 	if (requestTime > timeoutLimit) {
 		clearTimeout(packetPoll);
 		packetPoll = null;
-		alert('Failed to load.');
+		alert(L('load_failed'));
 		return;
 	}
 	var hashedURL = Titanium.Utils.md5HexDigest(packet.file_url);
@@ -94,7 +94,7 @@ var preProcessDrawing = function(results) {
 var chooseDrawing = function(e) {
 	Ti.API.info('e = ' + JSON.stringify(e));
 	var data = {};
-	Alloy.Globals.loading.show('Loading...');
+	Alloy.Globals.loading.show(L('loading'));
 	data.sheet_uids = [e.uid];
 	drawingName = e.text;
 	global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);

@@ -25,7 +25,7 @@ var doJDrupalLogin = function() {
 			global.getDeviceInfo(wizardContinue);
 			//wizardContinue();
 		} else {
-			//alert('Could not login. Try again.')
+			//alert(L('couldnt_connect'));
 		}
 	});
 };
@@ -37,11 +37,11 @@ var login = function() {
 	if (global.userId) {
 		Ti.API.info('Clearing any logins to prevent 403 login access problems...');
 		global.jDrupal.userLogout().then(function(e) {
-			Alloy.Globals.loading.show('Logging in...');
+			Alloy.Globals.loading.show(L('logging_in'));
 			doJDrupalLogin();
 		});
 	} else {
-		Alloy.Globals.loading.show('Logging in...');
+		Alloy.Globals.loading.show(L('logging_in'));
 		doJDrupalLogin();
 	}
 };

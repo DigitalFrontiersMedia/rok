@@ -27,7 +27,7 @@ var chooseNetwork = function(e) {
     	//$.open();
 		wizardContinue();
 		setWifi(ssid);
-		alert('Connected!');
+		alert(L('connected'));
 		setTimeout(function() {
 			$.nxtBtn.visible = true;
 		}, 500);
@@ -51,17 +51,17 @@ var netConnect = function(pass) {
     		//$.open();
 			wizardContinue();
 			setWifi(ssid);
-			alert('Connected!');
+			alert(L('connected'));
 			setTimeout(function() {
 				$.nxtBtn.visible = true;
 			}, 500);
 			return;
 		} else if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
-			alert('System connected to a previously remembered network before we could connect to the newly chosen one. Try again?');
+			alert(L('previous_network'));
 			//$.setupWizard_step2Window.remove($.password);
 			//$.setupWizard_step2Window.open();
 		} else {
-			alert('Could not connect. Try again?');
+			alert(L('couldnt_connect'));
 		}
 	});
 	global.Wifi.getConfiguredNetworks().forEach(function(saved) {
@@ -81,7 +81,7 @@ var netConnect = function(pass) {
 			if (!Ti.Network.online) {
 				Ti.API.info('*** FORGETTING NETWORK ' + networkId + ' ***');
 				global.Wifi.removeNetwork(networkId);
-				alert('Could not connect. Try again?');
+				alert(L('couldnt_connect'));
 			}
 		}, 10000);
 	} else {
@@ -92,7 +92,7 @@ var netConnect = function(pass) {
 	    	$.setupWizard2Container.remove(password);
 			$.open();
 			wizardContinue();
-			alert('Connected to remembered network.');
+			alert(L('remembered_network'));
 			return;
 		}
 	}
