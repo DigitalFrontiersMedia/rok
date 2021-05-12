@@ -60,12 +60,14 @@ var showRef = function(title, url) {
 
 var chooseRef = function(e) {
 	Ti.API.info('e.section.rows[e.index].url = ' + e.section.rows[e.index].url);
+	Alloy.Globals.loading.show('Loading...');
 	if (e.section.rows[e.index].url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
 			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
 		    url: e.section.rows[e.index].url,
 		    onSuccess: function (results) {
 		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
+	    		Alloy.Globals.loading.hide();
 		    	showRef(e.source.text, e.section.rows[e.index].url);
 		    },
 		    onError: global.onXHRError

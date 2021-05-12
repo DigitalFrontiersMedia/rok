@@ -6,7 +6,7 @@
         <Require id="optionCorner" src="optionCorner" type="view"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
-        <Widget columns="4" gap="105" id="documentsGrid" src="br.com.coredigital.GridLayout">
-        </Widget>
+        <Label id="currentFolder"/>
+        <Widget columns="4" gap="105" id="documentsGrid" src="br.com.coredigital.GridLayout"/>
     </Window>
 </Alloy>

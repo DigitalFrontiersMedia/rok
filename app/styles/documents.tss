@@ -11,6 +11,11 @@
 "#Label_subTitle": {
 	"top": "10%"
 },
+"#currentFolder": {
+	top: "17%",
+	left: 105,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT
+},
 "#documentsGrid": {
 	"top": "20%"
 },

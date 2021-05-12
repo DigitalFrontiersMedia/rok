@@ -169,7 +169,7 @@ if (!Ti.Network.online) {
 			Ti.API.info('email = ' + Ti.App.Properties.getString("email"));
 		    if (Ti.App.Properties.getString("password") && Ti.App.Properties.getString("email")) {
 		    	Ti.API.info('Attempting auto-login...');
-	    		Alloy.Globals.loading.show('Attempting auto-login...');
+	    		Alloy.Globals.loading.show('Attempting auto-login to your ROK account...');
 				global.jDrupal.userLogin(Ti.App.Properties.getString("email"), Ti.App.Properties.getString("password")).then(function(e) {
 					account = global.jDrupal.currentUser();
 					global.userId = account ? account.id() : null;
