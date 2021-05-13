@@ -3,6 +3,7 @@ var args = $.args;
 var rfi = Ti.App.Properties.getObject("rfis");
 var editMode = false;
 var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'];
+var rowIndex = 0;
 
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
@@ -38,7 +39,7 @@ var showRef = function(title, url) {
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
-			title : 'ROK ' + title,//file.name,
+			title : 'ROK ' + title,
 			classes : ["modal"]
 		});
 		// Ti.API.info('url = ' + url);
@@ -158,41 +159,49 @@ var listSnapshots = function(results) {
 	$.ListView_refs.appendRow(tableData);
 };
 
-var listHistoryEvents = function(results) {
+var addHistoryEventLine = function(historyEvent, userInfo) {
 	var historyEventLabel;
-	var userInfo;
 	var username;
-	var x = 0;
 	var dataRow;
+	username = global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name);
+	if (historyEvent.field == 'locked') {
+		historyEventLine = (historyEvent.new_value == true) ? historyEvent.field : 'un' + historyEvent.field;
+	} else {
+		historyEventLine = historyEvent.field.split('_').join(' ') + ' updated';
+	}
+	historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
+	historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.updated_at) + '.';
+	//Ti.API.info('historyEventLine = ' + historyEventLine);
+	historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
+	dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
+	dataRow.add(historyEventLabel);
+	rowIndex++;
+	if (rowIndex % 2) {
+		$.addClass(dataRow, 'zebra');
+	}
+	//tableData.push(dataRow);
+	$.ListView_historyEvents.appendRow(dataRow);
+};
+
+var listHistoryEvents = function(results) {
 	//var tableData = [];
 	var historyEvents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('historyEvents = ' + JSON.stringify(historyEvents));
 	historyEvents.forEach(function(historyEvent) {
-		var myPromise = new Promise(function(resolve, reject) { 
-			global.konstruction.getUserInfo(historyEvent.updated_by, resolve);
-		});
-		myPromise.then(function(userInfo) {
-			//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
-			userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
-			username = global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name);
-			if (historyEvent.field == 'locked') {
-				historyEventLine = (historyEvent.new_value == true) ? historyEvent.field : 'un' + historyEvent.field;
-			} else {
-				historyEventLine = historyEvent.field.split('_').join(' ') + ' updated';
-			}
-			historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
-			historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.updated_at) + '.';
-			//Ti.API.info('historyEventLine = ' + historyEventLine);
-			historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
-			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
-			dataRow.add(historyEventLabel);
-			x++;
-			if (x % 2) {
-				$.addClass(dataRow, 'zebra');
-			}
-			//tableData.push(dataRow);
-			$.ListView_historyEvents.appendRow(dataRow);
-		});
+		if (global.historyUsers.indexOf(historyEvent.updated_by.uid) == -1) {
+			var myPromise = new Promise(function(resolve, reject) { 
+				global.konstruction.getUserInfo(historyEvent.updated_by, resolve);
+			});
+			myPromise.then(function(userInfo) {
+				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+				global.historyUsers[historyEvent.updated_by.uid] = userInfo;
+				Ti.App.Properties.setList('historyUsers', global.historyUsers);
+				addHistoryEventLine(historyEvent, userInfo);
+			});
+		} else {
+			addHistoryEventLine(historyEvent, global.historyUsers[historyEvent.updated_by.uid]);
+		}
 	});
 };
 

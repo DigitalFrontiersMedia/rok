@@ -37,6 +37,10 @@
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	width: '15%'
 },
+".choice": {
+	"font": {fontSize:'24'},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
 "TableViewRow": {
 	layout: "horizontal",
 	horizontalWrap: false

@@ -89,7 +89,9 @@ var siteInfoMenu = function() {
 };
 
 var resetRfiActions = function() {
-	$.View_rfis.opacity = 1;
+	rfiActions.animate(Titanium.UI.createAnimation({opacity:0, duration:250}));
+	//$.View_rfis.opacity = 1;
+	$.View_rfis.animate(Titanium.UI.createAnimation({opacity:1, duration:250}));	
 	$.home.remove(rfiActions);
 };
 
@@ -107,7 +109,7 @@ var rfiRouter = function(e) {
 
 var goRfis = function() {
 	Ti.API.info('*** RFIs ***');
-	rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions']});
+	rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions'], opacity: 0});
 	var createRfi = $.UI.create('Label', {id: 'createRfi', classes: ['rfiActionChoice'], text: L('create_rfi')});
 	createRfi.addEventListener('click', rfiRouter);
 	rfiActions.add(createRfi);
@@ -115,7 +117,9 @@ var goRfis = function() {
 	viewRfi.addEventListener('click', rfiRouter);
 	rfiActions.add(viewRfi);
 	$.home.add(rfiActions);
-	$.View_rfis.opacity = 0.7;
+	rfiActions.animate(Titanium.UI.createAnimation({opacity:1, duration:250}));
+	//$.View_rfis.opacity = 0.7;
+	$.View_rfis.animate(Titanium.UI.createAnimation({opacity:0.7, duration:250}));	
 	//global.showOptions(L('rfi'), [{option_label: L('create_rfi')}, {option_label: L('view_rfi')}], $, rfiRouter);
 };
 

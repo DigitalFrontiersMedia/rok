@@ -73,6 +73,8 @@ global.domain = 'dev-dfm-rok.pantheonsite.io';
 global.scheme = 'https://';
 global.siteInfoPickerValues = new Array();
 
+global.historyUsers = Ti.App.Properties.getList('historyUsers') ? Ti.App.Properties.getList('historyUsers') : [];
+
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
 
