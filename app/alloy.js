@@ -58,6 +58,7 @@ Alloy.Globals.rotate45 = Ti.UI.create2DMatrix().rotate(45);
 Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 
 Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
+Alloy.Globals.Util = {height: 1015};
 
 global.gridHeightMultiplier = 1.05;
 global.homeWindow = Alloy.createController('home').getView();

@@ -1,0 +1,18 @@
+<Alloy>
+	<Window id="WebViewWindow">
+        <!--Require id="backCorner" src="backCorner" type="view"/-->
+		<View id="webViewHeader">
+			<Label id="webViewHeaderLabel">Loading...</Label>
+			<View id="webViewBtns">
+				<Button id="goBack" class="webViewBtn">←</Button>
+				<Button id="goForward" class="webViewBtn">→</Button>
+				<Button id="ReloadStop" class="webViewBtn3">↻</Button>
+				<TextField id="webViewHeaderURL" onReturn="gotoUrl"></TextField>
+				<Button id="CloseWebView" class="webViewBtn2">Close</Button>
+			</View>
+		</View>
+		<View id="webViewView">
+			<WebView id="webView" />
+		</View>
+	</Window>
+</Alloy>

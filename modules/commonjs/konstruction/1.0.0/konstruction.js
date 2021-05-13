@@ -502,7 +502,11 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
     
     var onSuccessCallback = onSuccessCallback || function() {};
-    var options = options || null;
+	var opts = global.xhrOptions;
+    var options = options || opts;
+    if (options) {
+    	options.forceRefresh = true;
+    }
 	var apiURL = global.konstruction.apiURL;
 	var endpoint;
 	//var onErrorCallback = global.onXHRError || function() {};

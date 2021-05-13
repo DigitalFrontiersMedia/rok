@@ -1,0 +1,44 @@
+".container": {
+	"backgroundColor": "white"
+},
+"#Label_Title": {
+	text: L("config_admin"),
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
+},
+"#Label_subTitle": {
+	"top": "10%"
+},
+"#View_secondaryButtons": {
+	"height": "25%",
+	"layout": "vertical",
+	"top": "65%"
+},
+"#View_row1": {
+},
+"#View_row2": {
+	layout: "vertical"
+},
+".btnRow": {
+	"layout": "horizontal",
+	width: "70%",
+	height: Ti.UI.SIZE,
+	left: "15%"
+},
+"#imgBtn_reconfigure": {
+	"width": "50%",
+	bubbleParent: false
+},
+"#imgBtn_browser": {
+	"width": "50%",
+	bubbleParent: false
+},
+".reconfigure": {
+	text: L("reconfigure")
+},
+".browser": {
+	text: L("browser")
+},

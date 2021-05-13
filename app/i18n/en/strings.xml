@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+	<string name="config_admin">Administration</string>
+	<string name="reconfigure">RECONFIGURE</string>
+	<string name="browser">BROWSER</string>
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>
 	<string name="hello">Hello.</string>

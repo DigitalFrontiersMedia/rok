@@ -74,6 +74,7 @@ var preProcessDrawing = function(results) {
 	if (requestTime > timeoutLimit) {
 		clearTimeout(packetPoll);
 		packetPoll = null;
+		Alloy.Globals.loading.hide();
 		alert(L('load_failed'));
 		return;
 	}

@@ -1,0 +1,18 @@
+<Alloy>
+    <Window class="container">
+        <Require id="backCorner" src="backCorner" type="view"/>
+        <Label id="Label_Title"/>
+        <Label id="Label_subTitle"/>
+        <View id="View_secondaryButtons">
+            <View class="btnRow" id="View_row1">
+                <View class="button-wrapper largeBtn" id="imgBtn_reconfigure" onClick="goReconfigure">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText reconfigure"/>
+                </View>
+                <View class="button-wrapper largeBtn" id="imgBtn_browser" onClick="goBrowser">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText browser"/>
+                </View>
+        </View>
+    </Window>
+</Alloy>
