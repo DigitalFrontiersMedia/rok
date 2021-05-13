@@ -353,6 +353,7 @@ function handleError(xhr, error) {
         result.data = xhr.responseData;
     }
     Ti.API.info('****** error result ******\n' + JSON.stringify(result) + '\n******************');
+    Alloy.Globals.loading.hide();
     return result;
 }
 

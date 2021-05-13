@@ -65,6 +65,7 @@ var listDocuments = function(results) {
 	var item = null;
 	//var tableData = [];
 	var documents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('documents = ' + JSON.stringify(documents));
 	//var documentsGrid = Alloy.createController('br.com.coredigital.GridLayout');
 	if (documents) {
 		global.setDocuments(documents);
@@ -115,5 +116,6 @@ var listDocuments = function(results) {
 		$.documentsGrid.addItem(item);
 	}
 };
+
 
 global.konstruction.getDocuments(listDocuments);

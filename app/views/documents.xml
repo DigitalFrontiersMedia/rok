@@ -3,7 +3,7 @@
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
-        <Require id="optionCorner" src="optionCorner" type="view"/>
+        <!--Require id="optionCorner" src="optionCorner" type="view"/-->
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
         <Label id="currentFolder"/>

@@ -46,6 +46,7 @@
 
 	function removeAllItems() {
 		$.wrapperGridLayout.removeAllChildren();
+		row = 0;
 		totalItens = 0;
 	}
 

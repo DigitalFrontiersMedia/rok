@@ -5,6 +5,7 @@ var packetPoll = null;
 var requestTime = 0;
 var timeoutLimit = 30;
 var drawingName = null;
+var currentFilter;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
@@ -100,17 +101,23 @@ var chooseDrawing = function(e) {
 	global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);
 };
 
-var listDrawings = function(results) {
+var listDrawings = function(results, preFetched) {
 	Ti.API.info('konstruction.getDrawings results = ' + JSON.stringify(results));
 	//var x = 1;
+	var drawings;
 	var item = null;
 	//var tableData = [];
-	var drawings = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	if (preFetched) {
+		drawings = Ti.App.Properties.getObject("drawings");
+	} else {
+		drawings = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	}
 	Ti.API.info('drawings = ' + JSON.stringify(drawings));
 	//var drawingsGrid = Alloy.createController('br.com.coredigital.GridLayout');
 	if (drawings) {
 		global.setDrawings(drawings);
 		drawings.forEach(function(drawing) {
+			Ti.API.info('Looking at drawing ' + drawing.name);
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
 				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/locked.png';
@@ -119,7 +126,9 @@ var listDrawings = function(results) {
 				item.addEventListener('click', function() {
 					chooseDrawing({uid: drawing.uid, text: drawing.name});
 				});
-				$.drawingsGrid.addItem(item);
+				if ((!currentFilter || currentFilter == 'None') || (drawing.tags.indexOf(currentFilter) > -1 || drawing.version_name == currentFilter)) {
+					$.drawingsGrid.addItem(item);
+				}
 			}
 		});
 	} else {
@@ -128,5 +137,38 @@ var listDrawings = function(results) {
 		$.drawingsGrid.addItem(item);
 	}
 };
+
+var filterDrawings = function(e) {
+	currentFilter = e.data[0].value;
+	$.drawingsGrid.removeAllItems();
+	listDrawings(null, true);
+};
+
+var showDrawingFilters = function() {
+	var opts = [{option_label: 'None'}];
+	var tags = [];
+	var versions = [];
+	var drawings = Ti.App.Properties.getObject("drawings");
+	drawings.forEach(function(drawing) {
+		drawing.tags.forEach(function(tag) {
+			if (tags.indexOf(tag) == -1) {
+				tags.push(tag);
+			}
+		});
+		if (versions.indexOf(drawing.version_name) == -1) {
+			versions.push(drawing.version_name);
+		}
+	});
+	tags.forEach(function(tag) {
+		opts.push({option_label: tag});
+	});
+	versions.forEach(function(version) {
+		opts.push({option_label: version});
+	});
+	global.showOptions(L('filter_to_apply'), opts, $, filterDrawings);
+};
+
+$.addClass($.optionCorner.lbl_optionCorner, 'filter');
+$.optionCorner.lbl_optionCorner.addEventListener('click', showDrawingFilters);
 
 global.konstruction.getDrawings(listDrawings);
