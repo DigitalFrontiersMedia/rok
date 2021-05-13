@@ -8,7 +8,7 @@
 			</LeftNavButton>
 			<ActionBar id="actionbar" platform="android" />
 	        <Menu platform="android">
-	            <MenuItem id="closeButton" title="Close" onClick="close" />
+	            <MenuItem id="closeButton" titleid="close" onClick="close" />
 	        </Menu>
 		</Window>
 	</NavigationWindow>

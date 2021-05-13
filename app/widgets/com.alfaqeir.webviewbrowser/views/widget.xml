@@ -8,7 +8,7 @@
 				<Button id="goForward" class="webViewBtn">→</Button>
 				<Button id="ReloadStop" class="webViewBtn3">↻</Button>
 				<TextField id="webViewHeaderURL" onReturn="gotoUrl"></TextField>
-				<Button id="CloseWebView" class="webViewBtn2">Close</Button>
+				<Button id="CloseWebView" class="webViewBtn2"></Button>
 			</View>
 		</View>
 		<View id="webViewView">

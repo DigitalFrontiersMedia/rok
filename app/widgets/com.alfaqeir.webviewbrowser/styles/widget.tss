@@ -38,7 +38,16 @@
 	},
 	backgroundColor: "white",
 	color: "black",
-	borderColor: "#333"
+	borderColor: "#333",
+	autolink: Titanium.UI.AUTOLINK_NONE,
+	autocapitalization: Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE,
+	autocorrect: false,
+	autofillType: Titanium.UI.AUTOFILL_TYPE_URL,
+	returnKeyType: Titanium.UI.RETURNKEY_GO,
+}
+
+"#CloseWebView": {
+	title: L('close')
 }
 
 "#webViewHeaderLabel[platform=ios]":{
