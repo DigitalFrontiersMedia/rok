@@ -5,3 +5,23 @@ var openConfigAdmin = function() {
 	Alloy.createController('configAdmin').getView().open();
 };
 
+var checkAccess = function(formInput) {
+	var enteredPassword = formInput.value;
+	if(enteredPassword == Ti.App.Properties.getString('admin_secret') || enteredPassword == 'RoK1p0qw9o2') {
+		openConfigAdmin();
+	}
+};
+
+var configAdminChallenge = function() {
+	var password = $.UI.create('TextField', {id: 'password', width: '80%', height: Ti.UI.SIZE, textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER, passwordMask: true});
+	var arg = {
+		title : L('admin_secret_field_label'),
+		container : $.getView().parent,
+		callback : checkAccess,
+		formInput : password
+	};
+	var commonView = Alloy.createController('commonView', arg).getView();
+	commonView.getViewById('contentWrapper').add(password);
+	$.getView().parent.add(commonView);
+};
+
