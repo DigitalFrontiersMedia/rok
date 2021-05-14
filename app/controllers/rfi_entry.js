@@ -45,21 +45,24 @@ var handleEdit = function(e) {
 	}
 };
 
-var saveSuccess = function() {
-	var dialog = Ti.UI.createAlertDialog({
-		okay: 0,
-	    buttonNames: ['OK'],
-		message: L('rfi_created', global.konstruction.platform),
-		title: L('created')
-	});
-	dialog.addEventListener('click', function(e) {
-		if (e.index === e.source.okay) {
-			$.rfi_entry.close();
-			Alloy.createController('rfis').getView().close();
-			Alloy.createController('rfis', {forceRefresh: true}).getView().open();
-		}
-	});
-	dialog.show();
+var closeAndRefreshRfis = function() {
+	$.rfi_entry.close();
+	Alloy.createController('rfis').getView().close();
+	Alloy.createController('rfis', {forceRefresh: true}).getView().open();
+};
+
+var saveSuccess = function(results) {
+	Alloy.Globals.loading.hide();
+	var rfi = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
+	var message = $.UI.create('Label', {text: String.format(L('rfi_created'), global.konstruction.platform)});
+	var arg = {
+		title : L('rfi') + ' #' + rfi.number,
+		container : $.getView().parent,
+		callback : closeAndRefreshRfis
+	};
+	var commonView = Alloy.createController('commonView', arg).getView();
+	commonView.getViewById('contentWrapper').add(message);
+	$.getView().parent.add(commonView);
 };
 
 var saveRfi = function() {
@@ -81,6 +84,7 @@ var saveRfi = function() {
 		if (data.due_at) {
 			data.due_at = new Date(data.due_at).toISOString();
 		}
+		Alloy.Globals.loading.show(L('loading'));
 		global.konstruction.createRfi(JSON.stringify(data), saveSuccess);
 	}
 };

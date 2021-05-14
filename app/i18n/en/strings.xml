@@ -4,6 +4,7 @@
 	<string name="reconfigure">RECONFIGURE</string>
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
+	<string name="ok">OK</string>
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>
 	<string name="hello">Hello.</string>
@@ -14,6 +15,9 @@
 	<string name="submittals">SUBMITTALS</string>
 	<string name="connect">Connect</string>
 	<string name="cancel">Cancel</string>
+	<string name="cancel_confirmation">Discard without saving?</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
 	<string name="done">Done</string>
 	<string name="option">Option</string>
 	<string name="message">Message</string>
@@ -37,9 +41,9 @@
 	<string name="add_rfi">Add RFI</string>
 	<string name="save">SAVE</string>
 	<string name="saved">SAVED</string>
-	<string name="changes_saved">Changes saved to %s successfully.</string>
+	<string name="changes_saved">Successfully saved changes to %s.</string>
 	<string name="created">CREATED</string>
-	<string name="rfi_created">RFI created on %s successfully.</string>
+	<string name="rfi_created">Successfully created RFI on %s.</string>
 	<string name="edit">EDIT</string>
 	<string name="filter">FILTER</string>
 	<string name="fields_empty">Field values cannot be left empty.</string>

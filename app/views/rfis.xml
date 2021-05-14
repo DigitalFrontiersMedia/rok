@@ -9,7 +9,7 @@
         <TableView id="ListView_rfis" onClick="chooseRfi">
             <TableViewSection id="listSection">
                 <TableViewRow>
-                    <Label bottom="0" class="choice" top="0">Retrieving...</Label>
+                    <Label bottom="0" class="choice centered" top="0">Retrieving...</Label>
                 </TableViewRow>
             </TableViewSection>
         </TableView>

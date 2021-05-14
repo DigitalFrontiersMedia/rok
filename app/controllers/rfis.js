@@ -22,6 +22,7 @@ var showRfis = function(results) {
 	var dataRow = null;
 	var tableData = [];
 	var rfis = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('rfis  = ' + JSON.stringify(rfis));
 	if (rfis) {
 		global.setRfis(rfis);
 		rfis.forEach(function(rfi) {

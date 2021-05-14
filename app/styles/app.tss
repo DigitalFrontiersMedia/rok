@@ -91,6 +91,15 @@ overrode the settings with other TSS, XML, or JS settings:
 ".done": {
 	"text": L("done")
 },
+".ok": {
+	"text": L("ok")
+},
+".yes": {
+	"text": L("yes")
+},
+".no": {
+	"text": L("no")
+},
 ".edit": {
 	"text": L("edit")
 },
@@ -132,4 +141,13 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 "ScrollView": {
 	showVerticalScrollIndicator: true
+},
+".lesserOption": {
+	border: 1,
+	borderColor: "rgba(255,255,255,0.25)",
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".centered": {
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
 }
+

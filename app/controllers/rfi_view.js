@@ -2,6 +2,7 @@
 var args = $.args;
 var rfi = Ti.App.Properties.getObject("rfis");
 var editMode = false;
+$.rfi_view.editMode = editMode;
 var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'];
 var rowIndex = 0;
 
@@ -243,25 +244,31 @@ var handleEdit = function(clicked) {
 	}
 };
 
-var saveSuccess = function() {
-	var dialog = Ti.UI.createAlertDialog({
-		okay: 0,
-	    buttonNames: ['OK'],
-		message: L('changes_saved', global.konstruction.platform),
-		title: L('saved')
-	});
-	dialog.addEventListener('click', function(e) {
-		if (e.index === e.source.okay) {
-			$.rfi_view.close();
-			Alloy.createController('rfis').getView().close();
-			Alloy.createController('rfis', {forceRefresh: true}).getView().open();
-		}
-	});
-	dialog.show();
+var closeAndRefreshRfis = function() {
+	$.rfi_view.close();
+	Alloy.createController('rfis').getView().close();
+	Alloy.createController('rfis', {forceRefresh: true}).getView().open();
+};
+
+var saveSuccess = function(results) {
+	Alloy.Globals.loading.hide();
+	Ti.API.info('results = ' + JSON.stringify(results));
+	var rfi = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
+	Ti.API.info('rfi = ' + JSON.stringify(rfi));
+	var message = $.UI.create('Label', {text: String.format(L('changes_saved'), global.konstruction.platform)});
+	var arg = {
+		title : L('rfi') + ' #' + rfi.number,
+		container : $.getView().parent,
+		callback : closeAndRefreshRfis
+	};
+	var commonView = Alloy.createController('commonView', arg).getView();
+	commonView.getViewById('contentWrapper').add(message);
+	$.getView().parent.add(commonView);
 };
 
 var editSaveRfi = function() {
 	editMode = !editMode;
+	$.rfi_view.editMode = editMode;
 	if (editMode) {
 		$.removeClass($.optionCorner.lbl_optionCorner, 'edit');
 		$.addClass($.optionCorner.lbl_optionCorner, 'save');
@@ -301,6 +308,7 @@ var editSaveRfi = function() {
 			if (data.due_at) {
 				data.due_at = new Date(data.due_at).toISOString();
 			}
+			Alloy.Globals.loading.show(L('loading'));
 			global.konstruction.updateRfi(rfi[args.index].uid, JSON.stringify(data), saveSuccess);
 		}
 	}

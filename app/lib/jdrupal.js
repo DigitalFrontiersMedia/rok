@@ -344,7 +344,7 @@ jDrupal.userLogin = function (name, pass, indicator) {
       var appNotReadyLoginFailureDialog = Ti.UI.createAlertDialog({
         cancel: 0,
         buttonNames: ['Okay'],
-        message: L('creds_changed_recently', global.domain),
+        message: String.format(L('creds_changed_recently'), global.domain),
         title: L('login_failure')
 	  });
 

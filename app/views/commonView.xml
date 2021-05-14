@@ -5,7 +5,7 @@
             <ScrollView id="contentWrapper"/>
             <View class="button-wrapper" id="imgBtn_done" onClick="done">
                 <ImageView class="btnMainSecondary"/>
-                <Label class="btnText done"/>
+                <Label class="btnText ok"/>
             </View>
         </View>
     </View>
