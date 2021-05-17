@@ -144,7 +144,7 @@ Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 	if (currentExp > tokenExp) {
 		// TODO:  update to slightly different callbacks for refresh purposes?
 		//global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
-		global.oauth.refresh();
+		//global.oauth.refresh();
 	} //else no refresh needed, more than 10 minutes before expiring
 });
 

@@ -1,7 +1,7 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 var rfiActions = {};
-
+var nonce;
 
 var goWhiteboard = function() {
 	Alloy.createController('whiteboard').getView().open();
@@ -9,7 +9,8 @@ var goWhiteboard = function() {
 
 var sendSMS = function(e) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
-	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[e.data[0].key];
+	//var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[e.data[0].key];
+	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[e.index];
 	var accountSid = "ACaab834c22e540ff5fc703ad65195b686";
 	var authToken = "c7b5409b787dd9336939e446156e23e7";
 	var fromNumber = "+18138561613";
@@ -20,7 +21,19 @@ var sendSMS = function(e) {
 	xhr.onreadystatechange = function (e) {
 	    if (xhr.readyState === 4) {
 	        if (xhr.status === 201) {
-	           Ti.API.info(xhr.responseText);
+	        	if (!nonce) {
+	        		nonce = true;
+		           Ti.API.info(xhr.responseText);
+		           //alert(L('message_success'));
+					// Add options to commonView for display.
+					var arg = {
+						title : L('page_super'),
+						container : $.home
+					};
+					var commonView = Alloy.createController('commonView', arg).getView();
+					commonView.getViewById('contentWrapper').add($.UI.create('Label', {text: L('message_success')}));
+					$.home.add(commonView);
+				}
 	        } else {
 	           Ti.API.info("Error", JSON.stringify(xhr));
 	        }
@@ -35,7 +48,12 @@ var sendSMS = function(e) {
 };
 
 var pageSuperMenu = function(e) {
+	var x = 0;
+	var dataRow = null;
+	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	
+	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
@@ -44,12 +62,50 @@ var pageSuperMenu = function(e) {
 		alert(L('no_options'));
 		return;
 	}
-	global.showOptions(L('page_super_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export, $, sendSMS);
+	
+	// Add commonView.
+	var arg = {
+		title : L('page_super_prompt'),
+		container : $.home,
+		cancel: true,
+		subtitle: L('select_option')
+	};
+	var commonView = Alloy.createController('commonView', arg).getView();
+	
+	// Create an options table.
+	var optionsTable = $.UI.create('TableView', {id: "ListView_pageSuperOptions"});
+	optionsTable.addEventListener('click', function(e) {
+		$.home.remove(commonView);
+		sendSMS(e);
+	});
+	var optionsSection = $.UI.create('TableViewSection', {id: 'listSection'});
+	optionsTable.add(optionsSection);
+
+	// Generate options list and add to table.
+	var options = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export;
+	options.forEach(function(option) {
+		dataRow = $.UI.create('TableViewRow');
+		dataRow.add($.UI.create('Label', {
+			text: global.UTIL.cleanString(option.option_label),
+			classes: ["choice"]
+		}));
+		if (x % 2) {
+			$.addClass(dataRow, 'zebra');
+		}
+		x++;
+		tableData.push(dataRow);
+	});
+	optionsTable.data = tableData;
+
+	// Add options to commonView for display.
+	commonView.getViewById('contentWrapper').add(optionsTable);
+	$.home.add(commonView);
 };
 
 var displaySiteInfo = function(e) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
-	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
+	//var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
+	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.index];
 	switch (option.bundle) {
 		case 'link_component':
 			var dialog = require('ti.webdialog');
@@ -76,7 +132,12 @@ var displaySiteInfo = function(e) {
 };
 
 var siteInfoMenu = function() {
+	var x = 0;
+	var dataRow = null;
+	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	
+	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
 		return;
@@ -85,7 +146,46 @@ var siteInfoMenu = function() {
 		alert(L('no_options'));
 		return;
 	}
-	global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
+	
+	// Add commonView.
+	var arg = {
+		title : L('site_info_prompt'),
+		container : $.home,
+		cancel: true,
+		subtitle: L('select_option')
+	};
+	var commonView = Alloy.createController('commonView', arg).getView();
+	
+	// Create an options table.
+	var optionsTable = $.UI.create('TableView', {id: "ListView_siteInfoOptions"});
+	optionsTable.addEventListener('click', function(e) {
+		$.home.remove(commonView);
+		displaySiteInfo(e);
+	});
+	var optionsSection = $.UI.create('TableViewSection', {id: 'listSection'});
+	optionsTable.add(optionsSection);
+
+	// Generate options list and add to table.
+	var options = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export;
+	options.forEach(function(option) {
+		dataRow = $.UI.create('TableViewRow');
+		dataRow.add($.UI.create('Label', {
+			text: global.UTIL.cleanString(option.option_label),
+			classes: ["choice"]
+		}));
+		if (x % 2) {
+			$.addClass(dataRow, 'zebra');
+		}
+		x++;
+		tableData.push(dataRow);
+	});
+	optionsTable.data = tableData;
+
+	// Add options to commonView for display.
+	commonView.getViewById('contentWrapper').add(optionsTable);
+	$.home.add(commonView);
+	
+	//global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
 var resetRfiActions = function() {

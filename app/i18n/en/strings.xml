@@ -27,6 +27,7 @@
 	<string name="composed_text">Composed text (accepts HTML)</string>
 	<string name="external_url">External URL</string>
 	<string name="uploaded_file">Uploaded file</string>
+	<string name="select_option">Select option below</string>
 	<string name="no_options">No options currently set.</string>
 	<string name="wifi_password">Enter the password for\n%s</string>
 	<string name="connected">Connected!</string>
@@ -90,6 +91,7 @@
 	<string name="super_field_label">Superintendent:</string>
 	<string name="super_phone_field_label">Superintendent Phone:</string>
 	<string name="super_sms_message_field_label">Superintendent SMS Messages:</string>
+	<string name="message_success">Message sent successfully.</string>
 	<string name="site_info_field_label">Site Info Options:</string>
 	<string name="admin_secret_field_label">Admin/Reconfig Secret Code:</string>
 	<string name="view_edit">View/Edit</string>
