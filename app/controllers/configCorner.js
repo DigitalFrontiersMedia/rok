@@ -2,6 +2,7 @@
 var args = $.args;
 
 var openConfigAdmin = function() {
+	global.isHome = false;
 	Alloy.createController('configAdmin').getView().open();
 };
 
@@ -13,7 +14,7 @@ var checkAccess = function(formInput) {
 };
 
 var configAdminChallenge = function() {
-	var password = $.UI.create('TextField', {id: 'password', width: '80%', height: Ti.UI.SIZE, textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER, passwordMask: true});
+	var password = $.UI.create('TextField', {id: 'password', width: '80%', height: Ti.UI.SIZE, textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER, passwordMask: true, returnKeyType: Titanium.UI.RETURNKEY_DONE});
 	var arg = {
 		title : L('admin_secret_field_label'),
 		container : $.getView().parent,
@@ -23,5 +24,6 @@ var configAdminChallenge = function() {
 	var commonView = Alloy.createController('commonView', arg).getView();
 	commonView.getViewById('contentWrapper').add(password);
 	$.getView().parent.add(commonView);
+	password.focus();
 };
 

@@ -999,6 +999,24 @@ jDrupal.Vote.prototype.preSave = function (options) {
   });
 };
 
+jDrupal.Paragraph = function (eid_or_entity) {
+  this.entityKeys['type'] = 'paragraph';
+  this.entityKeys['id'] = 'eid';
+
+  jDrupal.entityConstructorPrep(this, eid_or_entity);
+};
+
+jDrupal.Paragraph.prototype = new jDrupal.Entity();
+
+jDrupal.Paragraph.prototype.constructor = jDrupal.Paragraph;
+
+jDrupal.Paragraph.prototype.preSave = function (options) {
+  var self = this;
+  return new Promise(function (resolve, reject) {
+    resolve();
+  });
+};
+
 jDrupal.Node = function (nid_or_node) {
   this.entityKeys['type'] = 'node';
   this.entityKeys['bundle'] = 'type';

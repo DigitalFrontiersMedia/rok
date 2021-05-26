@@ -1,10 +1,11 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
-var rfiActions = {};
+var rfiActions = $.UI.create('View');
 var nonce;
 
 var goWhiteboard = function() {
 	Alloy.createController('whiteboard').getView().open();
+	global.isHome = false;
 };
 
 var sendSMS = function(e) {
@@ -53,6 +54,7 @@ var pageSuperMenu = function(e) {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
+	global.homeUIDirty = true;
 	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
@@ -137,6 +139,7 @@ var siteInfoMenu = function() {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
+	global.homeUIDirty = true;
 	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
 		alert(L('device_info_not_synced'));
@@ -200,14 +203,17 @@ var rfiRouter = function(e) {
 	switch (e.source.id) {  //parseInt(e.data[0].key)) {
 		case 'createRfi':  //0:
 			Alloy.createController('rfi_entry').getView().open();
+			global.isHome = false;
 			break;
 		case  'viewRfi':  //1:
 			Alloy.createController('rfis').getView().open();
+			global.isHome = false;
 			break;
 	}
 };
 
 var goRfis = function() {
+	global.homeUIDirty = true;
 	Ti.API.info('*** RFIs ***');
 	rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions'], opacity: 0});
 	var createRfi = $.UI.create('Label', {id: 'createRfi', classes: ['rfiActionChoice'], text: L('create_rfi')});
@@ -226,16 +232,19 @@ var goRfis = function() {
 var goDrawings = function() {
 	Ti.API.info('*** DRAWINGS ***');
 	Alloy.createController('drawings').getView().open();
+	global.isHome = false;
 };
 
 var goSubmittals = function() {
 	Ti.API.info('*** SUBMITTALS ***');
 	Alloy.createController('submittals').getView().open();
+	global.isHome = false;
 };
 
 var goDocuments = function() {
 	Ti.API.info('*** DOCUMENTS ***');
 	Alloy.createController('documents').getView().open();
+	global.isHome = false;
 };
 
 $.home.addEventListener('androidback', function() {
@@ -249,3 +258,6 @@ $.home.addEventListener('click', function(e) {
 		resetRfiActions();
 	}
 });
+
+global.isHome = true;
+global.homeUIDirty = false;

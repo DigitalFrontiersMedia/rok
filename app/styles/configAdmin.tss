@@ -12,6 +12,21 @@
 "#Label_subTitle": {
 	"top": "10%"
 },
+"#appDetails": {
+	height: Ti.UI.SIZE,
+	layout: "vertical",
+	top: "25%",
+	width: "50%",
+	backgroundColor: "rgba(0,0,0,0.5)"	
+},
+"#appVersion": {
+	height: Ti.UI.SIZE,
+	top: 10
+},
+"#deviceId": {
+	height: Ti.UI.SIZE,
+	bottom: 10
+},
 "#View_secondaryButtons": {
 	"height": "25%",
 	"layout": "vertical",

@@ -73,7 +73,10 @@ global.basicAuthHeader = Titanium.Utils.base64encode(global.basicAuthUser + ':' 
 global.domain = 'dev-dfm-rok.pantheonsite.io';
 global.scheme = 'https://';
 global.siteInfoPickerValues = new Array();
-
+global.idleTimeoutMinutes = 15;
+global.timeoutID = null;
+global.isHome = true;
+global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getList('historyUsers') ? Ti.App.Properties.getList('historyUsers') : [];
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
@@ -279,7 +282,7 @@ global.setDeviceConfig = function() {
 global.getDeviceInfo = function(callback) {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
-		Ti.API.info('results = ' + JSON.stringify(results));
+		Ti.API.info('deviceInfo = ' + JSON.stringify(results));
 		Ti.App.Properties.setObject('deviceInfo', results);
 		global.setDeviceConfig();
 		if (callback) {
@@ -341,3 +344,29 @@ global.recursiveResourcesCopy = function(name) {
     }
     return;
 };
+
+global.userIsInactive = function() {
+	Ti.API.info('userIsInactive');
+	Ti.API.info('global.isHome = ' + global.isHome);
+	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
+	if (!global.isHome) {
+		Titanium.Android.currentActivity.finish();
+		Alloy.createController('home').getView().open();
+	}
+	if (global.isHome && global.homeUIDirty) {
+		Alloy.createController('home').getView().close();
+		Alloy.createController('home').getView().open();
+	}
+};
+
+global.userInteraction = function() {
+	Ti.API.info('RESET TIMEOUT');
+    if (global.timeoutID) {
+        clearTimeout(global.timeoutID);
+    }
+    global.timeoutID = setTimeout(function(e) {
+    	global.userIsInactive();
+	}, global.idleTimeoutMinutes * 60 * 1000);
+};
+Ti.App.addEventListener('userinteraction', global.userInteraction);
+

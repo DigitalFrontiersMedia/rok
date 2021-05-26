@@ -23,5 +23,5 @@
 	layout: "horizontal"
 },
 "#ImageView_config": {
-	image: "/images/locked.png"
+	image: "/images/ico_settings.png"
 },

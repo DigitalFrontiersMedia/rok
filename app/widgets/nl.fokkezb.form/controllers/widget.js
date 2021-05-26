@@ -352,9 +352,12 @@ function render(opts) {
  * @return {Object} Values as object with field names as keys.
  */
 function getValues() {
-
+  	values = [];
   _.each(fieldCtrls, function(fieldCtrl, name) {
-    values[name] = fieldCtrl.getValue();
+  	var optionNum = parseInt(fieldCtrl.getView().parent.headerTitle.split('Option ')[1]) - 1;
+  	values[optionNum] = values[optionNum] || {};
+  	values[optionNum][name] = fieldCtrl.getValue();
+    //values[name] = fieldCtrl.getValue();
   });
 
   if (filter) {

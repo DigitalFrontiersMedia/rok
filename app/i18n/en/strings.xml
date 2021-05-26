@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
 	<string name="config_admin">Administration</string>
+	<string name="config_updated">Configuration on your ROK account for this device has been updated successfully.</string>
 	<string name="reconfigure">RECONFIGURE</string>
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
 	<string name="ok">OK</string>
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>
+	<string name="problem_occurred">A problem occurred.  Error Code:  </string>
 	<string name="hello">Hello.</string>
 	<string name="welcome">Welcome to the ROK family.\n\nWe'll run through a process to get everything configured for you.\nWe'll also try to skip any unnecessary steps.</string>
 	<string name="get_started">Get Started</string>
@@ -42,6 +44,8 @@
 	<string name="add_rfi">Add RFI</string>
 	<string name="save">SAVE</string>
 	<string name="saved">SAVED</string>
+	<string name="app_version">App version</string>
+	<string name="device_id">Device ID</string>
 	<string name="changes_saved">Successfully saved changes to %s.</string>
 	<string name="created">CREATED</string>
 	<string name="rfi_created">Successfully created RFI on %s.</string>
@@ -125,6 +129,7 @@
 	<string name="logging_in">Logging in...</string>
 	<string name="auto_login">Attempting auto-login to your ROK account...</string>
 	<string name="loading">Loading...</string>
+	<string name="updating">Updating...</string>
 	<string name="load_failed">Failed to load.</string>
 	<string name="error_occurred">An error occurred</string>
 	<string name="offline_warning">It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.</string>

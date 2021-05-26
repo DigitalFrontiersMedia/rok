@@ -22,6 +22,7 @@ if (cancel) {
 var done = function() {
 	Ti.API.info('*** DONE ***');
 	if (formInput) {
+		Ti.API.info('formInput = ' + JSON.stringify(formInput));
 		formInput.blur();
 	}
 	if (callback) {
