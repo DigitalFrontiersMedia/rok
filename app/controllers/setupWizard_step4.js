@@ -5,16 +5,21 @@ var widget;
 var nodeDirty = false;
 var messageOptions;
 var messageOptionsDirty = false;
+var dirtyMessagesIndex = [];
 var newMessage = false;
-var newMessageRef;
+var newMessageRef = {};
+var messageOptionsChecked = false;
 var siteInfoOptions;
 var siteInfoOptionsDirty = false;
+var dirtySiteInfoOptionsIndex = [];
 var newSiteInfoOption = false;
-var newSiteInfoOptionRef;
+var newSiteInfoOptionRef = {};
+var siteInfoOptionsChecked = false;
 
 var goHome = function() {
 	Ti.API.info('going home...');
 	//global.homeWindow.open();
+	// TODO:  End activity or close all windows?
 	Alloy.createController('home').getView().open();
 };
 
@@ -43,6 +48,76 @@ var removeProtectedFields = function(node) {
 	//delete node.entity.title;
 	delete node.entity.body;
 	return node;
+};
+
+var saveDeviceProfileNode = function(nid) {
+	Ti.API.info('saveDeviceProfileNode');
+	// Get full node.
+	global.jDrupal.nodeLoad(nid).then(function(node) {
+		Ti.API.info('node = ' + JSON.stringify(node));
+		// Remove protected fields
+		node = removeProtectedFields(node);
+
+		// Update field values
+		node.entity.title = [{value: Ti.App.Properties.getString('deviceName')}];
+		//$.appValue.value = Ti.App.Properties.getString('constructionApp');
+		//$.projectValue.value = Ti.App.Properties.getString('project');
+		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
+		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
+		node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret')}];
+
+		if (newMessageRef.id) {
+			node.entity.field_superintendent_sms_message.push({
+				target_id: newMessageRef.id,
+				target_type: "paragraph",
+        		target_revision_id : newMessageRef.revision_id,
+        		target_uuid : newMessageRef.uuid
+			});
+		}
+		
+		if (newSiteInfoOptionRef.id) {
+			node.entity.field_site_info_options.push({
+				target_id: newSiteInfoOptionRef.id,
+				target_type: "paragraph",
+        		target_revision_id : newSiteInfoOptionRef.revision_id,
+        		target_uuid : newSiteInfoOptionRef.uuid
+			});
+		}
+	
+		// Save device profile with updated field values and report back then head home after Okay.
+		node.save().then(function(resp) {
+			Alloy.Globals.loading.hide();
+			//Ti.API.info('resp =  ' + JSON.stringify(resp));
+			Ti.API.info('Saved ' + node.getTitle());
+			var message = $.UI.create('Label', {text: L('config_updated')});
+			var arg = {
+				title : L('saved'),
+				container : $.getView().parent,
+				callback : goHome
+			};
+			var commonView = Alloy.createController('commonView', arg).getView();
+			commonView.getViewById('contentWrapper').add(message);
+			$.getView().parent.add(commonView);
+		});
+	});
+};
+
+var checkSave = function() {
+	Ti.API.info('*** checkSave ***');
+	Ti.API.info('*** messageOptionsChecked = ' + messageOptionsChecked);
+	Ti.API.info('*** siteInfoOptionsChecked = ' + siteInfoOptionsChecked);
+	if (messageOptionsChecked && siteInfoOptionsChecked) {
+		Ti.API.info('Heading to saveDeviceProfileNode...');
+		var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+		var nid = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].nid_export;
+		Ti.API.info('nid = ' + nid);
+		saveDeviceProfileNode(nid);
+	}
+	if (!nodeDirty) {
+		Alloy.Globals.loading.hide();
+		goHome();
+		return;
+	}
 };
 
 var wizardContinue = function() {
@@ -77,13 +152,27 @@ var wizardContinue = function() {
 	//}
 	
 	// Update Messages & Site Info Options
-	if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export != messageOptions) {
-		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export = messageOptions;
-		messageOptionsDirty = true;
+	if (messageOptions) {
+		for (var i = 0; i < deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export.length; i++) {
+			if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[i] != messageOptions[i]) {
+				messageOptionsDirty = true;
+				// Get indexes of changed items and store them
+				dirtyMessagesIndex.push(i);
+			}
+			// Update and add any new messages to local data store
+			deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export = messageOptions;
+		}
 	}
-	if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export != siteInfoOptions) {
-		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export = siteInfoOptions;
-		siteInfoOptionsDirty = true;
+	if (siteInfoOptions) {
+		for (var i = 0; i < deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export.length; i++) {
+			if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[i] != siteInfoOptions[i]) {
+				siteInfoOptionsDirty = true;
+				// Get indexes of changed items and store them
+				dirtySiteInfoOptionsIndex.push(i);
+			}
+			// Update and add any new messages to local data store
+			deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export = siteInfoOptions;
+		}
 	}
 	
 	// Flag that we've made configurations
@@ -96,7 +185,6 @@ var wizardContinue = function() {
 	}
 
 	if (newMessage) {
-		Ti.API.info('Trying to save newMessage paragraph entity...');
 		// If we're adding completely new stuff to the deviceInfo profile node, then we set the node as dirty so it'll resave it later.
 		nodeDirty = true;
 		
@@ -112,11 +200,40 @@ var wizardContinue = function() {
 		    parent_type: [{value: "node"}],
 		    parent_field_name: [{value: "field_superintendent_sms_message"}]
 		});
-		paragraph.save().then(function(resp) {
-			Ti.API.info('resp = ' + JSON.stringify(resp));
+		paragraph.save().then(function(results) {
+			//Ti.API.info('paragraph results = ' + JSON.stringify(results));
+			var createdParagraph = JSON.parse(results.responseData.text);
+			newMessageRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;
+			newMessageRef.uuid = createdParagraph.uuid ? createdParagraph.uuid[0].value : null;
+			newMessageRef.revision_id = createdParagraph.revision_id ? createdParagraph.revision_id[0].value : null;
+			messageOptionsChecked = true;
+			// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
+			$.trigger('checkSave');
 		});
-
-		// Save reference to new paragraph (newMessageRef) to add to deviceInfo profile node later.
+	} else if (messageOptionsDirty) {
+		// Check if at least dirty if not new and resave with changes before stating messageOptionsChecked.
+		// TODO:  Only set messageOptionsChecked after all items in below loop have been checked.
+		for (optIndex in dirtyMessagesIndex) {
+			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[optIndex].id).then(function(paragraph) {
+				Ti.API.info('paragraph = ' + JSON.stringify(paragraph));
+				// Remove protected fields
+				paragraph = removeProtectedFields(paragraph);
+		
+				// Update field values
+				paragraph.entity.field_option_label = [{value: messageOptions[optIndex].option_label}];
+				paragraph.entity.field_message = [{value: messageOptions[optIndex].message}];
+	
+				// Save device profile with updated field values and report back then head home after Okay.
+				paragraph.save().then(function(resp) {
+					Ti.API.info('Saved paragraph.');
+					// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
+					messageOptionsChecked = true;
+					$.trigger('checkSave');
+				});
+			});
+		}
+	} else {
+		messageOptionsChecked = true;
 	}
 	
 	if (newSiteInfoOption) {
@@ -124,55 +241,61 @@ var wizardContinue = function() {
 		nodeDirty = true;
 		
 		// Build & Save new siteInfoOption paragraph
-		
-		// Save reference to new paragraph (newSiteInfoOptionRef) to add to deviceInfo profile node later.
-	}
-	
-	if (nodeDirty) {
-		// Get full node.
-		global.jDrupal.nodeLoad(nid).then(function(node) {
-			Ti.API.info('node = ' + JSON.stringify(node));
-			// Remove protected fields
-			node = removeProtectedFields(node);
-	
-			// Update field values
-			node.entity.title = [{value: Ti.App.Properties.getString('deviceName')}];
-			//$.appValue.value = Ti.App.Properties.getString('constructionApp');
-			//$.projectValue.value = Ti.App.Properties.getString('project');
-			node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
-			node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
-			node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret')}];
-	
-			// TODO: Save updated Messages & Site Info Option paragraphs.
-			// Use newMessageRef & newSiteInfoOptionRef for new target_id as appropriate for node's paragraph fields.
-/*
-			node.entity.field_superintendent_sms_message[node.entity.field_superintendent_sms_message.length] = {
-				target_id: newMessageRef,
-				target_type: "paragraph",
-        		//'target_revision_id' : ->getRevisionId()
-			};
-*/
-
-			// Save device profile with updated field values and report back then head home after Okay.
-			node.save().then(function(resp) {
-				Alloy.Globals.loading.hide();
-				//Ti.API.info('resp =  ' + JSON.stringify(resp));
-				Ti.API.info('Saved ' + node.getTitle());
-				var message = $.UI.create('Label', {text: L('config_updated')});
-				var arg = {
-					title : L('saved'),
-					container : $.getView().parent,
-					callback : goHome
-				};
-				var commonView = Alloy.createController('commonView', arg).getView();
-				commonView.getViewById('contentWrapper').add(message);
-				$.getView().parent.add(commonView);
-			});
+		var paragraph = new global.jDrupal.Paragraph({
+			type: [{
+				target_id: siteInfoOptions[siteInfoOptions.length - 1].link_url ? 'link_component' : 'text_component',
+				target_type: 'paragraphs_type'
+			}],
+			field_option_label: [{value: siteInfoOptions[siteInfoOptions.length - 1].option_label}],
+			parent_id: [{value: nid}],
+		    parent_type: [{value: "node"}],
+		    parent_field_name: [{value: "field_site_info_options"}]
 		});
+		if (paragraph.entity.type[0].target_id == 'link_component') {
+			paragraph.entity.field_link_url = [{uri: siteInfoOptions[siteInfoOptions.length - 1].link_url.url}];
+		}
+		if (paragraph.entity.type[0].target_id == 'text_component') {
+			paragraph.entity.field_text = [{value: siteInfoOptions[siteInfoOptions.length - 1].text}];
+		}
+		paragraph.save().then(function(results) {
+			//Ti.API.info('paragraph results = ' + JSON.stringify(results));
+			var createdParagraph = JSON.parse(results.responseData.text);
+			Ti.API.info('createdParagraph = ' + JSON.stringify(createdParagraph));
+			newSiteInfoOptionRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;
+			newSiteInfoOptionRef.uuid = createdParagraph.uuid ? createdParagraph.uuid[0].value : null;
+			newSiteInfoOptionRef.revision_id = createdParagraph.revision_id ? createdParagraph.revision_id[0].value : null;
+			siteInfoOptionsChecked = true;
+			// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
+			$.trigger('checkSave');
+		});
+	} else if (siteInfoOptionsDirty) {
+		// Check if at least dirty if not new and resave with changes before stating messageOptionsChecked.
+		// TODO:  Only set siteInfoOptionsChecked after all items in below loop have been checked.
+		for (optIndex in dirtySiteInfoOptionsIndex) {
+			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[optIndex].id).then(function(paragraph) {
+				Ti.API.info('paragraph = ' + JSON.stringify(paragraph));
+				// Remove protected fields
+				paragraph = removeProtectedFields(paragraph);
+		
+				// Update field values (Fields depend on type)
+				paragraph.entity.field_option_label = [{value: siteInfoOptions[optIndex].option_label}];
+				paragraph.entity.field_link_url = [{uri: siteInfoOptions[optIndex].link_url.url ? siteInfoOptions[optIndex].link_url.url : null}];
+				paragraph.entity.field_text = [{value: siteInfoOptions[optIndex].text ? siteInfoOptions[optIndex].text : null}];
+	
+				// Save device profile with updated field values and report back then head home after Okay.
+				paragraph.save().then(function(resp) {
+					Ti.API.info('Saved paragraph.');
+					// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
+					siteInfoOptionsChecked = true;
+					$.trigger('checkSave');
+				});
+			});
+		}
 	} else {
-		Alloy.Globals.loading.hide();
-		goHome();
+		siteInfoOptionsChecked = true;
 	}
+	Ti.API.info('Heading to default checkSave...');
+	$.trigger('checkSave');
 };
 
 var updateMessages = function(form) {
@@ -191,8 +314,8 @@ var updateMessages = function(form) {
 				message: values[options.length]["message_" + (options.length + 1)]
 			});
 			newMessage = true;
-			Ti.API.info('newMessage = true');
 		} else {
+			newMessage = false;
 			//alert(L('fields_empty'));
 		}
 	}
@@ -221,19 +344,26 @@ var updateSiteInfoOptions = function(form) {
 				break;
 		}
 	}
-/*
 	if (values.length > options.length) {
-		if (values[options.length]["option_label_" + (options.length + 1)] != '' && values[options.length]["message_" + (options.length + 1)] != '') {
+		if (values[options.length]["option_label_" + (options.length + 1)] != '' && values[options.length]["external_url_" + (options.length + 1)] != '') {
 			options.push({
+				bundle: 'link_component',
 				option_label: values[options.length]["option_label_" + (options.length + 1)],
-				message: values[options.length]["message_" + (options.length + 1)]
-				newSiteInfoOption = true;
+				link_url: {url: values[options.length]["external_url_" + (options.length + 1)]}
 			});
+			newSiteInfoOption = true;
+		} else if (values[options.length]["option_label_" + (options.length + 1)] != '' && values[options.length]["composed_text_" + (options.length + 1)] != '') {
+			options.push({
+				bundle: 'text_component',
+				option_label: values[options.length]["option_label_" + (options.length + 1)],
+				text: values[options.length]["composed_text_" + (options.length + 1)]
+			});
+			newSiteInfoOption = true;
 		} else {
+			newSiteInfoOption = false;
 			//alert(L('fields_empty'));
 		}
 	}
-*/
 	siteInfoOptions = options;
 };
 
@@ -291,8 +421,22 @@ var view_edit_messages = function() {
 	$.setupWizard4Container.add(commonView);
 };
 
+var alignSiteInfoOptionsInterface = function(e) {
+	Ti.API.info('Attempting to update form element classes...');
+	var values = widget.getValues();
+	if (values[values.length - 1]['external_url_' + values.length] != '') {
+		$.addClass(widget.getField('composed_text_' + values.length).getView(), 'hidden');
+	}
+	if (values[values.length - 1]['composed_text_' + values.length] != '') {
+		$.addClass(widget.getField('external_url_' + values.length).getView(), 'hidden');
+	}
+	if (values[values.length - 1]['external_url_' + values.length] == '' && values[values.length - 1]['composed_text_' + values.length] == '') {
+		$.removeClass(widget.getField('external_url_' + values.length).getView(), 'hidden');
+		$.removeClass(widget.getField('composed_text_' + values.length).getView(), 'hidden');
+	}
+};
+
 var view_edit_siteInfo_options = function() {
-	// TODO:  Provide an option for adding new Site Info values.
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	var options = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export;
 	var fieldsets = [];
@@ -343,6 +487,28 @@ var view_edit_siteInfo_options = function() {
 		};
 		fieldsets.push(fieldset);
 	}
+	fieldset = {
+		legend: L('option') + ' ' + (options.length + 1),
+		fields: [{
+			name : 'option_label' + '_' + (options.length + 1),
+			label : L('option_label'),
+			type : 'text',
+			hintText: L('option_hint')
+		}, {
+			name : 'external_url' + '_' + (options.length + 1),
+			label : global.UTIL.cleanString(L('external_url')) + L('or'),
+			type : 'text',
+			hintText: 'https://www.example.com/foo.html',
+			listener: alignSiteInfoOptionsInterface
+		}, {
+			name : 'composed_text' + '_' + (options.length + 1),
+			label : global.UTIL.cleanString(L('composed_text')),
+			type : 'textarea',
+			hintText: L('composed_text_hint'),
+			listener: alignSiteInfoOptionsInterface
+		}]
+	};
+	fieldsets.push(fieldset);
 	widget = Alloy.createWidget('nl.fokkezb.form', {
 		fieldsets : fieldsets
 	});
@@ -377,3 +543,5 @@ $.adminSecretValue.value = Ti.App.Properties.getString('admin_secret');
 
 $.appValue.addEventListener('focus', selectApp);
 $.projectValue.addEventListener('focus', selectProject);
+
+$.on('checkSave', checkSave);

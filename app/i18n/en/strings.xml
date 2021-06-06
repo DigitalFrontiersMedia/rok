@@ -9,6 +9,7 @@
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>
 	<string name="problem_occurred">A problem occurred.  Error Code:  </string>
+	<string name="or"> - OR - </string>
 	<string name="hello">Hello.</string>
 	<string name="welcome">Welcome to the ROK family.\n\nWe'll run through a process to get everything configured for you.\nWe'll also try to skip any unnecessary steps.</string>
 	<string name="get_started">Get Started</string>

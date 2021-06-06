@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
     <View class="container">
         <View class="wrapper">
             <Label id="Label_title"/>
@@ -6,7 +6,7 @@
             <ScrollView id="contentWrapper"/>
             <View class="button-wrapper" id="imgBtn_done" onClick="done">
                 <ImageView class="btnMainSecondary"/>
-                <Label id="defaultButton" class="btnText ok"/>
+                <Label class="btnText ok" id="defaultButton"/>
             </View>
         </View>
     </View>

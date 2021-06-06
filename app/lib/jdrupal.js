@@ -1010,6 +1010,10 @@ jDrupal.Paragraph.prototype = new jDrupal.Entity();
 
 jDrupal.Paragraph.prototype.constructor = jDrupal.Paragraph;
 
+jDrupal.paragraphLoad = function (eid) {
+  return this.entityLoad('paragraph', eid);
+};
+
 jDrupal.Paragraph.prototype.preSave = function (options) {
   var self = this;
   return new Promise(function (resolve, reject) {

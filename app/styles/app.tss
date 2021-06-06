@@ -135,6 +135,7 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".hidden": {
 	hiddenBehavior: Titanium.UI.HIDDEN_BEHAVIOR_GONE,
+	height: 0,
 	visible: false
 },
 "#closeButton": {
