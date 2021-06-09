@@ -8,6 +8,8 @@
 
 Konstruction = function() {};
 var nonce;
+var fullReturn = {data:[]};
+var self = this;
  
 // Public functions
 // ================
@@ -31,9 +33,27 @@ Konstruction.prototype.platform = function() {
     return this.platform;
 };
 
+Konstruction.prototype.processPagination = function(results, onSuccessCallback) {
+	var items = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
+	//fullReturn = fullReturn.data + items;
+	fullReturn.data.push.apply(fullReturn.data, items.data);
+    if (fullReturn.length < items.total_count) {
+    	// getRFIs with next_page_url
+    	this.getRfis(onSuccessCallback, options, items.next_page_url);
+    } else {
+    	if (results.status == 200) {
+    		results.data = JSON.stringify(fullReturn);
+    	} else {
+    		results.data.text = JSON.stringify(fullReturn);
+    	}
+    	fulReturn = {data:[]};
+	    onSuccessCallback(results);
+    }
+};
+
 Konstruction.prototype.getProjects = function(onSuccessCallback) {
     // Create some default params
-    var self = this;
+    //var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -67,7 +87,7 @@ Konstruction.prototype.getProjects = function(onSuccessCallback) {
 	});
 };
 
-Konstruction.prototype.getRfis = function(onSuccessCallback, options) {
+Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
     var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
@@ -97,8 +117,10 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, onSuccessCallback);
+    	},
 	    onError: onErrorCallback,
 	    extraParams: options
 	});

@@ -52,8 +52,9 @@ var closeAndRefreshRfis = function() {
 };
 
 var saveSuccess = function(results) {
+	//Ti.API.info('saveSuccess results = ' + JSON.stringify(results));
 	Alloy.Globals.loading.hide();
-	var rfi = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
+	var rfi = results.status == 201 ? JSON.parse(results.data) : JSON.parse(results.data.text);
 	var message = $.UI.create('Label', {text: String.format(L('rfi_created'), global.konstruction.platform)});
 	var arg = {
 		title : L('rfi') + ' #' + rfi.number,
@@ -68,16 +69,21 @@ var saveSuccess = function(results) {
 var saveRfi = function() {
 	var dirty = false;
 	var data = {};
+	var fieldsLeftEmpty = false;
 	Ti.UI.Android.hideSoftKeyboard();
 	editableFields.forEach(function(field) {
 		var originalFieldName = field.split('TextField_').join('').split('TextArea_').join('');
 		if ($[field].value == '') {
-			alert(L('fields_empty'));
+			fieldsLeftEmpty = true;
 			return;
 		}
 		data[originalFieldName] = $[field].value;
 		dirty = true;
 	});
+	if (fieldsLeftEmpty) {
+		alert(L('fields_empty'));
+		return;
+	}
 	// Perform RFI submission if required
 	if (dirty) {
 		data.sent_at = new Date().toISOString();
