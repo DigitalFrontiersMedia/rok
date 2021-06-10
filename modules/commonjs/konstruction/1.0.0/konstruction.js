@@ -9,7 +9,7 @@
 Konstruction = function() {};
 var nonce;
 var fullReturn = {data:[]};
-var self = this;
+var self = Konstruction.prototype;
  
 // Public functions
 // ================
@@ -33,27 +33,32 @@ Konstruction.prototype.platform = function() {
     return this.platform;
 };
 
-Konstruction.prototype.processPagination = function(results, onSuccessCallback) {
+Konstruction.prototype.processPagination = function(results, callingFunction, onSuccessCallback, options) {
 	var items = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
-	//fullReturn = fullReturn.data + items;
 	fullReturn.data.push.apply(fullReturn.data, items.data);
-    if (fullReturn.length < items.total_count) {
-    	// getRFIs with next_page_url
-    	this.getRfis(onSuccessCallback, options, items.next_page_url);
+	//Ti.API.info('fullReturn = ' + JSON.stringify(fullReturn));
+	//Ti.API.info('items.data.length = ' + JSON.stringify(items.data.length));
+	//Ti.API.info('fullReturn.data.length = ' + fullReturn.data.length);
+/*
+	items.data.forEach(function(item) {
+		Ti.API.info('item.title = ' + item.title);
+	});
+*/
+    if (fullReturn.data.length < items.total_count) {
+    	callingFunction(onSuccessCallback, options, items.next_page_url);
     } else {
     	if (results.status == 200) {
     		results.data = JSON.stringify(fullReturn);
     	} else {
     		results.data.text = JSON.stringify(fullReturn);
     	}
-    	fulReturn = {data:[]};
+    	fullReturn = {data:[]};
 	    onSuccessCallback(results);
     }
 };
 
-Konstruction.prototype.getProjects = function(onSuccessCallback) {
+Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) {
     // Create some default params
-    //var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -81,15 +86,16 @@ Konstruction.prototype.getProjects = function(onSuccessCallback) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getProjects, onSuccessCallback);
+    	},
 	    onError: onErrorCallback
 	});
 };
 
 Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -119,7 +125,7 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 	global.xhr.GET({
 	    url: next_page_url ? next_page_url : apiURL + endpoint,
 	    onSuccess: function(results) {
-	    	self.processPagination(results, onSuccessCallback);
+	    	self.processPagination(results, self.getRfis, onSuccessCallback, options);
     	},
 	    onError: onErrorCallback,
 	    extraParams: options
@@ -128,7 +134,6 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 
 Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -165,7 +170,6 @@ Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
 
 Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function(results) { return results; };
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -199,9 +203,8 @@ Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
 	});
 };
 
-Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback) {
+Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -229,15 +232,16 @@ Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getRfiPhotos, onSuccessCallback);
+    	},
 	    onError: onErrorCallback
 	});
 };
 
-Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback) {
+Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -265,15 +269,16 @@ Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getRfiDocuments, onSuccessCallback);
+    	},
 	    onError: onErrorCallback
 	});
 };
 
-Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback) {
+Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -301,15 +306,16 @@ Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getRfiSnapshots, onSuccessCallback);
+    	},
 	    onError: onErrorCallback
 	});
 };
 
-Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback) {
+Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -337,15 +343,16 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback)
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getRfiHistoryEvents, onSuccessCallback);
+    	},
 	    onError: onErrorCallback
 	});
 };
 
 Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function(results) { return results; };
     var options = options || {};
 	var apiURL = global.konstruction.apiURL;
@@ -370,9 +377,8 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 	});
 };
 
-Konstruction.prototype.getDocuments = function(onSuccessCallback, options) {
+Konstruction.prototype.getDocuments = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -400,16 +406,17 @@ Konstruction.prototype.getDocuments = function(onSuccessCallback, options) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getDocuments, onSuccessCallback, options);
+    	},
 	    onError: onErrorCallback,
 	    extraParams: options
 	});
 };
 
-Konstruction.prototype.getDrawings = function(onSuccessCallback, options) {
+Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -437,8 +444,10 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getDrawings, onSuccessCallback, options);
+    	},
 	    onError: onErrorCallback,
 	    extraParams: options
 	});
@@ -446,7 +455,6 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options) {
 
 Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, options) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -483,7 +491,6 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 
 Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
     // Create some default params
-    var self = this;
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
 	var apiURL = global.konstruction.apiURL;
@@ -520,7 +527,6 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
 
 Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback, options) {
     // Create some default params
-    var self = this;
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
     
     var onSuccessCallback = onSuccessCallback || function() {};
@@ -561,9 +567,8 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 	});
 };
 
-Konstruction.prototype.getSubmittals = function(onSuccessCallback, options) {
+Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
-    var self = this;
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
     
     var onSuccessCallback = onSuccessCallback || function() {};
@@ -593,8 +598,10 @@ Konstruction.prototype.getSubmittals = function(onSuccessCallback, options) {
 			break;
 	}
 	global.xhr.GET({
-	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getSubmittals, onSuccessCallback, options);
+    	},
 	    onError: onErrorCallback,
 	    extraParams: options
 	});

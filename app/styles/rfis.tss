@@ -39,7 +39,8 @@
 },
 ".choice": {
 	"font": {fontSize:'24'},
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: Ti.UI.FILL
 },
 "TableViewRow": {
 	layout: "horizontal",

@@ -267,6 +267,7 @@ var saveSuccess = function(results) {
 };
 
 var editSaveRfi = function() {
+	var fieldsLeftEmpty = false;
 	editMode = !editMode;
 	$.rfi_view.editMode = editMode;
 	if (editMode) {
@@ -294,7 +295,7 @@ var editSaveRfi = function() {
 			$.removeClass($['Label_' + field], 'noUnderline');
 			$[field + 'Wrapper'].removeEventListener('click', function() {});
 			if ($[field].value == '') {
-				alert(L('fields_empty'));
+				fieldsLeftEmpty = true;
 				return;
 			}
 			if ($[field].value !== global.UTIL.cleanString(originalFieldValue)) {
@@ -302,6 +303,10 @@ var editSaveRfi = function() {
 				dirty = true;
 			}
 		});
+		if (fieldsLeftEmpty) {
+			//alert(L('fields_empty'));
+			//return;
+		}
 		// Perform RFI update if required
 		if (dirty) {
 			data.sent_at = new Date().toISOString();
