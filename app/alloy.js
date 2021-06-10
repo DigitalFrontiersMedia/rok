@@ -39,7 +39,7 @@ if (!Ti.Locale.currentLanguage) {
 
 // For development purposes to bypass or induce setup.
 // Uncomment and set as desired.
-Ti.App.Properties.setInt("deviceIndex", 0);
+//Ti.App.Properties.setInt("deviceIndex", 0);
 
 global.jDrupal = require('jdrupal');
 //global.Promise = require('bluebird.core');
@@ -62,9 +62,10 @@ Alloy.Globals.Util = {height: 1015};
 
 global.gridHeightMultiplier = 1.05;
 global.homeWindow = Alloy.createController('home').getView();
-var setupWizard_step1Window = Alloy.createController('setupWizard_step1').getView();
-global.setupWizardWindow = setupWizard_step1Window;
+global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
+global.backgroundServiceDelay = 1; // minutes
+global.ttl = 60; // minutes
 global.userId = null;
 global.usingBasicAuth = true;
 global.basicAuthUser = 'guest';
@@ -83,7 +84,7 @@ global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + glob
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
 
 global.xhrOptions = {
-	ttl : 60,
+	ttl : global.ttl,
 	debug : true	
 };
 global.xhr.setStaticOptions(global.xhrOptions);
@@ -370,3 +371,20 @@ global.userInteraction = function() {
 };
 Ti.App.addEventListener('userinteraction', global.userInteraction);
 
+global.syncService = function() {
+	// start cache-warming syncService
+	var intent = Titanium.Android.createServiceIntent({
+	  url: 'syncService.js'
+	});
+	intent.putExtra('interval', global.ttl * 60 * 1000); // Needs to be milliseconds
+	if (!Ti.Android.isServiceRunning(intent)) {
+		var service = Ti.Android.createService(intent);
+		service.addEventListener('stop', function() {
+			service.start();
+		});
+		service.start();
+	} else {
+	    Ti.API.info('Service is already running.');
+	}
+};
+setTimeout(global.syncService, global.backgroundServiceDelay * 60 * 1000);

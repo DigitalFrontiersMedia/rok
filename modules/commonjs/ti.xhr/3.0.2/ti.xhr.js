@@ -446,6 +446,8 @@ function writeCache(data, url, ttl, type) {
 
     //Titanium.API.info("WRITING CACHE");
 
+	// TODO:  Change how hashdURL is stored for PDF/Blob resources so changing timestamp query strings don't cause multiple copies
+	//        in storage, eating up space unnecessarily.
     // hash the url
     var hashedURL = Titanium.Utils.md5HexDigest(url);
 

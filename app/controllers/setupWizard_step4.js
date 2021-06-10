@@ -21,6 +21,8 @@ var goHome = function() {
 	//global.homeWindow.open();
 	// TODO:  End activity or close all windows?
 	Alloy.createController('home').getView().open();
+	// Check/start background syncService.
+	global.syncService();
 };
 
 var removeProtectedFields = function(node) {

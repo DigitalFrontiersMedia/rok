@@ -69,9 +69,9 @@ Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) 
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getProjects, onSuccessCallback);
+		        global.oauth.refresh(self.getProjects, onSuccessCallback, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -106,9 +106,9 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfis, onSuccessCallback);
+		        global.oauth.refresh(self.getRfis, onSuccessCallback, options, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -144,9 +144,9 @@ Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfis, onSuccessCallback);
+		        global.oauth.refresh(self.createRfi, data, onSuccessCallback);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -182,7 +182,7 @@ Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
 		        nonce++;
 		        global.oauth.refresh(self.getUserInfo, user, onSuccessCallback);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -215,9 +215,9 @@ Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback, next_p
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfiPhotos, rfiUid, onSuccessCallback);
+		        global.oauth.refresh(self.getRfiPhotos, rfiUid, onSuccessCallback, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -252,9 +252,9 @@ Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback, nex
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfiDocuments, rfiUid, onSuccessCallback);
+		        global.oauth.refresh(self.getRfiDocuments, rfiUid, onSuccessCallback, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -289,9 +289,9 @@ Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback, nex
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfiSnapshots, rfiUid, onSuccessCallback);
+		        global.oauth.refresh(self.getRfiSnapshots, rfiUid, onSuccessCallback, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -326,9 +326,9 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback,
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfiHistoryEvents, rfiUid, onSuccessCallback);
+		        global.oauth.refresh(self.getRfiHistoryEvents, rfiUid, onSuccessCallback, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -359,9 +359,19 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 	var endpoint;
 	//var onErrorCallback = global.onXHRError || function() {};
 	var onErrorCallback = function(xhrResults) {
-		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
-		alert('An error occurred: \n', JSON.stringify(xhrResults));
-		nonce = null;
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.updateRfi, rfiUid, data, onSuccessCallback);
+			} else {
+	      		alert('ERROR ' + xhrResults.error);
+			}
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
 	};
 	switch (this.platform) {
 		case 'PlanGrid':
@@ -389,9 +399,9 @@ Konstruction.prototype.getDocuments = function(onSuccessCallback, options, next_
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getDocuments, onSuccessCallback);
+		        global.oauth.refresh(self.getDocuments, onSuccessCallback, options, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -427,9 +437,9 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_p
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getDrawings, onSuccessCallback);
+		        global.oauth.refresh(self.getDrawings, onSuccessCallback, options, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -465,9 +475,9 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getDrawings, onSuccessCallback);
+		        global.oauth.refresh(self.getDrawing, drawingUid, onSuccessCallback, options);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -501,9 +511,9 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getDrawings, onSuccessCallback);
+		        global.oauth.refresh(self.createDrawingPacket, data, onSuccessCallback);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -543,9 +553,9 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfis, onSuccessCallback);
+		        global.oauth.refresh(self.getDrawingPacket, packet_uid, onSuccessCallback, options);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
@@ -581,9 +591,9 @@ Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getRfis, onSuccessCallback);
+		        global.oauth.refresh(self.getSubmittals, onSuccessCallback, options, next_page_url);
 			} else {
-	      		alert('ERROR ' + xhrResults.error + ';  ' + JSON.parse(xhrResults.data.text).message);
+	      		alert('ERROR ' + xhrResults.error);
 			}
 	    } else {
 			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));

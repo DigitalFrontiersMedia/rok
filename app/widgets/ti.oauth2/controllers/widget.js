@@ -185,7 +185,7 @@ function _getBearerToken(_authCode, callback){
  * @public
  *
  */
-function _refresh(callback, callbackParam, callbackParamTwo) {
+function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree) {
 	if(_clientId && Ti.App.Properties.getString('azure-ad-refresh-token') && _clientSecret && _redirectUrl) {
 		Ti.API.info('Refreshing OAuth token...');
 		/**
@@ -224,7 +224,7 @@ function _refresh(callback, callbackParam, callbackParamTwo) {
 						global.setXHROauthParams();
 					}
 					if (callback) {
-						callback(callbackParam, callbackParamTwo);// && callback(null, response);
+						callback(callbackParam, callbackParamTwo, callbackParamThree);// && callback(null, response);
 					} else {
 						global.onOauthSuccess(response);
 					}

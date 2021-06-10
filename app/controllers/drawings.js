@@ -118,7 +118,7 @@ var listDrawings = function(results, preFetched) {
 	if (drawings) {
 		global.setDrawings(drawings);
 		drawings.forEach(function(drawing) {
-			Ti.API.info('Looking at drawing ' + drawing.name);
+			//Ti.API.info('Looking at drawing ' + drawing.name);
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
 				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/locked.png';

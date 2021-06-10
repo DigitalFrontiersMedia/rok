@@ -39,7 +39,10 @@
         </plist>
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
+		<services>
+			<service url="syncService.js" type="interval"/>
+		</services>
+       <manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="29"/>
             <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true"/>
             <application android:largeHeap="true">
