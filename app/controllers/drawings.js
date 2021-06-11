@@ -99,7 +99,22 @@ var chooseDrawing = function(e) {
 	Alloy.Globals.loading.show(L('loading'));
 	data.sheet_uids = [e.uid];
 	drawingName = e.text;
-	global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);
+	
+	// TODO:  Figure out a way to test if the target drawing has been cached so that we can bypass createDrawingPacket step.
+	// PSEUDOCODE commented in below.
+	// var hashedURL = Titanium.Utils.md5HexDigest(url);
+    // // Check if the file exists in the manager
+    // var cache = cacheManager[hashedURL];
+    // // If the file was found
+    // if (cache) {
+        // // Check that the TTL is further than the current date
+        // if (cache.timestamp >= new Date().getTime()) {
+            // //Titanium.API.info("CACHE FOUND");
+            // // Somehow get the cached drawing and display it.
+		// }
+	// } else {
+		global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);
+	// }
 };
 
 var listDrawings = function(results, preFetched) {

@@ -34,27 +34,27 @@ Konstruction.prototype.platform = function() {
 };
 
 Konstruction.prototype.processPagination = function(results, callingFunction, onSuccessCallback, options) {
-	var items = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
-	fullReturn.data.push.apply(fullReturn.data, items.data);
-	//Ti.API.info('fullReturn = ' + JSON.stringify(fullReturn));
-	//Ti.API.info('items.data.length = ' + JSON.stringify(items.data.length));
-	//Ti.API.info('fullReturn.data.length = ' + fullReturn.data.length);
-/*
-	items.data.forEach(function(item) {
-		Ti.API.info('item.title = ' + item.title);
-	});
-*/
-    if (fullReturn.data.length < items.total_count) {
-    	callingFunction(onSuccessCallback, options, items.next_page_url);
-    } else {
-    	if (results.status == 200) {
-    		results.data = JSON.stringify(fullReturn);
-    	} else {
-    		results.data.text = JSON.stringify(fullReturn);
-    	}
-    	fullReturn = {data:[]};
-	    onSuccessCallback(results);
-    }
+	//Ti.API.info('processPagination results = ' + JSON.stringify(results));
+	var reqResult = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
+	//if (reqResult.data && reqResult.data.length) {
+		fullReturn.data = fullReturn.data.concat(reqResult.data);
+	    if (fullReturn.data.length < reqResult.total_count) {
+	    	callingFunction(onSuccessCallback, options, reqResult.next_page_url);
+	    } else {
+	    	if (results.status == 200) {
+	    		results.data = JSON.stringify(fullReturn);
+				//Ti.API.info('Returned results.data.length = ' + JSON.parse(results.data).data.length);
+	    	} else {
+	    		results.data.text = JSON.stringify(fullReturn);
+				//Ti.API.info('Returned results.data.text.length = ' + JSON.parse(results.data.text).data.length);
+	    	}
+		    onSuccessCallback(results);
+	    	fullReturn = {data:[]};
+	    }
+    // } else {
+    	// fullReturn = {data:[]};
+	    // onSuccessCallback(results);
+    // }
 };
 
 Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) {

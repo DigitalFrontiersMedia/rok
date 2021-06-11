@@ -64,7 +64,7 @@ global.gridHeightMultiplier = 1.05;
 global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
-global.backgroundServiceDelay = 1; // minutes
+global.backgroundServiceDelay = 0.2; // minutes
 global.ttl = 60; // minutes
 global.userId = null;
 global.usingBasicAuth = true;
