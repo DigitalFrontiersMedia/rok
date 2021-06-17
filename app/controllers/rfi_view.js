@@ -260,7 +260,8 @@ var handleEdit = function(clicked) {
 };
 
 var closeAndRefreshRfis = function() {
-	$.rfi_view.close();
+	Titanium.Android.currentActivity.finish();
+	Titanium.Android.currentActivity.finish();	
 	Alloy.createController('rfis').getView().close();
 	Alloy.createController('rfis', {forceRefresh: true}).getView().open();
 };

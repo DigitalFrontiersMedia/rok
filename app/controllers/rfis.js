@@ -19,7 +19,7 @@ var chooseRfi = function(e) {
 var showRfis = function(results) {
 	Ti.API.info('konstruction.getRfis results = ' + JSON.stringify(results));
 	var x = 0;
-	var dataRow = null;
+	var dataRow = {};
 	var tableData = [];
 	var rfis = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('rfis  = ' + JSON.stringify(rfis));
@@ -27,8 +27,14 @@ var showRfis = function(results) {
 		global.setRfis(rfis);
 		rfis.forEach(function(rfi) {
 			if (rfi.title) {
-				dataRow = $.UI.create('TableViewRow', {uid: rfi.uid});
-				dataRow.leftImage = rfi.locked ? '/images/locked.png' : '/images/unlocked.png';
+				dataRow = $.UI.create('TableViewRow', {uid: rfi.uid, classes: ['dataRow']});
+				Ti.API.info('adding leftImage for ' + rfi.title + '...');
+				// leftImage disappears during some scroll actions for WTF reasons; Use imageView instead.
+				//dataRow.leftImage = rfi.locked ? '/images/locked.png' : '/images/unlocked.png';
+				dataRow.add($.UI.create('ImageView', {
+					image: rfi.locked ? '/images/locked.png' : '/images/unlocked.png',
+					classes: ["rfiLockStatus"]
+				}));
 				dataRow.add($.UI.create('Label', {
 					text: rfi.title,
 					classes: ["rfiChoice"]

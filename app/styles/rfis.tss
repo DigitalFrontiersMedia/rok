@@ -45,4 +45,10 @@
 "TableViewRow": {
 	layout: "horizontal",
 	horizontalWrap: false
+},
+".dataRow": {
+	height: 50
+},
+'.rfiLockStatus': {
+	left: 20,
 }

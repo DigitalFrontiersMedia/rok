@@ -579,3 +579,13 @@ exports.arrayTarget_search = function(needle, haystack) {
     }
     return -1;
 };
+
+/**
+ * Sleep during an async-wrapped function
+ * @param {Integer} [ms] The number of milliseconds to sleep
+ */
+exports.sleep = function(ms) {
+  return new Promise(function(resolve, ms) {
+  	setTimeout(resolve, ms);
+  });
+};

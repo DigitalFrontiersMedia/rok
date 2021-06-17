@@ -76,7 +76,7 @@ var listDocuments = function(results) {
 		documents.forEach(function(document) {
 			if (!document.deleted) {
 				item = $.UI.create('View', {url: document.url, text: document.name, classes: ["gridItem"]});
-				var imageUrl = (document.url.indexOf('.jpg') > -1 || document.url.indexOf('.png') > -1) ? document.url : '/images/locked.png';
+				var imageUrl = (document.url.indexOf('.jpg') > -1 || document.url.indexOf('.png') > -1) ? document.url : '/images/thumb_drawing_placeholder.png';
 				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
 				if (document.folder == currentFolder) {
 					item.add($.UI.create('Label', {text: document.name,classes: ["itemLabel"]}));

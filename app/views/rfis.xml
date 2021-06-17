@@ -6,7 +6,7 @@
         <Require id="optionCorner" src="optionCorner" type="view"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
-        <TableView id="ListView_rfis" onClick="chooseRfi">
+        <TableView id="ListView_rfis" onSingletap="chooseRfi">
             <TableViewSection id="listSection">
                 <TableViewRow>
                     <Label bottom="0" class="choice centered" top="0">Retrieving...</Label>

@@ -163,7 +163,7 @@ var listDrawings = function(results, preFetched) {
 			//Ti.API.info('Looking at drawing ' + drawing.name);
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
-				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/locked.png';
+				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/thumb_drawing_placeholder.png';
 				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
 				item.add($.UI.create('Label', {text: drawing.name + ' (' + drawing.version_name + ')', classes: ["itemLabel"]}));
 				item.addEventListener('click', function() {

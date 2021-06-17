@@ -2,9 +2,15 @@
     <Window class="container" id="whiteboard" left="0.00%" top="0.00%">
         <View id="canvas"/>
         <View id="controls">
-            <ImageView class="dwgControl" id="imgBtn_draw"/>
-            <ImageView class="dwgControl" id="imgBtn_erase"/>
-            <ImageView class="dwgControl" id="imgBtn_clear"/>
+        	<View class="dwgControl tool">
+            	<ImageView id="imgBtn_draw"/>
+            </View>
+        	<View class="dwgControl tool">
+            	<ImageView id="imgBtn_erase"/>
+            </View>
+        	<View class="dwgControl tool">
+            	<ImageView id="imgBtn_clear"/>
+            </View>
             <!--ImageView class="dwgControl" id="imgBtn_shapeSquare"/-->
             <ImageView class="dwgControl" id="imgBtn_shapeCircle" visible="false" />
             <Label id="Label_color"/>

@@ -10,16 +10,22 @@
 	"width": "31%"
 },
 "#imgBtn_draw": {
-//	"borderColor": "transparent",
+	"borderColor": "transparent",
+	image: "/images/ico_draw.png"
 },
 "#imgBtn_erase": {
-//	"borderColor": "transparent",
+	"borderColor": "transparent",
+	image: "/images/ico_eraser.png"
 },
 "#imgBtn_shapeSquare": {
 //	"borderColor": "transparent",
 },
 "#imgBtn_shapeCircle": {
 //	"borderColor": "transparent",
+},
+'#imgBtn_clear': {
+	"borderColor": "transparent",
+	image: "/images/ico_clearAll.png"
 },
 "#imgBtn_red": {
 	"backgroundColor": "#ff0000",
@@ -47,6 +53,9 @@
 	"borderColor": "#000000",
 	"borderWidth": "1",
 	left: "2%"
+},
+".tool": {
+	"borderColor": "transparent",
 },
 "#Label_color": {
 	"text": L("color"),

@@ -155,6 +155,7 @@ var cacheDrawings = function(results) {
 			//_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing;
 			//global.setDrawings(drawings);
 			global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing, drawing.uid);
+			//global.UTIL.sleep(20000);
 		});
 	}
 };
