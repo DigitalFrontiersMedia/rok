@@ -16,18 +16,29 @@ var listUser = function(results) {
 
 var getAndListAssignedUserInfo = function(users) {
 	users.forEach(function(user) {
-		global.konstruction.getUserInfo(user, listUser);
+		if (global.historyUsers.indexOf(user.uid) == -1) {
+			global.konstruction.getUserInfo(user, listUser);
+		} else {
+			results = {status: 304, data: {text: JSON.stringify(global.historyUsers[user.uid])}};
+			listUser(results);
+		}
 	});
 };
 
 var showRef = function(title, url) {
 	if (url.indexOf('response-content-disposition=attachment') == -1) {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
+	    var hashedURL = Titanium.Utils.md5HexDigest(url);
+	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 		var dialog = require('ti.webdialog');
 		if (dialog.isSupported()) {
 			dialog.open({
 				id: 'refDisplay',
 		    	title: title,
-		    	url: url,
+		    	url: url, //file.nativePath.split('file://').join(''),
 		        tintColor: '#ffffff',
 		        barColor: '#ff9200',
 		        showTitle: true,
@@ -37,6 +48,10 @@ var showRef = function(title, url) {
 		   });
 	   }
 	 } else {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
@@ -65,7 +80,7 @@ var chooseRef = function(e) {
 	Alloy.Globals.loading.show(L('loading'));
 	if (e.section.rows[e.index].url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
-			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
+			extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
 		    url: e.section.rows[e.index].url,
 		    onSuccess: function (results) {
 		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));

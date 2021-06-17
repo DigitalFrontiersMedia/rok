@@ -64,7 +64,7 @@ global.gridHeightMultiplier = 1.05;
 global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
-global.backgroundServiceDelay = 0.2; // minutes
+global.backgroundServiceDelay = 0.3; // minutes
 global.ttl = 60; // minutes
 global.userId = null;
 global.usingBasicAuth = true;
@@ -85,7 +85,7 @@ global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.
 
 global.xhrOptions = {
 	ttl : global.ttl,
-	debug : true	
+	debug : true
 };
 global.xhr.setStaticOptions(global.xhrOptions);
 
@@ -121,7 +121,7 @@ global.onOauthSuccess = function (authResults) {
 };
 
 global.onOauthError = function (authResults) {
-	Ti.API.info('ERROR: ', JSON.stringify(authResults));
+	Ti.API.info('Oauth ERROR: ', JSON.stringify(authResults));
 	global.oauth.close();
 	alert(L('error_occurred') + ': \n', JSON.stringify(authResults));
 };
@@ -226,7 +226,7 @@ global.setDrawings = function(drawings) {
 	switch(Ti.App.Properties.getString("constructionApp")) {
 		case 'PlanGrid':
 		default:
-			Ti.App.Properties.setObject("drawings", drawings);
+			Ti.App.Properties.setList("drawings", drawings);
 			break;
 	}
 };

@@ -6,6 +6,7 @@ var currentFolder = args.currentFolder || null;
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
 var showDocument = function(title, url) {
+	Alloy.Globals.loading.hide();
 	if (url.indexOf('response-content-disposition=attachment') == -1) {
 		var dialog = require('ti.webdialog');
 		if (dialog.isSupported()) {
@@ -22,6 +23,10 @@ var showDocument = function(title, url) {
 		   });
 	   }
 	 } else {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
@@ -44,11 +49,10 @@ var chooseDocument = function(e) {
 	Alloy.Globals.loading.show(L('loading'));
 	if (e.url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
-			extraParams: {shouldAuthenticate: false, contentType: '', ttl: 60, responseType: 'blob'},
+			extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
 		    url: e.url,
 		    onSuccess: function (results) {
 		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
-	    		Alloy.Globals.loading.hide();
 		    	showDocument(e.text, e.url);
 		    },
 		    onError: global.onXHRError

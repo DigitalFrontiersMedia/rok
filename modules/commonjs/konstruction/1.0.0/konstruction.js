@@ -429,6 +429,11 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_p
     // Create some default params
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
+    if (!options || !options.forceRefresh) {
+    	options = global.xhrOptions;
+    	options.forceRefresh = false;
+    }
+    Ti.API.info('getDrawings.options = ' + JSON.stringify(options));
 	var apiURL = global.konstruction.apiURL;
 	var endpoint;
 	//var onErrorCallback = global.onXHRError || function() {};
@@ -499,7 +504,7 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 	});
 };
 
-Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
+Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback, drawingUid) {
     // Create some default params
     var onSuccessCallback = onSuccessCallback || function() {};
     var options = options || null;
@@ -511,7 +516,7 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.createDrawingPacket, data, onSuccessCallback);
+		        global.oauth.refresh(self.createDrawingPacket, data, onSuccessCallback, drawingUid);
 			} else {
 	      		alert('ERROR ' + xhrResults.error);
 			}
@@ -530,12 +535,14 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback) {
 	global.xhr.POST({
 	    url: apiURL + endpoint,
 	    data: data,
-	    onSuccess: onSuccessCallback,
+	    onSuccess: function(results) {
+	    	onSuccessCallback(results, drawingUid);
+    	},
 	    onError: onErrorCallback,
 	});
 };
 
-Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback, options) {
+Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback, options, drawingUid) {
     // Create some default params
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
     
@@ -553,7 +560,7 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getDrawingPacket, packet_uid, onSuccessCallback, options);
+		        global.oauth.refresh(self.getDrawingPacket, packet_uid, onSuccessCallback, options, drawingUid);
 			} else {
 	      		alert('ERROR ' + xhrResults.error);
 			}
@@ -571,7 +578,9 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 	}
 	global.xhr.GET({
 	    url: apiURL + endpoint,
-	    onSuccess: onSuccessCallback,
+	    onSuccess: function(results) {
+	    	onSuccessCallback(results, drawingUid);
+    	},
 	    onError: onErrorCallback,
 	    extraParams: options
 	});

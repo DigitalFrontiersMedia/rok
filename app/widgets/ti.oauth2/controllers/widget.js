@@ -185,7 +185,7 @@ function _getBearerToken(_authCode, callback){
  * @public
  *
  */
-function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree) {
+function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree, callbackParamFour) {
 	if(_clientId && Ti.App.Properties.getString('azure-ad-refresh-token') && _clientSecret && _redirectUrl) {
 		Ti.API.info('Refreshing OAuth token...');
 		/**
@@ -224,7 +224,7 @@ function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree)
 						global.setXHROauthParams();
 					}
 					if (callback) {
-						callback(callbackParam, callbackParamTwo, callbackParamThree);// && callback(null, response);
+						callback(callbackParam, callbackParamTwo, callbackParamThree, callbackParamFour);// && callback(null, response);
 					} else {
 						global.onOauthSuccess(response);
 					}
@@ -236,6 +236,7 @@ function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree)
 				/**
 				* Oops! Something went wrong here
 				*/
+				Ti.API.info('oauth_refresh error on: ' + callback, JSON.stringify(callbackParam), JSON.stringify(callbackParamTwo), JSON.stringify(callbackParamThree), JSON.stringify(callbackParamFour));
 				global.onOauthError(e);
 			},
 			timeout: 10000

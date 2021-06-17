@@ -16,14 +16,21 @@ XHR.prototype.GET = function(e) {
     
     if (e.extraParams) {
         var extraParams = addDefaultsToOptions(e.extraParams);
+        Ti.API.info('addDefaults = ' + JSON.stringify(extraParams));
     } else {
         var extraParams = storedExtraParams;
+        Ti.API.info('storedExtraParams = ' + JSON.stringify(extraParams));
     }
 
     var cache = readCache(e.url);
     
+	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+	var url = e.url;
+	if (url.indexOf('.pdf?') > -1) {
+		url = url.split('?')[0];
+	}
     // Hash the URL
-    var hashedURL = Titanium.Utils.md5HexDigest(e.url);
+    var hashedURL = Titanium.Utils.md5HexDigest(url);
     // Check if the file exists in the manager
     var cachedFile = cacheManager[hashedURL];
 
@@ -205,6 +212,10 @@ XHR.prototype.DELETE = function(e) {
 XHR.prototype.clear = function(url) {
 
     if (url) {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
         // Hash the URL
         var hashedURL = Titanium.Utils.md5HexDigest(url);
         // Check if the file exists in the manager
@@ -291,6 +302,7 @@ function addDefaultsToOptions(providedParams) {
     var extraParams = providedParams || {};
     extraParams.async = (extraParams.hasOwnProperty('async')) ? extraParams.async : true;
     extraParams.ttl = (extraParams.hasOwnProperty('ttl')) ? extraParams.ttl : false;
+    //extraParams.forceRefresh = (extraParams.hasOwnProperty('forceRefresh')) ? extraParams.forceRefresh : false;
     extraParams.shouldAuthenticate = extraParams.shouldAuthenticate || false;
     extraParams.contentType = (extraParams.hasOwnProperty('contentType')) ? extraParams.contentType : "application/json";
     extraParams.responseType = (extraParams.hasOwnProperty('responseType')) ? extraParams.responseType : "json";
@@ -393,49 +405,55 @@ function initXHRRequest(method, url, extraParams) {
 // Private functions
 // =================
 function readCache(url) {
-    // Hash the URL
-    var hashedURL = Titanium.Utils.md5HexDigest(url);
-
-    // Check if the file exists in the manager
-    var cache = cacheManager[hashedURL];
-    // Default the return value to false
-    var result = false;
-
-    //Titanium.API.info("CHECKING CACHE");
-
-    // If the file was found
-    if (cache) {
-        // Fetch a reference to the cache file
-        var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
-
-        // Check that the TTL is further than the current date
-        // if (cache.timestamp >= new Date().getTime()) {
-            //Titanium.API.info("CACHE FOUND");
-		if (!file.exists()) {
-			Ti.API.info('Cache file not found!');
+	if (url) {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
 		}
-
-            // Return the content of the file
-            result = file.read();
-            // Return if found regardless of TTL and let GET decide whether or not to return it or get new based on TTL. *** DFM ***
-
-/*
-        } else {
-            //Titanium.API.info("OLD CACHE");
-
-            // Delete the record and file
-            delete cacheManager[hashedURL];
-            file.deleteFile();
-
-            // Update the cache manager
-            updateCacheManager();
-        }
-*/
-    } else {
-        //Titanium.API.info("CACHE " + hashedURL + " NOT FOUND");
+	    // Hash the URL
+	    var hashedURL = Titanium.Utils.md5HexDigest(url);
+	
+	    // Check if the file exists in the manager
+	    var cache = cacheManager[hashedURL];
+	    // Default the return value to false
+	    var result = false;
+	
+	    //Titanium.API.info("CHECKING CACHE");
+	
+	    // If the file was found
+	    if (cache) {
+	        // Fetch a reference to the cache file
+	        var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
+	
+	        // Check that the TTL is further than the current date
+	        // if (cache.timestamp >= new Date().getTime()) {
+	            //Titanium.API.info("CACHE FOUND");
+			if (!file.exists()) {
+				Ti.API.info('Cache file not found!');
+			}
+	
+	            // Return the content of the file
+	            result = file.read();
+	            // Return if found regardless of TTL and let GET decide whether or not to return it or get new based on TTL. *** DFM ***
+	
+	/*
+	        } else {
+	            //Titanium.API.info("OLD CACHE");
+	
+	            // Delete the record and file
+	            delete cacheManager[hashedURL];
+	            file.deleteFile();
+	
+	            // Update the cache manager
+	            updateCacheManager();
+	        }
+	*/
+	    } else {
+	        //Titanium.API.info("CACHE " + hashedURL + " NOT FOUND");
+	    }
+	
+	    return result;
     }
-
-    return result;
 };
 
 function updateCacheManager() {
@@ -449,6 +467,10 @@ function writeCache(data, url, ttl, type) {
 	// TODO:  Change how hashdURL is stored for PDF/Blob resources so changing timestamp query strings don't cause multiple copies
 	//        in storage, eating up space unnecessarily.
     // hash the url
+	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+	if (url.indexOf('.pdf?') > -1) {
+		url = url.split('?')[0];
+	}
     var hashedURL = Titanium.Utils.md5HexDigest(url);
 
     // Write the file to the disk
@@ -456,7 +478,7 @@ function writeCache(data, url, ttl, type) {
 
 	if (type == 'blob') {
 		//data = data.toBlob();
-		Ti.API.info('*************** Writing Cache file ' + hashedURL + '***************')
+		Ti.API.info('*************** Writing Cache file ' + hashedURL + '***************');
 	}
     // Write the file to the disk
     // TODO: There appears to be a bug in Titanium and makes the method
