@@ -1,3 +1,10 @@
 <Alloy>
-    <ImageView id="ImageView_homeBackground" class="cornerBG flip" onClick="goHome"/>
+	<View id="imgBtn_homeCorner">
+    	<ImageView id="ImageView_homeBackground" class="cornerBG flip"/>
+    	<View class="cornerButtonsWrapper">
+        	<ImageView id="ImageView_home" onClick="goHome" />
+        	<View id="verticalSeparator" />
+        	<Label id="lbl_dateTime" class=""/>
+    	</View>
+	</View>
 </Alloy>

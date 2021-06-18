@@ -28,7 +28,7 @@ var showRfis = function(results) {
 		rfis.forEach(function(rfi) {
 			if (rfi.title) {
 				dataRow = $.UI.create('TableViewRow', {uid: rfi.uid, classes: ['dataRow']});
-				Ti.API.info('adding leftImage for ' + rfi.title + '...');
+				//Ti.API.info('adding leftImage for ' + rfi.title + '...');
 				// leftImage disappears during some scroll actions for WTF reasons; Use imageView instead.
 				//dataRow.leftImage = rfi.locked ? '/images/locked.png' : '/images/unlocked.png';
 				dataRow.add($.UI.create('ImageView', {

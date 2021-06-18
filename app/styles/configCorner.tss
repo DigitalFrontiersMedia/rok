@@ -18,9 +18,11 @@
 	"textAlign": Titanium.UI.TEXT_ALIGNMENT_CENTER,
 },
 ".cornerButtonsWrapper": {
-	left: 70,
-	top: 10,
-	layout: "horizontal"
+	right: 20,
+	top: 17,
+	height: '50%',
+	layout: "horizontal",
+	width: Ti.UI.SIZE
 },
 "#ImageView_config": {
 	image: "/images/ico_settings.png"

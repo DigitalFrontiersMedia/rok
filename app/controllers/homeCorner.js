@@ -6,3 +6,9 @@ var goHome = function() {
 	//global.homeWindow.open();
 	Alloy.createController('home').getView().open();
 };
+
+var getFormattedTime = function() {
+	$.lbl_dateTime.text = global.formatDate(new Date()) + ' | ' + global.formatTime(new Date());
+};
+setInterval(getFormattedTime, 10000);
+//getFormattedTime();

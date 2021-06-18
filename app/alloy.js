@@ -142,6 +142,10 @@ global.formatDate = function(dateString) {
 	return dateString ? new Date(dateString).toLocaleDateString(Ti.Locale.currentLanguage) : '';
 };
 
+global.formatTime = function(timeString) {
+	return timeString ? new Date(timeString).toLocaleTimeString(Ti.Locale.currentLanguage, { hour: '2-digit', minute: '2-digit' }) : '';
+};
+
 Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentExp = Date.now();

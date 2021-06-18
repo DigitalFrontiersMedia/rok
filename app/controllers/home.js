@@ -217,7 +217,7 @@ var goRfis = function() {
 	global.homeUIDirty = true;
 	Ti.API.info('*** RFIs ***');
 	if (!$.home.getViewById('rfiActions')) {
-		Ti.API.info('creating rfiActions');
+		//Ti.API.info('creating rfiActions');
 		rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions'], opacity: 0});
 		var createRfi = $.UI.create('Label', {id: 'createRfi', classes: ['rfiActionChoice'], text: L('create_rfi')});
 		createRfi.addEventListener('click', rfiRouter);
