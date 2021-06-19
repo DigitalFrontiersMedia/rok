@@ -109,21 +109,22 @@ if (!Ti.App.Properties.getString('wifi')) {
 
 global.Wifi.startWifiScan({
 	complete : function(scanned) {
-		var networkName,
-		dataRow;
+		dataRow = {};
 		var tableData = [];
 		if (scanned.scanResults) {
-			//Ti.API.info("scanResults = " + scanned.scanResults);
 			scan = scanned;
 			scanned.scanResults.forEach(function(scanResult) {
 				if (scanResult.getSSID()) {
 					//Ti.API.info("bssid=" + scanResult.getBSSID() + "   rssi=" + scanResult.getRSSI() + "   ssid=" + scanResult.getSSID());
-					networkName = $.UI.create('Label', {
+					dataRow = $.UI.create('TableViewRow');
+					dataRow.add($.UI.create('Label', {
 						text: scanResult.getSSID() + ' (' + (scanResult.getFrequency() / 1000).toFixed(1) + ' GHz)',
-						classes: ["choice"]
-					});
-					dataRow = Ti.UI.createTableViewRow();
-					dataRow.add(networkName);
+						classes: ["choice", 'left']
+					}));
+					dataRow.add($.UI.create('ImageView', {
+						image: global.wifiIcon(scanResult.getRSSI()),
+						classes: ['imageRight']
+					}));
 					tableData.push(dataRow);
 				}
 			});
@@ -139,6 +140,5 @@ global.Wifi.startWifiScan({
 		$.ListView_networks.data = tableData;
 	}
 });
-
 
 global.netConnect = netConnect;

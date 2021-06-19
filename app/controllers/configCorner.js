@@ -27,3 +27,9 @@ var configAdminChallenge = function() {
 	password.focus();
 };
 
+var updateCurrentWifiStatus = function() {
+	var level = global.Wifi.getCurrentConnection().Rssi;
+    $.signalLevelIcon.image = global.wifiIcon(level);
+};
+setInterval(updateCurrentWifiStatus, 30000);
+setTimeout(updateCurrentWifiStatus, 100);

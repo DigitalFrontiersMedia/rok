@@ -25,5 +25,6 @@
 	width: Ti.UI.SIZE
 },
 "#ImageView_config": {
-	image: "/images/ico_settings.png"
+	image: "/images/ico_settings.png",
+	left: 20
 },

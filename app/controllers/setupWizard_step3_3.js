@@ -37,7 +37,7 @@ var showProjects = function(results) {
 					text: project.name,
 					classes: ["choice"]
 				});
-				dataRow = Ti.UI.createTableViewRow();
+				dataRow = $.UI.create('TableViewRow');
 				dataRow.add(projectName);
 				tableData.push(dataRow);
 			}

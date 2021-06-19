@@ -319,6 +319,26 @@ global.showOptions = function(prompt, opts, context, callback) {
 	});
 };
 
+global.wifiIcon = function(level) {
+	var signalLevelImage;
+    if (level <= 0 && level >= -50) {
+		//Best signal
+		signalLevelImage = '/images/ico_wifi_100.png';
+    } else if (level < -50 && level >= -70) {
+		//Good signal
+		signalLevelImage = '/images/ico_wifi_75.png';
+    } else if (level < -70 && level >= -80) {
+		//Low signal
+		signalLevelImage = '/images/ico_wifi_50.png';
+    } else if (level < -80 && level >= -100) {
+		//Very weak signal
+		signalLevelImage = '/images/ico_wifi_25.png';
+    } else {
+		// no signals
+		signalLevelImage = '/images/ico_wifi_0.png';
+    }
+    return signalLevelImage;
+};
 
 global.copyFileToAppData = function(name) {
 	var oldfile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, name);

@@ -30,7 +30,7 @@ if (deviceInfo) {
 				text: device.title,
 				classes: ["choice"]
 			});
-			dataRow = Ti.UI.createTableViewRow();
+			dataRow = $.UI.create('TableViewRow');
 			dataRow.add(deviceName);
 			tableData.push(dataRow);
 		}

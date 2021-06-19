@@ -2,7 +2,7 @@
 	<View id="imgBtn_configCorner">
     	<ImageView id="ImageView_configBackground" class="cornerBG mirror flip"/>
     	<View class="cornerButtonsWrapper">
-        	<Label id="lbl_configCorner" class="btnText"/>
+        	<ImageView id="signalLevelIcon" />
         	<ImageView id="ImageView_config" onClick="configAdminChallenge" />
     	</View>
 	</View>

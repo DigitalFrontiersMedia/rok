@@ -8,8 +8,8 @@
         <Label id="Label_configSelect"/>
         <TableView id="ListView_projects" onClick="chooseProject">
             <TableViewSection id="listSection">
-                <TableViewRow>
-                    <Label bottom="0" class="choice" top="0">Retrieving...</Label>
+                <TableViewRow height=Ti.UI.FILL>
+                    <Label bottom="0" class="centered choice" top="0">Retrieving...</Label>
                 </TableViewRow>
             </TableViewSection>
         </TableView>

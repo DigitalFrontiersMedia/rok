@@ -21,7 +21,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	"windowSoftInputMode": Ti.UI.Android.SOFT_INPUT_ADJUST_PAN,
 	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
 	"extendSafeArea": false,
-	fullscreen: false,
+	fullscreen: true,
 	windowFlags: Ti.UI.Android.FLAG_TRANSLUCENT_NAVIGATION | Ti.UI.Android.FLAG_TRANSLUCENT_STATUS,
 	exitOnClose: false
 },
@@ -129,6 +129,9 @@ overrode the settings with other TSS, XML, or JS settings:
 	"backgroundColor": "rgba(0,0,0,0.5)",
 	/*"separatorColor": "#fff",*/
 	"separatorColor": "rgba(255,255,255,0.25)",
+},
+"TableViewRow": {
+	height: 50
 },
 ".zebra": {
 	backgroundColor: '#333'

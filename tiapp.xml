@@ -7,8 +7,8 @@
     <description>Portable Document File Viewer and on-site function hub for the ROK Construction Management Ecosystem.</description>
     <copyright>2020 by Digital Frontiers Media</copyright>
     <icon>appicon.png</icon>
-    <fullscreen>false</fullscreen>
-    <statusbar-hidden>false</statusbar-hidden>
+    <fullscreen>true</fullscreen>
+    <statusbar-hidden>true</statusbar-hidden>
     <navbar-hidden>true</navbar-hidden>
     <analytics>true</analytics>
     <guid>17a06a93-5ce5-4592-9ccc-2e5d6575961c</guid>

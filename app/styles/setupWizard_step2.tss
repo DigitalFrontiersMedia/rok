@@ -27,5 +27,13 @@
 	"separatorColor": "#fff",
 },
 ".choice": {
-	"font": {fontSize:'24'}
-}
+	"font": {fontSize:'24'},
+	width: '80%',
+	left: '5%',
+	right: '5%'
+},
+".imageRight": {
+	right: '5%',
+	width: Ti.UI.SIZE,
+	height: 25
+},
