@@ -39,7 +39,7 @@ XHR.prototype.GET = function(e) {
     
     Ti.API.info('cache = ' + cache);
     Ti.API.info('extraParams = ' + JSON.stringify(extraParams));
-    if (cache === false || !extraParams.ttl || extraParams.forceRefresh || cachedFile.timestamp < new Date().getTime()) {
+    if (cache === false || !extraParams.ttl || extraParams.forceRefresh || (cachedFile.timestamp < new Date().getTime() && Ti.Network.online)) {
 
         var xhr = initXHRRequest('GET', e.url, extraParams);
 
@@ -113,7 +113,13 @@ XHR.prototype.POST = function(e) {
         onError(handleError(xhr, err));
     };
 
-    xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	if (Ti.Network.online) {
+		xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	} else {
+		setTimeout(function() {
+			XHR.prototype.POST(e);
+		}, global.postRetryDelay * 60 * 1000);
+	}
 };
 
 // PUT requests
@@ -143,7 +149,13 @@ XHR.prototype.PUT = function(e) {
         onError(handleError(xhr, err));
     };
 
-    xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	if (Ti.Network.online) {
+	    xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	} else {
+		setTimeout(function() {
+			XHR.prototype.PUT(e);
+		}, global.postRetryDelay * 60 * 1000);
+	}
 };
 
 // PATCH requests
@@ -173,7 +185,13 @@ XHR.prototype.PATCH = function(e) {
         onError(handleError(xhr, err));
     };
 
-    xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	if (Ti.Network.online) {
+    	xhr.send(extraParams.parseJSON ? JSON.stringify(e.data) : e.data);
+	} else {
+		setTimeout(function() {
+			XHR.prototype.PATCH(e);
+		}, global.postRetryDelay * 60 * 1000);
+	}
 };
 
 // @e (object) url is required, supports onSuccess, onError and extraParams
@@ -202,7 +220,13 @@ XHR.prototype.DELETE = function(e) {
         onError(handleError(xhr, err));
     };
 
-    xhr.send();
+	if (Ti.Network.online) {
+    	xhr.send();
+	} else {
+		setTimeout(function() {
+			XHR.prototype.DELETE(e);
+		}, global.postRetryDelay * 60 * 1000);
+	}
 };
 
 // Helper functions
@@ -266,11 +290,13 @@ XHR.prototype.clean = function() {
 };
 
 // Removes all documents from the manager and the file system
-XHR.prototype.purge = function() {
-
+XHR.prototype.purge = function(progressBar, updateCallback) {
     var purgedDocuments = 0;
 
-    for (var key in cacheManager) {
+	// convert object to key's array
+	Object.keys(cacheManager).forEach(function(key) {
+	//for (var key of Object.keys(cacheManager)) {
+    //for (var key in cacheManager) {
         var cache = cacheManager[key];
         // Delete references and file
         var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, key);
@@ -283,7 +309,7 @@ XHR.prototype.purge = function() {
 
         // Update the deleted documents count
         purgedDocuments = purgedDocuments + 1;
-    }
+    });
 
     // Return the number of files deleted
     return purgedDocuments;
@@ -405,6 +431,7 @@ function initXHRRequest(method, url, extraParams) {
 // Private functions
 // =================
 function readCache(url) {
+	cacheManager = Ti.App.Properties.getObject("cachedXHRDocuments", {});
 	if (url) {
 		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 		if (url.indexOf('.pdf?') > -1) {

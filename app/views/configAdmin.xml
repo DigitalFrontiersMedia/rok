@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
     <Window class="container">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
@@ -13,6 +13,10 @@
                 <View class="button-wrapper largeBtn" id="imgBtn_reconfigure" onClick="goReconfigure">
                     <ImageView class="btnMainSecondary largeBtn"/>
                     <Label class="btnText reconfigure"/>
+                </View>
+                <View class="button-wrapper largeBtn" id="imgBtn_purge" onClick="purgeCachedAssets">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText purge"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_browser" onClick="goBrowser">
                     <ImageView class="btnMainSecondary largeBtn"/>

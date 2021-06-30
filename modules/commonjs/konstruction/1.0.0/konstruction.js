@@ -34,7 +34,7 @@ Konstruction.prototype.platform = function() {
 };
 
 Konstruction.prototype.processPagination = function(results, callingFunction, onSuccessCallback, options) {
-	//Ti.API.info('processPagination results = ' + JSON.stringify(results));
+	Ti.API.info('processPagination results = ' + JSON.stringify(results));
 	var reqResult = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
 	//if (reqResult.data && reqResult.data.length) {
 		fullReturn.data = fullReturn.data.concat(reqResult.data);

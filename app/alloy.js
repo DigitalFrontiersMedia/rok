@@ -66,6 +66,7 @@ global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView()
 
 global.backgroundServiceDelay = 0.3; // minutes
 global.ttl = 60; // minutes
+global.postRetryDelay = 60; // minutes
 global.userId = null;
 global.usingBasicAuth = true;
 global.basicAuthUser = 'guest';
@@ -163,6 +164,11 @@ Ti.App.addEventListener('app:unauthorizedRequest', function(e) {
 if (Ti.App.Properties.getString('azure-ad-access-token')) {
 	global.setXHROauthParams();
 }
+Ti.Network.addEventListener('change', function(e) {
+    if (!Ti.Network.online) {
+    	alert(L('offline_warning'));
+    }
+});
 if (!Ti.Network.online) {
 	alert(L('offline_warning'));
 } else {

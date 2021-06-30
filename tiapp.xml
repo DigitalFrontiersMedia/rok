@@ -16,7 +16,7 @@
     <property name="run-on-main-thread" type="bool">true</property>
     <ios>
         <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
-        <use-app-thinning>true</use-app-thinning>
+        <use-app-thinning>false</use-app-thinning>
         <plist>
             <dict>
                 <key>UISupportedInterfaceOrientations~iphone</key>

@@ -3,6 +3,9 @@
 	<string name="config_admin">Administration</string>
 	<string name="config_updated">Configuration on your ROK account for this device has been updated successfully.</string>
 	<string name="reconfigure">RECONFIGURE</string>
+	<string name="purge">PURGE CACHED ASSETS</string>
+	<string name="purging">Purging...</string>
+	<string name="purged_docs">Deleted %s cached assets.</string>
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
 	<string name="ok">OK</string>

@@ -65,6 +65,9 @@ var chooseDocument = function(e) {
 var listDocuments = function(results) {
 	Ti.API.info('konstruction.getDocuments results = ' + JSON.stringify(results));
 	$.currentFolder.text = currentFolder ? 'Folder:  ' + currentFolder : '';
+	if  ($.currentFolder.text == '') {
+		//$.currentFolder.backgroundGradient = {};
+	}
 	//var x = 1;
 	var item = null;
 	//var tableData = [];
@@ -77,7 +80,10 @@ var listDocuments = function(results) {
 			if (!document.deleted) {
 				item = $.UI.create('View', {url: document.url, text: document.name, classes: ["gridItem"]});
 				var imageUrl = (document.url.indexOf('.jpg') > -1 || document.url.indexOf('.png') > -1) ? document.url : '/images/thumb_drawing_placeholder.png';
-				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
+				if (document.folder != currentFolder) {
+					imageUrl = '/images/ico_folder_large.png';
+				}
+				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"], backgroundColor: (document.folder != currentFolder) ? 'transparent' : '#fff'}));
 				if (document.folder == currentFolder) {
 					item.add($.UI.create('Label', {text: document.name,classes: ["itemLabel"]}));
 					item.addEventListener('click', function() {

@@ -110,7 +110,7 @@ var listPhotos = function(results) {
 	photos.forEach(function(photo) {
 		photoTitle = global.UTIL.cleanString(photo.title) ? '• ' + global.UTIL.cleanString(photo.title) : "• Photo " + x;
 		photoLabel = $.UI.create('Label', {text: photoTitle, classes: ["listLabels"]});
-		dataRow = Ti.UI.createTableViewRow({url: photo.url});
+		dataRow = $.UI.create('TableViewRow', {url: photo.url});
 		dataRow.add(photoLabel);
 		x++;
 		if (x % 2) {
@@ -137,7 +137,7 @@ var listDocuments = function(results) {
 	attachments.forEach(function(attachment) {
 		attachmentTitle = global.UTIL.cleanString(attachment.name) ? '• ' + global.UTIL.cleanString(attachment.name) : "• Document " + x;
 		attachmentLabel = $.UI.create('Label', {text: attachmentTitle, classes: ["listLabels"]});
-		dataRow = Ti.UI.createTableViewRow({url: attachment.url, name: attachment.name});
+		dataRow = $.UI.create('TableViewRow', {url: attachment.url, name: attachment.name});
 		dataRow.add(attachmentLabel);
 		x++;
 		if (x % 2) {
@@ -164,7 +164,7 @@ var listSnapshots = function(results) {
 	snapshots.forEach(function(snapshot) {
 		snapshotTitle = global.UTIL.cleanString(snapshot.title) ? '• ' + global.UTIL.cleanString(snapshot.title) : "• Snapshot " + x;
 		snapshotLabel = $.UI.create('Label', {text: snapshotTitle, classes: ["listLabels"]});
-		dataRow = Ti.UI.createTableViewRow({url: snapshot.url});
+		dataRow = $.UI.create('TableViewRow', {url: snapshot.url});
 		dataRow.add(snapshotLabel);
 		x++;
 		if (x % 2) {

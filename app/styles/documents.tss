@@ -14,7 +14,9 @@
 "#currentFolder": {
 	top: "17%",
 	left: 105,
-	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT
+	width: '89%',
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:18},endPoint:{x:0,y:21},colors:["transparent","#ff9200"]},
 },
 "#documentsGrid": {
 	"top": "20%"
@@ -28,6 +30,5 @@
 },
 ".itemImage": {
 	width: Ti.UI.FILL,
-	height: 236,
-	backgroundColor: "#fff"
+	height: 236
 }

@@ -141,6 +141,10 @@ overrode the settings with other TSS, XML, or JS settings:
 	height: 0,
 	visible: false
 },
+".visible": {
+	height: Titanium.UI.SIZE,
+	visible: true
+},
 "#closeButton": {
 	showAsAction: Ti.Android.SHOW_AS_ACTION_ALWAYS
 },
@@ -154,5 +158,8 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".centered": {
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".transparentBG": {
+	backgroundColor: "transparent"
 }
 

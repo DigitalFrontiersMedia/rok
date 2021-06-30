@@ -44,11 +44,15 @@
 	left: "15%"
 },
 "#imgBtn_reconfigure": {
-	"width": "50%",
+	"width": "33%",
 	bubbleParent: false
 },
 "#imgBtn_browser": {
-	"width": "50%",
+	"width": "33%",
+	bubbleParent: false
+},
+"#imgBtn_purge": {
+	"width": "33%",
 	bubbleParent: false
 },
 ".reconfigure": {
@@ -57,3 +61,6 @@
 ".browser": {
 	text: L("browser")
 },
+".purge": {
+	text: L("purge")
+}
