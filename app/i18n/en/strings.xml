@@ -4,6 +4,7 @@
 	<string name="config_updated">Configuration on your ROK account for this device has been updated successfully.</string>
 	<string name="reconfigure">RECONFIGURE</string>
 	<string name="purge">PURGE CACHED ASSETS</string>
+	<string name="syncing">Syncing/caching assets...</string>
 	<string name="purging">Purging...</string>
 	<string name="purged_docs">Deleted %s cached assets.</string>
 	<string name="browser">BROWSER</string>
@@ -136,7 +137,8 @@
 	<string name="updating">Updating...</string>
 	<string name="load_failed">Failed to load.</string>
 	<string name="error_occurred">An error occurred</string>
-	<string name="offline_warning">It appears that your network connection dropped or that you haven't yet connected.  Currently using cached assets until connection is re-established to re-sync documents & configurations.</string>
+	<string name="internet_required">An internet connection is required for this function and it appears your network connection has dropped or is otherwise disconnected.</string>
+	<string name="offline_warning">It appears that your network connection dropped or that you haven't yet connected.  The ROK will continue working using cached assets, where possible, until the connection is re-established to re-sync data, documents, & configurations.</string>
 	<string name="no_url">*** No URL for requested resource!!! ***</string>
 	<string name="page_super_prompt">Choose desired message to send:</string>
 	<string name="site_info_prompt">Choose desired Site Info:</string>

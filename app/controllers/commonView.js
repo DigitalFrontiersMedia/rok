@@ -29,4 +29,5 @@ var done = function() {
 		callback(formInput);
 	}
 	container.remove($.commonView);
+	global.homeUIDirty = false;
 };

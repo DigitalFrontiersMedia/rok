@@ -10,7 +10,7 @@ Konstruction = function() {};
 var nonce;
 var fullReturn = {data:[]};
 var self = Konstruction.prototype;
- 
+
 // Public functions
 // ================
 
@@ -48,8 +48,8 @@ Konstruction.prototype.processPagination = function(results, callingFunction, on
 	    		results.data.text = JSON.stringify(fullReturn);
 				//Ti.API.info('Returned results.data.text.length = ' + JSON.parse(results.data.text).data.length);
 	    	}
-		    onSuccessCallback(results);
 	    	fullReturn = {data:[]};
+		    onSuccessCallback(results);
 	    }
     // } else {
     	// fullReturn = {data:[]};

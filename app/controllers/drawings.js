@@ -35,6 +35,9 @@ var showDrawing = function(title, url) {
 		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 		if (url.indexOf('.pdf?') > -1) {
 			url = url.split('?')[0];
+			if (drawingUid) {
+				url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+			}
 		}
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
@@ -63,6 +66,7 @@ var processDrawing = function(results) {
 	global.setDrawings(drawings);
 	if (drawing.file_url.indexOf('response-content-disposition=attachment') > -1) {
 		global.xhr.GET({
+			drawingUid: drawingUid,
 			extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
 		    url: drawing.file_url,
 		    onSuccess: function (results) {
@@ -91,6 +95,9 @@ var preProcessDrawing = function(results) {
 	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 	if (url.indexOf('.pdf?') > -1) {
 		url = url.split('?')[0];
+		if (drawingUid) {
+			url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+		}
 	}
 	var hashedURL = Titanium.Utils.md5HexDigest(url);
     var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
@@ -127,6 +134,9 @@ var chooseDrawing = function(e) {
 	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 	if (url.indexOf('.pdf?') > -1) {
 		url = url.split('?')[0];
+		if (drawingUid) {
+			url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+		}
 	}
 	var hashedURL = Titanium.Utils.md5HexDigest(url);
     // Check if the file exists in the manager

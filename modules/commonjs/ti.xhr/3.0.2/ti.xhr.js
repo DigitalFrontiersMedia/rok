@@ -22,12 +22,15 @@ XHR.prototype.GET = function(e) {
         Ti.API.info('storedExtraParams = ' + JSON.stringify(extraParams));
     }
 
-    var cache = readCache(e.url);
+    var cache = readCache(e.url, e.drawingUid);
     
 	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 	var url = e.url;
 	if (url.indexOf('.pdf?') > -1) {
 		url = url.split('?')[0];
+		if (e.drawingUid) {
+			url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(e.drawingUid);
+		}
 	}
     // Hash the URL
     var hashedURL = Titanium.Utils.md5HexDigest(url);
@@ -50,27 +53,13 @@ XHR.prototype.GET = function(e) {
 
             // only cache if there is a ttl
             if (extraParams.ttl) {
-                writeCache(result.data, e.url, extraParams.ttl, e.responseType);
+                writeCache(result.data, e.url, extraParams.ttl, e.responseType, e.drawingUid);
             }
         };
 
         // When there was an error
         xhr.onerror = function(err) {
-/*
-        	var cache = readCache(xhr.url);
-        	if (cache) {
-        		var result = {};
-		        result.result = "cache";
-		        result.status = 304;
-		        // not modified
-		        result.data = cache;
-		        result.metaData = err;
-		
-		        onSuccess(result);
-        	} else {
-*/
-            	onError(handleError(xhr, err));
-          	// }
+            onError(handleError(xhr, err));
         };
 
         xhr.send();
@@ -233,12 +222,15 @@ XHR.prototype.DELETE = function(e) {
 // =================
 
 // Removes the cached content of a given URL (this is useful if you are not satisfied with the data returned that time)
-XHR.prototype.clear = function(url) {
+XHR.prototype.clear = function(url, drawingUid) {
 
     if (url) {
 		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 		if (url.indexOf('.pdf?') > -1) {
 			url = url.split('?')[0];
+			if (drawingUid) {
+				url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+			}
 		}
         // Hash the URL
         var hashedURL = Titanium.Utils.md5HexDigest(url);
@@ -430,12 +422,15 @@ function initXHRRequest(method, url, extraParams) {
 
 // Private functions
 // =================
-function readCache(url) {
+function readCache(url, drawingUid) {
 	cacheManager = Ti.App.Properties.getObject("cachedXHRDocuments", {});
 	if (url) {
 		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 		if (url.indexOf('.pdf?') > -1) {
 			url = url.split('?')[0];
+			if (drawingUid) {
+				url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+			}
 		}
 	    // Hash the URL
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
@@ -487,7 +482,7 @@ function updateCacheManager() {
     Titanium.App.Properties.setObject("cachedXHRDocuments", cacheManager);
 };
 
-function writeCache(data, url, ttl, type) {
+function writeCache(data, url, ttl, type, drawingUid) {
 
     //Titanium.API.info("WRITING CACHE");
 
@@ -497,6 +492,9 @@ function writeCache(data, url, ttl, type) {
 	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 	if (url.indexOf('.pdf?') > -1) {
 		url = url.split('?')[0];
+		if (drawingUid) {
+			url = url.split(url.substring(url.lastIndexOf('/') + 1)).join(drawingUid);
+		}
 	}
     var hashedURL = Titanium.Utils.md5HexDigest(url);
 

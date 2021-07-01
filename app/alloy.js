@@ -266,6 +266,15 @@ global.setOauthParams = function(platform) {
 	}
 };
 
+global.setPlatform = function() {
+	if (Ti.App.Properties.getString('constructionApp')) {
+		global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
+		Ti.API.info('konstruction.platform = ', global.konstruction.platform);
+		global.setOauthParams(global.konstruction.platform);
+	}
+};
+global.setPlatform();
+
 global.setDeviceConfig = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	if (deviceInfo.length == 1) {
@@ -280,11 +289,7 @@ global.setDeviceConfig = function() {
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
 	}
-	if (Ti.App.Properties.getString('constructionApp')) {
-		global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
-		Ti.API.info('konstruction.platform = ', global.konstruction.platform);
-		global.setOauthParams(global.konstruction.platform);
-	}
+	global.setPlatform();
 };
 
 /*

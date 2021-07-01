@@ -54,9 +54,14 @@ var pageSuperMenu = function(e) {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
+	resetRfiActions();
 	global.homeUIDirty = true;
 	// Exit early if N/A.
-	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
+	if (!Ti.Network.online) {
+		alert(L('internet_required'));
+		return;
+	}
+	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || (!deviceInfo && !global.userId)) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
@@ -139,9 +144,10 @@ var siteInfoMenu = function() {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
+	resetRfiActions();
 	global.homeUIDirty = true;
 	// Exit early if N/A.
-	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || !global.userId) {
+	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || (!deviceInfo && !global.userId)) {
 		alert(L('device_info_not_synced'));
 		return;
 	}
@@ -163,6 +169,7 @@ var siteInfoMenu = function() {
 	var optionsTable = $.UI.create('TableView', {id: "ListView_siteInfoOptions"});
 	optionsTable.addEventListener('click', function(e) {
 		$.home.remove(commonView);
+		global.homeUIDirty = false;
 		displaySiteInfo(e);
 	});
 	var optionsSection = $.UI.create('TableViewSection', {id: 'listSection'});
@@ -196,6 +203,7 @@ var resetRfiActions = function() {
 	//$.View_rfis.opacity = 1;
 	$.View_rfis.animate(Titanium.UI.createAnimation({opacity:1, duration:250}));	
 	$.home.remove(rfiActions);
+	global.homeUIDirty = false;
 	rfiActions = $.UI.create('View');
 };
 
@@ -235,18 +243,21 @@ var goRfis = function() {
 
 var goDrawings = function() {
 	Ti.API.info('*** DRAWINGS ***');
+	resetRfiActions();
 	Alloy.createController('drawings').getView().open();
 	global.isHome = false;
 };
 
 var goSubmittals = function() {
 	Ti.API.info('*** SUBMITTALS ***');
+	resetRfiActions();
 	Alloy.createController('submittals').getView().open();
 	global.isHome = false;
 };
 
 var goDocuments = function() {
 	Ti.API.info('*** DOCUMENTS ***');
+	resetRfiActions();
 	Alloy.createController('documents').getView().open();
 	global.isHome = false;
 };
