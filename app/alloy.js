@@ -80,6 +80,7 @@ global.timeoutID = null;
 global.isHome = true;
 global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getList('historyUsers') ? Ti.App.Properties.getList('historyUsers') : [];
+global.show429Error = true;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
@@ -407,6 +408,13 @@ global.userInteraction = function() {
 Ti.App.addEventListener('userinteraction', global.userInteraction);
 
 global.syncService = function() {
+	/*
+	var worker = require('ti.worker');
+
+	// create a worker thread instance
+	var task = worker.createWorker('syncService.js');
+	*/
+	
 	// start cache-warming syncService
 	var intent = Titanium.Android.createServiceIntent({
 	  url: 'syncService.js'
@@ -421,5 +429,6 @@ global.syncService = function() {
 	} else {
 	    Ti.API.info('Service is already running.');
 	}
+	
 };
 setTimeout(global.syncService, global.backgroundServiceDelay * 60 * 1000);

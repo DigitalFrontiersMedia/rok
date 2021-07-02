@@ -7,6 +7,7 @@ var timeoutLimit = 30;
 
 var syncCompleted = function() {
 		Alloy.Globals.loading.hide();
+		global.show429Error = true;
 };
 
 var cacheRefs = function(results) {
@@ -177,13 +178,16 @@ var cacheDrawings = function(results) {
 
 if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 	Alloy.Globals.loading.show(L('syncing'));
+	global.show429Error = false;
 	// Iterate through all RFIs, Documents, Drawings, Submittals 
 	// to load those, if needed, as well as any sub-items like attached Photos, Documents, etc.
 	// TODO:  add updated_after parameter to only update those items that have changed
-	var rfiKon = new(require("konstruction"))();
-	rfiKon.getRfis(iterateRfis);
-	// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
-	//global.konstruction.getDocuments(cacheDocuments);
-	//global.konstruction.getDrawings(cacheDrawings);
-	//global.konstruction.getSubmittals();
+	setTimeout(function() {
+		var rfiKon = new(require("konstruction"))();
+		rfiKon.getRfis(iterateRfis);
+		// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
+		//global.konstruction.getDocuments(cacheDocuments);
+		//global.konstruction.getDrawings(cacheDrawings);
+		//global.konstruction.getSubmittals();
+	}, 100);
 }

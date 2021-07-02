@@ -13,7 +13,7 @@
     <analytics>true</analytics>
     <guid>17a06a93-5ce5-4592-9ccc-2e5d6575961c</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
-    <property name="run-on-main-thread" type="bool">true</property>
+    <property name="run-on-main-thread" type="bool">false</property>
     <ios>
         <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
         <use-app-thinning>false</use-app-thinning>
@@ -39,10 +39,10 @@
         </plist>
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-		<services>
-			<service url="syncService.js" type="interval"/>
-		</services>
-       <manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
+        <services>
+            <service type="interval" url="syncService.js"/>
+        </services>
+        <manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="29"/>
             <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true"/>
             <application android:largeHeap="true">
@@ -70,6 +70,7 @@
         <module platform="android">ti.webdialog</module>
         <module platform="commonjs">konstruction</module>
         <module platform="commonjs">nl.fokkezb.html2as</module>
+        <module platform="android">ti.worker</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
