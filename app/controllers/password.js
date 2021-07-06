@@ -19,7 +19,8 @@ var connect = function() {
 
 var cancel = function(e) {
 	$.TextField_pass.blur();
-	var setupWizard_step2Window = Alloy.createController('setupWizard_step2').getView();
-	setupWizard_step2Window.getViewById('setupWizard2Container').remove($.password);
+	//var setupWizard_step2Window = Alloy.createController('setupWizard_step2').getView();
+	//setupWizard_step2Window.getViewById('setupWizard2Container').remove($.password);
+	$.getView().parent.remove($.password);
 	//setupWizard_step2Window.open();
 };

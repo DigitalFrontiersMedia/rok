@@ -384,12 +384,14 @@ var view_edit_messages = function() {
 			legend: L('option') + ' ' + (i+1),
 			fields: [{
 				name : 'option_label' + '_' + (i+1),
+				row : {height: Ti.UI.SIZE},
 				label : L('option_label'),
 				value : global.UTIL.cleanString(options[i].option_label),
 				type : 'text',
 				hintText: L('option_hint')
 			}, {
 				name : 'message' + '_' + (i+1),
+				row : {height: Ti.UI.SIZE},
 				label : L('message'),
 				value : global.UTIL.cleanString(options[i].message),
 				type : 'text'
@@ -401,11 +403,13 @@ var view_edit_messages = function() {
 		legend: L('option') + ' ' + (options.length + 1),
 		fields: [{
 			name : 'option_label' + '_' + (options.length + 1),
+			row : {height: Ti.UI.SIZE},
 			label : L('option_label'),
 			type : 'text',
 			hintText: L('option_hint')
 		}, {
 			name : 'message' + '_' + (options.length + 1),
+			row : {height: Ti.UI.SIZE},
 			label : L('message'),
 			type : 'text'
 		}]
@@ -480,12 +484,14 @@ var view_edit_siteInfo_options = function() {
 			legend: L('option') + ' ' + (i+1),
 			fields: [{
 				name : 'option_label' + '_' + (i+1),
+				row : {height: Ti.UI.SIZE},
 				label : L('option_label'),
 				value : global.UTIL.cleanString(options[i].option_label),
 				type : 'text',
 				hintText: L('option_hint')
 			}, {
 				name : labId + '_' + (i+1),
+				row : {height: Ti.UI.SIZE},
 				label : global.UTIL.cleanString(valLabel),
 				value : global.UTIL.htmlDecode(val),
 				type : typ,
@@ -498,17 +504,20 @@ var view_edit_siteInfo_options = function() {
 		legend: L('option') + ' ' + (options.length + 1),
 		fields: [{
 			name : 'option_label' + '_' + (options.length + 1),
+			row : {height: Ti.UI.SIZE},
 			label : L('option_label'),
 			type : 'text',
 			hintText: L('option_hint')
 		}, {
 			name : 'external_url' + '_' + (options.length + 1),
+			row : {height: Ti.UI.SIZE},
 			label : global.UTIL.cleanString(L('external_url')) + L('or'),
 			type : 'text',
 			hintText: 'https://www.example.com/foo.html',
 			listener: alignSiteInfoOptionsInterface
 		}, {
 			name : 'composed_text' + '_' + (options.length + 1),
+			row : {height: Ti.UI.SIZE},
 			label : global.UTIL.cleanString(L('composed_text')),
 			type : 'textarea',
 			hintText: L('composed_text_hint'),

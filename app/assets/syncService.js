@@ -6,8 +6,10 @@ var requestTime = 0;
 var timeoutLimit = 30;
 
 var syncCompleted = function() {
-	Alloy.Globals.loading.hide();
-	global.show429Error = true;
+	setTimeout(function() {
+		Alloy.Globals.loading.hide();
+		global.show429Error = true;
+	}, 3000);
 };
 
 var cacheRefs = function(results) {

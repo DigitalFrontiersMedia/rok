@@ -101,7 +101,7 @@ global.setXHROauthParams = function() {
 global.onXHRError = function (xhrResults) {
     if (xhrResults.status === 401) {
         Ti.App.fireEvent('app:unauthorizedRequest');
-    } else {
+    } else if(global.show429Error) {
 		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
 		alert(L('error_occurred') + ': \n', JSON.stringify(xhrResults));
 	}

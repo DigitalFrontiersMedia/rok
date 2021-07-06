@@ -1,9 +1,3 @@
 ".table[platform=ios]": {
   style: Ti.UI.iOS.TableViewStyle.GROUPED
 },
-".row": {
-	height: Ti.UI.SIZE
-},
-"TableViewRow": {
-	height: Ti.UI.SIZE
-},

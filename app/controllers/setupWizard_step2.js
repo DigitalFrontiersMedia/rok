@@ -4,6 +4,7 @@ var args = $.args;
 var scan;
 var network;
 var ssid;
+var netCheckTimer;
 
 var wizardContinue = function() {
 	Alloy.createController('setupWizard_step3').getView().open();
@@ -15,39 +16,67 @@ var setWifi = function(ssid) {
 };
 
 var chooseNetwork = function(e) {
-	//Ti.API.info(JSON.stringify(e));
-	network = e.index;
-	ssid = scan.scanResults[network].getSSID();
-	var currentSSID = global.Wifi.getCurrentConnection().ssid;
-	Ti.API.info(ssid);
-	Ti.API.info(currentSSID.substring(1, currentSSID.length-1));
-	if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
-		var password = Alloy.createController('password').getView();
-    	$.setupWizard2Container.remove(password);
-    	//$.open();
-		wizardContinue();
-		setWifi(ssid);
-		Alloy.Globals.loading.hide();
-		alert(L('connected'));
-		setTimeout(function() {
-			$.nxtBtn.visible = true;
-		}, 500);
-		return;
+	if (scan) {
+		var networkNotRemembered = true;
+		var rememberedNetwork;	
+		//Ti.API.info(JSON.stringify(e));
+		network = e.index;
+		ssid = scan.scanResults[network].getSSID();
+		var currentSSID = global.Wifi.getCurrentConnection().ssid;
+		Ti.API.info(ssid);
+		Ti.API.info(currentSSID.substring(1, currentSSID.length-1));
+		if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
+			var password = Alloy.createController('password').getView();
+	    	$.setupWizard2Container.remove(password);
+	    	//$.open();
+			wizardContinue();
+			setWifi(ssid);
+			Alloy.Globals.loading.hide();
+			alert(L('connected'));
+			setTimeout(function() {
+				$.nxtBtn.visible = true;
+			}, 500);
+			return;
+		}
+		global.Wifi.getConfiguredNetworks().forEach(function(saved) {
+			//Ti.API.info(saved.SSID);
+			//Ti.API.info(scan.scanResults[network].getSSID());		
+		    if (saved.SSID == scan.scanResults[network].getSSID()) {
+		    	networkNotRemembered = false;
+		    	rememberedNetwork = scan.scanResults[network];
+		    }
+		});
+		if (networkNotRemembered) {
+		    var arg = {
+		        title: e.row.children[0].text
+		    };
+			var password = Alloy.createController('password', arg).getView();
+			$.setupWizard2Container.add(password);
+		} else {
+			if (!Ti.Network.online) {
+				global.Wifi.reconnect(rememberedNetwork);
+			} else {
+				var password = Alloy.createController('password').getView();
+		    	$.setupWizard2Container.remove(password);
+				//$.open();
+				wizardContinue();
+				Alloy.Globals.loading.hide();
+				alert(L('remembered_network'));
+				return;
+			}
+		}
 	}
-    var arg = {
-        title: e.row.children[0].text
-    };
-	var password = Alloy.createController('password', arg).getView();
-	$.setupWizard2Container.add(password);
 };
 
 var netConnect = function(pass) {
 	var networkNotRemembered = true;
 	var rememberedNetwork;	
-	var networkListener = Ti.Network.addEventListener('change', function(e) {
+	clearTimeout(netCheckTimer);
+	var networkListener = function(e) {
+		Ti.API.info('networkListener e = ' + JSON.stringify(e));
 		Alloy.Globals.loading.hide();
 		var currentSSID = global.Wifi.getCurrentConnection().ssid;
-		if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
+		if (e.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
 			var password = Alloy.createController('password').getView();
 	    	$.setupWizard2Container.remove(password);
     		//$.open();
@@ -56,16 +85,21 @@ var netConnect = function(pass) {
 			alert(L('connected'));
 			setTimeout(function() {
 				$.nxtBtn.visible = true;
+				Ti.Network.removeEventListener('change', networkListener);
 			}, 500);
 			return;
-		} else if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
+		} else if (e.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
 			alert(L('previous_network'));
+			Ti.Network.removeEventListener('change', networkListener);
 			//$.setupWizard_step2Window.remove($.password);
 			//$.setupWizard_step2Window.open();
-		} else {
+		} else if (!e.online) {
 			alert(L('couldnt_connect'));
+			Ti.Network.removeEventListener('change', networkListener);
 		}
-	});
+	};
+	Ti.Network.removeEventListener('change', networkListener);
+	Ti.Network.addEventListener('change', networkListener);
 	global.Wifi.getConfiguredNetworks().forEach(function(saved) {
 		//Ti.API.info(saved.SSID);
 		//Ti.API.info(scan.scanResults[network].getSSID());		
@@ -83,8 +117,9 @@ var netConnect = function(pass) {
 			if (!Ti.Network.online) {
 				Ti.API.info('*** FORGETTING NETWORK ' + networkId + ' ***');
 				global.Wifi.removeNetwork(networkId);
-				Alloy.Globals.loading.hide();
-				alert(L('couldnt_connect'));
+				//Alloy.Globals.loading.hide();
+				//alert(L('couldnt_connect'));
+				//Ti.Network.removeEventListener('change', networkListener);
 			}
 		}, 10000);
 	} else {
@@ -97,12 +132,13 @@ var netConnect = function(pass) {
 			wizardContinue();
 			Alloy.Globals.loading.hide();
 			alert(L('remembered_network'));
+			Ti.Network.removeEventListener('change', networkListener);
 			return;
 		}
 	}
-	setTimeout(function() {
-		networkListener = null;
-	}, 10000);
+	netCheckTimer = setTimeout(function() {
+		Ti.Network.removeEventListener('change', networkListener);
+	}, 12000);
 };
 
 if (!Ti.App.Properties.getString('wifi')) {
