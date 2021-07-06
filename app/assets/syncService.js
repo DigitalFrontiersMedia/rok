@@ -6,8 +6,8 @@ var requestTime = 0;
 var timeoutLimit = 30;
 
 var syncCompleted = function() {
-		Alloy.Globals.loading.hide();
-		global.show429Error = true;
+	Alloy.Globals.loading.hide();
+	global.show429Error = true;
 };
 
 var cacheRefs = function(results) {
@@ -69,7 +69,7 @@ var iterateRfis = function(results) {
 	if (rfis) {
 		global.setRfis(rfis);
 		rfis.forEach(function(rfi) {
-			//Ti.API.info('*** Caching info associated with RFI titled ' + rfi.title);
+			Ti.API.info('*** Caching info associated with RFI titled ' + rfi.title);
 			getAndListAssignedUserInfo(rfi.assigned_to);
 			var rfiPhotoKon = new(require("konstruction"))();
 			rfiPhotoKon.getRfiPhotos(rfi.uid, cacheRefs);
@@ -152,7 +152,7 @@ var preProcessDrawing = function(results, drawingUid) {
 };
 
 var cacheDrawings = function(results) {
-	var cachedDrawings = Ti.App.Properties.getList("drawings");
+	var cachedDrawings = Ti.App.Properties.getList("drawings", []);
 	var drawings = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	//var cachedDrawings = Ti.App.Properties.getList("drawings");
 	Ti.API.info('syncService cacheDrawings konstruction.getDrawings results = ' + JSON.stringify(results));
@@ -160,7 +160,7 @@ var cacheDrawings = function(results) {
 	if (drawings) {
 		drawings.forEach(function(drawing) {
 			// Merge with saved drawings before re-saving.
-			_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing;
+			_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}) ? _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing : null;
 			var data = {};
 			data.sheet_uids = [drawing.uid];
 			// Merge with saved drawings before re-saving.

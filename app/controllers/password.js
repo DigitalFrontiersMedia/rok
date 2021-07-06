@@ -13,12 +13,13 @@ var connect = function() {
 		alert(L("wifi_password_too_short"));
 		return;
 	}
+	Alloy.Globals.loading.show(L('connecting'));
 	global.netConnect($.TextField_pass.value);
 };
 
 var cancel = function(e) {
 	$.TextField_pass.blur();
 	var setupWizard_step2Window = Alloy.createController('setupWizard_step2').getView();
-	setupWizard_step2Window.setupWizard2Container.remove($.password);
+	setupWizard_step2Window.getViewById('setupWizard2Container').remove($.password);
 	//setupWizard_step2Window.open();
 };

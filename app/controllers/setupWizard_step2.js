@@ -27,6 +27,7 @@ var chooseNetwork = function(e) {
     	//$.open();
 		wizardContinue();
 		setWifi(ssid);
+		Alloy.Globals.loading.hide();
 		alert(L('connected'));
 		setTimeout(function() {
 			$.nxtBtn.visible = true;
@@ -44,6 +45,7 @@ var netConnect = function(pass) {
 	var networkNotRemembered = true;
 	var rememberedNetwork;	
 	var networkListener = Ti.Network.addEventListener('change', function(e) {
+		Alloy.Globals.loading.hide();
 		var currentSSID = global.Wifi.getCurrentConnection().ssid;
 		if (Ti.Network.online && currentSSID.substring(1, currentSSID.length-1) == ssid) {
 			var password = Alloy.createController('password').getView();
@@ -81,6 +83,7 @@ var netConnect = function(pass) {
 			if (!Ti.Network.online) {
 				Ti.API.info('*** FORGETTING NETWORK ' + networkId + ' ***');
 				global.Wifi.removeNetwork(networkId);
+				Alloy.Globals.loading.hide();
 				alert(L('couldnt_connect'));
 			}
 		}, 10000);
@@ -92,6 +95,7 @@ var netConnect = function(pass) {
 	    	$.setupWizard2Container.remove(password);
 			$.open();
 			wizardContinue();
+			Alloy.Globals.loading.hide();
 			alert(L('remembered_network'));
 			return;
 		}

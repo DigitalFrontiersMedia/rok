@@ -37,6 +37,7 @@
 	<string name="select_option">Select option below</string>
 	<string name="no_options">No options currently set.</string>
 	<string name="wifi_password">Enter the password for\n%s</string>
+	<string name="connecting">Connecting...</string>
 	<string name="connected">Connected!</string>
 	<string name="couldnt_connect">Could not connect. Try again?</string>
 	<string name="previous_network">System connected to a previously remembered network before we could connect to the newly chosen one. Try again?</string>

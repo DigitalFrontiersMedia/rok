@@ -22,7 +22,12 @@ var goHome = function() {
 	// TODO:  End activity or close all windows?
 	Alloy.createController('home').getView().open();
 	// Check/start background syncService.
-	global.syncService();
+	setTimeout(function() {
+		var worker = require('ti.worker');
+		// create a worker thread instance
+		var task = worker.createWorker('syncService.js');
+	}, global.backgroundServiceDelay * 60 * 1000);
+	//global.syncService();
 };
 
 var removeProtectedFields = function(node) {

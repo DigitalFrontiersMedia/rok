@@ -371,6 +371,7 @@ function handleError(xhr, error) {
     result.result = "error";
     result.status = xhr.status;
     result.error = error.error;
+    Ti.API.info('xhr.status = ' + xhr.status);
     
     if (result.status == 429 && global.show429Error) {
     	result.status = 304;

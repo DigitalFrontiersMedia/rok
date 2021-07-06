@@ -156,7 +156,7 @@ var listDrawings = function(results, preFetched) {
 	Ti.API.info('konstruction.getDrawings results = ' + JSON.stringify(results));
 	//var x = 1;
 	var drawings;
-	var cachedDrawings = Ti.App.Properties.getList("drawings");
+	var cachedDrawings = Ti.App.Properties.getList("drawings", []);
 	var item = null;
 	//var tableData = [];
 	if (preFetched) {
@@ -169,7 +169,7 @@ var listDrawings = function(results, preFetched) {
 	if (drawings) {
 		drawings.forEach(function(drawing) {
 			// Merge with saved drawings before re-saving.
-			_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing;
+			_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}) ? _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing : null;
 			//Ti.API.info('Looking at drawing ' + drawing.name);
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});

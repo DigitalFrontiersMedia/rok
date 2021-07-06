@@ -26,6 +26,7 @@ var getAndListAssignedUserInfo = function(users) {
 };
 
 var showRef = function(title, url) {
+	Alloy.Globals.loading.hide();
 	if (url.indexOf('response-content-disposition=attachment') == -1) {
 		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 		if (url.indexOf('.pdf?') > -1) {
@@ -84,7 +85,7 @@ var chooseRef = function(e) {
 		    url: e.section.rows[e.index].url,
 		    onSuccess: function (results) {
 		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
-	    		Alloy.Globals.loading.hide();
+	    		//Alloy.Globals.loading.hide();
 		    	showRef(e.source.text, e.section.rows[e.index].url);
 		    },
 		    onError: global.onXHRError
