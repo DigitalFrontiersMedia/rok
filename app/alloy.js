@@ -66,7 +66,10 @@ global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView()
 
 global.backgroundServiceDelay = 0.3; // minutes
 global.ttl = 60; // minutes
+global.xhrTimeout = 30; // seconds
 global.postRetryDelay = 60; // minutes
+global.syncCompleteDelay = 5; // seconds
+global.netListenTime = 15; // seconds
 global.userId = null;
 global.usingBasicAuth = true;
 global.basicAuthUser = 'guest';
@@ -284,8 +287,12 @@ global.setDeviceConfig = function() {
 	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
 		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
 		// TODO: add below commented fields to Drupal and then correct and uncomment.
-		//Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app);
-		//Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project);
+		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app != '') {
+			Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app);
+		}
+		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project != '') {
+			Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project);
+		}
 		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
@@ -299,6 +306,7 @@ global.setDeviceConfig = function() {
 global.getDeviceInfo = function(callback) {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
+		//Ti.API.info('view = ' + JSON.stringify(view));
 		Ti.API.info('deviceInfo = ' + JSON.stringify(results));
 		Ti.App.Properties.setObject('deviceInfo', results);
 		global.setDeviceConfig();

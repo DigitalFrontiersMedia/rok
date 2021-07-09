@@ -67,8 +67,10 @@ var saveDeviceProfileNode = function(nid) {
 
 		// Update field values
 		node.entity.title = [{value: Ti.App.Properties.getString('deviceName')}];
-		//$.appValue.value = Ti.App.Properties.getString('constructionApp');
-		//$.projectValue.value = Ti.App.Properties.getString('project');
+		node.entity.field_device_id = [{value: Ti.Platform.id}];
+		node.entity.field_rok_app_version = [{value: Ti.App.version}];
+		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp')}];
+		node.entity.field_project = [{value: Ti.App.Properties.getString('project')}];
 		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
 		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
 		node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret')}];

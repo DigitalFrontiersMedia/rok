@@ -9,7 +9,7 @@ var syncCompleted = function() {
 	setTimeout(function() {
 		Alloy.Globals.loading.hide();
 		global.show429Error = true;
-	}, 3000);
+	}, global.syncCompleteDelay * 1000);
 };
 
 var cacheRefs = function(results) {

@@ -113,6 +113,7 @@ var displaySiteInfo = function(e) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	//var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
 	var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.index];
+	Ti.API.info('option = ' + JSON.stringify(option));
 	switch (option.bundle) {
 		case 'link_component':
 			var dialog = require('ti.webdialog');
@@ -132,7 +133,7 @@ var displaySiteInfo = function(e) {
 			break;
 		case 'text_component':
 			var win = Alloy.createController('commonWindow').getView();
-			win.add(Ti.UI.createWebView({width: '50%', height: '50%', html: '<html><body>' + option.text + '</body></html>'}));
+			win.add(Ti.UI.createWebView({width: '80%', height: '80%', backgroundColor: 'rgba(0,0,0,0.5)', html: '<html><head><style>body {color: #fff;}</style></head><body><h1>' + option.option_label + '</h1>' + option.text + '</body></html>'}));
 			win.open();
 			break;
 	}

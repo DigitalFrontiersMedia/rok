@@ -121,7 +121,7 @@ var netConnect = function(pass) {
 				//alert(L('couldnt_connect'));
 				//Ti.Network.removeEventListener('change', networkListener);
 			}
-		}, 10000);
+		}, global.netListenTime * 1000);
 	} else {
 		if (!Ti.Network.online) {
 			global.Wifi.reconnect(rememberedNetwork);
@@ -138,7 +138,7 @@ var netConnect = function(pass) {
 	}
 	netCheckTimer = setTimeout(function() {
 		Ti.Network.removeEventListener('change', networkListener);
-	}, 12000);
+	}, (global.netListenTime + 2) * 1000);
 };
 
 if (!Ti.App.Properties.getString('wifi')) {

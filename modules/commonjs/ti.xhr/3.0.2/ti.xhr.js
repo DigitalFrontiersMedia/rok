@@ -400,7 +400,11 @@ function handleError(xhr, error) {
 function initXHRRequest(method, url, extraParams) {
     // Create the HTTP connection
     var xhr = Titanium.Network.createHTTPClient({
-        enableKeepAlive : false
+        enableKeepAlive : false,
+        timeout: global.xhrTimeout * 1000, // milliseconds
+        ontimeout: function (e) {
+        	Ti.API.info('xhr timeout status = ' + xhr.status);
+        }
     });
 
     // Open the HTTP connection
