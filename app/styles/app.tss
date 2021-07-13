@@ -131,7 +131,8 @@ overrode the settings with other TSS, XML, or JS settings:
 	"separatorColor": "rgba(255,255,255,0.25)",
 },
 "TableViewRow": {
-	height: 50
+	height: 50,
+	hiddenBehavior: Titanium.UI.HIDDEN_BEHAVIOR_GONE,
 },
 ".zebra": {
 	backgroundColor: '#333'

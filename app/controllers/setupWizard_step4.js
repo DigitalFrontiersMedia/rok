@@ -478,7 +478,7 @@ var view_edit_siteInfo_options = function() {
 			case 'uploaded_component':
 				labId = 'uploaded_file';
 				valLabel = L(labId);
-				val = options[i].text;
+				val = options[i].file.media_document;
 				typ = 'text';
 				break;
 		}
@@ -490,17 +490,21 @@ var view_edit_siteInfo_options = function() {
 				label : L('option_label'),
 				value : global.UTIL.cleanString(options[i].option_label),
 				type : 'text',
-				hintText: L('option_hint')
+				hintText: L('option_hint'),
+				input: {editable: options[i].bundle != 'uploaded_component'}
 			}, {
 				name : labId + '_' + (i+1),
 				row : {height: Ti.UI.SIZE},
 				label : global.UTIL.cleanString(valLabel),
 				value : global.UTIL.htmlDecode(val),
 				type : typ,
-				hintText: hint
+				hintText: hint,
+				input: {editable: options[i].bundle != 'uploaded_component'}
 			}]
 		};
-		fieldsets.push(fieldset);
+		//if (options[i].bundle != 'uploaded_component') {
+			fieldsets.push(fieldset);
+		//}
 	}
 	fieldset = {
 		legend: L('option') + ' ' + (options.length + 1),

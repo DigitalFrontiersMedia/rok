@@ -192,4 +192,6 @@ if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 		//global.konstruction.getDrawings(cacheDrawings);
 		//global.konstruction.getSubmittals();
 	}, 100);
+} else {
+	Ti.API.info('Not online or not configured so skipping syncService run.');
 }

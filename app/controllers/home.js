@@ -109,6 +109,28 @@ var pageSuperMenu = function(e) {
 	$.home.add(commonView);
 };
 
+var displayUploadedSiteInfo = function(title, url) {
+	Alloy.Globals.loading.hide();
+	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+	if (url.toLowerCase().indexOf('.pdf?') > -1) {
+		url = url.split('?')[0];
+	}
+    var hashedURL = Titanium.Utils.md5HexDigest(url);
+    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
+    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+		title : 'ROK ' + title,//file.name,
+		classes : ["modal"]
+	});
+	Ti.API.info('url = ' + url);
+	Ti.API.info('file.nativePath = ' + file.nativePath);
+	var webview = Titanium.UI.createWebView({
+		backgroundColor: 'transparent',
+		url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
+	});
+	modal.add(webview);
+	modal.open();
+};
+
 var displaySiteInfo = function(e) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	//var option = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[e.data[0].key];
@@ -135,6 +157,36 @@ var displaySiteInfo = function(e) {
 			var win = Alloy.createController('commonWindow').getView();
 			win.add(Ti.UI.createWebView({width: '80%', height: '80%', backgroundColor: 'rgba(0,0,0,0.5)', html: '<html><head><style>body {color: #fff;}</style></head><body><h1>' + option.option_label + '</h1>' + option.text + '</body></html>'}));
 			win.open();
+			break;
+		case 'uploaded_component':
+		 	var url = global.jDrupal.sitePath() + option.file.media_document;
+			if (option.file.media_document.toLowerCase().indexOf('.pdf') == -1) {
+				var dialog = require('ti.webdialog');
+				if (dialog.isSupported()) {
+					dialog.open({
+						id: 'docDisplay',
+				    	title: option.option_label,
+				    	url: url,
+				        tintColor: '#ffffff',
+				        barColor: '#ff9200',
+				        showTitle: true,
+				        animated: true,
+				        fadeTransition: true,
+				        enableSharing: false
+				   });
+			   }
+			 } else {
+			 	Alloy.Globals.loading.show(L('loading'));
+			 	global.xhr.GET({
+					extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
+				    url: url,
+				    onSuccess: function (results) {
+				    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
+				    	displayUploadedSiteInfo(option.option_label, url);
+				    },
+				    onError: global.onXHRError
+				});
+			}
 			break;
 	}
 };

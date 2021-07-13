@@ -70,13 +70,23 @@ var showRfis = function(results) {
 };
 
 var filterRfis = function(e) {
+	// TODO:  Possibly rewrite by rebuilding whole table before each attempt.
+	// or use an actual ListView with data binding or some such.
 	var rfis = Ti.App.Properties.getObject("rfis");
 	switch(e.data[0].value) {
 		case 'Locked':
-		case 'UnLocked':
 			for (var i = 0; i < rfis.length; i++) {
 				$.removeClass($.ListView_rfis.data[0].rows[i], 'hidden');
-				if (rfis[i].locked != e.data[0].value.toLowerCase()) {
+				if (!rfis[i].locked) {
+					$.addClass($.ListView_rfis.data[0].rows[i], 'hidden');
+				}
+			}
+			break;
+
+		case 'Unlocked':
+			for (var i = 0; i < rfis.length; i++) {
+				$.removeClass($.ListView_rfis.data[0].rows[i], 'hidden');
+				if (rfis[i].locked) {
 					$.addClass($.ListView_rfis.data[0].rows[i], 'hidden');
 				}
 			}
