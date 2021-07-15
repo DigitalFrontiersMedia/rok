@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
     <Window class="container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>

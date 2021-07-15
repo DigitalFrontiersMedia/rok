@@ -45,6 +45,9 @@ overrode the settings with other TSS, XML, or JS settings:
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_LEFT,
 	"width": "100%"
 },
+".fontSize14": {
+	"font": {fontSize:'14'}
+},
 ".fontSize20": {
 	"font": {fontSize:'20'}
 },
@@ -162,5 +165,7 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".transparentBG": {
 	backgroundColor: "transparent"
+},
+".fillWidth": {
+	width: Ti.UI.FILL
 }
-

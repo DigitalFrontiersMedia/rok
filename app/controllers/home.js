@@ -55,7 +55,6 @@ var pageSuperMenu = function(e) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
 	resetRfiActions();
-	global.homeUIDirty = true;
 	// Exit early if N/A.
 	if (!Ti.Network.online) {
 		alert(L('internet_required'));
@@ -83,6 +82,7 @@ var pageSuperMenu = function(e) {
 	var optionsTable = $.UI.create('TableView', {id: "ListView_pageSuperOptions"});
 	optionsTable.addEventListener('click', function(e) {
 		$.home.remove(commonView);
+		global.homeUIDirty = false;
 		sendSMS(e);
 	});
 	var optionsSection = $.UI.create('TableViewSection', {id: 'listSection'});
@@ -107,6 +107,7 @@ var pageSuperMenu = function(e) {
 	// Add options to commonView for display.
 	commonView.getViewById('contentWrapper').add(optionsTable);
 	$.home.add(commonView);
+	global.homeUIDirty = true;
 };
 
 var displayUploadedSiteInfo = function(title, url) {
@@ -198,7 +199,6 @@ var siteInfoMenu = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
 	resetRfiActions();
-	global.homeUIDirty = true;
 	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || (!deviceInfo && !global.userId)) {
 		alert(L('device_info_not_synced'));
@@ -246,6 +246,7 @@ var siteInfoMenu = function() {
 
 	// Add options to commonView for display.
 	commonView.getViewById('contentWrapper').add(optionsTable);
+	global.homeUIDirty = true;
 	$.home.add(commonView);
 	
 	//global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
