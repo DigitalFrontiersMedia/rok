@@ -642,6 +642,95 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 	});
 };
 
+Konstruction.prototype.getSubmittalPackages = function(onSuccessCallback, options, next_page_url) {
+    // Create some default params
+    if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
+    
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getSubmittalPackages, onSuccessCallback, options, next_page_url);
+			} else {
+				//alert('ERROR ' + xhrResults.error);
+				if (xhrResults.status != 429) {
+		      		alert('ERROR:  ' + xhrResults.error);
+		      	}
+			}
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+		Alloy.Globals.loading.hide();
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/packages';
+			break;
+	}
+	global.xhr.GET({
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	self.processPagination(results, self.getSubmittalPackages, onSuccessCallback, options);
+    	},
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
+Konstruction.prototype.getSubmittalPackageHistory = function(packageUid, onSuccessCallback, options, next_page_url) {
+    // Create some default params
+    if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
+    
+    var onSuccessCallback = onSuccessCallback || function() {};
+    var options = options || null;
+	var apiURL = global.konstruction.apiURL;
+	var endpoint;
+	//var onErrorCallback = global.onXHRError || function() {};
+	var onErrorCallback = function(xhrResults) {
+		if (!nonce) {
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce++;
+		        global.oauth.refresh(self.getSubmittalPackageHistory, packageUid, onSuccessCallback, options, next_page_url);
+			} else {
+				//alert('ERROR ' + xhrResults.error);
+				if (xhrResults.status != 429) {
+		      		alert('ERROR:  ' + xhrResults.error);
+		      	}
+			}
+	    } else {
+			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+			alert('An error occurred: \n', JSON.stringify(xhrResults));
+			nonce = null;
+		}
+		Alloy.Globals.loading.hide();
+	};
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/packages/' + packageUid + '/history';
+			break;
+	}
+	global.xhr.GET({
+	    url: next_page_url ? next_page_url : apiURL + endpoint,
+	    onSuccess: function(results) {
+	    	Ti.API.info('got first set of results back for history. about to check pagination.');
+	    	self.processPagination(results, self.getSubmittalPackageHistory, onSuccessCallback, options);
+    	},
+	    onError: onErrorCallback,
+	    extraParams: options
+	});
+};
+
 Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }

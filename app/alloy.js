@@ -249,7 +249,7 @@ global.setSubmittals = function(submittals) {
 	switch(Ti.App.Properties.getString("constructionApp")) {
 		case 'PlanGrid':
 		default:
-			Ti.App.Properties.setObject("submittals", submittals);
+			Ti.App.Properties.setList("submittals", submittals);
 			break;
 	}
 };

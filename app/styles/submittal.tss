@@ -19,12 +19,15 @@
 "#View_titleLine": {
 },
 ".inputLine": {
-	
+	height: 50
 },
 "#Label_iTitle": {
 	"text": L("information"),
 	"class": "formElement",
-	"left": "0"
+	"left": "0",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
+	width: Ti.UI.FILL,
+	"font": {fontSize:'20'}
 },
 ".formElement": {
 	"left": "0"
@@ -68,7 +71,10 @@
 },
 "#Label_files": {
 	"text": L("files"),
-	"left": "0"
+	"left": "0",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
+	width: Ti.UI.FILL,
+	"font": {fontSize:'20'}
 },
 "#ListView_files": {
 },
@@ -76,7 +82,10 @@
 },
 "#Label_history": {
 	"text": L("history"),
-	"left": "0"
+	"left": "0",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:26},endPoint:{x:0,y:27},colors:["transparent","#ff9200"]},
+	width: Ti.UI.FILL,
+	"font": {fontSize:'20'}
 },
 "#View_line1": {
 },
@@ -167,4 +176,8 @@
 	"backgroundColor": "rgba(0,0,0,0.5)",
 	"separatorColor": "#ff9200",
 },
-
+".listLabels": {
+	"font": {fontSize:'18'},
+	width: Ti.UI.FILL,
+	left: 5
+}

@@ -2,6 +2,7 @@
 var args = $.args;
 
 var goHome = function() {
+	// TODO:  Only go Home if configuration completed.
 	Ti.API.info('Going home...');
 	//global.homeWindow.open();
 	Alloy.createController('home').getView().open();
