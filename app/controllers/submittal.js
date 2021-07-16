@@ -40,15 +40,102 @@ var listHistoryEvents = function(results) {
 	});
 };
 
+var listSubmitters = function() {
+	var names = [];
+	submittal[args.index].submitters.forEach(function (submitter) {
+		if (!global.historyUsers.hasOwnProperty(submitter.uid)) {
+			var myPromise = new Promise(function(resolve, reject) { 
+				global.konstruction.getUserInfo(submitter, resolve);
+			});
+			myPromise.then(function(userInfo) {
+				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+				global.historyUsers[submitter.uid] = userInfo;
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+				$.Label_submitterValue.text = names.join(', ');
+			});
+		} else {
+			names.push(global.UTIL.cleanString(global.historyUsers[submitter.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[submitter.uid].last_name));
+			$.Label_submitterValue.text = names.join(', ');
+		}
+	});
+};
+
+var listManagers = function() {
+	var names = [];
+	submittal[args.index].managers.forEach(function (manager) {
+		if (!global.historyUsers.hasOwnProperty(manager.uid)) {
+			var myPromise = new Promise(function(resolve, reject) { 
+				global.konstruction.getUserInfo(manager, resolve);
+			});
+			myPromise.then(function(userInfo) {
+				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+				global.historyUsers[userInfo.uid] = userInfo;
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+				$.Label_managerValue.text = names.join(', ');
+			});
+		} else {
+			names.push(global.UTIL.cleanString(global.historyUsers[manager.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[manager.uid].last_name));
+			$.Label_managerValue.text = names.join(', ');
+		}
+	});
+};
+
+var listReviewers = function() {
+	var names = [];
+	submittal[args.index].reviewers.forEach(function (reviewer) {
+		if (!global.historyUsers.hasOwnProperty(reviewer.uid)) {
+			var myPromise = new Promise(function(resolve, reject) { 
+				global.konstruction.getUserInfo(reviewer, resolve);
+			});
+			myPromise.then(function(userInfo) {
+				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+				global.historyUsers[userInfo.uid] = userInfo;
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+				$.Label_reviewerValue.text = names.join(', ');
+			});
+		} else {
+			names.push(global.UTIL.cleanString(global.historyUsers[reviewer.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[reviewer.uid].last_name));
+			$.Label_reviewerValue.text = names.join(', ');
+		}
+	});
+};
+
+var listWatchers = function() {
+	var names = [];
+	submittal[args.index].watchers.forEach(function (watcher) {
+		if (!global.historyUsers.hasOwnProperty(watcher.uid)) {
+			var myPromise = new Promise(function(resolve, reject) { 
+				global.konstruction.getUserInfo(watcher, resolve);
+			});
+			myPromise.then(function(userInfo) {
+				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+				global.historyUsers[userInfo.uid] = userInfo;
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+				$.Label_watchingValue.text = names.join(', ');
+			});
+		} else {
+			names.push(global.UTIL.cleanString(global.historyUsers[watcher.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[watcher.uid].last_name));
+			$.Label_watchingValue.text = names.join(', ');
+		}
+	});
+};
 
 $.Label_submittalNumValue.text = submittal[args.index].spec_section;
 $.Label_specValue.text = submittal[args.index].spec_section_name;
 $.Label_versionValue.text = submittal[args.index].subPackage.version;
 $.Label_dueValue.text = submittal[args.index].submittal_due_date;
 $.Label_statusValue.text = submittal[args.index].subPackage.transmission_status;
-$.Label_submitterValue.text = submittal[args.index].submitters[0] ? submittal[args.index].submitters[0].uid : '';
-$.Label_managerValue.text = submittal[args.index].managers[0] ? submittal[args.index].managers[0].uid : '';
-$.Label_reviewerValue.text = submittal[args.index].reviewers[0] ? submittal[args.index].reviewers[0].uid : '';
-$.Label_watchingValue.text = submittal[args.index].watchers[0] ? submittal[args.index].watchers[0].uid : '';
+
+listSubmitters();
+listManagers();
+listReviewers();
+listWatchers();
 
 global.konstruction.getSubmittalPackageHistory(submittal[args.index].subPackage.uid, listHistoryEvents);

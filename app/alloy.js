@@ -82,7 +82,7 @@ global.idleTimeoutMinutes = 10;
 global.timeoutID = null;
 global.isHome = true;
 global.homeUIDirty = false;
-global.historyUsers = Ti.App.Properties.getList('historyUsers') ? Ti.App.Properties.getList('historyUsers') : [];
+global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';

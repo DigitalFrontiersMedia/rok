@@ -19,7 +19,7 @@
 "#View_titleLine": {
 },
 ".inputLine": {
-	height: 50
+	
 },
 "#Label_iTitle": {
 	"text": L("information"),
@@ -30,7 +30,9 @@
 	"font": {fontSize:'20'}
 },
 ".formElement": {
-	"left": "0"
+	"left": 5,
+	right: 15,
+	width: Ti.UI.SIZE
 },
 "#TextField_sendDate": {
 	"borderRadius": "10",
@@ -88,6 +90,7 @@
 	"font": {fontSize:'20'}
 },
 "#View_line1": {
+	height: 70
 },
 "#View_line3": {
 },
@@ -152,7 +155,11 @@
 },
 "#View_formElement7": {
 	"layout": "horizontal",
-	"width": "33%"
+	"width": "33%",
+	//borderWidth: 1,
+	//borderColor: "#ff9200",
+	//top: -1,
+	//bottom: -1
 },
 "#Label_submitterValue": {
 },
@@ -180,4 +187,15 @@
 	"font": {fontSize:'18'},
 	width: Ti.UI.FILL,
 	left: 5
+},
+".verticalSeparator": {
+	borderColor: "#ff9200",
+	borderWidth: 1,
+	width: 2,
+	height: '75%',
+	//left: 10,
+	//right: 10
+},
+".fieldValue": {
+	color: "#999"
 }

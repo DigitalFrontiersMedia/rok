@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
     <Window class="container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view"/>
@@ -13,46 +13,48 @@
                         <TableViewSection id="listSection">
                             <TableViewRow class="inputLine" id="View_line1">
                                 <View id="View_formElement1">
-                                    <Label class="formElement" id="Label_submittalNum"/>
-                                    <Label class="formElement" id="Label_submittalNumValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_submittalNum"/>
+                                    <Label class="formElement fieldValue" id="Label_submittalNumValue"/>
                                 </View>
                                 <View id="View_formElement2">
-                                    <Label class="formElement" id="Label_spec"/>
-                                    <Label class="formElement" id="Label_specValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_spec"/>
+                                    <Label class="formElement fieldValue" id="Label_specValue"/>
                                 </View>
                                 <View id="View_formElement3">
-                                    <Label class="formElement" id="Label_version"/>
-                                    <Label class="formElement" id="Label_versionValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_version"/>
+                                    <Label class="formElement fieldValue" id="Label_versionValue"/>
                                 </View>
                                 <View id="View_formElement4">
-                                    <Label class="formElement" id="Label_due"/>
-                                    <Label class="formElement" id="Label_dueValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_due"/>
+                                    <Label class="formElement fieldValue" id="Label_dueValue"/>
                                 </View>
                             </TableViewRow>
                             <TableViewRow class="inputLine" id="View_line2">
                                 <View id="View_formElement5">
-                                    <Label class="formElement" id="Label_status"/>
-                                    <Label class="formElement" id="Label_statusValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_status"/>
+                                    <Label class="formElement fieldValue" id="Label_statusValue"/>
                                 </View>
                             </TableViewRow>
                             <TableViewRow class="inputLine" id="View_line3">
                                 <View id="View_formElement6">
-                                    <Label class="formElement" id="Label_submitter"/>
-                                    <Label class="formElement" id="Label_submitterValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_submitter"/>
+                                    <Label class="formElement fieldValue" id="Label_submitterValue"/>
                                 </View>
+                                <View class="verticalSeparator" />
                                 <View id="View_formElement7">
-                                    <Label class="formElement" id="Label_manager"/>
-                                    <Label class="formElement" id="Label_managerValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_manager"/>
+                                    <Label class="formElement fieldValue" id="Label_managerValue"/>
                                 </View>
+                                <View class="verticalSeparator" />
                                 <View id="View_formElement8">
-                                    <Label class="formElement" id="Label_reviewer"/>
-                                    <Label class="formElement" id="Label_reviewerValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_reviewer"/>
+                                    <Label class="formElement fieldValue" id="Label_reviewerValue"/>
                                 </View>
                             </TableViewRow>
                             <TableViewRow class="inputLine" id="View_line4">
                                 <View id="View_formElement9">
-                                    <Label class="formElement" id="Label_watching"/>
-                                    <Label class="formElement" id="Label_watchingValue"/>
+                                    <Label class="formElement fieldLabel" id="Label_watching"/>
+                                    <Label class="formElement fieldValue" id="Label_watchingValue"/>
                                 </View>
                             </TableViewRow>
                         </TableViewSection>

@@ -33,7 +33,7 @@ var cacheRefs = function(results) {
 
 var getAndListAssignedUserInfo = function(users) {
 	users.forEach(function(user) {
-		if (global.historyUsers.indexOf(user.uid) == -1) {
+		if (!global.historyUsers.hasOwnProperty(user.uid)) {
 			//global.konstruction.getUserInfo(user);
 			var myPromise = new Promise(function(resolve, reject) { 
 				var userKon = new(require("konstruction"))();
@@ -43,7 +43,7 @@ var getAndListAssignedUserInfo = function(users) {
 				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
 				global.historyUsers[user.uid] = userInfo;
-				Ti.App.Properties.setList('historyUsers', global.historyUsers);
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
 			});
 		}
 	});
@@ -52,7 +52,7 @@ var getAndListAssignedUserInfo = function(users) {
 var cacheHistoryEventUsers = function(results) {
 	var historyEvents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	historyEvents.forEach(function(historyEvent) {
-		if (global.historyUsers.indexOf(historyEvent.updated_by.uid) == -1) {
+		if (!global.historyUsers.hasOwnProperty(historyEvent.updated_by.uid)) {
 			var myPromise = new Promise(function(resolve, reject) { 
 				var userKon = new(require("konstruction"))();
 				userKon.getUserInfo(historyEvent.updated_by, resolve);
@@ -60,7 +60,7 @@ var cacheHistoryEventUsers = function(results) {
 			myPromise.then(function(userInfo) {
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
 				global.historyUsers[historyEvent.updated_by.uid] = userInfo;
-				Ti.App.Properties.setList('historyUsers', global.historyUsers);
+				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
 			});
 		}
 	});
