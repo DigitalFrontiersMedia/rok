@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+
 if (args.title) $.win.title = args.title;
 
 /*
@@ -28,6 +29,25 @@ function add($ui) {
 	$.win.add($ui);
 }
 
+function hideOverlayOption() {
+	$.overlayButton.visible = false;
+}
+
+function showOverlayOption() {
+	setTimeout(function() {
+		$.overlayButton.visible = true;
+		//$.win.activity.invalidateOptionsMenu();
+	}, 2000);
+}
+
+function setTitle(title) {
+	$.win.title = title;
+}
+
+function overlay() {
+	Alloy.createController('drawings', {overlay: true, originalShowDrawing: args.originalShowDrawing, sourceModal: $}).getView().open();
+}
+
 /*
 Listeners
 */
@@ -41,3 +61,7 @@ Interface
 exports.open = open;
 exports.close = close;
 exports.add = add;
+exports.hideOverlayOption = hideOverlayOption;
+exports.showOverlayOption = showOverlayOption;
+exports.setTitle = setTitle;
+exports.overlay = overlay;

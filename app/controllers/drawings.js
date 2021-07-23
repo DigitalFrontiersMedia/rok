@@ -7,10 +7,23 @@ var timeoutLimit = 30;
 var drawingName = null;
 var currentFilter;
 var drawingUid = null;
+var overlay = args.overlay;
+var modal = args.sourceModal;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
+if (overlay) {
+	$.Label_Title.text = L('choose_overlay');
+}
 
-var showDrawing = function(title, url) {
+var showDrawing = function(title, url, overlayOverride) {
+	overlay = overlayOverride ? overlayOverride : overlay;
+    if (args.originalShowDrawing) {
+    	Ti.API.info('args.originalShowDrawing about to execute...');
+    	args.originalShowDrawing(title, url, true);
+    	args.originalShowDrawing = null;
+    	Titanium.Android.currentActivity.finish();
+	    return;
+    }
 	Alloy.Globals.loading.hide();
 	if (!url) {
 		alert(L('no_url'));
@@ -41,18 +54,33 @@ var showDrawing = function(title, url) {
 		}
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
-	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
-			title : 'ROK ' + title,//file.name,
-			classes : ["modal"]
-		});
+	    if (!overlay) {
+		    modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+				title : 'ROK ' + title,//file.name,
+				classes : ["modal"],
+				originalShowDrawing : $.showDrawing,
+				showOverlayOption: true,
+				sourceView: $
+			});
+		}
 		Ti.API.info('url = ' + url);
 		Ti.API.info('file.nativePath = ' + file.nativePath);
 		var webview = Titanium.UI.createWebView({
+			opacity: overlay ? 0.5 : 1,
 			backgroundColor: 'transparent',
 			url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
 		});
 		modal.add(webview);
-		modal.open();
+		if (!overlay) {
+			modal.open();
+			modal.showOverlayOption();
+		} else {
+			modal.hideOverlayOption();
+			//Ti.API.info('modal = ' + JSON.stringify(modal));
+			modal.setTitle(modal.__views.win.title + ' + ' + title);
+			Titanium.Android.currentActivity.finish();
+			overlay = false;
+		}
 	}
 };
 

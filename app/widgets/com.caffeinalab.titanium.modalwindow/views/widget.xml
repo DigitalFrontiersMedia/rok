@@ -6,9 +6,10 @@
 					<Button id="closeButton" class="navButton" titleid="Close" onClick="close" />
 				</View>
 			</LeftNavButton>
-			<ActionBar id="actionbar" platform="android" />
-	        <Menu platform="android">
+			<ActionBar id="actionBar" platform="android" />
+	        <Menu id="menu" platform="android">
 	            <MenuItem id="closeButton" titleid="close" onClick="close" />
+	            <MenuItem id="overlayButton" titleid="overlay" onClick="overlay"/>
 	        </Menu>
 		</Window>
 	</NavigationWindow>

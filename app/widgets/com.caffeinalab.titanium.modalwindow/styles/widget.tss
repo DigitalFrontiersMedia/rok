@@ -1,3 +1,6 @@
 "#closeButton": {
 	title: L('close')
+},
+"#overlayButton": {
+	title: L('overlay')
 }

@@ -168,4 +168,7 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".fillWidth": {
 	width: Ti.UI.FILL
+},
+".overlay": {
+	opacity: 0.5
 }

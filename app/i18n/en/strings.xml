@@ -10,6 +10,8 @@
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
 	<string name="ok">OK</string>
+	<string name="overlay">Overlay</string>
+	<string name="choose_overlay">Choose Overlay</string>
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>
 	<string name="problem_occurred">A problem occurred.  Error Code:  </string>
