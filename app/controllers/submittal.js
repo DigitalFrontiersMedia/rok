@@ -113,8 +113,7 @@ var chooseRef = function(e) {
 
 var listFiles = function(results) {
 	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
-	var historyEventLabel;
-	var username;
+	var fileLabel;
 	var dataRow;
 	//var tableData = [];
 	var subFileGroups = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;

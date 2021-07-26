@@ -87,6 +87,70 @@ var iterateRfis = function(results) {
 	docKon.getDocuments(cacheDocuments);
 };
 
+var cacheSubRefs = function(results) {
+	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
+	var subFileGroups = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	subFileGroups.forEach(function(subFileGroup) {
+		subFileGroup.files.forEach(function(subFile) {
+			Ti.API.info('subFile.url = ' + subFile.url);
+			global.xhr.GET({
+				extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
+			    url: subFile.url,
+			    onSuccess: function (results) {
+			    },
+			    onError: global.onXHRError
+			});
+		});
+	});
+	global.setSubmittals(cachedSubmittals);
+};
+
+var processSubmittalPackages = function(results) {
+	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
+	Ti.API.info('konstruction.getSubmittalPackages results = ' + JSON.stringify(results));
+	var subPackages = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('subPackages = ' + JSON.stringify(subPackages));
+	if (subPackages) {
+		subPackages.forEach(function(subPackage) {
+			cachedSubmittals.forEach(function(cachedSubmittal) {
+				// Merge with saved drawings before re-saving.
+				if (subPackage.items.uids.indexOf(cachedSubmittal.uid) > -1) {
+					cachedSubmittal.subPackage = subPackage;
+					var subHistKon = new(require("konstruction"))();
+					subHistKon.getSubmittalPackageHistory(subPackage.uid);
+					var subFileKon = new(require("konstruction"))();
+					subFileKon.getSubmittalFiles(subPackage.uid, cacheSubRefs);
+/*
+					var myPromise = new Promise(function(resolve, reject) { 
+						global.konstruction.getSubmittalPackageHistory(subPackage.uid, resolve, null, null);
+					});
+					myPromise.then(function(subPackageHistory) {
+						Ti.API.info('subPackageHistory = ' + JSON.stringify(subPackageHistory));
+						subPackageHistory = subPackageHistory.status == 200 ? JSON.parse(subPackageHistory.data) : JSON.parse(subPackageHistory.data.text).data;
+						cachedSubmittal.subPackage.history =  subPackageHistory;
+						global.setSubmittals(cachedSubmittals);
+					});
+					*/
+				}
+			});
+		});
+		global.setSubmittals(cachedSubmittals);
+	}
+	syncCompleted();
+};
+
+var iterateSubmittals = function(results) {
+	var submittals = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	if (submittals) {
+		global.setSubmittals(submittals);
+		submittals.forEach(function(submittal) {
+			//Ti.API.info('*** Caching info associated with submittal titled ' + rfi.title);
+			var subPackKon = new(require("konstruction"))();
+			subPackKon.getSubmittalPackages(processSubmittalPackages);
+		});
+	}
+};
+
 var cacheDocuments = function(results) {
 	var documents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	if (documents) {
@@ -175,7 +239,7 @@ var cacheDrawings = function(results) {
 		global.setDrawings(drawings);
 	}
 	var getSubKon = new(require("konstruction"))();
-	getSubKon.getSubmittals(syncCompleted);
+	getSubKon.getSubmittals(iterateSubmittals);
 };
 
 if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {

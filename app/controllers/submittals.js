@@ -109,7 +109,7 @@ var processSubmittalPackages = function(results) {
 				}
 			});
 		});
-		//global.setSubmittals(cachedSubmittals);
+		global.setSubmittals(cachedSubmittals);
 	}
 	showSubmittals(cachedSubmittals, true);
 };

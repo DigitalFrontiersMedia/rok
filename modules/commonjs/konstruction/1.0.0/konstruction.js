@@ -74,10 +74,11 @@ Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) 
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -115,10 +116,11 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -157,10 +159,11 @@ Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -197,10 +200,11 @@ Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -236,10 +240,11 @@ Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback, next_p
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -277,10 +282,11 @@ Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback, nex
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -318,10 +324,11 @@ Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback, nex
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -359,10 +366,11 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback,
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -400,10 +408,11 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -440,10 +449,11 @@ Konstruction.prototype.getDocuments = function(onSuccessCallback, options, next_
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -487,10 +497,11 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_p
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -529,10 +540,11 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -573,7 +585,7 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback, d
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -618,10 +630,11 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -662,10 +675,11 @@ Konstruction.prototype.getSubmittalPackages = function(onSuccessCallback, option
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -706,10 +720,11 @@ Konstruction.prototype.getSubmittalPackageHistory = function(packageUid, onSucce
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -751,10 +766,11 @@ Konstruction.prototype.getSubmittalFiles = function(packageUid, onSuccessCallbac
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
@@ -796,10 +812,11 @@ Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
 		      		alert('ERROR:  ' + xhrResults.error);
+		      		Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 		      	}
 			}
 	    } else {
-			Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
+		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
 			alert('An error occurred: \n', JSON.stringify(xhrResults));
 			nonce = null;
 		}
