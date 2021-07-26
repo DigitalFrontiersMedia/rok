@@ -30,7 +30,9 @@ function add($ui) {
 }
 
 function hideOverlayOption() {
-	$.overlayButton.visible = false;
+	setTimeout(function() {
+		$.overlayButton.visible = false;
+	}, 2000);
 }
 
 function showOverlayOption() {

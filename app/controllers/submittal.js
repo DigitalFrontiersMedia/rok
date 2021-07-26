@@ -40,6 +40,102 @@ var listHistoryEvents = function(results) {
 	});
 };
 
+var showRef = function(title, url) {
+	Alloy.Globals.loading.hide();
+	if (url.indexOf('response-content-disposition=attachment') == -1) {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
+	    var hashedURL = Titanium.Utils.md5HexDigest(url);
+	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
+		var dialog = require('ti.webdialog');
+		if (dialog.isSupported()) {
+			dialog.open({
+				id: 'refDisplay',
+		    	title: title,
+		    	url: url, //file.nativePath.split('file://').join(''),
+		        tintColor: '#ffffff',
+		        barColor: '#ff9200',
+		        showTitle: true,
+		        animated: true,
+		        fadeTransition: true,
+		        enableSharing: false
+		   });
+	   }
+	 } else {
+		// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
+		if (url.indexOf('.pdf?') > -1) {
+			url = url.split('?')[0];
+		}
+	    var hashedURL = Titanium.Utils.md5HexDigest(url);
+	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
+	    var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+			title : 'ROK ' + title,
+			classes : ["modal"]
+		});
+		// Ti.API.info('url = ' + url);
+		// Ti.API.info('file.nativePath = ' + file.nativePath);
+		// Ti.API.info('Ti.Filesystem.applicationDataDirectory = ' + Ti.Filesystem.applicationDataDirectory);
+		// Ti.API.info('Ti.Filesystem.resourcesDirectory = ' + Ti.Filesystem.resourcesDirectory);
+		// Ti.API.info('Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).nativePath = ' + Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).nativePath);
+		// Ti.API.info('Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory).nativePath = ' + Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory).nativePath);
+		// ResourcesDir = /android_asset/Resources/
+		// AppDataDir = /data/user/0/com.digitalfrontiersmedia.rok/app_appdata/
+		var webview = Titanium.UI.createWebView({
+			backgroundColor: 'transparent',
+			url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
+		});
+		modal.add(webview);
+		modal.open();
+		modal.hideOverlayOption();
+	}
+};
+
+var chooseRef = function(e) {
+	Ti.API.info('e.section.rows[e.index].url = ' + e.section.rows[e.index].url);
+	Alloy.Globals.loading.show(L('loading'));
+	if (e.section.rows[e.index].url.indexOf('response-content-disposition=attachment') > -1) {
+		global.xhr.GET({
+			extraParams: {shouldAuthenticate: false, contentType: '', ttl: global.ttl, responseType: 'blob'},
+		    url: e.section.rows[e.index].url,
+		    onSuccess: function (results) {
+		    	//Ti.API.info('getDocument = ' + JSON.stringify(results));
+	    		//Alloy.Globals.loading.hide();
+		    	showRef(e.source.text, e.section.rows[e.index].url);
+		    },
+		    onError: global.onXHRError
+		});
+	} else {
+		showRef(e.source.text, e.section.rows[e.index].url);
+	}
+};
+
+var listFiles = function(results) {
+	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
+	var historyEventLabel;
+	var username;
+	var dataRow;
+	//var tableData = [];
+	var subFileGroups = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	Ti.API.info('subFileGroups = ' + JSON.stringify(subFileGroups));
+	cachedSubmittals[args.index].subPackage.files = subFileGroups;
+	global.setSubmittals(cachedSubmittals);
+	subFileGroups.forEach(function(subFileGroup) {
+		subFileGroup.files.forEach(function(subFile) {
+			fileLabel = $.UI.create('Label', {text: subFile.name, classes: ["listLabels"]});
+			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel'], url: subFile.url, name: subFile.name});
+			dataRow.add(fileLabel);
+			rowIndex++;
+			if (rowIndex % 2) {
+				$.addClass(dataRow, 'zebra');
+			}
+			//tableData.push(dataRow);
+			$.ListView_files.appendRow(dataRow);
+		});
+	});
+};
+
 var listSubmitters = function() {
 	var names = [];
 	submittal[args.index].submitters.forEach(function (submitter) {
@@ -139,3 +235,4 @@ listReviewers();
 listWatchers();
 
 global.konstruction.getSubmittalPackageHistory(submittal[args.index].subPackage.uid, listHistoryEvents);
+global.konstruction.getSubmittalFiles(submittal[args.index].subPackage.uid, listFiles);

@@ -63,7 +63,7 @@
 	            <View id="View_files">
 	                <Label id="Label_files"/>
 	                <ScrollView>
-	                    <TableView id="ListView_files">
+	                    <TableView id="ListView_files" onClick="chooseRef">
 	                        <TableViewSection id="listSection"/>
 	                    </TableView>
 	                </ScrollView>

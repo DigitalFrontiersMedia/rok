@@ -373,14 +373,11 @@ function handleError(xhr, error) {
     result.error = error.error;
     Ti.API.info('xhr.status = ' + xhr.status);
     
-    // TODO:  return readCache(url) if available and 429.
     if (result.status == 429 && global.show429Error) {
-    	result.status = 304;
     	result.error = global.konstruction.platform + " rate limit exceeded.  Please wait a short while before trying again.";
-    	result.result = "success";
-    	result.data = {text: readCache(xhr.url, xhr.drawingUid)};
-	    Alloy.Globals.loading.hide();
-	    return result;
+    	//result.data = {text: readCache(xhr.location, xhr.drawingUid)};
+	    //Alloy.Globals.loading.hide();
+	    //return result;
     }
    
     // Parse error result body

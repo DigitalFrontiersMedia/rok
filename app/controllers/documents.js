@@ -41,6 +41,7 @@ var showDocument = function(title, url) {
 		});
 		modal.add(webview);
 		modal.open();
+		modal.hideOverlayOption();
 	}
 };
 

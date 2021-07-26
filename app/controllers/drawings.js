@@ -157,7 +157,7 @@ var chooseDrawing = function(e) {
 	Ti.API.info('_.findWhere(drawings, {uid: drawingUid}) = ' + JSON.stringify(_.findWhere(drawings, {uid: drawingUid})));
 	var selectedDrawing = _.findWhere(drawings, {uid: drawingUid}).drawing;
 	Ti.API.info('selectedDrawing = ' + JSON.stringify(selectedDrawing));
-	var url = selectedDrawing ? selectedDrawing.file_url : ' ';
+	var url = selectedDrawing ? selectedDrawing.file_url : '';
 	var drawingUrl = url;
 	// Standardize pdf file urls to not include cache-busting Amazon timestamps in cache filename
 	if (url.indexOf('.pdf?') > -1) {
@@ -176,7 +176,11 @@ var chooseDrawing = function(e) {
         // Somehow get the cached drawing and display it.
         showDrawing(drawingName, drawingUrl);
 	} else {
-		global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);
+		if (cache) {
+			global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing, drawingUid, showDrawing, drawingName, drawingUrl);
+		} else {
+			global.konstruction.createDrawingPacket(JSON.stringify(data), preProcessDrawing);
+		}
 	}
 };
 
