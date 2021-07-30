@@ -793,7 +793,7 @@ Konstruction.prototype.getSubmittalFiles = function(packageUid, onSuccessCallbac
 	});
 };
 
-Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next_page_url) {
+Konstruction.prototype.getSubmittalItems = function(onSuccessCallback, options, next_page_url) {
     // Create some default params
     if (onSuccessCallback) { Ti.API.info('onSuccessCallback'); }
     
@@ -807,7 +807,7 @@ Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next
 			if (xhrResults.status === 401) {
 				Ti.API.info('401: ', JSON.stringify(xhrResults));
 		        nonce++;
-		        global.oauth.refresh(self.getSubmittals, onSuccessCallback, options, next_page_url);
+		        global.oauth.refresh(self.getSubmittalItems, onSuccessCallback, options, next_page_url);
 			} else {
 				//alert('ERROR ' + xhrResults.error);
 				if (xhrResults.status != 429) {
@@ -831,7 +831,7 @@ Konstruction.prototype.getSubmittals = function(onSuccessCallback, options, next
 	global.xhr.GET({
 	    url: next_page_url ? next_page_url : apiURL + endpoint,
 	    onSuccess: function(results) {
-	    	self.processPagination(results, self.getSubmittals, onSuccessCallback, options);
+	    	self.processPagination(results, self.getSubmittalItems, onSuccessCallback, options);
     	},
 	    onError: onErrorCallback,
 	    extraParams: options

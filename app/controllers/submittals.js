@@ -30,7 +30,7 @@ var showSubmittals = function(results, preFetched) {
 		submittals.forEach(function(submittal) {
 			dataRow = $.UI.create('TableViewRow', {uid: submittal.uid});
 			dataRow.add($.UI.create('Label', {
-				text: submittal.spec_section ? submittal.spec_section : '',
+				text: submittal.spec_section ? submittal.custom_id : '',
 				classes: ["submittalChoice", "fontSize20", "colS"]
 			}));
 			var specWrapper = $.UI.create('View', {
@@ -51,12 +51,13 @@ var showSubmittals = function(results, preFetched) {
 				text: submittal.name ? submittal.name : '',
 				classes: ["submittalChoice", "fontSize20", "colL"]
 			}));
+			var userInfo = global.historyUsers[submittal[submittal.ball_in_court_status + 's'][0].uid] ? global.historyUsers[submittal[submittal.ball_in_court_status + 's'][0].uid] : false;
 			dataRow.add($.UI.create('Label', {
-				text: submittal.subPackage.ball_in_court_status ? submittal.subPackage.ball_in_court_status : '',
+				text: (submittal[submittal.ball_in_court_status + 's'].length ==1 && userInfo) ? global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name) : submittal.ball_in_court_status.charAt(0).toUpperCase() + submittal.ball_in_court_status.slice(1) + 's',
 				classes: ["submittalChoice", "fontSize20", "colL"]
 			}));
 			dataRow.add($.UI.create('Label', {
-				text: submittal.created_at ? global.formatDate(submittal.created_at) : '',
+				text: submittal.created_at ? global.formatDate(submittal.updated_at) : '',
 				classes: ["submittalChoice", "fontSize20", "colS"]
 			}));
 			dataRow.add($.UI.create('Label', {
@@ -64,7 +65,7 @@ var showSubmittals = function(results, preFetched) {
 				classes: ["submittalChoice", "fontSize20", "colS"]
 			}));
 			dataRow.add($.UI.create('Label', {
-				text: submittal.subPackage.transmission_status ? submittal.subPackage.transmission_status : '',
+				text: submittal.transmission_status ? submittal.transmission_status : '',
 				classes: ["submittalChoice", "fontSize20", "colM"]
 			}));
 			if (x % 2) {
@@ -84,45 +85,28 @@ var showSubmittals = function(results, preFetched) {
 	$.TableView_submittals.data = tableData;
 };
 
-var processSubmittalPackages = function(results) {
-	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
-	Ti.API.info('konstruction.getSubmittalPackages results = ' + JSON.stringify(results));
-	var subPackages = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
-	Ti.API.info('subPackages = ' + JSON.stringify(subPackages));
-	if (subPackages) {
-		subPackages.forEach(function(subPackage) {
-			cachedSubmittals.forEach(function(cachedSubmittal) {
-				// Merge with saved drawings before re-saving.
-				if (subPackage.items.uids.indexOf(cachedSubmittal.uid) > -1) {
-					cachedSubmittal.subPackage = subPackage;
-/*
-					var myPromise = new Promise(function(resolve, reject) { 
-						global.konstruction.getSubmittalPackageHistory(subPackage.uid, resolve, null, null);
-					});
-					myPromise.then(function(subPackageHistory) {
-						Ti.API.info('subPackageHistory = ' + JSON.stringify(subPackageHistory));
-						subPackageHistory = subPackageHistory.status == 200 ? JSON.parse(subPackageHistory.data) : JSON.parse(subPackageHistory.data.text).data;
-						cachedSubmittal.subPackage.history =  subPackageHistory;
-						global.setSubmittals(cachedSubmittals);
-					});
-					*/
-				}
-			});
-		});
-		global.setSubmittals(cachedSubmittals);
-	}
-	showSubmittals(cachedSubmittals, true);
-};
-
 var preprocessSubmittals = function(results) {
-	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
-	Ti.API.info('konstruction.getSubmittals results = ' + JSON.stringify(results));
-	var submittals = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
+	submittals = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('submittals = ' + JSON.stringify(submittals));
 	if (submittals) {
-		global.setSubmittals(submittals);
-		global.konstruction.getSubmittalPackages(processSubmittalPackages);
+		submittals.forEach(function(submittal) {
+			var bicInfo = submittal[submittal.ball_in_court_status + 's'];
+			if (bicInfo.length == 1) {
+				if (!global.historyUsers.hasOwnProperty(bicInfo[0].uid)) {
+					var myPromise = new Promise(function(resolve, reject) { 
+						global.konstruction.getUserInfo(bicInfo[0], resolve);
+					});
+					myPromise.then(function(userInfo) {
+						//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
+						userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
+						global.historyUsers[submittal[submittal.ball_in_court_status + 's'][0].uid] = userInfo;
+						Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+					});
+				}
+			}
+		});
 	}
+	showSubmittals(submittals, true);
 };
 
 var filterSubmittals = function(e) {
@@ -172,8 +156,8 @@ var showSubmittalFilters = function() {
 	global.showOptions(L('filter_to_apply'), opts, $, filterSubmittals);
 };
 
-//global.konstruction.getSubmittals(showSubmittals);
-global.konstruction.getSubmittals(preprocessSubmittals);
+//global.konstruction.getSubmittalPackages(showSubmittals);
+global.konstruction.getSubmittalPackages(preprocessSubmittals);
 
 $.addClass($.optionCorner.lbl_optionCorner, 'filter');
 $.optionCorner.lbl_optionCorner.addEventListener('click', showSubmittalFilters);

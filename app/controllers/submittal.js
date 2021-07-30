@@ -7,13 +7,17 @@ $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
 var listHistoryEvents = function(results) {
 	var cachedSubmittals = Ti.App.Properties.getList("submittals", []);
+	var historyEventLineWrapper;
 	var historyEventLabel;
+	var historyEventLabel2;
+	var historyEventLine;
+	var notes;
 	var username;
 	var dataRow;
 	//var tableData = [];
 	var historyEvents = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('historyEvents = ' + JSON.stringify(historyEvents));
-	cachedSubmittals[args.index].subPackage.history =  historyEvents;
+	cachedSubmittals[args.index].history =  historyEvents;
 	global.setSubmittals(cachedSubmittals);
 	historyEvents.forEach(function(historyEvent) {
 		if (historyEvent.event_data.uploader_name) {
@@ -28,9 +32,16 @@ var listHistoryEvents = function(results) {
 		historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
 		historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.created_at) + '.';
 		//Ti.API.info('historyEventLine = ' + historyEventLine);
-		historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
-		dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});
-		dataRow.add(historyEventLabel);
+		notes = historyEvent.event_data.notes ? historyEvent.event_data.notes : '';
+		historyEventLineWrapper = $.UI.create('View', {classes: ['heightToSize'], layout: "vertical"});
+		historyEventLabel = $.UI.create('Label', {text: historyEventLine, top: 10, bottom: 10, classes: ["listLabels", 'heightToSize']});
+		dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'heightToSize']});
+		historyEventLineWrapper.add(historyEventLabel);
+		if (notes) {
+			historyEventLabel2 = $.UI.create('Label', {text: notes, left: '10%', bottom: 10, classes: ["listLabels", 'heightToSize', 'widthToSize']});
+			historyEventLineWrapper.add(historyEventLabel2);
+		}
+		dataRow.add(historyEventLineWrapper);
 		rowIndex++;
 		if (rowIndex % 2) {
 			$.addClass(dataRow, 'zebra');
@@ -118,12 +129,12 @@ var listFiles = function(results) {
 	//var tableData = [];
 	var subFileGroups = results.status == 200 ? JSON.parse(results.data).data : JSON.parse(results.data.text).data;
 	Ti.API.info('subFileGroups = ' + JSON.stringify(subFileGroups));
-	cachedSubmittals[args.index].subPackage.files = subFileGroups;
+	cachedSubmittals[args.index].files = subFileGroups;
 	global.setSubmittals(cachedSubmittals);
 	subFileGroups.forEach(function(subFileGroup) {
 		subFileGroup.files.forEach(function(subFile) {
 			fileLabel = $.UI.create('Label', {text: subFile.name, classes: ["listLabels"]});
-			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel'], url: subFile.url, name: subFile.name});
+			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'indent'], url: subFile.url, name: subFile.name});
 			dataRow.add(fileLabel);
 			rowIndex++;
 			if (rowIndex % 2) {
@@ -222,16 +233,17 @@ var listWatchers = function() {
 	});
 };
 
-$.Label_submittalNumValue.text = submittal[args.index].spec_section;
-$.Label_specValue.text = submittal[args.index].spec_section_name;
-$.Label_versionValue.text = submittal[args.index].subPackage.version;
+$.Label_submittalNumValue.text = submittal[args.index].custom_id;
+$.Label_specValue.text = submittal[args.index].spec_section;
+$.Label_specNameValue.text = submittal[args.index].spec_section_name;
+$.Label_versionValue.text = submittal[args.index].version;
 $.Label_dueValue.text = submittal[args.index].submittal_due_date;
-$.Label_statusValue.text = submittal[args.index].subPackage.transmission_status;
+$.Label_statusValue.text = submittal[args.index].transmission_status;
 
 listSubmitters();
 listManagers();
 listReviewers();
 listWatchers();
 
-global.konstruction.getSubmittalPackageHistory(submittal[args.index].subPackage.uid, listHistoryEvents);
-global.konstruction.getSubmittalFiles(submittal[args.index].subPackage.uid, listFiles);
+global.konstruction.getSubmittalPackageHistory(submittal[args.index].uid, listHistoryEvents);
+global.konstruction.getSubmittalFiles(submittal[args.index].uid, listFiles);

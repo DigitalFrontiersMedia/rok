@@ -7,8 +7,9 @@ var timeoutLimit = 30;
 var drawingName = null;
 var currentFilter;
 var drawingUid = null;
-var overlay = args.overlay;
+var overlay = args.overlay || false;
 var modal = args.sourceModal;
+var overlayZoom = null;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 if (overlay) {
@@ -63,12 +64,17 @@ var showDrawing = function(title, url, overlayOverride) {
 				sourceView: $
 			});
 		}
-		Ti.API.info('url = ' + url);
 		Ti.API.info('file.nativePath = ' + file.nativePath);
+		url = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('');
+		url = url + '&overlay=' + JSON.stringify(overlay);
+		if (overlayZoom) {
+			url = url + '&zoom=' + overlayZoom;
+		}
+		Ti.API.info('url = ' + url);
 		var webview = Titanium.UI.createWebView({
 			opacity: overlay ? 0.5 : 1,
 			backgroundColor: 'transparent',
-			url: Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('')
+			url: url
 		});
 		modal.add(webview);
 		if (!overlay) {
@@ -80,6 +86,7 @@ var showDrawing = function(title, url, overlayOverride) {
 			modal.setTitle(modal.__views.win.title + ' + ' + title);
 			Titanium.Android.currentActivity.finish();
 			overlay = false;
+			overlayZoom = null;
 		}
 	}
 };
@@ -253,6 +260,14 @@ var showDrawingFilters = function() {
 	});
 	global.showOptions(L('filter_to_apply'), opts, $, filterDrawings);
 };
+
+Ti.App.addEventListener('app:fromPDFWebView', function(e) {
+	overlayZoom = e.presetValue;
+	Ti.App.fireEvent('app:fromTitanium', {
+		presetValue: e.presetValue,
+		scale: e.scale
+	});
+});
 
 $.addClass($.optionCorner.lbl_optionCorner, 'filter');
 $.optionCorner.lbl_optionCorner.addEventListener('click', showDrawingFilters);

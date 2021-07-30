@@ -3324,6 +3324,14 @@ function webViewerUpdateFindControlState(_ref14) {
 function webViewerScaleChanging(evt) {
   PDFViewerApplication.toolbar.setPageScale(evt.presetValue, evt.scale);
   PDFViewerApplication.pdfViewer.update();
+  // Use this to trigger an event to save the last PDF scale used before loading an overlay.
+  //alert('scale changed to ' + evt.presetValue, evt.scale);
+  //alert('currentScaleValue = ' + PDFViewerApplication.pdfViewer.currentScaleValue);
+	// Send event from the web-view to the app
+	Ti.App.fireEvent('app:fromPDFWebView', {
+		presetValue: evt.presetValue,
+		scale: evt.scale
+	});
 }
 
 function webViewerRotationChanging(evt) {

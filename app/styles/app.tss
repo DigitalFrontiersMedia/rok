@@ -171,4 +171,17 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".overlay": {
 	opacity: 0.5
+},
+".indent": {
+	left: '5%'
+},
+".heightToSize": {
+	height: Ti.UI.SIZE
+},
+".widthToSize": {
+	width: Ti.UI.SIZE
+},
+".padTopBottom": {
+	top: 5,
+	bottom: 5
 }

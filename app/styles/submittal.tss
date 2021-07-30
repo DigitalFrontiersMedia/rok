@@ -34,6 +34,9 @@
 	right: 15,
 	width: Ti.UI.SIZE
 },
+".nudgeTop": {
+	top: 5
+},
 "#TextField_sendDate": {
 	"borderRadius": "10",
 	"borderColor": "#E5E5E5",

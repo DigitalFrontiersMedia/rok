@@ -37,6 +37,37 @@ See https://github.com/adobe-type-tools/cmap-resources
 <script id="pdfjs-dist/build/pdf" src="build/pdf.js"></script>
 <script src="build/pdf.worker.js"></script>
 <script src="viewer.js"></script>
+<script>
+	Ti.API.info('window.location.href = ' + JSON.stringify(window.location.href));
+	function getParameterByName(name, url = window.location.href) {
+	    name = name.replace(/[\[\]]/g, '\\$&');
+	    var regex = new RegExp('[?#&]' + name + '(=([^&#]*)|&|#|$)'),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+	var overlay = (getParameterByName('overlay') === 'true');
+	Ti.API.info('overlay = ' + JSON.stringify(overlay));
+
+	// Change PDF colors depending on overlay status.
+	if (overlay) {
+		//document.documentElement.style.filter='invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(' + 30 + (180 * overlay) + 'deg)';
+		document.documentElement.style.filter = 'invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(210deg)';
+		// hue-rotate + 180 to get to blue (210) from orange (30) so overlays will be white
+		document.toolbarViewer.style.filter = 'brightness(150%)';
+	}
+	
+      // Subscribe to global event
+	Ti.App.addEventListener("app:fromTitanium", function(e) {
+		Ti.API.info('e = ' + JSON.stringify(e));
+		Ti.API.info('PDFViewerApplication = ' + JSON.stringify(PDFViewerApplication));
+		if (!overlay) {
+  			PDFViewerApplication.toolbar.setPageScale(e.presetValue, e.scale);
+			PDFViewerApplication.pdfViewer.update();
+		}
+	});
+</script>
 </head>
 
   <body tabindex="1">
