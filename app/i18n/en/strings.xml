@@ -7,10 +7,12 @@
 	<string name="syncing">Syncing/caching assets...</string>
 	<string name="purging">Purging...</string>
 	<string name="purged_docs">Deleted %s cached assets.</string>
+	<string name="no_docs">No cached assets to purge.</string>
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
 	<string name="ok">OK</string>
 	<string name="overlay">Overlay</string>
+	<string name="remove_overlay">Remove overlay</string>
 	<string name="choose_overlay">Choose Overlay</string>
 	<string name="project_drawings">PROJECT DRAWINGS</string>
 	<string name="project_name">Project Name</string>

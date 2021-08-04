@@ -9,7 +9,8 @@ var currentFilter;
 var drawingUid = null;
 var overlay = args.overlay || false;
 var modal = args.sourceModal;
-var overlayZoom = null;
+var initDrawingTitle = '';
+//var overlayZoom = null;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 if (overlay) {
@@ -22,7 +23,7 @@ var showDrawing = function(title, url, overlayOverride) {
     	Ti.API.info('args.originalShowDrawing about to execute...');
     	args.originalShowDrawing(title, url, true);
     	args.originalShowDrawing = null;
-    	Titanium.Android.currentActivity.finish();
+    	//Titanium.Android.currentActivity.finish();
 	    return;
     }
 	Alloy.Globals.loading.hide();
@@ -56,8 +57,10 @@ var showDrawing = function(title, url, overlayOverride) {
 	    var hashedURL = Titanium.Utils.md5HexDigest(url);
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 	    if (!overlay) {
+		    initDrawingTitle = 'ROK • ' + title;
 		    modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
-				title : 'ROK ' + title,//file.name,
+				title : initDrawingTitle,
+				initTitle : initDrawingTitle,
 				classes : ["modal"],
 				originalShowDrawing : $.showDrawing,
 				showOverlayOption: true,
@@ -67,26 +70,40 @@ var showDrawing = function(title, url, overlayOverride) {
 		Ti.API.info('file.nativePath = ' + file.nativePath);
 		url = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, '/pdfViewer/viewer.html').nativePath + '?file=' + file.nativePath.split('file://').join('');
 		url = url + '&overlay=' + JSON.stringify(overlay);
-		if (overlayZoom) {
-			url = url + '&zoom=' + overlayZoom;
+		if (global.overlayZoom) {
+			url = url + '&zoom=' + global.overlayZoom;
 		}
-		Ti.API.info('url = ' + url);
-		var webview = Titanium.UI.createWebView({
-			opacity: overlay ? 0.5 : 1,
-			backgroundColor: 'transparent',
-			url: url
-		});
+		Ti.API.info('  global.overlayZoom = ' + global.overlayZoom);
+		Ti.API.info('---===>>> PDF url = ' + url);
+		var webview = {};
+		if (!overlay) {
+			var webviewBase = Titanium.UI.createWebView({
+				opacity: overlay ? 0.5 : 1,
+				backgroundColor: 'transparent',
+				url: url
+			});
+			webview = webviewBase;
+		} else {
+			var webviewOverlay = Titanium.UI.createWebView({
+				opacity: overlay ? 0.5 : 1,
+				backgroundColor: 'transparent',
+				url: url
+			});
+			modal.setWebviewOverlay(webviewOverlay);
+			webview = webviewOverlay;
+		}
 		modal.add(webview);
 		if (!overlay) {
 			modal.open();
 			modal.showOverlayOption();
 		} else {
 			modal.hideOverlayOption();
+			modal.showRemoveOverlayOption();
 			//Ti.API.info('modal = ' + JSON.stringify(modal));
 			modal.setTitle(modal.__views.win.title + ' + ' + title);
 			Titanium.Android.currentActivity.finish();
 			overlay = false;
-			overlayZoom = null;
+			global.overlayZoom = null;
 		}
 	}
 };
@@ -262,11 +279,13 @@ var showDrawingFilters = function() {
 };
 
 Ti.App.addEventListener('app:fromPDFWebView', function(e) {
-	overlayZoom = e.presetValue;
-	Ti.App.fireEvent('app:fromTitanium', {
-		presetValue: e.presetValue,
-		scale: e.scale
-	});
+	if (!overlay) {
+		global.overlayZoom = e.scale * 100;
+		Ti.App.Properties.setDouble('overlayZoom', global.overlayZoom);
+	}
+	Ti.API.info('******  pdf zoom changed in WebView  ******');
+	Ti.API.info('app:fromPDFWebView e = ' + JSON.stringify(e));
+	Ti.API.info('  global.overlayZoom = ' + global.overlayZoom);
 });
 
 $.addClass($.optionCorner.lbl_optionCorner, 'filter');

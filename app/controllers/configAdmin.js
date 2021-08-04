@@ -3,7 +3,7 @@ var args = $.args;
 var cacheManager = Ti.App.Properties.getObject("cachedXHRDocuments", {});
 var purgedDocuments = 0;
 var keys = Object.keys(cacheManager);
-var okayToPurge = false;
+var okayToPurge = true;
 var purgeInterval = null;
 
 $.deviceId.text = L('device_id') + ':  ' + Ti.Platform.id;
@@ -68,18 +68,24 @@ var purge = function() {
 };
 
 var purgeCachedAssets = function() {
-	progressBar.max = Object.keys(Ti.App.Properties.getObject("cachedXHRDocuments", {})).length;
-	progressBar.show({animated: true});
-	okayToPurge = true;
-	purgeInterval = setInterval(function() {
-		if (okayToPurge && keys.length) {
-			purge();
-		} else if (!okayToPurge && !keys.length) {
-			clearInterval(purgeInterval);
-			purgeInterval = null;
-			progressBar.hide({animated: true});
-			alert(String.format(L('purged_docs'), purgedDocuments));
-		}
-	}, 1);
+	if (keys.length) {
+		global.working = true;
+		progressBar.max = Object.keys(Ti.App.Properties.getObject("cachedXHRDocuments", {})).length;
+		progressBar.show({animated: true});
+		okayToPurge = true;
+		purgeInterval = setInterval(function() {
+			if (okayToPurge && keys.length) {
+				purge();
+			} else if (!okayToPurge && !keys.length) {
+				clearInterval(purgeInterval);
+				purgeInterval = null;
+				progressBar.hide({animated: true});
+				global.working = false;
+				alert(String.format(L('purged_docs'), purgedDocuments));
+			}
+		}, 1);
+	} else {
+		alert(L('no_docs'));
+	}
 };
 

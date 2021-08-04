@@ -47,30 +47,32 @@ See https://github.com/adobe-type-tools/cmap-resources
 	    if (!results[2]) return '';
 	    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 	}
-	var overlay = (getParameterByName('overlay') === 'true');
-	Ti.API.info('overlay = ' + JSON.stringify(overlay));
-
-	// Change PDF colors depending on overlay status.
-	if (overlay) {
-		//document.documentElement.style.filter='invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(' + 30 + (180 * overlay) + 'deg)';
-		document.documentElement.style.filter = 'invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(210deg)';
-		// hue-rotate + 180 to get to blue (210) from orange (30) so overlays will be white
-		document.toolbarViewer.style.filter = 'brightness(150%)';
-	}
 	
-      // Subscribe to global event
-	Ti.App.addEventListener("app:fromTitanium", function(e) {
-		Ti.API.info('e = ' + JSON.stringify(e));
-		Ti.API.info('PDFViewerApplication = ' + JSON.stringify(PDFViewerApplication));
-		if (!overlay) {
-  			PDFViewerApplication.toolbar.setPageScale(e.presetValue, e.scale);
-			PDFViewerApplication.pdfViewer.update();
+	function init() {
+		var overlay = (getParameterByName('overlay') === 'true');
+		Ti.API.info('WebView overlay = ' + JSON.stringify(overlay));
+	
+		// Change PDF colors depending on overlay status.
+		if (overlay) {
+			//document.documentElement.style.filter='invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(' + 30 + (180 * overlay) + 'deg)';
+			document.documentElement.style.filter = 'invert(100%) contrast(120%) brightness(0.5) sepia(1) saturate(10000%) hue-rotate(210deg)';
+			// hue-rotate + 180 to get to blue (210) from orange (30) so overlays will be white
+			document.getElementById('toolbarViewer').style.filter = 'invert(100%) contrast(80%) brightness(1) sepia(1) saturate(10000%) hue-rotate(0deg)';
+			PDFViewerApplication.pdfViewer.currentScaleValue = getParameterByName('zoom');
 		}
-	});
+		
+	      // Subscribe to global event
+			//Ti.API.info('app:fromTitanium e = ' + JSON.stringify(e));
+			//Ti.API.info('PDFViewerApplication = ' + JSON.stringify(PDFViewerApplication));
+			//if (!overlay) {
+	  			//PDFViewerApplication.toolbar.setPageScale(getParameterByName('zoom'), getParameterByName('scale'));
+				//PDFViewerApplication.pdfViewer.update();
+			//}
+	}
 </script>
 </head>
 
-  <body tabindex="1">
+  <body tabindex="1" onload="init();">
     <div id="outerContainer">
 
       <div id="sidebarContainer">

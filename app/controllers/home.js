@@ -130,6 +130,7 @@ var displayUploadedSiteInfo = function(title, url) {
 	});
 	modal.add(webview);
 	modal.open();
+	modal.hideOverlayOption();
 };
 
 var displaySiteInfo = function(e) {

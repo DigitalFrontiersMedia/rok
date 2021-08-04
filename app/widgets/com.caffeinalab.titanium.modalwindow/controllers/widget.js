@@ -1,4 +1,6 @@
 var args = arguments[0] || {};
+var webviewOverlay = args.webviewOverlay || {};
+var initDrawingTitle = args.initTitle || '';
 
 if (args.title) $.win.title = args.title;
 
@@ -29,17 +31,29 @@ function add($ui) {
 	$.win.add($ui);
 }
 
+function setWebviewOverlay(wvOverlay) {
+	webviewOverlay = wvOverlay;
+}
+
+function showRemoveOverlayOption() {
+	setTimeout(function() {
+		$.removeOverlayButton.visible = true;
+	}, 1600);
+}
+
 function hideOverlayOption() {
 	setTimeout(function() {
 		$.overlayButton.visible = false;
-	}, 2000);
+		$.removeOverlayButton.visible = false;
+	}, 1500);
 }
 
 function showOverlayOption() {
 	setTimeout(function() {
+		$.removeOverlayButton.visible = false;
 		$.overlayButton.visible = true;
 		//$.win.activity.invalidateOptionsMenu();
-	}, 2000);
+	}, 1500);
 }
 
 function setTitle(title) {
@@ -48,6 +62,12 @@ function setTitle(title) {
 
 function overlay() {
 	Alloy.createController('drawings', {overlay: true, originalShowDrawing: args.originalShowDrawing, sourceModal: $}).getView().open();
+}
+
+function removeOverlay() {
+	$.win.remove(webviewOverlay);
+	setTitle(initDrawingTitle);
+	showOverlayOption();
 }
 
 /*
@@ -63,7 +83,9 @@ Interface
 exports.open = open;
 exports.close = close;
 exports.add = add;
+exports.setWebviewOverlay = setWebviewOverlay;
 exports.hideOverlayOption = hideOverlayOption;
 exports.showOverlayOption = showOverlayOption;
+exports.showRemoveOverlayOption = showRemoveOverlayOption;
 exports.setTitle = setTitle;
 exports.overlay = overlay;

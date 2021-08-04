@@ -10,6 +10,7 @@
 	        <Menu id="menu" platform="android">
 	            <MenuItem id="closeButton" titleid="close" onClick="close" />
 	            <MenuItem id="overlayButton" titleid="overlay" onClick="overlay"/>
+	            <MenuItem id="removeOverlayButton" titleid="remove_overlay" onClick="removeOverlay"/>
 	        </Menu>
 		</Window>
 	</NavigationWindow>

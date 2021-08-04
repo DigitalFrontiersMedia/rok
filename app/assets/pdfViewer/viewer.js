@@ -3322,16 +3322,15 @@ function webViewerUpdateFindControlState(_ref14) {
 }
 
 function webViewerScaleChanging(evt) {
+  // Use this to trigger an event to save the last PDF scale used before loading an overlay.
+	// Send event from the web-view to the app
+	if (getParameterByName('overlay') !== 'true') {
+		Ti.App.fireEvent('app:fromPDFWebView', {
+			scale: evt.scale
+		});
+	}
   PDFViewerApplication.toolbar.setPageScale(evt.presetValue, evt.scale);
   PDFViewerApplication.pdfViewer.update();
-  // Use this to trigger an event to save the last PDF scale used before loading an overlay.
-  //alert('scale changed to ' + evt.presetValue, evt.scale);
-  //alert('currentScaleValue = ' + PDFViewerApplication.pdfViewer.currentScaleValue);
-	// Send event from the web-view to the app
-	Ti.App.fireEvent('app:fromPDFWebView', {
-		presetValue: evt.presetValue,
-		scale: evt.scale
-	});
 }
 
 function webViewerRotationChanging(evt) {
@@ -13782,8 +13781,9 @@ var BaseViewer = /*#__PURE__*/function () {
     key: "_setScale",
     value: function _setScale(value) {
       var noScroll = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var scale = parseFloat(value);
-
+      var overlay = (getParameterByName('overlay') === 'true');
+      var scale = overlay ? parseFloat(getParameterByName('zoom')) / 100 : parseFloat(value);
+      value = overlay ? parseFloat(getParameterByName('zoom')) : value;
       if (scale > 0) {
         this._setScaleUpdatePages(scale, value, noScroll, false);
       } else {
