@@ -283,9 +283,6 @@ Ti.App.addEventListener('app:fromPDFWebView', function(e) {
 		global.overlayZoom = e.scale * 100;
 		Ti.App.Properties.setDouble('overlayZoom', global.overlayZoom);
 	}
-	Ti.API.info('******  pdf zoom changed in WebView  ******');
-	Ti.API.info('app:fromPDFWebView e = ' + JSON.stringify(e));
-	Ti.API.info('  global.overlayZoom = ' + global.overlayZoom);
 });
 
 $.addClass($.optionCorner.lbl_optionCorner, 'filter');

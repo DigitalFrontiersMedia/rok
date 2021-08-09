@@ -1,7 +1,7 @@
 <Alloy>
     <Window class="container" id="setupWizard2Container" left="0.00%" top="0.00%">
         <Require id="backCorner" src="backCorner" type="view"/>
-        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="homeCorner" src="homeCorner" type="view" if="Alloy.Globals.configured"/>
         <Require id="configCorner" src="configCorner" type="view"/>
         <Label id="Label_wizardTitle"/>
         <Label id="Label_wizardStep"/>

@@ -221,6 +221,9 @@ if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 	// to load those, if needed, as well as any sub-items like attached Photos, Documents, etc.
 	// TODO:  add updated_after parameter to only update those items that have changed
 	setTimeout(function() {
+		if (global.userId) {
+			global.getDeviceInfo();
+		}
 		var rfiKon = new(require("konstruction"))();
 		rfiKon.getRfis(iterateRfis);
 		// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.

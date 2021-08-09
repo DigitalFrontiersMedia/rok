@@ -18,6 +18,7 @@ if (!Ti.Locale.currentLanguage) {
 // Uncomment and set as desired.
 // configured = false -> setup
 // configured = true -> bypass setup
+//Ti.App.Properties.setBool('configured', true);
 //Ti.App.Properties.setBool('configured', false);
 
 // For development purposes to bypass or induce language setup.
@@ -288,7 +289,6 @@ global.setDeviceConfig = function() {
 	}
 	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
 		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
-		// TODO: add below commented fields to Drupal and then correct and uncomment.
 		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app != '') {
 			Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app);
 		}
@@ -404,6 +404,9 @@ global.userIsInactive = function() {
 		Alloy.createController('home').getView().close();
 		Alloy.createController('home').getView().open();
 	}
+	if (global.working) {
+		global.delayedInactiveTimeout = true;
+	}
 };
 
 global.userInteraction = function() {
@@ -416,6 +419,10 @@ global.userInteraction = function() {
 	}, global.idleTimeoutMinutes * 60 * 1000);
 };
 Ti.App.addEventListener('userinteraction', global.userInteraction);
+
+Alloy.Globals.configured = function() {
+	return Ti.App.Properties.getBool('configured');
+};
 
 global.syncService = function() {
 	/*

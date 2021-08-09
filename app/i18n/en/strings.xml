@@ -25,6 +25,9 @@
 	<string name="rfi">RFI</string>
 	<string name="submittals">SUBMITTALS</string>
 	<string name="connect">Connect</string>
+	<string name="manual_sync">MANUAL SYNC</string>
+	<string name="factory_reset">FACTORY RESET</string>
+	<string name="long_task">This operation may possibly take a long time to complete.</string>
 	<string name="cancel">Cancel</string>
 	<string name="cancel_confirmation">Discard without saving?</string>
 	<string name="yes">Yes</string>

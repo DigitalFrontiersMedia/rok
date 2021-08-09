@@ -14,13 +14,23 @@
                     <ImageView class="btnMainSecondary largeBtn"/>
                     <Label class="btnText reconfigure"/>
                 </View>
-                <View class="button-wrapper largeBtn" id="imgBtn_purge" onClick="purgeCachedAssets">
-                    <ImageView class="btnMainSecondary largeBtn"/>
-                    <Label class="btnText purge"/>
-                </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_browser" onClick="goBrowser">
                     <ImageView class="btnMainSecondary largeBtn"/>
                     <Label class="btnText browser"/>
+                </View>
+            </View>
+            <View class="btnRow" id="View_row2">
+                <View class="button-wrapper largeBtn" id="imgBtn_reset" onClick="confirmReset">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText factoryReset"/>
+                </View>
+                <View class="button-wrapper largeBtn" id="imgBtn_purge" onClick="confirmPurge">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText purge"/>
+                </View>
+                <View class="button-wrapper largeBtn" id="imgBtn_manualSync" onClick="confirmSync">
+                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <Label class="btnText manualSync"/>
                 </View>
             </View>
         </View>

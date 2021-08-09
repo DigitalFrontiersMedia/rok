@@ -67,6 +67,18 @@ var purge = function() {
 	}
 };
 
+var manualSync = function() {
+	var worker = require('ti.worker');
+	// create a worker thread instance
+	var task = worker.createWorker('syncService.js');
+};
+
+var factoryReset = function() {
+	//Ti.API.info('Ti.App.Properties.removeAllProperties();');
+	Ti.App.Properties.removeAllProperties();
+	purgeCachedAssets();
+};
+
 var purgeCachedAssets = function() {
 	if (keys.length) {
 		global.working = true;
@@ -82,6 +94,12 @@ var purgeCachedAssets = function() {
 				progressBar.hide({animated: true});
 				global.working = false;
 				alert(String.format(L('purged_docs'), purgedDocuments));
+				if (global.delayedInactiveTimeout) {
+					global.delayedInactiveTimeout = false;
+				    global.timeoutID = setTimeout(function(e) {
+				    	global.userIsInactive();
+					}, global.idleTimeoutMinutes * 60 * 1000);
+				}
 			}
 		}, 1);
 	} else {
@@ -89,3 +107,59 @@ var purgeCachedAssets = function() {
 	}
 };
 
+var confirmPurge = function() {
+	var arg = {
+		title : L('purge'),
+		container : $.getView().parent,
+		callback : purgeCachedAssets
+	};
+	var messageWrapper = $.UI.create('View', {layout: 'vertical'});
+	//var message = $.UI.create('Label', {top: '40%', text: L('sure')});
+	var cancelBtn = $.UI.create('Label', {top: '10', height: '40', width: '120', classes: ['btnText', 'cancel', 'lesserOption']});
+	cancelBtn.addEventListener('click', function() {
+		$.getView().parent.remove(commonView);
+	});
+	var commonView = Alloy.createController('commonView', arg).getView();
+	//messageWrapper.add(message);
+	messageWrapper.add(cancelBtn);
+	commonView.getViewById('contentWrapper').add(messageWrapper);
+	$.getView().parent.add(commonView);
+};
+
+var confirmReset = function() {
+	var arg = {
+		title : L('factory_reset'),
+		container : $.getView().parent,
+		callback : factoryReset
+	};
+	var messageWrapper = $.UI.create('View', {layout: 'vertical'});
+	var message = $.UI.create('Label', {top: '40%', text: L('long_task')});
+	var cancelBtn = $.UI.create('Label', {top: '10', height: '40', width: '120', classes: ['btnText', 'cancel', 'lesserOption']});
+	cancelBtn.addEventListener('click', function() {
+		$.getView().parent.remove(commonView);
+	});
+	var commonView = Alloy.createController('commonView', arg).getView();
+	messageWrapper.add(message);
+	messageWrapper.add(cancelBtn);
+	commonView.getViewById('contentWrapper').add(messageWrapper);
+	$.getView().parent.add(commonView);
+};
+
+var confirmSync = function() {
+	var arg = {
+		title : L('manual_sync'),
+		container : $.getView().parent,
+		callback : manualSync
+	};
+	var messageWrapper = $.UI.create('View', {layout: 'vertical'});
+	var message = $.UI.create('Label', {top: '40%', text: L('long_task')});
+	var cancelBtn = $.UI.create('Label', {top: '10', height: '40', width: '120', classes: ['btnText', 'cancel', 'lesserOption']});
+	cancelBtn.addEventListener('click', function() {
+		$.getView().parent.remove(commonView);
+	});
+	var commonView = Alloy.createController('commonView', arg).getView();
+	messageWrapper.add(message);
+	messageWrapper.add(cancelBtn);
+	commonView.getViewById('contentWrapper').add(messageWrapper);
+	$.getView().parent.add(commonView);
+};

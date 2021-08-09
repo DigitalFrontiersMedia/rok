@@ -35,7 +35,6 @@
 "#View_row1": {
 },
 "#View_row2": {
-	layout: "vertical"
 },
 ".btnRow": {
 	"layout": "horizontal",
@@ -44,14 +43,22 @@
 	left: "15%"
 },
 "#imgBtn_reconfigure": {
-	"width": "33%",
+	"width": "50%",
 	bubbleParent: false
 },
 "#imgBtn_browser": {
-	"width": "33%",
+	"width": "50%",
 	bubbleParent: false
 },
 "#imgBtn_purge": {
+	"width": "33%",
+	bubbleParent: false
+},
+"#imgBtn_manualSync": {
+	"width": "33%",
+	bubbleParent: false
+},
+"#imgBtn_reset": {
 	"width": "33%",
 	bubbleParent: false
 },
@@ -63,4 +70,11 @@
 },
 ".purge": {
 	text: L("purge")
+},
+".manualSync": {
+	text: L("manual_sync")
+},
+".factoryReset": {
+	text: L("factory_reset")
 }
+
