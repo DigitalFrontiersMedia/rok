@@ -6,8 +6,6 @@ $.rfi_view.editMode = editMode;
 var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'];
 var rowIndex = 0;
 
-global.isHome = false;
-
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
 var listUser = function(results) {

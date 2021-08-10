@@ -4,8 +4,6 @@ var rfi = Ti.App.Properties.getObject("rfis");
 var editMode = false;
 var editableFields = ['TextField_title', 'TextArea_question', 'TextField_due_at'];
 
-global.isHome = false;
-
 Ti.API.info('RFI = ' + JSON.stringify(rfi[args.index]));
 
 var handleEdit = function(e) {

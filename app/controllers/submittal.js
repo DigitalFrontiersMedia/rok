@@ -3,8 +3,6 @@ var args = $.args;
 var submittal = Ti.App.Properties.getList("submittals", []);
 var rowIndex = 0;
 
-global.isHome = false;
-
 $.Label_Title.text = $.Label_Title.text + ' #' + submittal[args.index].custom_id;
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 

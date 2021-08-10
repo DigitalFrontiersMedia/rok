@@ -87,6 +87,7 @@ global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 
 global.overlayZoom = null;
+global.isHome = false;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);

@@ -16,8 +16,6 @@ var newSiteInfoOption = false;
 var newSiteInfoOptionRef = {};
 var siteInfoOptionsChecked = false;
 
-global.isHome = false;
-
 var goHome = function() {
 	Ti.API.info('going home...');
 	//global.homeWindow.open();

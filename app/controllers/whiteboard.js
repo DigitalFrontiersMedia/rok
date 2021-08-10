@@ -12,8 +12,6 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
-global.isHome = false;
-
 var lastColor = '#000000';
 
 var matrix = Ti.UI.createMatrix2D().rotate(-90);

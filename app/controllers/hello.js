@@ -2,8 +2,6 @@
 var args = $.args;
 var windowName;
 
-global.isHome = false;
-
 var goHome = function() {
 	global.homeWindow.open();
 };

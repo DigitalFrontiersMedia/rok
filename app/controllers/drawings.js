@@ -12,8 +12,6 @@ var modal = args.sourceModal;
 var initDrawingTitle = '';
 //var overlayZoom = null;
 
-global.isHome = false;
-
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 if (overlay) {
 	$.Label_Title.text = L('choose_overlay');

@@ -3,8 +3,6 @@ var args = $.args;
 var opts = global.xhrOptions;
 opts.forceRefresh = args.forceRefresh || null;
 
-global.isHome = false;
-
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
 var createRFI = function() {
