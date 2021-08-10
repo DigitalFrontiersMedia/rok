@@ -3,6 +3,8 @@ var args = $.args;
 var folders = [];
 var currentFolder = args.currentFolder || null;
 
+global.isHome = false;
+
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 
 var showDocument = function(title, url) {

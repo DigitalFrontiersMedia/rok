@@ -98,6 +98,7 @@
 	<string name="creds_changed_recently">Did you change your email or password on %s recently?  Try logging in with updated credentials.</string>
 	<string name="retry_creds">Try again & recheck email/password.</string>
 	<string name="failure">Failure</string>
+	<string name="logout">Logout</string>
 	<string name="login_failure">Login Failure</string>
 	<string name="email_failure">Email address is either already in use or not properly formed!  Try a different email address.</string>
 	<string name="new_account_failure">New Account Failure</string>
@@ -140,6 +141,7 @@
 	<string name="documents">DOCUMENTS</string>
 	<string name="no_items">No items.</string>
 	<string name="logging_in">Logging in...</string>
+	<string name="logging_out">Logging out...</string>
 	<string name="auto_login">Attempting auto-login to your ROK account...</string>
 	<string name="loading">Loading...</string>
 	<string name="updating">Updating...</string>

@@ -1,6 +1,8 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
+global.isHome = false;
+
 var setLang = function(lang) {
 	Ti.App.Properties.setString('language', lang);
 	Ti.API.info('*** ' + lang + ' ***');

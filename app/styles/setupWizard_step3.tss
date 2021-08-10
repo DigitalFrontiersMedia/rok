@@ -69,5 +69,16 @@
 	layout: "horizontal"
 },
 "#alreadyLoggedIn": {
-	text: L('already_logged_in')
+	text: L('already_logged_in'),
+	height: Ti.UI.SIZE
+},
+"#logout": {
+	text: L('logout'),
+	top: '10',
+	height: '40',
+	width: '120'
+},
+"#loggedInOptionsWrapper": {
+	layout: "vertical",
+	height: Ti.UI.SIZE
 }

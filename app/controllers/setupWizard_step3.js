@@ -12,6 +12,20 @@ var wizardContinue = function() {
 	}
 };
 
+var resetAsLoggedIn = function() {
+	$.View_loginForm.visible = false;
+	$.alreadyLoggedIn.visible = true;
+	$.logout.visible = true;
+	$.nxtBtn.visible = true;
+};
+
+var resetAsLoggedOut = function() {
+	$.View_loginForm.visible = true;
+	$.alreadyLoggedIn.visible = false;
+	$.logout.visible = false;
+	$.nxtBtn.visible = false;
+};
+
 var doJDrupalLogin = function() {
 	global.jDrupal.userLogin($.TextField_user.value, $.TextField_pass.value, Alloy.Globals.loading).then(function(e) {
 		Alloy.Globals.loading.hide();
@@ -23,6 +37,7 @@ var doJDrupalLogin = function() {
 			Ti.App.Properties.setString("email", $.TextField_user.value);
 			Ti.App.Properties.setString("password", $.TextField_pass.value);			
 			global.getDeviceInfo(wizardContinue);
+			resetAsLoggedIn();
 			//wizardContinue();
 		} else {
 			//alert(L('couldnt_connect'));
@@ -46,12 +61,18 @@ var login = function() {
 	}
 };
 
+var logout = function() {
+	Alloy.Globals.loading.show(L('logging_out'));
+	global.jDrupal.userLogout().then(function (e) {
+		resetAsLoggedOut();
+		Alloy.Globals.loading.hide();
+	});
+};
+
 var account = global.jDrupal.currentUser();
 global.userId = account ? account.id() : null;
 if (global.userId) {
-	$.View_loginForm.visible = false;
-	$.alreadyLoggedIn.visible = true;
-	$.nxtBtn.visible = true;
+	resetAsLoggedIn();
 /*
 	setTimeout(function() {
 		var dialog = Ti.UI.createAlertDialog({
@@ -70,9 +91,7 @@ if (global.userId) {
 	}, 500);*/
 
 } else {
-	$.View_loginForm.visible = true;
-	$.alreadyLoggedIn.visible = false;
-	$.nxtBtn.visible = false;
+	resetAsLoggedOut();
 }
 
 // Dismiss keyboard if user "clicks away" from fields being edited.

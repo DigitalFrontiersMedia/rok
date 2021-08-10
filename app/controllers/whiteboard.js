@@ -6,13 +6,13 @@
 //  Copyright 2020 S.Barker. All rights reserved.
 // 
 
-// TODO:  Add button icons.
 // TODO:  Recompile Paint to fix strokeWidth.
 // TODO:  Determine method for adding pre-fab circle/squares.
-// TODO:  Add clear button?
 
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
+
+global.isHome = false;
 
 var lastColor = '#000000';
 

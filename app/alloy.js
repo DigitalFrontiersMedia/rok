@@ -396,7 +396,7 @@ global.userIsInactive = function() {
 	Ti.API.info('userIsInactive');
 	Ti.API.info('global.isHome = ' + global.isHome);
 	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
-	if (!global.isHome && !global.working) {
+	if (!global.isHome && !global.working && Ti.App.Properties.getBool('configured')) {
 		Titanium.Android.currentActivity.finish();
 		Alloy.createController('home').getView().open();
 	}

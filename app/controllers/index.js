@@ -6,6 +6,7 @@
 //  Copyright 2020 S.Barker. All rights reserved.
 // 
 
+global.isHome = false;
 
 var goSetup = function() {
 	// Original behavior went to hello screen to begin setup.

@@ -1,6 +1,8 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
+global.isHome = false;
+
 var wizardContinue = function() {
 	Alloy.createController('setupWizard_step3_2').getView().open();
 };

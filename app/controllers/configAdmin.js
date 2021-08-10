@@ -6,6 +6,8 @@ var keys = Object.keys(cacheManager);
 var okayToPurge = true;
 var purgeInterval = null;
 
+global.isHome = false;
+
 $.deviceId.text = L('device_id') + ':  ' + Ti.Platform.id;
 $.appVersion.text = L('app_version') + ':  ' + Ti.App.version;
 

@@ -2,6 +2,8 @@
 var args = $.args;
 var constructionApp;
 
+global.isHome = false;
+
 var wizardContinue = function() {
 	Alloy.createController('setupWizard_step3_3').getView().open();
 };

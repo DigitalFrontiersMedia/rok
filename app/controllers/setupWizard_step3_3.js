@@ -1,6 +1,8 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
 
+global.isHome = false;
+
 var setProject = function(index) {
 	Ti.App.Properties.setString("project", Ti.App.Properties.getObject("projects")[index].name);
 	Ti.App.Properties.setString("project_uid", Ti.App.Properties.getObject("projects")[index].uid);
