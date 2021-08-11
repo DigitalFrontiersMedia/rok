@@ -27,6 +27,10 @@
 	height: Ti.UI.SIZE,
 	bottom: 10
 },
+"#availableSpace": {
+	height: Ti.UI.SIZE,
+	bottom: 10
+},
 "#View_secondaryButtons": {
 	"height": "25%",
 	"layout": "vertical",

@@ -8,6 +8,7 @@ var purgeInterval = null;
 
 $.deviceId.text = L('device_id') + ':  ' + Ti.Platform.id;
 $.appVersion.text = L('app_version') + ':  ' + Ti.App.version;
+$.availableSpace.text = L('avail_space') + ':  ' + global.UTIL.readableBytes(Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory).spaceAvailable());
 
 var progressBar = $.UI.create('ProgressBar', {
 	id: 'progressBar',
@@ -93,6 +94,7 @@ var purgeCachedAssets = function() {
 				purgeInterval = null;
 				progressBar.hide({animated: true});
 				global.working = false;
+				$.availableSpace.text = L('avail_space') + ':  ' + global.UTIL.readableBytes(Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory).spaceAvailable());
 				alert(String.format(L('purged_docs'), purgedDocuments));
 				if (global.delayedInactiveTimeout) {
 					global.delayedInactiveTimeout = false;

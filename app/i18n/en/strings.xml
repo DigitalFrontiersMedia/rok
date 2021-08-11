@@ -140,6 +140,7 @@
 	<string name="site_info">SITE INFO</string>
 	<string name="documents">DOCUMENTS</string>
 	<string name="no_items">No items.</string>
+	<string name="avail_space">Available Space</string>
 	<string name="logging_in">Logging in...</string>
 	<string name="logging_out">Logging out...</string>
 	<string name="auto_login">Attempting auto-login to your ROK account...</string>

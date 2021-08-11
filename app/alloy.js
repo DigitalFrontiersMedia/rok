@@ -87,7 +87,6 @@ global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 
 global.overlayZoom = null;
-global.isHome = false;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
@@ -399,11 +398,12 @@ global.userIsInactive = function() {
 	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
 	if (!global.isHome && !global.working && Ti.App.Properties.getBool('configured')) {
 		Titanium.Android.currentActivity.finish();
-		Alloy.createController('home').getView().open();
+		global.home.open();
+		global.isHome = true;
 	}
 	if (global.isHome && global.homeUIDirty) {
-		Alloy.createController('home').getView().close();
-		Alloy.createController('home').getView().open();
+		global.home.close();
+		global.home.open();
 	}
 	if (global.working) {
 		global.delayedInactiveTimeout = true;

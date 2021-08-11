@@ -7,6 +7,7 @@
         <View id="appDetails">
 	        <Label id="appVersion" />
 	        <Label id="deviceId" />
+	        <Label id="availableSpace" />
         </View>
         <View id="View_secondaryButtons">
             <View class="btnRow" id="View_row1">

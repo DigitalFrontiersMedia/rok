@@ -331,3 +331,4 @@ $.home.addEventListener('click', function(e) {
 
 global.isHome = true;
 global.homeUIDirty = false;
+global.home = $.getView();
