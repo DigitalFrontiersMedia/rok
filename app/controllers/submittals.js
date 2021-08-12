@@ -112,28 +112,23 @@ var preprocessSubmittals = function(results) {
 var filterSubmittals = function(e) {
 	var submittals = Ti.App.Properties.getList("submittals");
 	switch(e.data[0].value) {
-		case 'Locked':
-		case 'Unlocked':
+		case 'In review':
+		case 'Revise & Resubmit':
+		case 'Awaiting Submission':
+		case 'Approved':
+		case 'Reviewed only':
+		case 'Approved as noted':
+		case 'Published':
+		case 'For information only':
+		case 'Rejected':
 			for (var i = 0; i < submittals.length; i++) {
 				$.removeClass($.TableView_submittals.data[0].rows[i], 'hidden');
-				if (submittals[i].locked != e.data[0].value.toLowerCase()) {
+				if (submittals[i].transmission_status != e.data[0].value) {
 					$.addClass($.TableView_submittals.data[0].rows[i], 'hidden');
 				}
 			}
 			break;
 			
-		case 'Draft':
-		case 'Open':
-		case 'Closed':
-		case 'Void':
-			for (var i = 0; i < submittals.length; i++) {
-				$.removeClass($.TableView_submittals.data[0].rows[i], 'hidden');
-				if (submittals[i].status.label != e.data[0].value.toLowerCase()) {
-					$.addClass($.TableView_submittals.data[0].rows[i], 'hidden');
-				}
-			}
-			break;
-
 		case 'None':
 		default:
 			for (var i = 0; i < submittals.length; i++) {
@@ -146,12 +141,15 @@ var filterSubmittals = function(e) {
 var showSubmittalFilters = function() {
 	var opts = [
 		{option_label: 'None'},
-		{option_label: 'Locked'},
-		{option_label: 'Unlocked'},
-		{option_label: 'Draft'},
-		{option_label: 'Open'},
-		{option_label: 'Closed'},
-		{option_label: 'Void'}
+		{option_label: 'In review'},
+		{option_label: 'Revise & Resubmit'},
+		{option_label: 'Awaiting Submission'},
+		{option_label: 'Approved'},
+		{option_label: 'Reviewed only'},
+		{option_label: 'Approved as noted'},
+		{option_label: 'Published'},
+		{option_label: 'For information only'},
+		{option_label: 'Rejected'}
 	];
 	global.showOptions(L('filter_to_apply'), opts, $, filterSubmittals);
 };

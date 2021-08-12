@@ -119,7 +119,7 @@ var displayUploadedSiteInfo = function(title, url) {
     var hashedURL = Titanium.Utils.md5HexDigest(url);
     var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
     var modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
-		title : 'ROK ' + title,//file.name,
+		title : 'ROK • ' + title,//file.name,
 		classes : ["modal"]
 	});
 	Ti.API.info('url = ' + url);

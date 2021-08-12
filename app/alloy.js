@@ -66,7 +66,7 @@ global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
 global.backgroundServiceDelay = 0.3; // minutes
-global.ttl = 60; // minutes
+global.ttl = 24; // hours
 global.xhrTimeout = 30; // seconds
 global.postRetryDelay = 60; // minutes
 global.syncCompleteDelay = 5; // seconds
@@ -92,7 +92,7 @@ global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + glob
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
 
 global.xhrOptions = {
-	ttl : global.ttl,
+	ttl : global.ttl * 60, // Needs to be in minutes
 	debug : true
 };
 global.xhr.setStaticOptions(global.xhrOptions);
@@ -266,7 +266,7 @@ global.setOauthParams = function(platform) {
 			global.oauth.state = "ROK-standard";  
 			global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
 			global.oauth.scope = "write:projects";  
-			global.oauth.redirectUrl = "https://dev-dfm-rok.pantheonsite.io/";  
+			global.oauth.redirectUrl = global.jDrupal.sitePath();  
 			global.oauth.customTitleText = "PlanGrid Authorization"; 
 		default:
 			break;
@@ -298,6 +298,15 @@ global.setDeviceConfig = function() {
 		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+		Ti.App.Properties.setBool('autoAssetCacheSync', (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_auto_asset_cache_sync == "True"));
+		Ti.App.Properties.setInt('syncInterval', parseInt(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval));
+		global.ttl = Ti.App.Properties.getInt('syncInterval');
+		global.xhrOptions = {
+			ttl : global.ttl * 60, // Needs to be in minutes
+			debug : true
+		};
+		global.xhr.setStaticOptions(global.xhrOptions);
+		global.syncService();
 	}
 	global.setPlatform();
 };
@@ -397,13 +406,15 @@ global.userIsInactive = function() {
 	Ti.API.info('global.isHome = ' + global.isHome);
 	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
 	if (!global.isHome && !global.working && Ti.App.Properties.getBool('configured')) {
-		Titanium.Android.currentActivity.finish();
-		global.home.open();
+	    Titanium.Android.currentActivity.finish();
+		global.home.close();
+		Alloy.createController('home').getView().open();
+		//global.home.open();
 		global.isHome = true;
 	}
 	if (global.isHome && global.homeUIDirty) {
 		global.home.close();
-		global.home.open();
+		Alloy.createController('home').getView().open();
 	}
 	if (global.working) {
 		global.delayedInactiveTimeout = true;
@@ -437,16 +448,22 @@ global.syncService = function() {
 	var intent = Titanium.Android.createServiceIntent({
 	  url: 'syncService.js'
 	});
-	intent.putExtra('interval', global.ttl * 60 * 1000); // Needs to be milliseconds
+	intent.putExtra('interval', global.ttl * 60 * 60 * 1000); // Needs to be milliseconds
 	if (!Ti.Android.isServiceRunning(intent)) {
 		var service = Ti.Android.createService(intent);
-		service.addEventListener('stop', function() {
-			service.start();
-		});
+		// service.addEventListener('stop', function() {
+			// service.start();
+		// });
 		service.start();
 	} else {
-	    Ti.API.info('Service is already running.');
+	    Ti.API.info('Service is already running. Resetting.');
+	    Titanium.Android.stopService(intent);
+		var service = Ti.Android.createService(intent);
+		// service.addEventListener('stop', function() {
+			// service.start();
+		// });
+		service.start();
 	}
 	
 };
-setTimeout(global.syncService, global.backgroundServiceDelay * 60 * 1000);
+//setTimeout(global.syncService, global.backgroundServiceDelay * 60 * 1000);

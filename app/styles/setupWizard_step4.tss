@@ -15,12 +15,12 @@
 "#Label_configSelect": {
 	"text": L("confirm_settings"),
 	"textAlign": "center",
-	"top": "20.76%",
+	"top": "16.76%",
 	"font": {fontSize:'36'}
 },
 "#View_settingsForm": {
 	"height": Ti.UI.SIZE,
-	"top": "31%",
+	"top": "27%",
 	"width": "60%",
 	"layout": "vertical"
 },
@@ -61,11 +61,17 @@
 "#adminSecretValue": {
 	passwordMask: true
 },
+"#Label_autoAssetCacheSync": {
+	text: L('auto_asset_cache_sync')
+},
+"#btnIntervalOptions": {
+	title: L('interval')
+},
 "#Label_message": {
 	"text": L("import_message"),
 	"color": "#ff9200",
 	"textAlign": "center",
-	"top": "26%",
+	"top": "22%",
 	"font": {fontSize:'24'}
 },
 "#form-top": {
@@ -85,7 +91,8 @@
 },
 ".inputLine": {
 	"top": 20,
-	height: 45
+	height: 45,
+	layout: "horizontal"
 },
 "TextField": {
 	returnKeyType: Titanium.UI.RETURNKEY_DONE,

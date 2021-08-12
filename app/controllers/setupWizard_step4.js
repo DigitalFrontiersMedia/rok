@@ -74,6 +74,8 @@ var saveDeviceProfileNode = function(nid) {
 		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
 		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
 		node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret')}];
+		node.entity.field_auto_asset_cache_sync = [{value: Ti.App.Properties.getBool('autoAssetCacheSync')}];
+		node.entity.field_sync_interval = [{value: Ti.App.Properties.getInt('syncInterval')}];
 
 		if (newMessageRef.id) {
 			node.entity.field_superintendent_sms_message.push({
@@ -150,6 +152,14 @@ var wizardContinue = function() {
 	}
 	if ($.adminSecretValue.value != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret) {
 		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret = $.adminSecretValue.value;
+		nodeDirty = true;
+	}
+	if (Ti.App.Properties.getBool('autoAssetCacheSync') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_auto_asset_cache_sync) {
+		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_auto_asset_cache_sync = Ti.App.Properties.getBool('autoAssetCacheSync');
+		nodeDirty = true;
+	}
+	if (Ti.App.Properties.getInt('syncInterval') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval) {
+		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval = Ti.App.Properties.getInt('syncInterval');
 		nodeDirty = true;
 	}
 
@@ -556,12 +566,50 @@ var selectProject = function() {
 	Alloy.createController('setupWizard_step3_3').getView().open();
 };
 
+var toggleAutoAssetCacheSync = function() {
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	Ti.App.Properties.setBool('autoAssetCacheSync', !Ti.App.Properties.getBool('autoAssetCacheSync', false));
+};
+
+var saveInterval = function(e) {
+	switch(e.data[0].value) {
+		case 'Every 2 hours':
+			Ti.App.Properties.setInt('syncInterval', 2);
+			break;
+			
+		case 'Every 8 hours':
+			Ti.App.Properties.setInt('syncInterval', 8);
+			break;
+			
+		case 'Once per day':
+		default:
+			Ti.App.Properties.setInt('syncInterval', 24);
+			break;
+	}
+};
+
+var showIntervalOptions = function() {
+/*
+	2|Every 2 hours
+	8|Every 8 hours
+	24|Once per day
+*/
+	var opts = [
+		{option_label: 'Every 2 hours'},
+		{option_label: 'Every 8 hours'},
+		{option_label: 'Once per day'},
+	];
+	global.showOptions(L('interval'), opts, $, saveInterval);
+};
+
+
 $.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
 $.appValue.value = Ti.App.Properties.getString('constructionApp');
 $.projectValue.value = Ti.App.Properties.getString('project');
 $.superNameValue.value = Ti.App.Properties.getString('superName');
 $.superPhoneValue.value = Ti.App.Properties.getString('superPhone');
 $.adminSecretValue.value = Ti.App.Properties.getString('admin_secret');
+$.autoAssetCacheSyncValue.value = Ti.App.Properties.getBool('autoAssetCacheSync');
 
 $.appValue.addEventListener('focus', selectApp);
 $.projectValue.addEventListener('focus', selectProject);

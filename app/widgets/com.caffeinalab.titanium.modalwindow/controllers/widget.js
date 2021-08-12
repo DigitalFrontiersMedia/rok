@@ -38,14 +38,14 @@ function setWebviewOverlay(wvOverlay) {
 function showRemoveOverlayOption() {
 	setTimeout(function() {
 		$.removeOverlayButton.visible = true;
-	}, 1600);
+	}, 2100);
 }
 
 function hideOverlayOption() {
 	setTimeout(function() {
 		$.overlayButton.visible = false;
 		$.removeOverlayButton.visible = false;
-	}, 1500);
+	}, 2000);
 }
 
 function showOverlayOption() {
@@ -53,7 +53,7 @@ function showOverlayOption() {
 		$.removeOverlayButton.visible = false;
 		$.overlayButton.visible = true;
 		//$.win.activity.invalidateOptionsMenu();
-	}, 1500);
+	}, 2000);
 }
 
 function setTitle(title) {

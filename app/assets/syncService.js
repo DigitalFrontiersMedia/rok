@@ -214,7 +214,7 @@ var cacheDrawings = function(results) {
 	getSubKon.getSubmittalPackages(iterateSubmittals);
 };
 
-if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
+if (Ti.Network.online && Ti.App.Properties.getBool('configured') && Ti.App.Properties.getBool('autoAssetCacheSync')) {
 	Alloy.Globals.loading.show(L('syncing'));
 	global.show429Error = false;
 	// Iterate through all RFIs, Documents, Drawings, Submittals 

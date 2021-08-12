@@ -11,6 +11,8 @@
 	<string name="browser">BROWSER</string>
 	<string name="close">CLOSE</string>
 	<string name="ok">OK</string>
+	<string name="auto_asset_cache_sync">Auto Asset Cache Sync:</string>
+	<string name="interval">Interval</string>
 	<string name="overlay">Overlay</string>
 	<string name="remove_overlay">Remove overlay</string>
 	<string name="choose_overlay">Choose Overlay</string>

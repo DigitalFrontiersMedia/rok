@@ -34,6 +34,9 @@
                     <View class="inputLine">
                         <Label class="right fontSize24" id="Label_adminSecret"/>
                     </View>
+                    <View class="inputLine">
+                        <Label class="right fontSize24" id="Label_autoAssetCacheSync"/>
+                    </View>
                 </View>
                 <View id="right-values-wrapper">
                     <View class="inputLine">
@@ -59,6 +62,10 @@
                     </View>
                     <View class="inputLine">
                         <TextField class="left fontSize24" id="adminSecretValue"/>
+                    </View>
+                    <View class="inputLine">
+                        <Switch id="autoAssetCacheSyncValue" onChange="toggleAutoAssetCacheSync" />
+                        <Button id="btnIntervalOptions" onClick="showIntervalOptions"/>
                     </View>
                 </View>
             </View>
