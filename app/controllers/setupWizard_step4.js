@@ -19,8 +19,9 @@ var siteInfoOptionsChecked = false;
 var goHome = function() {
 	Ti.API.info('going home...');
 	//global.homeWindow.open();
-	// TODO:  End activity or close all windows?
+    Titanium.Android.currentActivity.finish();
 	Alloy.createController('home').getView().open();
+	global.isHome = true;
 	// Check/start background syncService.
 	setTimeout(function() {
 		var worker = require('ti.worker');
