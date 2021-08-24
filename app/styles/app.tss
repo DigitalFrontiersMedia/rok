@@ -65,7 +65,11 @@ overrode the settings with other TSS, XML, or JS settings:
 	layout: "horizontal"
 },
 ".btnMainSecondary": {
-	"image": "/images/btn_main_secondary.png",
+	"image": "/images/btn_secondary_center.png",
+	"height": "48"
+},
+".btnMainSecondaryEndCap": {
+	"image": "/images/btn_secondary_leftcap.png",
 	"height": "48"
 },
 ".cornerBG": {
@@ -115,6 +119,9 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".largeBtn": {
 	height: 100,
+},
+".fullWidth": {
+	width: Ti.UI.FILL
 },
 ".flip": {
 	scaleY: -1

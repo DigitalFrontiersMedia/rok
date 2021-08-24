@@ -17,6 +17,10 @@ var wizardContinue = function() {
 };
 
 var chooseLanguage = function(e) {
+	for (var i = 0; i < $.ListView_languages.data[0].rows.length; ++i) {
+	    $.ListView_languages.data[0].rows[i].hasCheck = false;
+	}
+	$.ListView_languages.data[0].rows[e.index].hasCheck = true;
 	setLang(e.source.text);
 	wizardContinue();
 	setTimeout(function() {
@@ -24,10 +28,24 @@ var chooseLanguage = function(e) {
 	}, 500);
 };
 
+var denoteInitial = function(lang) {
+	var langName = 'English';
+	switch(lang) {
+		case 'en':
+		default:
+			langName = 'English';
+			break;
+	}
+	for (var i = 0; i < $.ListView_languages.data[0].rows.length; ++i) {
+	    $.ListView_languages.data[0].rows[i].hasCheck = ($.ListView_languages.data[0].rows[i].children[0].text == langName);
+	}
+};
+
 if (!Ti.App.Properties.getString('language')) {
 	$.nxtBtn.visible = false;
 } else {
 	$.nxtBtn.visible = true;
+	denoteInitial(Ti.App.Properties.getString('language'));
 }
 
 global.setLang = setLang;

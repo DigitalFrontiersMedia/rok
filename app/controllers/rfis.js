@@ -61,8 +61,10 @@ var showRfis = function(results) {
 	} else {
 		dataRow = Ti.UI.createTableViewRow();
 		dataRow.add($.UI.create('Label', {
-			text: "No items found.",
-			classes: ["choice"]
+			text: L('no_items'),
+			classes: ["choice", 'centered'],
+			bottom: 0,
+			top: 0
 		}));
 		tableData.push(dataRow);
 	}

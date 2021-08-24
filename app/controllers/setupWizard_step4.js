@@ -16,18 +16,28 @@ var newSiteInfoOption = false;
 var newSiteInfoOptionRef = {};
 var siteInfoOptionsChecked = false;
 
+var openConfigAdmin = function() {
+	global.isHome = false;
+	Alloy.createController('configAdmin').getView().open();
+};
+
 var goHome = function() {
 	Ti.API.info('going home...');
 	//global.homeWindow.open();
-    Titanium.Android.currentActivity.finish();
-	Alloy.createController('home').getView().open();
-	global.isHome = true;
+	if (global.adminMode) {
+   		Titanium.Android.currentActivity.finish();
+		openConfigAdmin();
+	} else {
+	    Titanium.Android.currentActivity.finish();
+		Alloy.createController('home').getView().open();
+		global.isHome = true;
+	}
 	// Check/start background syncService.
-	setTimeout(function() {
+	//setTimeout(function() {
 		var worker = require('ti.worker');
 		// create a worker thread instance
 		var task = worker.createWorker('syncService.js');
-	}, global.backgroundServiceDelay * 60 * 1000);
+	//}, global.backgroundServiceDelay * 60 * 1000);
 	//global.syncService();
 };
 
@@ -135,7 +145,7 @@ var checkSave = function() {
 var wizardContinue = function() {
 	// Save all new/edited settings before going home
 	Alloy.Globals.loading.show(L('updating'));
-	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo', {});
 	var nid = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].nid_export;
 	
 	// Update local Properties.
@@ -197,6 +207,7 @@ var wizardContinue = function() {
 	
 	// Flag that we've made configurations
 	Ti.App.Properties.setBool('configured', true);
+	Alloy.Globals.configured = true;
 
 	if (nodeDirty || messageOptionsDirty || siteInfoOptionsDirty) {
 		// Save deviceInfo properties object changes.
@@ -603,6 +614,17 @@ var showIntervalOptions = function() {
 	global.showOptions(L('interval'), opts, $, saveInterval);
 };
 
+var showIntervalInfo = function() {
+		var message = $.UI.create('Label', {text: L('auto_sync_info')});
+		var arg = {
+			title : L('auto_asset_cache_sync'),
+			container : $.getView().parent,
+			//callback : goHome
+		};
+		var commonView = Alloy.createController('commonView', arg).getView();
+		commonView.getViewById('contentWrapper').add(message);
+		$.getView().parent.add(commonView);
+};
 
 $.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
 $.appValue.value = Ti.App.Properties.getString('constructionApp');

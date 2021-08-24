@@ -2,48 +2,40 @@
     <Window class="container">
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
-        <View id="View_rfis">
-            <Label class="fontSize20" id="Label_rfis"/>
-            <ImageView id="imgBtn_rfis" onClick="goRfis"/>
-        </View>
-        <View id="View_drawings">
-            <Label class="fontSize20" id="Label_drawings"/>
-            <View>
-                <ImageView class="imgBtn_drawings" id="imgBtn_drawings_background"/>
-                <View class="image-wrapper rotateM45">
-                    <ImageView class="imgBtn_drawings rotate45" id="imgBtn_drawings_hotspot" onClick="goDrawings"/>
-                </View>
-            </View>
-        </View>
-        <View id="View_submittals">
-            <Label class="fontSize20" id="Label_submittals"/>
-            <View>
-                <ImageView class="imgBtn_submittals" id="imgBtn_submittals_background"/>
-                <View class="image-wrapper rotate45">
-                    <ImageView class="imgBtn_submittals rotateM45" id="imgBtn_submittals_hotspot" onClick="goSubmittals"/>
-                </View>
-            </View>
+        <View id="mainButtons">
+	        <View id="View_submittals">
+	            <ImageView class="imgBtn_submittals" id="imgBtn_submittals_hotspot" onClick="goSubmittals"/>
+	            <Label class="fontSize20" id="Label_submittals"/>
+	        </View>
+	        <View id="View_drawings">
+	            <ImageView class="imgBtn_drawings" id="imgBtn_drawings_hotspot" onClick="goDrawings"/>
+	            <Label class="fontSize20" id="Label_drawings"/>
+	        </View>
+	        <View id="View_documents">
+	            <ImageView class="imgBtn_documents" id="imgBtn_documents_hotspot" onClick="goDocuments"/>
+	            <Label class="fontSize20" id="Label_documents"/>
+	        </View>
+	        <View id="View_rfis">
+	            <ImageView id="imgBtn_rfis" onClick="goRfis"/>
+	            <Label class="fontSize20" id="Label_rfis"/>
+	        </View>
         </View>
         <View id="View_secondaryButtons">
             <View class="btnRow" id="View_row1">
                 <View class="button-wrapper largeBtn" id="imgBtn_whiteboard" onClick="goWhiteboard">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth"/>
                     <Label class="btnText whiteboard"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_pageSuper" onClick="pageSuperMenu">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondary largeBtn fullWidth"/>
                     <Label class="btnText pageSuper"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_info" onClick="siteInfoMenu">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth mirror"/>
                     <Label class="btnText siteInfo"/>
                 </View>
             </View>
             <View class="btnRow" id="View_row2">
-                <View class="button-wrapper largeBtn" id="imgBtn_documents" onClick="goDocuments">
-                    <ImageView class="btnMainSecondary largeBtn flip"/>
-                    <Label class="btnText documents"/>
-                </View>
             </View>
         </View>
     </Window>

@@ -188,7 +188,11 @@ var addHistoryEventLine = function(historyEvent, userInfo) {
 		historyEventLine = historyEvent.field.split('_').join(' ') + ' updated';
 	}
 	historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
-	historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.updated_at) + '.';
+	if (username.trim()) {
+		historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.updated_at) + '.';
+	} else {
+		historyEventLine += '. | ' + global.formatDate(historyEvent.updated_at);
+	}
 	//Ti.API.info('historyEventLine = ' + historyEventLine);
 	historyEventLabel = $.UI.create('Label', {text: historyEventLine, classes: ["listLabels"]});
 	dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel']});

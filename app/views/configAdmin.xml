@@ -1,7 +1,8 @@
 <Alloy autoStyle="true">
     <Window class="container">
-        <Require id="backCorner" src="backCorner" type="view"/>
-        <Require id="homeCorner" src="homeCorner" type="view"/>
+        <Require id="backCorner" src="backCorner" type="view" if="Alloy.Globals.configured"/>
+        <Require id="homeCorner" src="homeCorner" type="view" if="Alloy.Globals.configured"/>
+        <Require id="configCorner" src="configCorner" type="view"/>
         <Label id="Label_Title"/>
         <Label id="Label_subTitle"/>
         <View id="appDetails">
@@ -12,25 +13,25 @@
         <View id="View_secondaryButtons">
             <View class="btnRow" id="View_row1">
                 <View class="button-wrapper largeBtn" id="imgBtn_reconfigure" onClick="goReconfigure">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth"/>
                     <Label class="btnText reconfigure"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_browser" onClick="goBrowser">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn mirror fullWidth"/>
                     <Label class="btnText browser"/>
                 </View>
             </View>
             <View class="btnRow" id="View_row2">
                 <View class="button-wrapper largeBtn" id="imgBtn_reset" onClick="confirmReset">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth"/>
                     <Label class="btnText factoryReset"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_purge" onClick="confirmPurge">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondary largeBtn fullWidth"/>
                     <Label class="btnText purge"/>
                 </View>
                 <View class="button-wrapper largeBtn" id="imgBtn_manualSync" onClick="confirmSync">
-                    <ImageView class="btnMainSecondary largeBtn"/>
+                    <ImageView class="btnMainSecondaryEndCap largeBtn mirror fullWidth"/>
                     <Label class="btnText manualSync"/>
                 </View>
             </View>

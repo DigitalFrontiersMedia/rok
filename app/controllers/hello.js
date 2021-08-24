@@ -3,7 +3,7 @@ var args = $.args;
 var windowName;
 
 var goHome = function() {
-	global.homeWindow.open();
+	Alloy.createController('home').getView().open();
 };
 
 var wizardContinue = function() {

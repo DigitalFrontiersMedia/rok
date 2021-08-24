@@ -1,0 +1,4 @@
+<Alloy>
+    <Window id="idleScreen" class="container" onClick="goHome">
+    </Window>
+</Alloy>

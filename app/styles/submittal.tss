@@ -4,7 +4,7 @@
 	"text": L("submittal"),
 	"textAlign": Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	"top": "5%",
-	"width": "20%",
+	"width": "38%",
 	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
 	"font": {fontSize:'36'}
 },

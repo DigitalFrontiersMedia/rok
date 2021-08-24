@@ -214,7 +214,7 @@ var cacheDrawings = function(results) {
 	getSubKon.getSubmittalPackages(iterateSubmittals);
 };
 
-if (Ti.Network.online && Ti.App.Properties.getBool('configured') && Ti.App.Properties.getBool('autoAssetCacheSync')) {
+if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 	Alloy.Globals.loading.show(L('syncing'));
 	global.show429Error = false;
 	// Iterate through all RFIs, Documents, Drawings, Submittals 
@@ -222,15 +222,21 @@ if (Ti.Network.online && Ti.App.Properties.getBool('configured') && Ti.App.Prope
 	// TODO:  add updated_after parameter to only update those items that have changed
 	setTimeout(function() {
 		if (global.userId) {
-			global.getDeviceInfo();
+			global.getDeviceInfo(null, true);
 		}
-		var rfiKon = new(require("konstruction"))();
-		rfiKon.getRfis(iterateRfis);
-		// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
-		//global.konstruction.getDocuments(cacheDocuments);
-		//global.konstruction.getDrawings(cacheDrawings);
-		//global.konstruction.getSubmittals();
+		if (Ti.App.Properties.getBool('autoAssetCacheSync') || global.manualSync) {
+			global.manualSync = false;
+			var rfiKon = new(require("konstruction"))();
+			rfiKon.getRfis(iterateRfis);
+			// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
+			//global.konstruction.getDocuments(cacheDocuments);
+			//global.konstruction.getDrawings(cacheDrawings);
+			//global.konstruction.getSubmittals();
+		}
 	}, 100);
 } else {
+	if (Ti.App.Properties.getBool('configured')) {
+		alert(L('device_info_not_synced'));
+	}
 	Ti.API.info('Not online or not configured so skipping syncService run.');
 }

@@ -93,11 +93,11 @@ var listDocuments = function(results) {
 					$.documentsGrid.addItem(item);
 				} else if (document.folder) {
 					var folderName = (currentFolder == null) ? document.folder.split('/')[0] : document.folder.split(currentFolder + '/')[1];
-					// Ti.API.info('currentFolder = ' + currentFolder);
-					// Ti.API.info('document.folder = ' + document.folder);
-					// Ti.API.info('document.folder.split(currentFolder + /)[1] = ' + document.folder.split(currentFolder + '/')[1]);
-					// Ti.API.info('stringified document.folder.split = ' + JSON.stringify(document.folder.split(currentFolder + '/')));
-					if (folders.indexOf(folderName) == -1) {
+					 Ti.API.info('currentFolder = ' + currentFolder);
+					 Ti.API.info('document.folder = ' + document.folder);
+					 Ti.API.info('document.folder.split(currentFolder + /)[1] = ' + document.folder.split(currentFolder + '/')[1]);
+					 Ti.API.info('stringified document.folder.split = ' + JSON.stringify(document.folder.split(currentFolder + '/')));
+					if (folderName && folders.indexOf(folderName) == -1) {
 						item.add($.UI.create('Label', {
 							text: folderName,
 							classes: ["itemLabel"]

@@ -29,6 +29,10 @@ var OauthSuccess = function(authResults) {
 };
 
 var chooseApp = function(e) {
+	for (var i = 0; i < $.ListView_apps.data[0].rows.length; ++i) {
+	    $.ListView_apps.data[0].rows[i].hasCheck = false;
+	}
+	$.ListView_apps.data[0].rows[e.index].hasCheck = true;
 	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token') || !Ti.App.Properties.getString('azure-ad-refresh-token')) {
 		constructionApp = e.source.text;
 		global.setOauthParams(constructionApp);
@@ -39,8 +43,15 @@ var chooseApp = function(e) {
 	}
 };
 
+var denoteInitial = function(val) {
+	for (var i = 0; i < $.ListView_apps.data[0].rows.length; ++i) {
+	    $.ListView_apps.data[0].rows[i].hasCheck = ($.ListView_apps.data[0].rows[i].children[0].text == val && val != null && val != '');
+	}
+};
+
 if (!Ti.App.Properties.getString('constructionApp') || !Ti.App.Properties.getString('azure-ad-access-token')) {
 	$.nxtBtn.visible = false;
 } else {
 	$.nxtBtn.visible = true;
+	denoteInitial(Ti.App.Properties.getString('constructionApp'));
 }

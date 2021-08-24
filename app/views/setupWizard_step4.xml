@@ -66,6 +66,7 @@
                     <View class="inputLine">
                         <Switch id="autoAssetCacheSyncValue" onChange="toggleAutoAssetCacheSync" />
                         <Button id="btnIntervalOptions" onClick="showIntervalOptions"/>
+                        <Button id="btnInfo" onClick="showIntervalInfo"/>
                     </View>
                 </View>
             </View>

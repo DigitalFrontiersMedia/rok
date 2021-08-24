@@ -74,7 +74,7 @@ var pageSuperMenu = function(e) {
 		title : L('page_super_prompt'),
 		container : $.home,
 		cancel: true,
-		subtitle: L('select_option')
+		subtitle: L('super_field_label') + '  ' + deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name
 	};
 	var commonView = Alloy.createController('commonView', arg).getView();
 	
@@ -332,3 +332,4 @@ $.home.addEventListener('click', function(e) {
 global.isHome = true;
 global.homeUIDirty = false;
 global.home = $.getView();
+global.adminMode = false;

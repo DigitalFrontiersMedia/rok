@@ -15,7 +15,7 @@ var goSetup = function() {
 };
 
 var goHome = function() {
-	global.homeWindow.open();
+	Alloy.createController('home').getView().open();
 };
 
 Ti.API.info('Configured == ' + JSON.stringify(Ti.App.Properties.getBool('configured')));

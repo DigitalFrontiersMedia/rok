@@ -14,6 +14,11 @@ var checkAccess = function(formInput) {
 };
 
 var configAdminChallenge = function() {
+	if (global.adminMode) {
+   		Titanium.Android.currentActivity.finish();
+		openConfigAdmin();
+		return;
+	}
 	var password = $.UI.create('TextField', {id: 'password', width: '80%', height: Ti.UI.SIZE, textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER, passwordMask: true, returnKeyType: Titanium.UI.RETURNKEY_DONE});
 	var arg = {
 		title : L('admin_secret_field_label'),

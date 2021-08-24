@@ -16,7 +16,7 @@
 	<string name="overlay">Overlay</string>
 	<string name="remove_overlay">Remove overlay</string>
 	<string name="choose_overlay">Choose Overlay</string>
-	<string name="project_drawings">PROJECT DRAWINGS</string>
+	<string name="project_drawings">SHEETS</string>
 	<string name="project_name">Project Name</string>
 	<string name="problem_occurred">A problem occurred.  Error Code:  </string>
 	<string name="or"> - OR - </string>
@@ -46,6 +46,7 @@
 	<string name="select_option">Select option below</string>
 	<string name="no_options">No options currently set.</string>
 	<string name="wifi_password">Enter the password for\n%s</string>
+	<string name="no_networks">No WiFi networks found.</string>
 	<string name="connecting">Connecting...</string>
 	<string name="connected">Connected!</string>
 	<string name="couldnt_connect">Could not connect. Try again?</string>
@@ -156,4 +157,5 @@
 	<string name="page_super_prompt">Choose desired message to send:</string>
 	<string name="site_info_prompt">Choose desired Site Info:</string>
 	<string name="device_info_not_synced">Either you are not logged in,\nthe device information has not yet been synchronized,\nor the device selection has not yet been made.\nPlease try again when ready.</string>
+	<string name="auto_sync_info">This option allows the ROK to "pre-fetch" resources so that they are available even when they have not been specifically requested before and the ROK is offline. It comes with the trade-off that the ROK will be unavailable while it is pre-fetching/synchronizing these resources and this process can take a long time. In addition to setting how often the ROK will pre-fetch assets when this option is enabled, the interval setting also determines how long fetched data will be considered valid even if requests were made manually instead of being automatically pre-fetched.\n\nThis option is only recommended to be enabled for locations that have unreliable or slow internet service or if there is a scheduled internet outage.</string>
 </resources>

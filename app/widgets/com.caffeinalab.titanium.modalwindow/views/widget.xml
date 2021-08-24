@@ -1,5 +1,5 @@
 <Alloy>
-	<NavigationWindow id="nav" module="xp.ui">
+	<!--NavigationWindow id="nav" module="xp.ui"-->
 		<Window id="win" theme="Theme.AppCompat.Translucent">
 			<LeftNavButton platform="ios">
 				<View>
@@ -13,5 +13,5 @@
 	            <MenuItem id="removeOverlayButton" titleid="remove_overlay" onClick="removeOverlay"/>
 	        </Menu>
 		</Window>
-	</NavigationWindow>
+	<!--/NavigationWindow-->
 </Alloy>

@@ -27,11 +27,27 @@ var listHistoryEvents = function(results) {
 		if (historyEvent.event_data.creator_name) {
 			username = global.UTIL.cleanString(historyEvent.event_data.creator_name);
 		}
+		if (historyEvent.event_data.updated_by) {
+			username = global.UTIL.cleanString(historyEvent.event_data.updated_by);
+		}
+		if (historyEvent.event_data.publisher_name) {
+			username = global.UTIL.cleanString(historyEvent.event_data.publisher_name);
+		}
+		if (historyEvent.event_data.updater_name) {
+			username = global.UTIL.cleanString(historyEvent.event_data.updater_name);
+		}
+		if (historyEvent.event_data.reviewer_name) {
+			username = global.UTIL.cleanString(historyEvent.event_data.reviewer_name);
+		}
 		if (historyEvent.event_type) {
 			historyEventLine = historyEvent.event_type.split('_').join(' ');
 		}
 		historyEventLine = historyEventLine.charAt(0).toUpperCase() + historyEventLine.slice(1);
-		historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.created_at) + '.';
+		if (username.trim()) {
+			historyEventLine += '. | ' + username + ', ' + global.formatDate(historyEvent.created_at) + '.';
+		} else {
+			historyEventLine += '. | ' + global.formatDate(historyEvent.created_at);
+		}
 		//Ti.API.info('historyEventLine = ' + historyEventLine);
 		notes = historyEvent.event_data.notes ? historyEvent.event_data.notes : '';
 		historyEventLineWrapper = $.UI.create('View', {classes: ['heightToSize'], layout: "vertical"});
@@ -134,7 +150,7 @@ var listFiles = function(results) {
 	global.setSubmittals(cachedSubmittals);
 	subFileGroups.forEach(function(subFileGroup) {
 		subFileGroup.files.forEach(function(subFile) {
-			fileLabel = $.UI.create('Label', {text: subFile.name, classes: ["listLabels"]});
+			fileLabel = $.UI.create('Label', {text: '• ' + subFile.name, classes: ["listLabels"]});
 			dataRow = $.UI.create('TableViewRow', {classes: ['sectionLabel', 'indent'], url: subFile.url, name: subFile.name});
 			dataRow.add(fileLabel);
 			rowIndex++;
@@ -157,16 +173,22 @@ var listSubmitters = function() {
 			myPromise.then(function(userInfo) {
 				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
-				global.historyUsers[submitter.uid] = userInfo;
-				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
-				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
-				$.Label_submitterValue.text = names.join(', ');
+				if (userinfo) {
+					global.historyUsers[submitter.uid] = userInfo;
+					Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+					if (userInfo.first_name.trim() || userInfo.last_name.trim()) {
+						names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+						$.Label_submitterValue.text = names.join(', ');
+					}
+				}
 			});
-		} else {
+		} else if (global.historyUsers[submitter.uid].first_name.trim() || global.historyUsers[submitter.uid].last_name.trim()) {
 			names.push(global.UTIL.cleanString(global.historyUsers[submitter.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[submitter.uid].last_name));
-			$.Label_submitterValue.text = names.join(', ');
 		}
 	});
+	if (names.length) {
+		$.Label_submitterValue.text = names.join(', ');
+	}
 };
 
 var listManagers = function() {
@@ -178,16 +200,22 @@ var listManagers = function() {
 			});
 			myPromise.then(function(userInfo) {
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
-				global.historyUsers[userInfo.uid] = userInfo;
-				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
-				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
-				$.Label_managerValue.text = names.join(', ');
+				if (userinfo) {
+					global.historyUsers[submitter.uid] = userInfo;
+					Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+					if (userInfo.first_name.trim() || userInfo.last_name.trim()) {
+						names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+						$.Label_managerValue.text = names.join(', ');
+					}
+				}
 			});
-		} else {
+		} else if (global.historyUsers[manager.uid].first_name.trim() || global.historyUsers[manager.uid].last_name.trim()) {
 			names.push(global.UTIL.cleanString(global.historyUsers[manager.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[manager.uid].last_name));
-			$.Label_managerValue.text = names.join(', ');
 		}
 	});
+	if (names.length) {
+		$.Label_managerValue.text = names.join(', ');
+	}
 };
 
 var listReviewers = function() {
@@ -200,16 +228,22 @@ var listReviewers = function() {
 			myPromise.then(function(userInfo) {
 				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
-				global.historyUsers[userInfo.uid] = userInfo;
-				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
-				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
-				$.Label_reviewerValue.text = names.join(', ');
+				if (userinfo) {
+					global.historyUsers[submitter.uid] = userInfo;
+					Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+					if (userInfo.first_name.trim() || userInfo.last_name.trim()) {
+						names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+						$.Label_reviewerValue.text = names.join(', ');
+					}
+				}
 			});
-		} else {
+		} else if (global.historyUsers[reviewer.uid].first_name.trim() || global.historyUsers[reviewer.uid].last_name.trim()) {
 			names.push(global.UTIL.cleanString(global.historyUsers[reviewer.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[reviewer.uid].last_name));
-			$.Label_reviewerValue.text = names.join(', ');
 		}
 	});
+	if (names.length) {
+		$.Label_reviewerValue.text = names.join(', ');
+	}
 };
 
 var listWatchers = function() {
@@ -222,16 +256,22 @@ var listWatchers = function() {
 			myPromise.then(function(userInfo) {
 				//Ti.API.info('userInfo = ' + JSON.stringify(userInfo));
 				userInfo = userInfo.status == 200 ? JSON.parse(userInfo.data) : JSON.parse(userInfo.data.text);
-				global.historyUsers[userInfo.uid] = userInfo;
-				Ti.App.Properties.setObject('historyUsers', global.historyUsers);
-				names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
-				$.Label_watchingValue.text = names.join(', ');
+				if (userinfo) {
+					global.historyUsers[submitter.uid] = userInfo;
+					Ti.App.Properties.setObject('historyUsers', global.historyUsers);
+					if (userInfo.first_name.trim() || userInfo.last_name.trim()) {
+						names.push(global.UTIL.cleanString(userInfo.first_name) + ' ' + global.UTIL.cleanString(userInfo.last_name));
+						$.Label_watchingValue.text = names.join(', ');
+					}
+				}
 			});
-		} else {
+		} else if (global.historyUsers[watcher.uid].first_name.trim() || global.historyUsers[watcher.uid].last_name.trim()) {
 			names.push(global.UTIL.cleanString(global.historyUsers[watcher.uid].first_name) + ' ' + global.UTIL.cleanString(global.historyUsers[watcher.uid].last_name));
-			$.Label_watchingValue.text = names.join(', ');
 		}
 	});
+	if (names.length) {
+		$.Label_watchingValue.text = names.join(', ');
+	}
 };
 
 $.Label_submittalNumValue.text = submittal[args.index].custom_id;

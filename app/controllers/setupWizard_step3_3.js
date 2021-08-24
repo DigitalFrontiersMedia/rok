@@ -11,11 +11,21 @@ var wizardContinue = function(authResults) {
 };
 
 var chooseProject = function(e) {
+	for (var i = 0; i < $.ListView_projects.data[0].rows.length; ++i) {
+	    $.ListView_projects.data[0].rows[i].hasCheck = false;
+	}
+	$.ListView_projects.data[0].rows[e.index].hasCheck = true;
 	setProject(e.index);
 	wizardContinue();
 	setTimeout(function() {
 		$.nxtBtn.visible = true;
 	}, 500);
+};
+
+var denoteInitial = function(val) {
+	for (var i = 0; i < $.ListView_projects.data[0].rows.length; ++i) {
+	    $.ListView_projects.data[0].rows[i].hasCheck = (Ti.App.Properties.getObject("projects")[i].uid == val && val != null && val != '');
+	}
 };
 
 if (!Ti.App.Properties.getString('project')) {
@@ -42,9 +52,30 @@ var showProjects = function(results) {
 				tableData.push(dataRow);
 			}
 		});
-		if (tableData.length) {
-			$.ListView_projects.data = tableData;
+		if (!tableData.length) {
+			deviceName = $.UI.create('Label', {
+				text: L('no_items'),
+				classes: ["choice", 'centered'],
+				bottom: 0,
+				top: 0
+			});
+			dataRow = $.UI.create('TableViewRow');
+			dataRow.add(deviceName);
+			tableData.push(dataRow);
 		}
+		$.ListView_projects.data = tableData;
+		denoteInitial(Ti.App.Properties.getString("project_uid"));
+	} else {
+		deviceName = $.UI.create('Label', {
+			text: L('no_items'),
+			classes: ["choice", 'centered'],
+			bottom: 0,
+			top: 0
+		});
+		dataRow = $.UI.create('TableViewRow');
+		dataRow.add(deviceName);
+		tableData.push(dataRow);
+		$.ListView_projects.data = tableData;
 	}
 };
 

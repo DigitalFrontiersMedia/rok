@@ -2,6 +2,9 @@
 var args = $.args;
 
 var goBack = function() {
+	if ($.getView().parent.id == 'configAdmin') {
+		global.adminMode = false;
+	}
     Titanium.Android.currentActivity.finish();
 };
 

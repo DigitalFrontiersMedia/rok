@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.digitalfrontiersmedia.rok</id>
     <name>ROK</name>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <publisher>Digital Frontiers Media</publisher>
     <url>https://www.digitalfrontiersmedia.com</url>
     <description>Portable Document File Viewer and on-site function hub for the ROK Construction Management Ecosystem.</description>

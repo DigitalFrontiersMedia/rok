@@ -61,7 +61,7 @@ Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
 Alloy.Globals.Util = {height: 1015};
 
-global.gridHeightMultiplier = 1.05;
+global.gridHeightMultiplier = 1.10;
 global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
@@ -85,6 +85,8 @@ global.isHome = true;
 global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
+global.xhrErrorCodes = new Array();
+global.adminMode = false;
 
 global.overlayZoom = null;
 
@@ -109,7 +111,19 @@ global.onXHRError = function (xhrResults) {
         Ti.App.fireEvent('app:unauthorizedRequest');
     } else if(global.show429Error) {
 		Ti.API.info('ERROR: ', JSON.stringify(xhrResults));
-		alert(L('error_occurred') + ': \n', JSON.stringify(xhrResults));
+		//alert(L('error_occurred') + ': \n', JSON.stringify(xhrResults));
+		if (global.xhrErrorCodes.indexOf(xhrResults.status) == -1) {
+			global.xhrErrorCodes.push(xhrResults.status);
+			var dialog = Ti.UI.createAlertDialog({
+				//title: 'Enter text',
+				message: L('error_occurred') + ': \n' + JSON.stringify(xhrResults),
+				buttonNames: ['OK']
+			});
+			dialog.addEventListener('click', function(e) {
+				global.xhrErrorCodes = new Array();
+			});
+			dialog.show();
+		}
 	}
 };
 
@@ -266,7 +280,7 @@ global.setOauthParams = function(platform) {
 			global.oauth.state = "ROK-standard";  
 			global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
 			global.oauth.scope = "write:projects";  
-			global.oauth.redirectUrl = global.jDrupal.sitePath();  
+			global.oauth.redirectUrl = 'https://dev-dfm-rok.pantheonsite.io/';  
 			global.oauth.customTitleText = "PlanGrid Authorization"; 
 		default:
 			break;
@@ -282,7 +296,7 @@ global.setPlatform = function() {
 };
 global.setPlatform();
 
-global.setDeviceConfig = function() {
+global.setDeviceConfig = function(bypass) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
@@ -306,7 +320,13 @@ global.setDeviceConfig = function() {
 			debug : true
 		};
 		global.xhr.setStaticOptions(global.xhrOptions);
-		global.syncService();
+		if (bypass) {
+			if (!global.manualSync) {
+				Alloy.Globals.loading.hide();
+			}
+		} else {
+			global.syncService();
+		}
 	}
 	global.setPlatform();
 };
@@ -314,13 +334,13 @@ global.setDeviceConfig = function() {
 /*
  * Get global.getDeviceInfo List
  */
-global.getDeviceInfo = function(callback) {
+global.getDeviceInfo = function(callback, bypass) {
 	global.jDrupal.viewsLoad('rest/views/my-devices').then(function(view) {
 		var results = view.getResults();
 		//Ti.API.info('view = ' + JSON.stringify(view));
 		Ti.API.info('deviceInfo = ' + JSON.stringify(results));
 		Ti.App.Properties.setObject('deviceInfo', results);
-		global.setDeviceConfig();
+		global.setDeviceConfig(bypass);
 		if (callback) {
 			callback();
 		}
@@ -405,6 +425,11 @@ global.userIsInactive = function() {
 	Ti.API.info('userIsInactive');
 	Ti.API.info('global.isHome = ' + global.isHome);
 	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
+	if (Ti.App.Properties.getBool('configured')) {
+		Titanium.Android.currentActivity.finish();
+		Alloy.createController('idleScreen').getView().open();
+	}
+/*
 	if (!global.isHome && !global.working && Ti.App.Properties.getBool('configured')) {
 	    Titanium.Android.currentActivity.finish();
 		global.home.close();
@@ -416,9 +441,7 @@ global.userIsInactive = function() {
 		global.home.close();
 		Alloy.createController('home').getView().open();
 	}
-	if (global.working) {
-		global.delayedInactiveTimeout = true;
-	}
+*/
 };
 
 global.userInteraction = function() {
@@ -433,7 +456,7 @@ global.userInteraction = function() {
 Ti.App.addEventListener('userinteraction', global.userInteraction);
 
 Alloy.Globals.configured = function() {
-	return Ti.App.Properties.getBool('configured');
+	return Ti.App.Properties.getBool('configured', false);
 };
 
 global.syncService = function() {

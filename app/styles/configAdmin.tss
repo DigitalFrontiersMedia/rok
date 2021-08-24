@@ -36,15 +36,17 @@
 	"layout": "vertical",
 	"top": "65%"
 },
-"#View_row1": {
-},
-"#View_row2": {
-},
 ".btnRow": {
 	"layout": "horizontal",
 	width: "70%",
 	height: Ti.UI.SIZE,
 	left: "15%"
+},
+"#View_row1": {
+	width: "46.7%",
+	left: "26.7%"
+},
+"#View_row2": {
 },
 "#imgBtn_reconfigure": {
 	"width": "50%",

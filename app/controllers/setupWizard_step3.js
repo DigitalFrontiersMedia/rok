@@ -4,6 +4,8 @@ var editableFields = ['TextField_user', 'TextField_pass'];
 
 var wizardContinue = function() {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	Ti.API.info('deviceInfo = ' + JSON.stringify(deviceInfo));
+	Ti.API.info('deviceInfo.length = ' + JSON.stringify(deviceInfo.length));
 	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
 		Alloy.createController('setupWizard_step3_2').getView().open();
@@ -64,6 +66,7 @@ var login = function() {
 var logout = function() {
 	Alloy.Globals.loading.show(L('logging_out'));
 	global.jDrupal.userLogout().then(function (e) {
+		global.userId = 0;
 		resetAsLoggedOut();
 		Alloy.Globals.loading.hide();
 	});
@@ -72,6 +75,7 @@ var logout = function() {
 var account = global.jDrupal.currentUser();
 global.userId = account ? account.id() : null;
 if (global.userId) {
+	global.getDeviceInfo(wizardContinue);
 	resetAsLoggedIn();
 /*
 	setTimeout(function() {

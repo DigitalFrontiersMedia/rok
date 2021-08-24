@@ -67,6 +67,9 @@
 "#btnIntervalOptions": {
 	title: L('interval')
 },
+"#btnInfo": {
+	title: L('information')
+},
 "#Label_message": {
 	"text": L("import_message"),
 	"color": "#ff9200",

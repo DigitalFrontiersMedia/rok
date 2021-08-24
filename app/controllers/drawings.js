@@ -214,6 +214,7 @@ var listDrawings = function(results, preFetched) {
 	var drawings;
 	var cachedDrawings = Ti.App.Properties.getList("drawings", []);
 	var item = null;
+	var latestVersion;
 	//var tableData = [];
 	if (preFetched) {
 		drawings = cachedDrawings;
@@ -223,13 +224,19 @@ var listDrawings = function(results, preFetched) {
 	Ti.API.info('listDrawings drawings = ' + JSON.stringify(drawings));
 	//var drawingsGrid = Alloy.createController('br.com.coredigital.GridLayout');
 	if (drawings) {
+		// TODO:  Sort drawings and maybe use filter to show only current initially?
+		latestVersion = drawings[0].version_name;
+		drawings.sort(function(a, b) {
+			return a.name.localeCompare(b.name);
+		});
 		drawings.forEach(function(drawing) {
+			var imageUrl = '/images/thumb_drawing_placeholder.png';
 			// Merge with saved drawings before re-saving.
 			_.findWhere(drawings, {uid: drawing.uid}).drawing = _.findWhere(cachedDrawings, {uid: drawing.uid}) ? _.findWhere(cachedDrawings, {uid: drawing.uid}).drawing : null;
 			//Ti.API.info('Looking at drawing ' + drawing.name);
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
-				var imageUrl = (drawing.uid.indexOf('.jpg') > -1 || drawing.uid.indexOf('.png') > -1) ? drawing.url : '/images/thumb_drawing_placeholder.png';
+				//var imageUrl = (drawing.url.indexOf('.jpg') > -1 || drawing.url.indexOf('.png') > -1) ? drawing.url : '/images/thumb_drawing_placeholder.png';
 				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
 				item.add($.UI.create('Label', {text: drawing.name + ' (' + drawing.version_name + ')', classes: ["itemLabel"]}));
 				item.addEventListener('click', function() {
@@ -241,6 +248,9 @@ var listDrawings = function(results, preFetched) {
 			}
 		});
 		global.setDrawings(drawings);
+		if (!overlay && !preFetched) {
+			filterDrawings({data: [{value: latestVersion}]});
+		}
 	} else {
 		item = $.UI.create('View', {classes: ["gridItem"]});
 		item.add($.UI.create('Label', {text: L('no_items'), classes: ["itemLabel"]}));

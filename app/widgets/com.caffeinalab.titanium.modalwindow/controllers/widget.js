@@ -13,17 +13,19 @@ function open(options) {
 	if (OS_ANDROID) {
 		widgetOptions.modal = null;
 	}
-	$.nav.open(widgetOptions);
+	// Used to be $.nav
+	$.win.open(widgetOptions);
 }
 
 function close() {
 	//Ti.App.fireEvent('close');
+	// Used to be $.nav
 	if ($.win.closingAnimation && OS_IOS) {
-		$.nav.animate($.win.closingAnimation, function() {
-			$.nav.close({animated: false});
+		$.win.animate($.win.closingAnimation, function() {
+			$.win.close({animated: false});
 		});
 	} else {
-		$.nav.close();
+		$.win.close();
 	}
 }
 

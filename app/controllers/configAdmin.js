@@ -5,6 +5,7 @@ var purgedDocuments = 0;
 var keys = Object.keys(cacheManager);
 var okayToPurge = true;
 var purgeInterval = null;
+var resetInvoked = false;
 
 $.deviceId.text = L('device_id') + ':  ' + Ti.Platform.id;
 $.appVersion.text = L('app_version') + ':  ' + Ti.App.version;
@@ -62,6 +63,9 @@ var purge = function() {
     purgedDocuments = purgedDocuments + 1;
     //progressBar.width = ((purgedDocuments / maxKeys) * 100) + '%';
     progressBar.value = purgedDocuments;
+
+	global.userInteraction();
+
 	if (!keys.length) {
 		//purge();
 		okayToPurge = false;
@@ -69,20 +73,29 @@ var purge = function() {
 };
 
 var manualSync = function() {
-	var worker = require('ti.worker');
-	// create a worker thread instance
-	var task = worker.createWorker('syncService.js');
+	if (Ti.App.Properties.getBool('configured')) {
+		var worker = require('ti.worker');
+		// create a worker thread instance
+		var task = worker.createWorker('syncService.js');
+		global.manualSync = true;
+	} else {
+		alert(L('device_info_not_synced'));
+	}
 };
 
 var factoryReset = function() {
+	resetInvoked = true;
 	//Ti.API.info('Ti.App.Properties.removeAllProperties();');
 	Ti.App.Properties.removeAllProperties();
+	Alloy.Globals.configured = false;
+	if ($.backCorner) {
+		$.addClass($.backCorner.getView(), 'hidden');
+	}
 	purgeCachedAssets();
 };
 
 var purgeCachedAssets = function() {
 	if (keys.length) {
-		global.working = true;
 		progressBar.max = Object.keys(Ti.App.Properties.getObject("cachedXHRDocuments", {})).length;
 		progressBar.show({animated: true});
 		okayToPurge = true;
@@ -93,18 +106,19 @@ var purgeCachedAssets = function() {
 				clearInterval(purgeInterval);
 				purgeInterval = null;
 				progressBar.hide({animated: true});
-				global.working = false;
 				$.availableSpace.text = L('avail_space') + ':  ' + global.UTIL.readableBytes(Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory).spaceAvailable());
-				alert(String.format(L('purged_docs'), purgedDocuments));
-				if (global.delayedInactiveTimeout) {
-					global.delayedInactiveTimeout = false;
-				    global.timeoutID = setTimeout(function(e) {
-				    	global.userIsInactive();
-					}, global.idleTimeoutMinutes * 60 * 1000);
+				if (resetInvoked) {
+					resetInvoked = false;
+					alert(L('factory_reset') + ' ' + L('done') + '.');
 				}
+				alert(String.format(L('purged_docs'), purgedDocuments));
 			}
 		}, 1);
 	} else {
+		if (resetInvoked) {
+			resetInvoked = false;
+			alert(L('factory_reset') + ' ' + L('done') + '.');
+		}
 		alert(L('no_docs'));
 	}
 };
@@ -165,3 +179,5 @@ var confirmSync = function() {
 	commonView.getViewById('contentWrapper').add(messageWrapper);
 	$.getView().parent.add(commonView);
 };
+
+global.adminMode = true;

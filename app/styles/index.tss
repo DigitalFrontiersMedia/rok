@@ -17,14 +17,14 @@
 	"top": "33%",
 	"height": "33%",
 	"width": "40%",
-	"image": "/images/btn_main_left.png",
+	"image": "/images/btn_mainNav_sheets.png",
 },
 "#imgBtn_Established": {
 	"top": "33%",
 	"height": "33%",
 	"right": "0",
 	"width": "40%",
-	"image": "/images/btn_main_right.png"
+	"image": "/images/btn_mainNav_submitals.png"
 },
 "#ImageView_homeBackground": {
 	"left": "0.00%",

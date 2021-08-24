@@ -4,24 +4,32 @@ var args = $.args;
 var scan;
 var network;
 var ssid;
+var freq;
 var netCheckTimer;
+var lastChosen;
 
 var wizardContinue = function() {
 	Alloy.createController('setupWizard_step3').getView().open();
 };
 
 var setWifi = function(ssid) {
-	Ti.App.Properties.setString('wifi', ssid);
+	Ti.App.Properties.setString('wifi', ssid + ' (' + freq + ' GHz)');
 	Ti.API.info('*** ' + ssid + ' ***');
 };
 
 var chooseNetwork = function(e) {
+	lastChosen = e.index;
+	for (var i = 0; i < $.ListView_networks.data[0].rows.length; ++i) {
+	    $.ListView_networks.data[0].rows[i].hasCheck = false;
+	}
+	$.ListView_networks.data[0].rows[e.index].hasCheck = true;
 	if (scan) {
 		var networkNotRemembered = true;
 		var rememberedNetwork;	
 		//Ti.API.info(JSON.stringify(e));
 		network = e.index;
 		ssid = scan.scanResults[network].getSSID();
+		freq = (scan.scanResults[network].getFrequency() / 1000).toFixed(1);
 		var currentSSID = global.Wifi.getCurrentConnection().ssid;
 		Ti.API.info(ssid);
 		Ti.API.info(currentSSID.substring(1, currentSSID.length-1));
@@ -89,6 +97,7 @@ var netConnect = function(pass) {
 			}, 500);
 			return;
 		} else if (e.online && currentSSID.substring(1, currentSSID.length-1) != ssid) {
+			setWifi(global.Wifi.getCurrentConnection().Rssi);
 			alert(L('previous_network'));
 			Ti.Network.removeEventListener('change', networkListener);
 			//$.setupWizard_step2Window.remove($.password);
@@ -96,6 +105,7 @@ var netConnect = function(pass) {
 		} else if (!e.online) {
 			alert(L('couldnt_connect'));
 			Ti.Network.removeEventListener('change', networkListener);
+			$.ListView_networks.data[0].rows[lastChosen].hasCheck = true;
 		}
 	};
 	Ti.Network.removeEventListener('change', networkListener);
@@ -117,6 +127,7 @@ var netConnect = function(pass) {
 			if (!Ti.Network.online) {
 				Ti.API.info('*** FORGETTING NETWORK ' + networkId + ' ***');
 				global.Wifi.removeNetwork(networkId);
+				$.ListView_networks.data[0].rows[lastChosen].hasCheck = true;
 				//Alloy.Globals.loading.hide();
 				//alert(L('couldnt_connect'));
 				//Ti.Network.removeEventListener('change', networkListener);
@@ -131,6 +142,7 @@ var netConnect = function(pass) {
 			$.open();
 			wizardContinue();
 			Alloy.Globals.loading.hide();
+			setWifi(global.Wifi.getCurrentConnection().Rssi);
 			alert(L('remembered_network'));
 			Ti.Network.removeEventListener('change', networkListener);
 			return;
@@ -139,6 +151,12 @@ var netConnect = function(pass) {
 	netCheckTimer = setTimeout(function() {
 		Ti.Network.removeEventListener('change', networkListener);
 	}, (global.netListenTime + 2) * 1000);
+};
+
+var denoteInitial = function(val) {
+	for (var i = 0; i < $.ListView_networks.data[0].rows.length; ++i) {
+	    $.ListView_networks.data[0].rows[i].hasCheck = val.indexOf('GHz') > -1 ? ($.ListView_networks.data[0].rows[i].children[0].text === val) : ($.ListView_networks.data[0].rows[i].children[0].text.indexOf(val) === 0);
+	}
 };
 
 if (!Ti.App.Properties.getString('wifi')) {
@@ -155,7 +173,7 @@ global.Wifi.startWifiScan({
 			scan = scanned;
 			scanned.scanResults.forEach(function(scanResult) {
 				if (scanResult.getSSID()) {
-					//Ti.API.info("bssid=" + scanResult.getBSSID() + "   rssi=" + scanResult.getRSSI() + "   ssid=" + scanResult.getSSID());
+					//Ti.API.info("scanResult = " + JSON.stringify(scanResult));
 					dataRow = $.UI.create('TableViewRow');
 					dataRow.add($.UI.create('Label', {
 						text: scanResult.getSSID() + ' (' + (scanResult.getFrequency() / 1000).toFixed(1) + ' GHz)',
@@ -170,14 +188,19 @@ global.Wifi.startWifiScan({
 			});
 		} else {
 			emptyText = $.UI.create('Label', {
-				text: "No WiFi networks found.",
-				classes: ["choice"]
+				text: L("no_networks"),
+				classes: ["choice", "centered"],
+				bottom: 0,
+				top: 0
 			});
 			dataRow = Ti.UI.createTableViewRow();
 			dataRow.add(emptyText);
 			tableData.push(dataRow);
 		}
 		$.ListView_networks.data = tableData;
+		if (Ti.App.Properties.getString('wifi')) {
+			denoteInitial(Ti.App.Properties.getString('wifi'));
+		}
 	}
 });
 

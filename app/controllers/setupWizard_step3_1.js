@@ -6,12 +6,22 @@ var wizardContinue = function() {
 };
 
 var chooseDevice = function(e) {
+	for (var i = 0; i < $.ListView_devices.data[0].rows.length; ++i) {
+	    $.ListView_devices.data[0].rows[i].hasCheck = false;
+	}
+	$.ListView_devices.data[0].rows[e.index].hasCheck = true;
 	Ti.App.Properties.setInt("deviceIndex", e.index);
 	global.setDeviceConfig();
 	wizardContinue();
 	setTimeout(function() {
 		$.nxtBtn.visible = true;
 	}, 500);
+};
+
+var denoteInitial = function(val) {
+	for (var i = 0; i < $.ListView_devices.data[0].rows.length; ++i) {
+	    $.ListView_devices.data[0].rows[i].hasCheck = (i == val);
+	}
 };
 
 if (Ti.App.Properties.getInt('deviceIndex') === null) {
@@ -35,7 +45,19 @@ if (deviceInfo) {
 			tableData.push(dataRow);
 		}
 	});
-	if (tableData.length) {
-		$.ListView_devices.data = tableData;
+	if (!tableData.length) {
+		deviceName = $.UI.create('Label', {
+			text: L('no_items'),
+			classes: ["choice", 'centered'],
+			bottom: 0,
+			top: 0
+		});
+		dataRow = $.UI.create('TableViewRow');
+		dataRow.add(deviceName);
+		tableData.push(dataRow);
+	}
+	$.ListView_devices.data = tableData;
+	if (Ti.App.Properties.getInt('deviceIndex') != null && Ti.App.Properties.getInt('deviceIndex') != '') {
+		denoteInitial(Ti.App.Properties.getInt('deviceIndex'));
 	}
 }

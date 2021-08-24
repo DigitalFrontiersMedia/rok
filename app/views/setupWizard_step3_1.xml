@@ -8,7 +8,11 @@
         <Label id="Label_configSelect"/>
         <Label id="Label_message"/>
         <TableView id="ListView_devices" onClick="chooseDevice">
-            <TableViewSection id="listSection"/>
+            <TableViewSection id="listSection">
+                <TableViewRow height=Ti.UI.FILL>
+                    <Label bottom="0" class="centered choice" top="0">Retrieving...</Label>
+                </TableViewRow>
+            </TableViewSection>
         </TableView>
         <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">
             <ImageView class="btnMainSecondary"/>
