@@ -279,11 +279,11 @@ var showDrawingFilters = function() {
 			versions.push(drawing.version_name);
 		}
 	});
-	tags.forEach(function(tag) {
-		opts.push({option_label: tag});
-	});
 	versions.forEach(function(version) {
 		opts.push({option_label: version});
+	});
+	tags.forEach(function(tag) {
+		opts.push({option_label: tag});
 	});
 	global.showOptions(L('filter_to_apply'), opts, $, filterDrawings);
 };
