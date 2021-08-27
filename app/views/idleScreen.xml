@@ -1,4 +1,5 @@
 <Alloy>
     <Window id="idleScreen" class="container" onClick="goHome">
+    	<Label textid="idle_prompt" class="fontSize24"/>
     </Window>
 </Alloy>

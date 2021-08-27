@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+	<string name="idle_prompt">TOUCH SCREEN TO BEGIN</string>
 	<string name="config_admin">Administration</string>
 	<string name="config_updated">Configuration on your ROK account for this device has been updated successfully.</string>
 	<string name="reconfigure">RECONFIGURE</string>
