@@ -29,15 +29,8 @@ var chooseLanguage = function(e) {
 };
 
 var denoteInitial = function(lang) {
-	var langName = 'English';
-	switch(lang) {
-		case 'en':
-		default:
-			langName = 'English';
-			break;
-	}
 	for (var i = 0; i < $.ListView_languages.data[0].rows.length; ++i) {
-	    $.ListView_languages.data[0].rows[i].hasCheck = ($.ListView_languages.data[0].rows[i].children[0].text == langName);
+	    $.ListView_languages.data[0].rows[i].hasCheck = ($.ListView_languages.data[0].rows[i].children[0].text == lang);
 	}
 };
 
