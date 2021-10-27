@@ -12,22 +12,26 @@ var wizardContinue = function() {
 	$.hello.close();
 };
 
-if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
-	var dialog = Ti.UI.createAlertDialog({
-		okay: 0,
-	    buttonNames: ['OK'],
-		message: L('location_permission_required'),
-		title: 'Permission'
-	});
-	dialog.addEventListener('click', function(e) {
-		if (e.index === e.source.okay) {
-			Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
-		        if (!e.success) {
-		        	alert(L('wifi_permission_denied'));
-		            Ti.API.info(' *** Location permission is required for WiFi access point scanning.***\nPlease enable Location Permissions in the Settings for this application.');
-		        }
-		    });
-		}
-	});
-	dialog.show();
-}
+setTimeout(function() {
+	if (!Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS)) {
+		var dialog = Ti.UI.createAlertDialog({
+			okay: 0,
+		    buttonNames: ['OK'],
+			message: L('location_permission_required'),
+			title: 'Permission'
+		});
+		dialog.addEventListener('click', function(e) {
+			if (e.index === e.source.okay) {
+				Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS, function(e) {
+			        if (!e.success) {
+			        	alert(L('wifi_permission_denied'));
+			            Ti.API.info(' *** Location permission is required for WiFi access point scanning.***\nPlease enable Location Permissions in the Settings for this application.');
+			        }
+			    });
+			}
+		});
+		dialog.show();
+	}
+	$.removeClass($.nxtBtn, 'hidden');
+}, 1000);
+

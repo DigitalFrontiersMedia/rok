@@ -25,10 +25,10 @@ var goHome = function() {
 	Ti.API.info('going home...');
 	//global.homeWindow.open();
 	if (global.adminMode) {
-   		Titanium.Android.currentActivity.finish();
+   		//Titanium.Android.currentActivity.finish();
 		openConfigAdmin();
 	} else {
-	    Titanium.Android.currentActivity.finish();
+	   // Titanium.Android.currentActivity.finish();
 		Alloy.createController('home').getView().open();
 		global.isHome = true;
 	}

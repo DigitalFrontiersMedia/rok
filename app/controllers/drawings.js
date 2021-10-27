@@ -214,7 +214,7 @@ var listDrawings = function(results, preFetched) {
 	var drawings;
 	var cachedDrawings = Ti.App.Properties.getList("drawings", []);
 	var item = null;
-	var latestVersion;
+	var versionArray;
 	//var tableData = [];
 	if (preFetched) {
 		drawings = cachedDrawings;
@@ -225,7 +225,6 @@ var listDrawings = function(results, preFetched) {
 	//var drawingsGrid = Alloy.createController('br.com.coredigital.GridLayout');
 	if (drawings) {
 		// TODO:  Sort drawings and maybe use filter to show only current initially?
-		latestVersion = drawings[0].version_name;
 		drawings.sort(function(a, b) {
 			return a.name.localeCompare(b.name);
 		});
@@ -237,19 +236,31 @@ var listDrawings = function(results, preFetched) {
 			if (!drawing.deleted) {
 				item = $.UI.create('View', {uid: drawing.uid, text: drawing.name, classes: ["gridItem"]});
 				//var imageUrl = (drawing.url.indexOf('.jpg') > -1 || drawing.url.indexOf('.png') > -1) ? drawing.url : '/images/thumb_drawing_placeholder.png';
-				item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
-				item.add($.UI.create('Label', {text: drawing.name + ' (' + drawing.version_name + ')', classes: ["itemLabel"]}));
+				//item.add($.UI.create('ImageView', {image: imageUrl, classes: ["itemImage"]}));
+				item.add($.UI.create('Label', {text: drawing.description, classes: ["itemLabel", 'fontSize20', 'padTopBottom', 'centered']}));
+				item.add($.UI.create('Label', {text: drawing.name, classes: ["itemLabel", 'fontSize20', 'centered']}));
+				item.add($.UI.create('Label', {text: drawing.version_name, classes: ["itemLabel", 'centered']}));
 				item.addEventListener('click', function() {
 					chooseDrawing({uid: drawing.uid, text: drawing.name});
 				});
-				if ((!currentFilter || currentFilter == 'None') || (drawing.tags.indexOf(currentFilter) > -1 || drawing.version_name == currentFilter)) {
+				if (!currentFilter || currentFilter == L('latest_version')) {
+					if (versionArray = _.where(drawings, {history_set_uid: drawing.history_set_uid})) {
+						//console.log('versionArray = ' + JSON.stringify(versionArray));
+						versionArray.sort(function(a, b) {
+							return a.published_at.localeCompare(b.published_at);
+						}).reverse();
+						if (versionArray[0].uid == drawing.uid) {
+							$.drawingsGrid.addItem(item);
+						}
+					}
+				} else if (currentFilter == L('none') || (drawing.tags.indexOf(currentFilter) > -1 || drawing.version_name == currentFilter)) {
 					$.drawingsGrid.addItem(item);
 				}
 			}
 		});
 		global.setDrawings(drawings);
 		if (!overlay && !preFetched) {
-			filterDrawings({data: [{value: latestVersion}]});
+			filterDrawings({data: [{value: L('latest_version')}]});
 		}
 	} else {
 		item = $.UI.create('View', {classes: ["gridItem"]});
@@ -265,7 +276,7 @@ var filterDrawings = function(e) {
 };
 
 var showDrawingFilters = function() {
-	var opts = [{option_label: 'None'}];
+	var opts = [{option_label: L('latest_version')}, {option_label: L('none')}];
 	var tags = [];
 	var versions = [];
 	var drawings = Ti.App.Properties.getList("drawings");

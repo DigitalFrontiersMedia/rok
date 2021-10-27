@@ -33,7 +33,9 @@ var chooseApp = function(e) {
 	    $.ListView_apps.data[0].rows[i].hasCheck = false;
 	}
 	$.ListView_apps.data[0].rows[e.index].hasCheck = true;
-	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token') || !Ti.App.Properties.getString('azure-ad-refresh-token')) {
+	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
+	var currentTime = Date.now();
+	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token') || !Ti.App.Properties.getString('azure-ad-refresh-token') || (currentTime > tokenExp)) {
 		constructionApp = e.source.text;
 		global.setOauthParams(constructionApp);
 		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB

@@ -118,6 +118,8 @@
 	<string name="admin_secret_field_label">Admin/Reconfig Secret Code:</string>
 	<string name="view_edit">View/Edit</string>
 	<string name="import_message">The following settings have been imported from your ROK account where available.</string>
+	<string name="latest_version">Latest Version of Each</string>
+	<string name="none">None</string>
 	<string name="color">COLOR</string>
 	<string name="submittal">SUBMITTAL</string>
 	<string name="information">Information</string>

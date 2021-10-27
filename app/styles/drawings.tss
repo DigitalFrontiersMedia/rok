@@ -16,7 +16,8 @@
 },
 ".gridItem": {
 	"layout": "vertical",
-	height: Titanium.UI.SIZE
+	height: Titanium.UI.SIZE,
+	backgroundColor: '#000'
 },
 ".itemLabel": {
 	height: Titanium.UI.SIZE

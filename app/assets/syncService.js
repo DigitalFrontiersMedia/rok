@@ -214,6 +214,18 @@ var cacheDrawings = function(results) {
 	getSubKon.getSubmittalPackages(iterateSubmittals);
 };
 
+global.checkSyncStart = function() {
+		if (Ti.App.Properties.getBool('autoAssetCacheSync') || global.manualSync) {
+			global.manualSync = false;
+			var rfiKon = new(require("konstruction"))();
+			rfiKon.getRfis(iterateRfis);
+			// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
+			//global.konstruction.getDocuments(cacheDocuments);
+			//global.konstruction.getDrawings(cacheDrawings);
+			//global.konstruction.getSubmittals();
+		}
+};
+
 if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 	Alloy.Globals.loading.show(L('syncing'));
 	global.show429Error = false;
@@ -224,15 +236,7 @@ if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 		if (global.userId) {
 			global.getDeviceInfo(null, true);
 		}
-		if (Ti.App.Properties.getBool('autoAssetCacheSync') || global.manualSync) {
-			global.manualSync = false;
-			var rfiKon = new(require("konstruction"))();
-			rfiKon.getRfis(iterateRfis);
-			// Below requests moved to end of each preceeding step to see if it reduces fullReturn variable muddling.
-			//global.konstruction.getDocuments(cacheDocuments);
-			//global.konstruction.getDrawings(cacheDrawings);
-			//global.konstruction.getSubmittals();
-		}
+		global.checkRefresh(global.checkSyncStart);
 	}, 100);
 } else {
 	if (Ti.App.Properties.getBool('configured')) {

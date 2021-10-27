@@ -1,6 +1,5 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
-var rfiActions = $.UI.create('View');
 var nonce;
 
 var goWhiteboard = function() {
@@ -54,7 +53,6 @@ var pageSuperMenu = function(e) {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
-	resetRfiActions();
 	// Exit early if N/A.
 	if (!Ti.Network.online) {
 		alert(L('internet_required'));
@@ -199,7 +197,6 @@ var siteInfoMenu = function() {
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	
-	resetRfiActions();
 	// Exit early if N/A.
 	if ((!deviceInfo && !Ti.App.Properties.getInt("deviceIndex")) || (!deviceInfo && !global.userId)) {
 		alert(L('device_info_not_synced'));
@@ -253,67 +250,26 @@ var siteInfoMenu = function() {
 	//global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
-var resetRfiActions = function() {
-	rfiActions.animate(Titanium.UI.createAnimation({opacity:0, duration:250}));
-	//$.View_rfis.opacity = 1;
-	$.View_rfis.animate(Titanium.UI.createAnimation({opacity:1, duration:250}));	
-	$.home.remove(rfiActions);
-	global.homeUIDirty = false;
-	rfiActions = $.UI.create('View');
-};
-
-var rfiRouter = function(e) {
-	resetRfiActions();
-	switch (e.source.id) {  //parseInt(e.data[0].key)) {
-		case 'createRfi':  //0:
-			Alloy.createController('rfi_entry').getView().open();
-			global.isHome = false;
-			break;
-		case  'viewRfi':  //1:
-			Alloy.createController('rfis').getView().open();
-			global.isHome = false;
-			break;
-	}
-};
-
-var goRfis = function() {
-	global.homeUIDirty = true;
-	Ti.API.info('*** RFIs ***');
-	if (!$.home.getViewById('rfiActions')) {
-		//Ti.API.info('creating rfiActions');
-		rfiActions = $.UI.create('View', {id: 'rfiActions', classes: ['rfiActions'], opacity: 0});
-		var createRfi = $.UI.create('Label', {id: 'createRfi', classes: ['rfiActionChoice'], text: L('create_rfi')});
-		createRfi.addEventListener('click', rfiRouter);
-		rfiActions.add(createRfi);
-		var viewRfi = $.UI.create('Label', {id: 'viewRfi', classes: ['rfiActionChoice'], text: L('view_rfi')});
-		viewRfi.addEventListener('click', rfiRouter);
-		rfiActions.add(viewRfi);
-		$.home.add(rfiActions);
-		rfiActions.animate(Titanium.UI.createAnimation({opacity:1, duration:250}));
-		//$.View_rfis.opacity = 0.7;
-		$.View_rfis.animate(Titanium.UI.createAnimation({opacity:0.7, duration:250}));	
-		//global.showOptions(L('rfi'), [{option_label: L('create_rfi')}, {option_label: L('view_rfi')}], $, rfiRouter);
-	}
-};
-
 var goDrawings = function() {
 	Ti.API.info('*** DRAWINGS ***');
-	resetRfiActions();
 	Alloy.createController('drawings').getView().open();
 	global.isHome = false;
 };
 
 var goSubmittals = function() {
 	Ti.API.info('*** SUBMITTALS ***');
-	resetRfiActions();
 	Alloy.createController('submittals').getView().open();
 	global.isHome = false;
 };
 
 var goDocuments = function() {
 	Ti.API.info('*** DOCUMENTS ***');
-	resetRfiActions();
 	Alloy.createController('documents').getView().open();
+	global.isHome = false;
+};
+
+var goRfiChoice = function() {
+	Alloy.createController('rfiChoice').getView().open();
 	global.isHome = false;
 };
 
@@ -321,13 +277,6 @@ $.home.addEventListener('androidback', function() {
 	return;
 });
 
-// Cancel RFI Action selection.
-$.home.addEventListener('click', function(e) {
-	var cancelableButtons = ['View_rfis', 'createRfi', 'viewRfi'];
-	if (!cancelableButtons.includes(e.source.id)) {
-		resetRfiActions();
-	}
-});
 
 global.isHome = true;
 global.homeUIDirty = false;

@@ -61,7 +61,7 @@ Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
 Alloy.Globals.Util = {height: 1015};
 
-global.gridHeightMultiplier = 1.10;
+global.gridHeightMultiplier = 0.65; //1.10;
 global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
 
@@ -168,15 +168,18 @@ global.formatTime = function(timeString) {
 	return timeString ? new Date(timeString).toLocaleTimeString(Ti.Locale.currentLanguage, { hour: '2-digit', minute: '2-digit' }) : '';
 };
 
-Ti.App.addEventListener('resumed', function(e) {	Ti.API.info("APP RESUMED");
+global.checkRefresh = function(callback) {
+	var callback = callback || null;
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
-	var currentExp = Date.now();
-	if (currentExp > tokenExp) {
-		// TODO:  update to slightly different callbacks for refresh purposes?
+	var currentTime = Date.now();
+	if (currentTime > tokenExp && Ti.Network.online) {
+	// TODO:  update to slightly different callbacks for refresh purposes?
 		//global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
-		//global.oauth.refresh();
-	} //else no refresh needed, more than 10 minutes before expiring
-});
+		global.oauth.refresh(callback);
+	} //else no refresh needed, more than 10 minutes before expiring	
+};
+
+Ti.App.addEventListener('resumed', global.checkRefresh);
 
 Ti.App.addEventListener('app:unauthorizedRequest', function(e) {
 	global.oauth.refresh();
@@ -325,7 +328,11 @@ global.setDeviceConfig = function(bypass) {
 				Alloy.Globals.loading.hide();
 			}
 		} else {
-			global.syncService();
+			var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
+			var currentTime = Date.now();
+			if (currentTime < tokenExp) {
+				global.syncService();
+			}
 		}
 	}
 	global.setPlatform();
@@ -425,9 +432,10 @@ global.userIsInactive = function() {
 	Ti.API.info('userIsInactive');
 	Ti.API.info('global.isHome = ' + global.isHome);
 	Ti.API.info('global.homeUIDirty = ' + global.homeUIDirty);
-	if (Ti.App.Properties.getBool('configured')) {
-		Titanium.Android.currentActivity.finish();
+	if (Ti.App.Properties.getBool('configured') && !global.isIdle) {
+		//Titanium.Android.currentActivity.finish();
 		Alloy.createController('idleScreen').getView().open();
+		global.isIdle = true;
 	}
 /*
 	if (!global.isHome && !global.working && Ti.App.Properties.getBool('configured')) {

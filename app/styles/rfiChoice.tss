@@ -1,0 +1,51 @@
+"#Label_Title": {
+	"text": L("rfi"),
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
+},
+"#mainButtons": {
+	top: "18%",
+	layout: "horizontal",
+	height: "45.4%",
+	width: Titanium.UI.SIZE,
+},
+"#List_rfis": {
+	"height": Ti.UI.FILL,
+	"width": "16.38%",
+	bubbleParent: false,
+},
+"#imgBtn_listRfis": {
+	"image": "/images/btn_mainNav_rfi.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
+"#Label_listRfis": {
+	"text": L("view_rfi"),
+	"width": "100%",
+	bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#View_enterRfis": {
+	"height": Ti.UI.FILL,
+	"width": "16.38%",
+	left: "2.5%",
+	bubbleParent: false
+},
+"#Label_enterRfis": {
+	"text": L('create_rfi'),
+	"width": "100%",
+	bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".imgBtn_enterRfis": {
+	"image": "/images/btn_mainNav_submitals.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},

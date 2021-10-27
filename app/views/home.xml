@@ -16,7 +16,7 @@
 	            <Label class="fontSize20" id="Label_documents"/>
 	        </View>
 	        <View id="View_rfis">
-	            <ImageView id="imgBtn_rfis" onClick="goRfis"/>
+	            <ImageView id="imgBtn_rfis" onClick="goRfiChoice"/>
 	            <Label class="fontSize20" id="Label_rfis"/>
 	        </View>
         </View>
