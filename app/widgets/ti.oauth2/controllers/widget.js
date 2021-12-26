@@ -112,11 +112,15 @@ function _getUserAuthorization(callback){
 				* Ooops! We hit a roadbloack, make sure your configured right with Azure.
 				*/
 				Ti.API.info('WIDGET[ti.oauth2] Authorization Error');
-				callback && callback(err);
+				if (callback) {
+					callback && callback(err);
+				}
 			}
 			else {
 				Ti.API.info('WIDGET[ti.oauth2] Authorization Successful');
-				callback && callback(null, result);
+				if (callback) {
+					callback && callback(null, result);
+				}
 			}
 		});
 	} else {
@@ -158,19 +162,23 @@ function _getBearerToken(_authCode, callback){
 				* Success! Return the access and refresh tokens to calling function
 				*/
 				if(this.status == 200){
-					var response = JSON.parse(this.responseText);		Ti.API.info("ADAL responseText: " + JSON.stringify(response));
+					var response = JSON.parse(this.responseText);		Ti.API.info("ADAL responseText(165): " + JSON.stringify(response));
 					if (_saveTokensToTiProperties) {
 						Ti.App.Properties.setString('azure-ad-access-token', response.access_token);
 						Ti.App.Properties.setString('azure-ad-refresh-token', response.refresh_token);
 					}
-					callback && callback(null, response);
+					if (callback) {
+						callback && callback(null, response);
+					}
 				}
 			},
       		onerror: function(e){
 				/**
 				* Oops! Something went wrong here
 				*/
-				callback && callback(JSON.stringify(e));
+				if (callback) {
+					callback && callback(JSON.stringify(e));
+				}
 			},
 			timeout: 10000
 		});
@@ -214,16 +222,16 @@ function _refresh(callback, callbackParam, callbackParamTwo, callbackParamThree,
 				*/
 				if(e.source.status == 200){
 					var response = JSON.parse(this.responseText);
-					Ti.API.info("ADAL responseText: " + JSON.stringify(response));
+					Ti.API.info("ADAL responseText(225): " + JSON.stringify(response));
 					if (_saveTokensToTiProperties) {
 						Ti.App.Properties.setString('azure-ad-access-token', response.access_token);
 						Ti.App.Properties.setString('azure-ad-refresh-token', response.refresh_token);
-					    var secondsToSetExpiration = parseInt(response.expires_in) - 86400;  //subtract 10 minutes
+					    var secondsToSetExpiration = parseInt(response.expires_in) - 86400;  //subtract 1day
 					    var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
 					    Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
 						global.setXHROauthParams();
 					}
-					if (callback) {
+					if (typeof callback === 'function') {
 						callback(callbackParam, callbackParamTwo, callbackParamThree, callbackParamFour);// && callback(null, response);
 					} else {
 						global.onOauthSuccess(response);

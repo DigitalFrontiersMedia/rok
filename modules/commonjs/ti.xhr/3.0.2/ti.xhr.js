@@ -524,6 +524,8 @@ function writeCache(data, url, ttl, type, drawingUid) {
     
 	if (!file.exists()) {
 		Ti.API.info('Cache file not saved!');
+	} else {
+		Ti.API.info('Cached file "' + hashedURL + '" -- ' + file.size + ' bytes.');
 	}
     // Insert the cached object in the cache manager
     cacheManager[hashedURL] = {
