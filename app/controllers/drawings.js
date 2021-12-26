@@ -77,14 +77,14 @@ var showDrawing = function(title, url, overlayOverride) {
 		Ti.API.info('---===>>> PDF url = ' + url);
 		var webview = {};
 		if (!overlay) {
-			var webviewBase = Titanium.UI.createWebView({
+			var webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
 				opacity: overlay ? 0.5 : 1,
 				backgroundColor: 'transparent',
 				url: url
 			});
 			webview = webviewBase;
 		} else {
-			var webviewOverlay = Titanium.UI.createWebView({
+			var webviewOverlay = $.UI.create('WebView', { //Titanium.UI.createWebView({
 				opacity: overlay ? 0.5 : 1,
 				backgroundColor: 'transparent',
 				url: url
@@ -92,6 +92,12 @@ var showDrawing = function(title, url, overlayOverride) {
 			modal.setWebviewOverlay(webviewOverlay);
 			webview = webviewOverlay;
 		}
+		// TODO:  Attempt to override webView.setAllowFileAccess default per
+		//   https://githubplus.com/appcelerator/titanium_mobile/issues/13188
+		// var WebViewClass = require('android.webkit.WebView');
+		// var webViewHL = new WebViewClass(webview);
+		// webViewHL.getSettings().setAllowFileAccess(true);
+		// webViewHL.getSettings().getAllowUniversalAccessFromFileURLs(true);
 		modal.add(webview);
 		if (!overlay) {
 			modal.open();

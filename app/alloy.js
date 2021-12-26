@@ -316,7 +316,7 @@ global.setDeviceConfig = function(bypass) {
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
 		Ti.App.Properties.setBool('autoAssetCacheSync', (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_auto_asset_cache_sync == "True"));
-		Ti.App.Properties.setInt('syncInterval', parseInt(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval));
+		Ti.App.Properties.setInt('syncInterval', parseInt(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval), 12);
 		global.ttl = Ti.App.Properties.getInt('syncInterval');
 		global.xhrOptions = {
 			ttl : global.ttl * 60, // Needs to be in minutes
