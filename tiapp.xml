@@ -13,7 +13,7 @@
     <analytics>false</analytics>
     <guid>17a06a93-5ce5-4592-9ccc-2e5d6575961c</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
-    <property name="run-on-main-thread" type="bool">false</property>
+    <property name="run-on-main-thread" type="bool">true</property>
     <ios>
         <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
         <use-app-thinning>false</use-app-thinning>

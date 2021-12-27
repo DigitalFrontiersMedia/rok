@@ -11,6 +11,8 @@ var overlay = args.overlay || false;
 var modal = args.sourceModal;
 var initDrawingTitle = '';
 //var overlayZoom = null;
+var webviewBase;
+var webviewBaseUrl;
 
 $.Label_subTitle.text = Ti.App.Properties.getString("project");
 if (overlay) {
@@ -77,12 +79,13 @@ var showDrawing = function(title, url, overlayOverride) {
 		Ti.API.info('---===>>> PDF url = ' + url);
 		var webview = {};
 		if (!overlay) {
-			var webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
-				opacity: overlay ? 0.5 : 1,
-				backgroundColor: 'transparent',
+			global.webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
+				opacity: 1,
+				//backgroundColor: 'transparent',
 				url: url
 			});
-			webview = webviewBase;
+			webview = global.webviewBase;
+			global.webviewBaseUrl = url;
 		} else {
 			var webviewOverlay = $.UI.create('WebView', { //Titanium.UI.createWebView({
 				opacity: overlay ? 0.5 : 1,
@@ -98,16 +101,30 @@ var showDrawing = function(title, url, overlayOverride) {
 		// var webViewHL = new WebViewClass(webview);
 		// webViewHL.getSettings().setAllowFileAccess(true);
 		// webViewHL.getSettings().getAllowUniversalAccessFromFileURLs(true);
-		modal.add(webview);
+		//modal.add(webview);
 		if (!overlay) {
+			modal.add(global.webviewBase);
 			modal.open();
 			modal.showOverlayOption();
 		} else {
-			modal.hideOverlayOption();
+			modal.remove(global.webviewBase);
+			global.webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
+				opacity: 1,
+				//backgroundColor: 'transparent',
+				url: global.webviewBaseUrl
+			});
+			//global.webviewBase.url = webviewBaseUrl;
+			//modal.remove(global.webviewBase);
+			modal.add(global.webviewBase);
+			//global.webviewBase.height = Ti.UI.FILL;
+			//global.webviewBase.width = Ti.UI.FILL;
+			//modal.showOverlayOption();
+			modal.add(webviewOverlay);
+			Titanium.Android.currentActivity.finish();
+			//modal.hideOverlayOption();
 			modal.showRemoveOverlayOption();
 			//Ti.API.info('modal = ' + JSON.stringify(modal));
 			modal.setTitle(modal.__views.win.title + ' + ' + title);
-			Titanium.Android.currentActivity.finish();
 			overlay = false;
 			global.overlayZoom = null;
 		}

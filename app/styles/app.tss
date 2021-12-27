@@ -22,7 +22,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	"backgroundImage": "/images/bkg_screen_hexPattern.jpg",
 	"extendSafeArea": false,
 	fullscreen: true,
-	windowFlags: Ti.UI.Android.FLAG_TRANSLUCENT_NAVIGATION | Ti.UI.Android.FLAG_TRANSLUCENT_STATUS,
+	//windowFlags: Ti.UI.Android.FLAG_TRANSLUCENT_NAVIGATION | Ti.UI.Android.FLAG_TRANSLUCENT_STATUS,
 	exitOnClose: false
 },
 ".inputLine": {

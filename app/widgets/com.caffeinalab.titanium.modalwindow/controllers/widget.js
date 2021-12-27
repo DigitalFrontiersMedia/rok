@@ -33,6 +33,10 @@ function add($ui) {
 	$.win.add($ui);
 }
 
+function remove($ui) {
+	$.win.remove($ui);
+}
+
 function setWebviewOverlay(wvOverlay) {
 	webviewOverlay = wvOverlay;
 }
@@ -85,6 +89,7 @@ Interface
 exports.open = open;
 exports.close = close;
 exports.add = add;
+exports.remove = remove;
 exports.setWebviewOverlay = setWebviewOverlay;
 exports.hideOverlayOption = hideOverlayOption;
 exports.showOverlayOption = showOverlayOption;
