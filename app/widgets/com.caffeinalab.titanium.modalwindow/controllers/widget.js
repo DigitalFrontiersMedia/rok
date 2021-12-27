@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 var webviewOverlay = args.webviewOverlay || {};
 var initDrawingTitle = args.initTitle || '';
+var showOverlay = args.overlay || '';
 
 if (args.title) $.win.title = args.title;
 
@@ -67,7 +68,11 @@ function setTitle(title) {
 }
 
 function overlay() {
-	Alloy.createController('drawings', {overlay: true, originalShowDrawing: args.originalShowDrawing, sourceModal: $}).getView().open();
+	close();
+	setTimeout(function() {
+			Alloy.createController('drawings', {overlay: true, originalShowDrawing: args.originalShowDrawing, sourceModal: $}).getView().open();
+		}
+	, 50);
 }
 
 function removeOverlay() {

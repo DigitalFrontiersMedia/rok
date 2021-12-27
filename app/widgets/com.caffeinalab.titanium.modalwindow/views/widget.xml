@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
 	<!--NavigationWindow id="nav" module="xp.ui"-->
 		<Window id="win" theme="Theme.AppCompat.Translucent">
 			<LeftNavButton platform="ios">

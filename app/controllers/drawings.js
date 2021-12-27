@@ -28,7 +28,6 @@ var showDrawing = function(title, url, overlayOverride) {
     	//Titanium.Android.currentActivity.finish();
 	    return;
     }
-	Alloy.Globals.loading.hide();
 	if (!url) {
 		alert(L('no_url'));
 		return;
@@ -60,12 +59,12 @@ var showDrawing = function(title, url, overlayOverride) {
 	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, hashedURL);
 	    if (!overlay) {
 		    initDrawingTitle = 'ROK • ' + title;
-		    modal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+		    global.baseModal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
 				title : initDrawingTitle,
 				initTitle : initDrawingTitle,
 				classes : ["modal"],
 				originalShowDrawing : $.showDrawing,
-				showOverlayOption: true,
+				showOverlay: true,
 				sourceView: $
 			});
 		}
@@ -77,23 +76,19 @@ var showDrawing = function(title, url, overlayOverride) {
 		}
 		Ti.API.info('  global.overlayZoom = ' + global.overlayZoom);
 		Ti.API.info('---===>>> PDF url = ' + url);
-		var webview = {};
 		if (!overlay) {
-			global.webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
+			global.webviewBase = $.UI.create('WebView', {
 				opacity: 1,
-				//backgroundColor: 'transparent',
-				url: url
-			});
-			webview = global.webviewBase;
-			global.webviewBaseUrl = url;
-		} else {
-			var webviewOverlay = $.UI.create('WebView', { //Titanium.UI.createWebView({
-				opacity: overlay ? 0.5 : 1,
 				backgroundColor: 'transparent',
 				url: url
 			});
-			modal.setWebviewOverlay(webviewOverlay);
-			webview = webviewOverlay;
+			global.webviewBaseUrl = url;
+		} else {
+			var webviewOverlay = $.UI.create('WebView', {
+				opacity: 0.5,
+				backgroundColor: 'transparent',
+				url: url
+			});
 		}
 		// TODO:  Attempt to override webView.setAllowFileAccess default per
 		//   https://githubplus.com/appcelerator/titanium_mobile/issues/13188
@@ -103,30 +98,37 @@ var showDrawing = function(title, url, overlayOverride) {
 		// webViewHL.getSettings().getAllowUniversalAccessFromFileURLs(true);
 		//modal.add(webview);
 		if (!overlay) {
-			modal.add(global.webviewBase);
-			modal.open();
-			modal.showOverlayOption();
+			global.baseModal.add(global.webviewBase);
+			global.baseModal.open();
+			global.winTitle = global.baseModal.__views.win.title;
+			global.baseModal.showOverlayOption();
+			Alloy.Globals.loading.hide();
 		} else {
-			modal.remove(global.webviewBase);
-			global.webviewBase = $.UI.create('WebView', { //Titanium.UI.createWebView({
+			var overlayModal = Alloy.createWidget("com.caffeinalab.titanium.modalwindow", {
+				classes : ["modal"],
+				originalShowDrawing : $.showDrawing,
+				showOverlay: false,
+				sourceView: $
+			});
+
+			//modal.remove(global.webviewBase);
+			global.webviewBase = $.UI.create('WebView', {
 				opacity: 1,
-				//backgroundColor: 'transparent',
+				backgroundColor: 'transparent',
 				url: global.webviewBaseUrl
 			});
-			//global.webviewBase.url = webviewBaseUrl;
-			//modal.remove(global.webviewBase);
-			modal.add(global.webviewBase);
-			//global.webviewBase.height = Ti.UI.FILL;
-			//global.webviewBase.width = Ti.UI.FILL;
-			//modal.showOverlayOption();
-			modal.add(webviewOverlay);
-			Titanium.Android.currentActivity.finish();
-			//modal.hideOverlayOption();
-			modal.showRemoveOverlayOption();
+			overlayModal.add(global.webviewBase);
+			overlayModal.add(webviewOverlay);
+			overlayModal.setWebviewOverlay(webviewOverlay);
+			overlayModal.open();
+			overlayModal.hideOverlayOption();
+			overlayModal.showRemoveOverlayOption();
 			//Ti.API.info('modal = ' + JSON.stringify(modal));
-			modal.setTitle(modal.__views.win.title + ' + ' + title);
+			overlayModal.setTitle(global.winTitle + ' + ' + title);
 			overlay = false;
 			global.overlayZoom = null;
+			Titanium.Android.currentActivity.finish();
+			Alloy.Globals.loading.hide();
 		}
 	}
 };
