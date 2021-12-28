@@ -5,7 +5,7 @@
     <publisher>Digital Frontiers Media</publisher>
     <url>https://www.digitalfrontiersmedia.com</url>
     <description>Portable Document File Viewer and on-site function hub for the ROK Construction Management Ecosystem.</description>
-    <copyright>2020 by Digital Frontiers Media</copyright>
+    <copyright>©2020-2022 ROK Technologies</copyright>
     <icon>appicon.png</icon>
     <fullscreen>true</fullscreen>
     <statusbar-hidden>true</statusbar-hidden>
@@ -71,7 +71,6 @@
         <module platform="commonjs">konstruction</module>
         <module platform="commonjs">nl.fokkezb.html2as</module>
         <module platform="android">ti.worker</module>
-        <module platform="android">hyperloop</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>

@@ -81,6 +81,7 @@ global.scheme = 'https://';
 global.siteInfoPickerValues = new Array();
 global.idleTimeoutMinutes = 10;
 global.timeoutID = null;
+global.isIdle = false;
 global.isHome = true;
 global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
