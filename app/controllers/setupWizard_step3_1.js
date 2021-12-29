@@ -2,7 +2,7 @@
 var args = $.args;
 
 var wizardContinue = function() {
-	Alloy.createController('setupWizard_step3_2').getView().open();
+	Alloy.createController('UIChoice').getView().open();
 };
 
 var chooseDevice = function(e) {

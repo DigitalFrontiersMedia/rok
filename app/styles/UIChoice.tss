@@ -1,0 +1,84 @@
+"#Label_Title": {
+	"text": L("system_setup"),
+	"textAlign": "center",
+	"top": "5%",
+	"width": "20%",
+	"backgroundGradient": {type:"linear",startPoint:{x:0,y:47},endPoint:{x:0,y:48},colors:["transparent","#ff9200"]},
+	"font": {fontSize:'36'}
+},
+"#Label_wizardStep": {
+	"text": L("step_5"),
+	"top": "10%"
+},
+"#Label_configSelect": {
+	"text": L("select_interface"),
+	"textAlign": "center",
+	"top": "14%",
+	"font": {fontSize:'36'}
+},
+"#Label_message": {
+	"text": L("interface_info"),
+	"color": "#ff9200",
+	"textAlign": "center",
+	"top": "19%",
+	"width": "50%",
+	"font": {fontSize:'24'}
+},
+"#mainButtons": {
+	top: "36%",
+	layout: "horizontal",
+	height: "45.4%",
+	width: Titanium.UI.SIZE,
+},
+"#List_webUi": {
+	"height": Ti.UI.FILL,
+	"width": "50%",
+	bubbleParent: false,
+},
+"#imgBtn_webUi": {
+	"image": "/images/web_ui.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
+"#Label_webUi": {
+	"text": L("web_ui"),
+	"width": "100%",
+	//bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#View_rokUi": {
+	"height": Ti.UI.FILL,
+	"width": "50%",
+	//left: "2.5%",
+	bubbleParent: false
+},
+"#Label_rokUi": {
+	"text": L('rok_ui'),
+	"width": "100%",
+	//bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".imgBtn_rokUi": {
+	"image": "/images/ROK-yellow-icon.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
+"#View_secondaryButtons": {
+	"height": "25%",
+	"layout": "vertical",
+	"top": "45%"
+},
+".btnRow": {
+	"layout": "horizontal",
+	width: "70%",
+	height: Ti.UI.SIZE,
+	left: "15%"
+},
+"#View_row1": {
+	width: "46.7%",
+	left: "26.7%"
+},

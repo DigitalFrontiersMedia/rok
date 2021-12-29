@@ -236,7 +236,9 @@ if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
 		if (global.userId) {
 			global.getDeviceInfo(null, true);
 		}
-		global.checkRefresh(global.checkSyncStart);
+		if (!global.usingWebUi) {
+			global.checkRefresh(global.checkSyncStart);
+		}
 	}, 100);
 } else {
 	if (Ti.App.Properties.getBool('configured')) {

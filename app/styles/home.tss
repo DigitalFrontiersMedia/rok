@@ -15,6 +15,26 @@
 	height: "45.4%",
 	width: Titanium.UI.SIZE,
 },
+"#View_webUi": {
+	"height": Ti.UI.FILL,
+	"width": "16.38%",
+	//"left": "2.5%",
+	//"right": "2.5%",
+	bubbleParent: false
+},
+"#Label_webUi": {
+	"text":  Alloy.Globals.constructionApp,
+	"width": "100%",
+	bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".imgBtn_webUi": {
+	"image": "/images/btn_mainNav_sheets.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
 "#View_drawings": {
 	"height": Ti.UI.FILL,
 	"width": "16.38%",

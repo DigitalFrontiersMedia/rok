@@ -3,7 +3,12 @@ var args = $.args;
 var constructionApp;
 
 var wizardContinue = function() {
-	Alloy.createController('setupWizard_step3_3').getView().open();
+	global.setPlatform();
+	if (global.usingWebUi) {
+		Alloy.createController('setupWizard_step4').getView().open();
+	} else {
+		Alloy.createController('setupWizard_step3_3').getView().open();
+	}
 };
 
 var OauthSuccess = function(authResults) {
@@ -18,6 +23,7 @@ var OauthSuccess = function(authResults) {
 	global.xhr.setStaticOptions(global.xhrOptions);
 	
 	Ti.App.Properties.setString("constructionApp", constructionApp);
+	//global.setPlatform();
 
 	// Set Konstruction vars.
 	global.konstruction.setPlatform(constructionApp);
@@ -29,19 +35,27 @@ var OauthSuccess = function(authResults) {
 };
 
 var chooseApp = function(e) {
+	//Ti.API.info('e = ' + JSON.stringify(e));
+	var choice = e.row.children[0].text;
 	for (var i = 0; i < $.ListView_apps.data[0].rows.length; ++i) {
 	    $.ListView_apps.data[0].rows[i].hasCheck = false;
 	}
 	$.ListView_apps.data[0].rows[e.index].hasCheck = true;
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentTime = Date.now();
-	if (Ti.App.Properties.getString('constructionApp') != e.source.text || !Ti.App.Properties.getString('azure-ad-access-token') || !Ti.App.Properties.getString('azure-ad-refresh-token') || (currentTime > tokenExp)) {
-		constructionApp = e.source.text;
+	 if ((Ti.App.Properties.getString('constructionApp') != choice && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && !global.usingWebUi)) {
+		constructionApp = choice;
 		global.setOauthParams(constructionApp);
 		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
 		global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
-	} else {
+	} else if (global.usingWebUi) {
+		constructionApp = choice;
+		Ti.App.Properties.setString("constructionApp", constructionApp);
+		//global.setPlatform();
 		wizardContinue();
+		setTimeout(function() {
+			$.nxtBtn.visible = true;
+		}, 500);
 	}
 };
 
@@ -51,7 +65,7 @@ var denoteInitial = function(val) {
 	}
 };
 
-if (!Ti.App.Properties.getString('constructionApp') || !Ti.App.Properties.getString('azure-ad-access-token')) {
+if (!Ti.App.Properties.getString('constructionApp') || !Ti.App.Properties.getString('azure-ad-access-token') || global.UiSwitched) {
 	$.nxtBtn.visible = false;
 } else {
 	$.nxtBtn.visible = true;

@@ -8,7 +8,7 @@ var wizardContinue = function() {
 	Ti.API.info('deviceInfo.length = ' + JSON.stringify(deviceInfo.length));
 	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
-		Alloy.createController('setupWizard_step3_2').getView().open();
+		Alloy.createController('UIChoice').getView().open();
 	} else {
 		Alloy.createController('setupWizard_step3_1').getView().open();
 	}

@@ -3,7 +3,7 @@ var args = $.args;
 
 var setLang = function(lang) {
 	Ti.App.Properties.setString('language', lang);
-	Ti.API.info('*** ' + lang + ' ***');
+	Ti.API.info('*** ' + Ti.App.Properties.getString('language') + ' ***');
 	switch(lang) {
 		case 'English':
 		default:

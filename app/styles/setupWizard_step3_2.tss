@@ -9,7 +9,7 @@
 	"font": {fontSize:'36'}
 },
 "#Label_wizardStep": {
-	"text": L("step_5"),
+	"text": L("step_6"),
 	"top": "10%"
 },
 "#Label_configSelect": {

@@ -33,6 +33,20 @@ Konstruction.prototype.platform = function() {
     return this.platform;
 };
 
+var OauthSuccess = function(authResults) {
+    var secondsToSetExpiration = parseInt(authResults.expires_in) - 86400;  //subtract 10 minutes
+    var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
+    Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
+    global.oauth.close();
+    
+    // Add received tokens to xhr config for subsequent requests.
+    global.xhrOptions.shouldAuthenticate = true;
+    global.xhrOptions.oAuthToken = Ti.App.Properties.getString('azure-ad-access-token');
+	global.xhr.setStaticOptions(global.xhrOptions);
+	Titanium.Android.currentActivity.finish();
+	alert(L('success_retry'));
+};
+
 Konstruction.prototype.processPagination = function(results, callingFunction, onSuccessCallback, options) {
 	Ti.API.info('processPagination results = ' + JSON.stringify(results));
 	var reqResult = results.status == 200 ? JSON.parse(results.data) : JSON.parse(results.data.text);
@@ -78,9 +92,32 @@ Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) 
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -120,9 +157,32 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -163,9 +223,32 @@ Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -204,9 +287,32 @@ Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -244,9 +350,32 @@ Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback, next_p
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -286,9 +415,32 @@ Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback, nex
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -328,9 +480,32 @@ Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback, nex
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -370,9 +545,32 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback,
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -412,9 +610,32 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -453,9 +674,32 @@ Konstruction.prototype.getDocuments = function(onSuccessCallback, options, next_
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -501,9 +745,32 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_p
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -544,9 +811,32 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -585,9 +875,32 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback, d
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -634,9 +947,32 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -679,9 +1015,32 @@ Konstruction.prototype.getSubmittalPackages = function(onSuccessCallback, option
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -724,9 +1083,32 @@ Konstruction.prototype.getSubmittalPackageHistory = function(packageUid, onSucce
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -770,9 +1152,32 @@ Konstruction.prototype.getSubmittalFiles = function(packageUid, onSuccessCallbac
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};
@@ -816,9 +1221,32 @@ Konstruction.prototype.getSubmittalItems = function(onSuccessCallback, options, 
 		      	}
 			}
 	    } else {
-		    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
-			alert('An error occurred: \n', JSON.stringify(xhrResults));
-			nonce = null;
+			if (xhrResults.status === 401) {
+				Ti.API.info('401: ', JSON.stringify(xhrResults));
+		        nonce--;
+				var dialog = Ti.UI.createAlertDialog({
+			        cancel: 0,
+			        reauth: 1,
+			        buttonNames: ['Cancel', 'Okay'],
+			        message: L('reauth'),
+			        title: L('access_denied')
+				});
+				dialog.addEventListener('click', function (e) {
+			        if (e.index === e.source.cancel) {
+			          Ti.API.info('The cancel button was clicked');
+			          Titanium.Android.currentActivity.finish();
+			        }
+			        if (e.index === e.source.reauth) {
+						//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+						global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+			        }
+				 });
+				dialog.show();
+			} else {
+			    Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+				alert('An error occurred: \n', JSON.stringify(xhrResults));
+				nonce = null;
+			}
 		}
 		Alloy.Globals.loading.hide();
 	};

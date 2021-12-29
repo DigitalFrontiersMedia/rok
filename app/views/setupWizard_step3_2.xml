@@ -12,6 +12,9 @@
                 <TableViewRow>
                     <Label class="choice">PlanGrid</Label>
                 </TableViewRow>
+                <TableViewRow if="Alloy.Globals.usingWebUi">
+                    <Label class="choice">Procore</Label>
+                </TableViewRow>
             </TableViewSection>
         </TableView>
         <View class="button-wrapper" id="nxtBtn" onClick="wizardContinue">

@@ -15,7 +15,7 @@ var checkAccess = function(formInput) {
 
 var configAdminChallenge = function() {
 	if (global.adminMode) {
-   		Titanium.Android.currentActivity.finish();
+   		//Titanium.Android.currentActivity.finish();
 		openConfigAdmin();
 		return;
 	}

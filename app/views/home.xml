@@ -2,7 +2,13 @@
     <Window class="container">
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
-        <View id="mainButtons">
+        <View id="mainButtons" if="Alloy.Globals.usingWebUi">
+	        <View id="View_webUi">
+	            <ImageView class="imgBtn_webUi" id="imgBtn_webUi_hotspot" onClick="goWebui"/>
+	            <Label class="fontSize20" id="Label_webUi"/>
+	        </View>
+        </View>
+        <View id="mainButtons" if="!Alloy.Globals.usingWebUi">
 	        <View id="View_submittals">
 	            <ImageView class="imgBtn_submittals" id="imgBtn_submittals_hotspot" onClick="goSubmittals"/>
 	            <Label class="fontSize20" id="Label_submittals"/>

@@ -76,6 +76,7 @@ var listDocuments = function(results) {
 	Ti.API.info('documents = ' + JSON.stringify(documents));
 	//var documentsGrid = Alloy.createController('br.com.coredigital.GridLayout');
 	if (documents) {
+		$.documentsGrid.setDocLayout(true);
 		global.setDocuments(documents);
 		documents.forEach(function(document) {
 			if (!document.deleted) {

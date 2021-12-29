@@ -5,7 +5,12 @@
 	var gap = parseInt(args.gap) || 3;
 	var totalItens = 0;
 	var row = 0;
+	var heightView;
 
+	var setDocLayout = function(docLayout) {
+		heightView = ((widthScreen - gap * (totalColumns + 1)) / totalColumns) * (global.gridHeightMultiplier + (docLayout * 0.45));
+	};
+	
 	var widthScreen = OS_ANDROID ? px2dpi(Ti.Platform.displayCaps.platformWidth) : Ti.Platform.displayCaps.platformWidth;
 
 	if (typeof args.width === 'string' && args.width.indexOf('%') > -1){
@@ -15,7 +20,7 @@
 	}
 
 	var widthView = (widthScreen - gap * (totalColumns + 1)) / totalColumns;
-	var heightView = ((widthScreen - gap * (totalColumns + 1)) / totalColumns) * global.gridHeightMultiplier;
+	heightView = ((widthScreen - gap * (totalColumns + 1)) / totalColumns) * global.gridHeightMultiplier;
 	var horizontalView ;
 
 	$.footer.height = gap;
@@ -60,5 +65,6 @@
 
 	exports.removeAllItems = removeAllItems;
 	exports.addItem = addItem;
+	exports.setDocLayout = setDocLayout;
 })(arguments[0] || {});
 

@@ -61,6 +61,8 @@ Alloy.Globals.rotateM45 = Ti.UI.create2DMatrix().rotate(-45);
 Alloy.Globals.loading = Alloy.createWidget("nl.fokkezb.loading");
 Alloy.Globals.Util = {height: 1015};
 
+Alloy.Globals.usingWebUi = false;
+
 global.gridHeightMultiplier = 0.65; //1.10;
 global.homeWindow = Alloy.createController('home').getView();
 global.setupWizardWindow = Alloy.createController('setupWizard_step1').getView();
@@ -88,7 +90,8 @@ global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 global.xhrErrorCodes = new Array();
 global.adminMode = false;
-
+global.usingWebUi = false;
+global.UiSwitched = false;
 global.overlayZoom = null;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
@@ -146,7 +149,7 @@ global.onOauthSuccess = function (authResults) {
 global.onOauthError = function (authResults) {
 	Ti.API.info('Oauth ERROR: ', JSON.stringify(authResults));
 	global.oauth.close();
-	alert(L('error_occurred') + ': \n', JSON.stringify(authResults));
+	alert(L('auth_denied'));
 };
 
 global.onOauthCancel = function (authResults) {
@@ -275,6 +278,18 @@ global.setSubmittals = function(submittals) {
 	}
 };
 
+global.setUsingWebUi = function(usingWebUi) {
+	if (usingWebUi != null) {
+		Ti.App.Properties.setBool('usingWebUi', usingWebUi);
+	}
+	if (usingWebUi != global.usingWebUi) {
+		global.UiSwitched = true;
+	}
+	global.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
+	Alloy.Globals.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
+};
+global.setUsingWebUi();
+
 global.setOauthParams = function(platform) {
 	switch(platform) {
 		case 'PlanGrid':
@@ -292,10 +307,25 @@ global.setOauthParams = function(platform) {
 };
 
 global.setPlatform = function() {
+	global.UiSwitched = false;
 	if (Ti.App.Properties.getString('constructionApp')) {
-		global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
-		Ti.API.info('konstruction.platform = ', global.konstruction.platform);
-		global.setOauthParams(global.konstruction.platform);
+		Alloy.Globals.constructionApp = Ti.App.Properties.getString('constructionApp');
+		if (!global.usingWebUi) {
+			global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
+			Ti.API.info('konstruction.platform = ', global.konstruction.platform);
+			global.setOauthParams(global.konstruction.platform);
+		}
+		
+		switch (Ti.App.Properties.getString('constructionApp')) {
+			case 'Procore':
+				Ti.App.Properties.setString('constructionAppUrl', 'https://app.procore.com/');
+				break;				
+				
+			case 'PlanGrid':
+			default:
+				Ti.App.Properties.setString('constructionAppUrl', 'https://app.plangrid.com/');
+				break;
+		}
 	}
 };
 global.setPlatform();
@@ -313,6 +343,7 @@ global.setDeviceConfig = function(bypass) {
 		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project != '') {
 			Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project);
 		}
+		//Ti.App.Properties.setBool('usingWebUi', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_using_web_ui == "True");
 		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
 		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
 		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);

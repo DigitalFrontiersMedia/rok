@@ -75,12 +75,13 @@ var saveDeviceProfileNode = function(nid) {
 		Ti.API.info('node = ' + JSON.stringify(node));
 		// Remove protected fields
 		node = removeProtectedFields(node);
-
 		// Update field values
 		node.entity.title = [{value: Ti.App.Properties.getString('deviceName')}];
 		node.entity.field_device_id = [{value: Ti.Platform.id}];
 		node.entity.field_rok_app_version = [{value: Ti.App.version}];
+Ti.API.info('constructionApp (saveDeviceProfileNode BEFORE)' + Ti.App.Properties.getString('constructionApp'));
 		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp')}];
+Ti.API.info('constructionApp (saveDeviceProfileNode AFTER)' + Ti.App.Properties.getString('constructionApp'));
 		node.entity.field_project = [{value: Ti.App.Properties.getString('project')}];
 		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
 		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
@@ -109,7 +110,7 @@ var saveDeviceProfileNode = function(nid) {
 		// Save device profile with updated field values and report back then head home after Okay.
 		node.save().then(function(resp) {
 			Alloy.Globals.loading.hide();
-			//Ti.API.info('resp =  ' + JSON.stringify(resp));
+			Ti.API.info('resp =  ' + JSON.stringify(resp));
 			Ti.API.info('Saved ' + node.getTitle());
 			var message = $.UI.create('Label', {text: L('config_updated')});
 			var arg = {
@@ -174,9 +175,10 @@ var wizardContinue = function() {
 		nodeDirty = true;
 	}
 
-	//if ($.appValue.value != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].construction_app) {
+	if (Ti.App.Properties.getString('constructionApp') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app) {
+		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app = Ti.App.Properties.getString('constructionApp');
 		Ti.App.Properties.setString('constructionApp', $.appValue.value);
-	//}
+	}
 	//if ($.projectValue.value != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project) {
 		Ti.App.Properties.setString('project', $.projectValue.value);
 	//}

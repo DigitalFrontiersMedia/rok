@@ -250,6 +250,23 @@ var siteInfoMenu = function() {
 	//global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
+var goWebui = function() {
+	var dialog = require('ti.webdialog');
+	if (dialog.isSupported()) {
+		dialog.open({
+			id: 'webUi',
+	    	title: Ti.App.Properties.getString('constructionApp'),
+	    	url: Ti.App.Properties.getString('constructionAppUrl'),
+	        tintColor: '#ffffff',
+	        barColor: '#ff9200',
+	        showTitle: true,
+	        animated: true,
+	        fadeTransition: true,
+	        enableSharing: false
+	   });
+   }
+};
+
 var goDrawings = function() {
 	Ti.API.info('*** DRAWINGS ***');
 	Alloy.createController('drawings').getView().open();
