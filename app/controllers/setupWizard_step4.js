@@ -179,9 +179,10 @@ var wizardContinue = function() {
 		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app = Ti.App.Properties.getString('constructionApp');
 		Ti.App.Properties.setString('constructionApp', $.appValue.value);
 	}
-	//if ($.projectValue.value != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].project) {
+	if (Ti.App.Properties.getString('project') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project) {
+		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project = Ti.App.Properties.getString('project');
 		Ti.App.Properties.setString('project', $.projectValue.value);
-	//}
+	}
 	
 	// Update Messages & Site Info Options
 	if (messageOptions) {

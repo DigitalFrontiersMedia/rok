@@ -71,6 +71,17 @@ Konstruction.prototype.processPagination = function(results, callingFunction, on
     // }
 };
 
+Konstruction.prototype.clearProjects = function(onSuccessCallback, next_page_url) {
+	var apiURL = global.konstruction.apiURL;
+	switch (this.platform) {
+		case 'PlanGrid':
+		default:
+			endpoint = 'projects';
+			break;
+	}
+	global.xhr.clear(apiURL + endpoint);
+};
+
 Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) {
     // Create some default params
     var onSuccessCallback = onSuccessCallback || function() {};

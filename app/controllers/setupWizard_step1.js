@@ -34,6 +34,7 @@ var denoteInitial = function(lang) {
 	}
 };
 
+Ti.API.info('language = ' + Ti.App.Properties.getString('language'));
 if (!Ti.App.Properties.getString('language')) {
 	$.nxtBtn.visible = false;
 } else {

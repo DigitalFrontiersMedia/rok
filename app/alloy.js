@@ -145,6 +145,7 @@ global.onOauthSuccess = function (authResults) {
     var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
     Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
     global.oauth.close();
+    global.konstruction.clearProjects();
     if (global.reAuth) {
     	global.reAuth = false;
 		Alloy.createController('home').getView().open();

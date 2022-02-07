@@ -28,6 +28,8 @@ var OauthSuccess = function(authResults) {
 	// Set Konstruction vars.
 	global.konstruction.setPlatform(constructionApp);
 
+	global.konstruction.clearProjects();
+
 	wizardContinue();
 	setTimeout(function() {
 		$.nxtBtn.visible = true;
