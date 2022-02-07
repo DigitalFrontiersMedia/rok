@@ -89,6 +89,7 @@ global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 global.xhrErrorCodes = new Array();
+global.reAuth = false;
 global.adminMode = false;
 global.usingWebUi = false;
 global.UiSwitched = false;
@@ -144,12 +145,37 @@ global.onOauthSuccess = function (authResults) {
     var expDate = Date.now() + (secondsToSetExpiration * 1000);          //find that timestamp
     Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
     global.oauth.close();
+    if (global.reAuth) {
+    	global.reAuth = false;
+		Alloy.createController('home').getView().open();
+    }
+};
+
+global.reAuth = function() {
+	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
+	var currentTime = Date.now();
+	 if (Ti.Network.online && (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && !global.usingWebUi)) {
+		global.reAuth = true;
+		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+		global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+	}	
 };
 
 global.onOauthError = function (authResults) {
 	Ti.API.info('Oauth ERROR: ', JSON.stringify(authResults));
 	global.oauth.close();
-	alert(L('auth_denied'));
+	var dialog = Ti.UI.createAlertDialog({
+        okay: 0,
+        buttonNames: ['Okay', 'Cancel'],
+        message: L('auth_denied'),
+        title: L('Authorization Error/Expired')
+	});
+	dialog.addEventListener('click', function (e) {
+	    if (e.index === e.source.okay) {
+	    	global.reAuth();
+	    }
+	});
+	dialog.show();
 };
 
 global.onOauthCancel = function (authResults) {
