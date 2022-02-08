@@ -30,34 +30,40 @@ if (Ti.App.Properties.getInt('deviceIndex') === null) {
 	$.nxtBtn.visible = true;
 }
 
-var dataRow;
-var tableData = [];
-var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
-if (deviceInfo) {
-	deviceInfo.forEach(function(device) {
-		if (device.title) {
+Alloy.Globals.loading.show(L('syncing'));
+global.getDeviceInfo(setup);
+
+var setup = function() {
+	var dataRow;
+	var tableData = [];
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+	if (deviceInfo) {
+		deviceInfo.forEach(function(device) {
+			if (device.title) {
+				deviceName = $.UI.create('Label', {
+					text: device.title,
+					classes: ["choice"]
+				});
+				dataRow = $.UI.create('TableViewRow');
+				dataRow.add(deviceName);
+				tableData.push(dataRow);
+			}
+		});
+		if (!tableData.length) {
 			deviceName = $.UI.create('Label', {
-				text: device.title,
-				classes: ["choice"]
+				text: L('no_items'),
+				classes: ["choice", 'centered'],
+				bottom: 0,
+				top: 0
 			});
 			dataRow = $.UI.create('TableViewRow');
 			dataRow.add(deviceName);
 			tableData.push(dataRow);
 		}
-	});
-	if (!tableData.length) {
-		deviceName = $.UI.create('Label', {
-			text: L('no_items'),
-			classes: ["choice", 'centered'],
-			bottom: 0,
-			top: 0
-		});
-		dataRow = $.UI.create('TableViewRow');
-		dataRow.add(deviceName);
-		tableData.push(dataRow);
+		$.ListView_devices.data = tableData;
+		if (Ti.App.Properties.getInt('deviceIndex') != null && Ti.App.Properties.getInt('deviceIndex') != '') {
+			denoteInitial(Ti.App.Properties.getInt('deviceIndex'));
+		}
 	}
-	$.ListView_devices.data = tableData;
-	if (Ti.App.Properties.getInt('deviceIndex') != null && Ti.App.Properties.getInt('deviceIndex') != '') {
-		denoteInitial(Ti.App.Properties.getInt('deviceIndex'));
-	}
-}
+	Alloy.Globals.loading.hide();
+};
