@@ -235,8 +235,9 @@ var wizardContinue = function() {
 		    parent_field_name: [{value: "field_superintendent_sms_message"}]
 		});
 		paragraph.save().then(function(results) {
-			//Ti.API.info('paragraph results = ' + JSON.stringify(results));
+			Ti.API.info('paragraph results = ' + JSON.stringify(results));
 			var createdParagraph = JSON.parse(results.responseData.text);
+			Ti.API.info('createdParagraph = ' + JSON.stringify(createdParagraph));
 			newMessageRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;
 			newMessageRef.uuid = createdParagraph.uuid ? createdParagraph.uuid[0].value : null;
 			newMessageRef.revision_id = createdParagraph.revision_id ? createdParagraph.revision_id[0].value : null;
@@ -292,7 +293,7 @@ var wizardContinue = function() {
 			paragraph.entity.field_text = [{value: siteInfoOptions[siteInfoOptions.length - 1].text}];
 		}
 		paragraph.save().then(function(results) {
-			//Ti.API.info('paragraph results = ' + JSON.stringify(results));
+			Ti.API.info('paragraph results = ' + JSON.stringify(results));
 			var createdParagraph = JSON.parse(results.responseData.text);
 			Ti.API.info('createdParagraph = ' + JSON.stringify(createdParagraph));
 			newSiteInfoOptionRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;

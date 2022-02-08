@@ -31,3 +31,7 @@ var done = function() {
 	container.remove($.commonView);
 	global.homeUIDirty = false;
 };
+
+var blur = function() {
+	Ti.UI.Android.hideSoftKeyboard();
+};

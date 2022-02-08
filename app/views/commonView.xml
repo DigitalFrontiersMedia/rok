@@ -1,5 +1,5 @@
 <Alloy autoStyle="true">
-    <View class="container">
+    <View class="container" onClick="blur">
         <View class="wrapper">
             <Label id="Label_title"/>
             <Label id="Label_subtitle"/>

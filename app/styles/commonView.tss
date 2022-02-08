@@ -11,7 +11,7 @@
 	"width": "35%",
 	"height": "50%",
 	"layout": "vertical",
-	top: 200
+	top: 75
 },
 "#Label_title": {
 	"top": "24",
