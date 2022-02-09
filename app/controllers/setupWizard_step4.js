@@ -76,18 +76,18 @@ var saveDeviceProfileNode = function(nid) {
 		// Remove protected fields
 		node = removeProtectedFields(node);
 		// Update field values
-		node.entity.title = [{value: Ti.App.Properties.getString('deviceName')}];
+		node.entity.title = [{value: Ti.App.Properties.getString('deviceName', '')}];
 		node.entity.field_device_id = [{value: Ti.Platform.id}];
 		node.entity.field_rok_app_version = [{value: Ti.App.version}];
 Ti.API.info('constructionApp (saveDeviceProfileNode BEFORE)' + Ti.App.Properties.getString('constructionApp'));
-		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp')}];
+		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp', '')}];
 Ti.API.info('constructionApp (saveDeviceProfileNode AFTER)' + Ti.App.Properties.getString('constructionApp'));
-		node.entity.field_project = [{value: Ti.App.Properties.getString('project')}];
-		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName')}];
-		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone')}];
-		node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret')}];
-		node.entity.field_auto_asset_cache_sync = [{value: Ti.App.Properties.getBool('autoAssetCacheSync')}];
-		node.entity.field_sync_interval = [{value: Ti.App.Properties.getInt('syncInterval')}];
+		node.entity.field_project = [{value: Ti.App.Properties.getString('project', '')}];
+		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName', '') == "false" ? '' : Ti.App.Properties.getString('superName', '')}];
+		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone', '') == "false" ? '' : Ti.App.Properties.getString('superPhone', '')}];
+		node.entity.field_admin_secret = [{value: Ti.App.Properties.getString('admin_secret', '') == "false" ? '' : Ti.App.Properties.getString('admin_secret', '')}];
+		node.entity.field_auto_asset_cache_sync = [{value: Ti.App.Properties.getBool('autoAssetCacheSync', false)}];
+		node.entity.field_sync_interval = [{value: Ti.App.Properties.getInt('syncInterval', 24)}];
 
 		if (newMessageRef.id) {
 			node.entity.field_superintendent_sms_message.push({
@@ -223,7 +223,7 @@ var wizardContinue = function() {
 		nodeDirty = true;
 		
 		// Build & Save new Message paragraph
-		var paragraph = new global.jDrupal.Paragraph({
+		var msgParagraph = new global.jDrupal.Paragraph({
 			type: [{
 				target_id: 'superintendent_sms_message',
 				target_type: 'paragraphs_type'
@@ -234,13 +234,13 @@ var wizardContinue = function() {
 		    parent_type: [{value: "node"}],
 		    parent_field_name: [{value: "field_superintendent_sms_message"}]
 		});
-		paragraph.save().then(function(results) {
-			Ti.API.info('paragraph results = ' + JSON.stringify(results));
-			var createdParagraph = JSON.parse(results.responseData.text);
-			Ti.API.info('createdParagraph = ' + JSON.stringify(createdParagraph));
-			newMessageRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;
-			newMessageRef.uuid = createdParagraph.uuid ? createdParagraph.uuid[0].value : null;
-			newMessageRef.revision_id = createdParagraph.revision_id ? createdParagraph.revision_id[0].value : null;
+		msgParagraph.save().then(function(results) {
+			Ti.API.info('msg paragraph results = ' + JSON.stringify(results));
+			var createdMsgParagraph = JSON.parse(results.responseData.text);
+			Ti.API.info('msg createdParagraph = ' + JSON.stringify(createdMsgParagraph));
+			newMessageRef.id = createdMsgParagraph.id ? createdMsgParagraph.id[0].value : null;
+			newMessageRef.uuid = createdMsgParagraph.uuid ? createdMsgParagraph.uuid[0].value : null;
+			newMessageRef.revision_id = createdMsgParagraph.revision_id ? createdMsgParagraph.revision_id[0].value : null;
 			messageOptionsChecked = true;
 			// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
 			$.trigger('checkSave');
@@ -249,17 +249,17 @@ var wizardContinue = function() {
 		// Check if at least dirty if not new and resave with changes before stating messageOptionsChecked.
 		// TODO:  Only set messageOptionsChecked after all items in below loop have been checked.
 		for (optIndex in dirtyMessagesIndex) {
-			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[optIndex].id).then(function(paragraph) {
-				Ti.API.info('paragraph = ' + JSON.stringify(paragraph));
+			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_sms_message_export[optIndex].id).then(function(msgParagraph) {
+				Ti.API.info('msgParagraph = ' + JSON.stringify(msgParagraph));
 				// Remove protected fields
-				paragraph = removeProtectedFields(paragraph);
+				msgParagraph = removeProtectedFields(msgParagraph);
 		
 				// Update field values
-				paragraph.entity.field_option_label = [{value: messageOptions[optIndex].option_label}];
-				paragraph.entity.field_message = [{value: messageOptions[optIndex].message}];
+				msgParagraph.entity.field_option_label = [{value: messageOptions[optIndex].option_label}];
+				msgParagraph.entity.field_message = [{value: messageOptions[optIndex].message}];
 	
 				// Save device profile with updated field values and report back then head home after Okay.
-				paragraph.save().then(function(resp) {
+				msgParagraph.save().then(function(resp) {
 					Ti.API.info('Saved paragraph.');
 					// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
 					messageOptionsChecked = true;
@@ -276,7 +276,7 @@ var wizardContinue = function() {
 		nodeDirty = true;
 		
 		// Build & Save new siteInfoOption paragraph
-		var paragraph = new global.jDrupal.Paragraph({
+		var siteInfoParagraph = new global.jDrupal.Paragraph({
 			type: [{
 				target_id: siteInfoOptions[siteInfoOptions.length - 1].link_url ? 'link_component' : 'text_component',
 				target_type: 'paragraphs_type'
@@ -286,19 +286,19 @@ var wizardContinue = function() {
 		    parent_type: [{value: "node"}],
 		    parent_field_name: [{value: "field_site_info_options"}]
 		});
-		if (paragraph.entity.type[0].target_id == 'link_component') {
-			paragraph.entity.field_link_url = [{uri: siteInfoOptions[siteInfoOptions.length - 1].link_url.url}];
+		if (siteInfoParagraph.entity.type[0].target_id == 'link_component') {
+			siteInfoParagraph.entity.field_link_url = [{uri: siteInfoOptions[siteInfoOptions.length - 1].link_url.url}];
 		}
-		if (paragraph.entity.type[0].target_id == 'text_component') {
-			paragraph.entity.field_text = [{value: siteInfoOptions[siteInfoOptions.length - 1].text}];
+		if (siteInfoParagraph.entity.type[0].target_id == 'text_component') {
+			siteInfoParagraph.entity.field_text = [{value: siteInfoOptions[siteInfoOptions.length - 1].text}];
 		}
-		paragraph.save().then(function(results) {
-			Ti.API.info('paragraph results = ' + JSON.stringify(results));
-			var createdParagraph = JSON.parse(results.responseData.text);
-			Ti.API.info('createdParagraph = ' + JSON.stringify(createdParagraph));
-			newSiteInfoOptionRef.id = createdParagraph.id ? createdParagraph.id[0].value : null;
-			newSiteInfoOptionRef.uuid = createdParagraph.uuid ? createdParagraph.uuid[0].value : null;
-			newSiteInfoOptionRef.revision_id = createdParagraph.revision_id ? createdParagraph.revision_id[0].value : null;
+		siteInfoParagraph.save().then(function(results) {
+			Ti.API.info('siteInfo paragraph results = ' + JSON.stringify(results));
+			var createdSiteInfoParagraph = JSON.parse(results.responseData.text);
+			Ti.API.info('siteInfo createdParagraph = ' + JSON.stringify(createdSiteInfoParagraph));
+			newSiteInfoOptionRef.id = createdSiteInfoParagraph.id ? createdSiteInfoParagraph.id[0].value : null;
+			newSiteInfoOptionRef.uuid = createdSiteInfoParagraph.uuid ? createdSiteInfoParagraph.uuid[0].value : null;
+			newSiteInfoOptionRef.revision_id = createdSiteInfoParagraph.revision_id ? createdSiteInfoParagraph.revision_id[0].value : null;
 			siteInfoOptionsChecked = true;
 			// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
 			$.trigger('checkSave');
@@ -307,18 +307,18 @@ var wizardContinue = function() {
 		// Check if at least dirty if not new and resave with changes before stating messageOptionsChecked.
 		// TODO:  Only set siteInfoOptionsChecked after all items in below loop have been checked.
 		for (optIndex in dirtySiteInfoOptionsIndex) {
-			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[optIndex].id).then(function(paragraph) {
-				Ti.API.info('paragraph = ' + JSON.stringify(paragraph));
+			global.jDrupal.paragraphLoad(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export[optIndex].id).then(function(siteInfoParagraph) {
+				Ti.API.info('paragraph = ' + JSON.stringify(siteInfoParagraph));
 				// Remove protected fields
-				paragraph = removeProtectedFields(paragraph);
+				siteInfoParagraph = removeProtectedFields(siteInfoParagraph);
 		
 				// Update field values (Fields depend on type)
-				paragraph.entity.field_option_label = [{value: siteInfoOptions[optIndex].option_label}];
-				paragraph.entity.field_link_url = [{uri: siteInfoOptions[optIndex].link_url.url ? siteInfoOptions[optIndex].link_url.url : null}];
-				paragraph.entity.field_text = [{value: siteInfoOptions[optIndex].text ? siteInfoOptions[optIndex].text : null}];
+				siteInfoParagraph.entity.field_option_label = [{value: siteInfoOptions[optIndex].option_label}];
+				siteInfoParagraph.entity.field_link_url = [{uri: siteInfoOptions[optIndex].link_url.url ? siteInfoOptions[optIndex].link_url.url : null}];
+				siteInfoParagraph.entity.field_text = [{value: siteInfoOptions[optIndex].text ? siteInfoOptions[optIndex].text : null}];
 	
 				// Save device profile with updated field values and report back then head home after Okay.
-				paragraph.save().then(function(resp) {
+				siteInfoParagraph.save().then(function(resp) {
 					Ti.API.info('Saved paragraph.');
 					// Only use saveDeviceProfileNode(nid) from timeout after all conditions completed.
 					siteInfoOptionsChecked = true;
@@ -630,13 +630,16 @@ var showIntervalInfo = function() {
 		$.getView().parent.add(commonView);
 };
 
-$.deviceNameValue.value = Ti.App.Properties.getString('deviceName');
-$.appValue.value = Ti.App.Properties.getString('constructionApp');
-$.projectValue.value = Ti.App.Properties.getString('project');
-$.superNameValue.value = Ti.App.Properties.getString('superName');
-$.superPhoneValue.value = Ti.App.Properties.getString('superPhone');
-$.adminSecretValue.value = Ti.App.Properties.getString('admin_secret');
-$.autoAssetCacheSyncValue.value = Ti.App.Properties.getBool('autoAssetCacheSync');
+$.deviceNameValue.value = Ti.App.Properties.getString('deviceName', '');
+$.appValue.value = Ti.App.Properties.getString('constructionApp', '');
+$.projectValue.value = Ti.App.Properties.getString('project', '');
+$.superNameValue.value = Ti.App.Properties.getString('superName', '') == "false" ? '' : Ti.App.Properties.getString('superName', '');
+$.superPhoneValue.value = Ti.App.Properties.getString('superPhone', '') == "false" ? '' : Ti.App.Properties.getString('superPhone', '');
+$.adminSecretValue.value = Ti.App.Properties.getString('admin_secret', '') == "false" ? '' : Ti.App.Properties.getString('admin_secret', '');
+if (Ti.App.Properties.getString('admin_secret', '') == "password") {
+	$.adminSecretValue.value = '';
+}
+$.autoAssetCacheSyncValue.value = Ti.App.Properties.getBool('autoAssetCacheSync', false);
 
 $.appValue.addEventListener('focus', selectApp);
 $.projectValue.addEventListener('focus', selectProject);

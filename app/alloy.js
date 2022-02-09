@@ -362,8 +362,10 @@ global.setDeviceConfig = function(bypass) {
 	if (deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
 	}
-	if (Ti.App.Properties.getInt("deviceIndex") !== null) {
-		Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
+	if (Ti.App.Properties.getInt("deviceIndex") !== null && Ti.App.Properties.getInt("deviceIndex") !== false && Ti.App.Properties.getInt("deviceIndex") !== '') {
+		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title != '') {
+			Ti.App.Properties.setString('deviceName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].title);
+		}
 		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app != '') {
 			Ti.App.Properties.setString('constructionApp', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app);
 		}
@@ -371,12 +373,22 @@ global.setDeviceConfig = function(bypass) {
 			Ti.App.Properties.setString('project', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project);
 		}
 		//Ti.App.Properties.setBool('usingWebUi', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_using_web_ui == "True");
-		Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
-		Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
-		Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+		//if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name != '' && deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name != false) {
+			Ti.App.Properties.setString('superName', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_name);
+		//}
+		//if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb != '' && deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb != false) {
+			Ti.App.Properties.setString('superPhone', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_superintendent_mobile_numb);
+		//}
+		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret != '' && deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret != false) {
+			Ti.App.Properties.setString('admin_secret', deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_admin_secret);
+		} else {
+			Ti.App.Properties.setString('admin_secret', 'password');
+		}
 		Ti.App.Properties.setBool('autoAssetCacheSync', (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_auto_asset_cache_sync == "True"));
-		Ti.App.Properties.setInt('syncInterval', parseInt(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval), 12);
-		global.ttl = Ti.App.Properties.getInt('syncInterval');
+		if (deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval != '') {
+			Ti.App.Properties.setInt('syncInterval', parseInt(deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_sync_interval));
+		}
+		global.ttl = Ti.App.Properties.getInt('syncInterval', 24);
 		global.xhrOptions = {
 			ttl : global.ttl * 60, // Needs to be in minutes
 			debug : true

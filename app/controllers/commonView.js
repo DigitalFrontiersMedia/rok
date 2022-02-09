@@ -28,8 +28,10 @@ var done = function() {
 	if (callback) {
 		callback(formInput);
 	}
-	container.remove($.commonView);
-	global.homeUIDirty = false;
+	setTimeout(function() {
+		container.remove($.commonView);
+		global.homeUIDirty = false;
+	}, 100);
 };
 
 var blur = function() {

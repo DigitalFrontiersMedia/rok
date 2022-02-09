@@ -30,9 +30,6 @@ if (Ti.App.Properties.getInt('deviceIndex') === null) {
 	$.nxtBtn.visible = true;
 }
 
-Alloy.Globals.loading.show(L('syncing'));
-global.getDeviceInfo(setup);
-
 var setup = function() {
 	var dataRow;
 	var tableData = [];
@@ -67,3 +64,4 @@ var setup = function() {
 	}
 	Alloy.Globals.loading.hide();
 };
+setup();

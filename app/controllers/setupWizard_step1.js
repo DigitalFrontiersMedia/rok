@@ -17,11 +17,13 @@ var wizardContinue = function() {
 };
 
 var chooseLanguage = function(e) {
+	var choice = e.row.children[0].text;
+	Ti.API.info('choice = ' + choice);
 	for (var i = 0; i < $.ListView_languages.data[0].rows.length; ++i) {
 	    $.ListView_languages.data[0].rows[i].hasCheck = false;
 	}
 	$.ListView_languages.data[0].rows[e.index].hasCheck = true;
-	setLang(e.source.text);
+	setLang(choice);
 	wizardContinue();
 	setTimeout(function() {
 		$.nxtBtn.visible = true;
