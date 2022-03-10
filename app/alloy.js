@@ -317,6 +317,7 @@ global.setUsingWebUi = function(usingWebUi) {
 };
 global.setUsingWebUi();
 
+// TODO:  Coordinate roll-out of version with updated Oauth redirectUrl.
 global.setOauthParams = function(platform) {
 	switch(platform) {
 		case 'PlanGrid':
@@ -326,7 +327,7 @@ global.setOauthParams = function(platform) {
 			global.oauth.state = "ROK-standard";  
 			global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
 			global.oauth.scope = "write:projects";  
-			global.oauth.redirectUrl = 'https://dev-dfm-rok.pantheonsite.io/';  
+      global.oauth.redirectUrl = 'https://dev-dfm-rok.pantheonsite.io/'; //global.jDrupal.sitePath() + '/';
 			global.oauth.customTitleText = "PlanGrid Authorization"; 
 		default:
 			break;
@@ -337,6 +338,8 @@ global.setPlatform = function() {
 	global.UiSwitched = false;
 	if (Ti.App.Properties.getString('constructionApp')) {
 		Alloy.Globals.constructionApp = Ti.App.Properties.getString('constructionApp');
+    Alloy.Globals.constructionAppWebUILbl = L("project_drawings") + '\n' + '(' + Alloy.Globals.constructionApp + ')';
+
 		if (!global.usingWebUi) {
 			global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
 			Ti.API.info('konstruction.platform = ', global.konstruction.platform);

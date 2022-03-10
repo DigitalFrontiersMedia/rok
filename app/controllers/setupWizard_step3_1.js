@@ -58,7 +58,7 @@ var setup = function() {
 			tableData.push(dataRow);
 		}
 		$.ListView_devices.data = tableData;
-		if (Ti.App.Properties.getInt('deviceIndex') != null && Ti.App.Properties.getInt('deviceIndex') != '') {
+    if (Ti.App.Properties.getInt('deviceIndex') !== null && Ti.App.Properties.getInt('deviceIndex') !== '' && Ti.App.Properties.getInt('deviceIndex') !== false) {
 			denoteInitial(Ti.App.Properties.getInt('deviceIndex'));
 		}
 	}

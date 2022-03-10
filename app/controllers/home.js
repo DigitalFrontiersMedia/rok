@@ -250,27 +250,40 @@ var siteInfoMenu = function() {
 	//global.showOptions(L('site_info_prompt'), deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_site_info_options_export, $, displaySiteInfo);
 };
 
-var goWebui = function() {
+var goWebui = function(type) {
 	var dialog = require('ti.webdialog');
+  var endpoint = '';
 	if (dialog.isSupported()) {
+    if (Ti.App.Properties.getString("project_uid")) {
+      switch (Ti.App.Properties.getString('constructionApp')) {
+        case 'PlanGrid':
+        default:
+          //endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/' + type;
+          break;
+      }
+    }
 		dialog.open({
 			id: 'webUi',
 	    	title: Ti.App.Properties.getString('constructionApp'),
-	    	url: Ti.App.Properties.getString('constructionAppUrl'),
-	        tintColor: '#ffffff',
-	        barColor: '#ff9200',
-	        showTitle: true,
-	        animated: true,
-	        fadeTransition: true,
-	        enableSharing: false
+	    	url: Ti.App.Properties.getString('constructionAppUrl') + endpoint,
+        tintColor: '#ffffff',
+        barColor: '#ff9200',
+        showTitle: true,
+        animated: true,
+        fadeTransition: true,
+        enableSharing: false
 	   });
    }
 };
 
 var goDrawings = function() {
-	Ti.API.info('*** DRAWINGS ***');
-	Alloy.createController('drawings').getView().open();
-	global.isHome = false;
+  if (global.usingWebUi) {
+    goWebui('sheets');
+  } else {
+    Ti.API.info('*** DRAWINGS ***');
+    Alloy.createController('drawings').getView().open();
+    global.isHome = false;
+  }
 };
 
 var goSubmittals = function() {

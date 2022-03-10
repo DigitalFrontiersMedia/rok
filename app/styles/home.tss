@@ -23,7 +23,7 @@
 	bubbleParent: false
 },
 "#Label_webUi": {
-	"text":  Alloy.Globals.constructionApp,
+	"text":  Alloy.Globals.constructionAppWebUILbl,
 	"width": "100%",
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
@@ -46,6 +46,9 @@
 	"width": "100%",
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#Label_drawings[if=Alloy.Globals.usingWebUi]": {
+	"text": Alloy.Globals.constructionAppWebUILbl
 },
 ".imgBtn_drawings": {
 	"image": "/images/btn_mainNav_sheets.png",
