@@ -20,6 +20,13 @@ var hasFocus = false;
 
 (function constructor(args) {
 
+  setTimeout(function() {
+    if (!global.synchronizing) {
+      alert('Request timed-out.  Try again.');
+      hide();
+    }
+  }, 30000);
+
     if (OS_ANDROID) {
         $.win.addEventListener('androidback', function onAndroidback() {
 

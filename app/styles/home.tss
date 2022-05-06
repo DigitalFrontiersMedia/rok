@@ -23,7 +23,7 @@
 	bubbleParent: false
 },
 "#Label_webUi": {
-	"text":  Alloy.Globals.constructionAppWebUILbl,
+	"text":  Alloy.Globals.constructionAppWebUIDrawingsLbl,
 	"width": "100%",
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
@@ -48,7 +48,10 @@
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
 },
 "#Label_drawings[if=Alloy.Globals.usingWebUi]": {
-	"text": Alloy.Globals.constructionAppWebUILbl
+	"text": Alloy.Globals.constructionAppWebUIDrawingsLbl
+},
+"#Label_drawings[if=!Alloy.Globals.useROKbtns]": {
+	"text": Alloy.Globals.constructionApp
 },
 ".imgBtn_drawings": {
 	"image": "/images/btn_mainNav_sheets.png",
@@ -69,6 +72,9 @@
 	"width": "100%",
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#Label_documents[if=Alloy.Globals.usingWebUi]": {
+	"text": Alloy.Globals.constructionAppWebUIDocumentsLbl
 },
 ".imgBtn_documents": {
 	"image": "/images/btn_mainNav_documents.png",
@@ -95,6 +101,9 @@
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
 },
+"#Label_rfis[if=Alloy.Globals.usingWebUi]": {
+	"text": Alloy.Globals.constructionAppWebUIRfiLbl
+},
 "#View_submittals": {
 	"height": Ti.UI.FILL,
 	"width": "16.38%",
@@ -106,6 +115,9 @@
 	"width": "100%",
 	bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#Label_submittals[if=Alloy.Globals.usingWebUi]": {
+	"text": Alloy.Globals.constructionAppWebUISubmittalsLbl
 },
 ".imgBtn_submittals": {
 	"image": "/images/btn_mainNav_submitals.png",

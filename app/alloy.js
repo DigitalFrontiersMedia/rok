@@ -89,7 +89,7 @@ global.homeUIDirty = false;
 global.historyUsers = Ti.App.Properties.getObject('historyUsers', {});
 global.show429Error = true;
 global.xhrErrorCodes = new Array();
-global.reAuth = false;
+global.reAuthStatus = false;
 global.adminMode = false;
 global.usingWebUi = false;
 global.UiSwitched = false;
@@ -146,17 +146,21 @@ global.onOauthSuccess = function (authResults) {
     Ti.App.Properties.setInt('azure-ad-access-token-exp', expDate);      //set the time stamp for future reference
     global.oauth.close();
     global.konstruction.clearProjects();
-    if (global.reAuth) {
-    	global.reAuth = false;
-		Alloy.createController('home').getView().open();
+  if (global.reAuthStatus) {
+    global.reAuthStatus = false;
+    if (!global.adminMode) {
+      Alloy.createController('home').getView().open();
+    } else {
+      global.wizOkay2Cont = authResults;
     }
+  }
 };
 
 global.reAuth = function() {
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentTime = Date.now();
 	 if (Ti.Network.online && (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && !global.usingWebUi)) {
-		global.reAuth = true;
+		global.reAuthStatus = true;
 		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
 		global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);			
 	}	
@@ -167,9 +171,9 @@ global.onOauthError = function (authResults) {
 	global.oauth.close();
 	var dialog = Ti.UI.createAlertDialog({
         okay: 0,
-        buttonNames: ['Okay', 'Cancel'],
+        buttonNames: [L('auth'), L('cancel')],
         message: L('auth_denied'),
-        title: L('Authorization Error/Expired')
+        title: L('auth_err_exp')
 	});
 	dialog.addEventListener('click', function (e) {
 	    if (e.index === e.source.okay) {
@@ -203,7 +207,7 @@ global.checkRefresh = function(callback) {
 	var callback = callback || null;
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentTime = Date.now();
-	if (currentTime > tokenExp && Ti.Network.online) {
+  if (currentTime > tokenExp && Ti.Network.online && Ti.App.Properties.getString("project_uid") && !global.usingWebUi) {
 	// TODO:  update to slightly different callbacks for refresh purposes?
 		//global.oauth.authorize(false, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
 		global.oauth.refresh(callback);
@@ -305,31 +309,29 @@ global.setSubmittals = function(submittals) {
 	}
 };
 
-global.setUsingWebUi = function(usingWebUi) {
-	if (usingWebUi != null) {
-		Ti.App.Properties.setBool('usingWebUi', usingWebUi);
-	}
-	if (usingWebUi != global.usingWebUi) {
-		global.UiSwitched = true;
-	}
-	global.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
-	Alloy.Globals.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
-};
-global.setUsingWebUi();
-
-// TODO:  Coordinate roll-out of version with updated Oauth redirectUrl.
 global.setOauthParams = function(platform) {
 	switch(platform) {
-		case 'PlanGrid':
-			global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";  
-			global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";  
-			global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";  
-			global.oauth.state = "ROK-standard";  
-			global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";  
-			global.oauth.scope = "write:projects";  
-      global.oauth.redirectUrl = 'https://dev-dfm-rok.pantheonsite.io/'; //global.jDrupal.sitePath() + '/';
-			global.oauth.customTitleText = "PlanGrid Authorization"; 
-		default:
+    case 'Autodesk Build':
+      global.oauth.customAuthUrl = "https://developer.api.autodesk.com/authentication/v1/authorize";
+      global.oauth.customTokenUrl = "https://developer.api.autodesk.com/authentication/v1/gettoken";
+      global.oauth.clientId = "W6kHWGVUFvqrkoUHHxXIYBzxHdO7tFBK";
+      global.oauth.state = "ROK-standard";
+      global.oauth.clientSecret = "iIA20PYFFPxhewi6";
+      global.oauth.scope = "account:read data:create data:read data:write";
+      global.oauth.redirectUrl = 'https://www.roktech.com/'; //global.jDrupal.sitePath() + '/';
+      global.oauth.customTitleText = "Autodesk Build Authorization"; 
+      break;
+
+    case 'PlanGrid':
+    default:
+      global.oauth.customAuthUrl = "https://io.plangrid.com/oauth/authorize";
+      global.oauth.customTokenUrl = "https://io.plangrid.com/oauth/token";
+      global.oauth.clientId = "7fc99cd6-c209-40f4-b112-588bc624492f";
+      global.oauth.state = "ROK-standard";
+      global.oauth.clientSecret = "68fdd6ff-9bd0-4d3d-b1d9-78851eee384b";
+      global.oauth.scope = "write:projects";
+      global.oauth.redirectUrl = 'https://www.roktech.com/'; //global.jDrupal.sitePath() + '/';
+      global.oauth.customTitleText = "PlanGrid Authorization"; 
 			break;
 	}
 };
@@ -338,19 +340,23 @@ global.setPlatform = function() {
 	global.UiSwitched = false;
 	if (Ti.App.Properties.getString('constructionApp')) {
 		Alloy.Globals.constructionApp = Ti.App.Properties.getString('constructionApp');
-    Alloy.Globals.constructionAppWebUILbl = L("project_drawings") + '\n' + '(' + Alloy.Globals.constructionApp + ')';
+    Alloy.Globals.constructionAppWebUIDrawingsLbl = L("project_drawings") + '\n' + '(' + Alloy.Globals.constructionApp + ')';
 
-		if (!global.usingWebUi) {
+		//if (!global.usingWebUi) {
 			global.konstruction.setPlatform(Ti.App.Properties.getString('constructionApp'));
 			Ti.API.info('konstruction.platform = ', global.konstruction.platform);
 			global.setOauthParams(global.konstruction.platform);
-		}
+		//}
 		
 		switch (Ti.App.Properties.getString('constructionApp')) {
-			case 'Procore':
-				Ti.App.Properties.setString('constructionAppUrl', 'https://app.procore.com/');
-				break;				
-				
+      case 'Procore':
+        Ti.App.Properties.setString('constructionAppUrl', 'https://app.procore.com/');
+        break;
+
+      case 'Autodesk Build':
+        Ti.App.Properties.setString('constructionAppUrl', 'https://acc.autodesk.com/build/');
+        break;
+
 			case 'PlanGrid':
 			default:
 				Ti.App.Properties.setString('constructionAppUrl', 'https://app.plangrid.com/');
@@ -501,6 +507,58 @@ global.recursiveResourcesCopy = function(name) {
     }
     return;
 };
+
+global.setMainBtnLabels = function () {
+  if (global.useROKbtns) {
+    Alloy.Globals.constructionAppWebUIDrawingsLbl = L("project_drawings") + '\n' + '(' + Ti.App.Properties.getString('constructionApp') + ')';
+    if (Ti.App.Properties.getString("project_uid")) {
+      Alloy.Globals.constructionAppWebUIDocumentsLbl = global.hybridUi ? L("documents") : L("documents") + '\n' + '(' + Ti.App.Properties.getString('constructionApp') + ')';
+      Alloy.Globals.constructionAppWebUISubmittalsLbl = global.hybridUi ? L("submittals") : L("submittals") + '\n' + '(' + Ti.App.Properties.getString('constructionApp') + ')';
+      Alloy.Globals.constructionAppWebUIRfiLbl = global.hybridUi ? L("rfi") : L("rfi") + '\n' + '(' + Ti.App.Properties.getString('constructionApp') + ')';
+    }
+  } else {
+    Alloy.Globals.constructionAppWebUIDrawingsLbl = Ti.App.Properties.getString('constructionApp');
+  }
+};
+
+global.setUseROKbtns = function (useROKbtns) {
+  if (useROKbtns != null) {
+    Ti.App.Properties.setBool('useROKbtns', useROKbtns);
+  }
+  if (useROKbtns != global.useROKbtns) {
+    global.UiSwitched = true;
+  }
+  global.useROKbtns = Ti.App.Properties.getBool('useROKbtns', true);
+  Alloy.Globals.useROKbtns = Ti.App.Properties.getBool('useROKbtns', true);
+  global.setMainBtnLabels();
+};
+global.setUseROKbtns();
+
+global.setUsingWebUi = function (usingWebUi) {
+  if (usingWebUi != null) {
+    Ti.App.Properties.setBool('usingWebUi', usingWebUi);
+  }
+  if (usingWebUi != global.usingWebUi) {
+    global.UiSwitched = true;
+  }
+  global.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
+  Alloy.Globals.usingWebUi = Ti.App.Properties.getBool('usingWebUi', false);
+  global.setMainBtnLabels();
+};
+global.setUsingWebUi();
+
+global.setHybridUi = function (hybridUi) {
+  if (hybridUi != null) {
+    Ti.App.Properties.setBool('hybridUi', hybridUi);
+  }
+  if (hybridUi != global.hybridUi) {
+    global.UiSwitched = true;
+  }
+  global.hybridUi = Ti.App.Properties.getBool('hybridUi', false);
+  Alloy.Globals.hybridUi = Ti.App.Properties.getBool('hybridUi', false);
+  global.setMainBtnLabels();
+};
+global.setHybridUi();
 
 global.userIsInactive = function() {
 	Ti.API.info('userIsInactive');

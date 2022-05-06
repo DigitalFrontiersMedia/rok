@@ -2,8 +2,9 @@
 <resources>
 	<string name="ui_interface">Interface</string>
 	<string name="select_interface">Select Interface</string>
-	<string name="interface_info">You may choose to use the ROK unified interface, which uses the same simplified interface no matter which construction app you use, or you can choose to use your construction app's provided web interface.  Note that some construction apps may not be available for use with the ROK unified interface.  However, if you choose the web interface, be aware that offline usage and asset caching will not be available.</string>
+	<string name="interface_info">You may choose to use the ROK unified interface, which uses the same simplified interface no matter which construction app you use, or you can choose to use your construction app's provided web interface, or you can choose a mix of both methods providing a simple ROK interface for some functions and the app's web interface with more advanced options for other functions.  Note that some construction apps may not be available for use with the ROK unified interface.  However, if you use the web interface, be aware that offline usage and asset caching will not be available.</string>
 	<string name="web_ui">Web Interface</string>
+	<string name="hybrid_ui">ROK-Web Hybrid Interface</string>
 	<string name="rok_ui">ROK Interface</string>
 	<string name="idle_prompt">TOUCH SCREEN TO BEGIN</string>
 	<string name="config_admin">Administration</string>
@@ -90,9 +91,11 @@
 	<string name="device_prompt">You have more than one device profile listed on your ROK account.\nPlease choose the one intended for this device.</string>
 	<string name="select_app">Select Construction Management App</string>
 	<string name="select_project">Select Project</string>
+	<string name="auth">Authorize</string>
 	<string name="access_denied">Access Denied</string>
 	<string name="auth_denied">Permission Denied.\nThe ROK needs permission to access your construction management app data for the ROK unified interface to function properly.</string>
 	<string name="oauth_alert">After clicking on your chosen construction management software,\nwe will have you log into that software here and grant ROK access to its data.</string>
+	<string name="auth_err_exp">Authorization Error/Expired</string>
 	<string name="reauth">The ROK has lost access to your construction management software.\nThis could be because you haven't used it for a while and your access has expired or it has been removed.\nHit "Okay" to attempt to re-authorize the ROK to access your account.'</string>
 	<string name="step_1">Step 1</string>
 	<string name="step_2">Step 2</string>

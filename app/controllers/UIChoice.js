@@ -10,12 +10,20 @@ var wizardContinue = function() {
 	//}
 };
 
-var rokUi = function() {
-	global.setUsingWebUi(false);
-	wizardContinue();
+var rokUi = function () {
+  global.setUsingWebUi(false);
+  global.setHybridUi(false);
+  wizardContinue();
+};
+
+var hybridUi = function () {
+  global.setUsingWebUi(true);
+  global.setHybridUi(true);
+  wizardContinue();
 };
 
 var webUi = function() {
 	global.setUsingWebUi(true);
+  global.setHybridUi(false);
 	wizardContinue();
 };

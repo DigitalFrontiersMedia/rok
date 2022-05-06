@@ -1,4 +1,4 @@
-<Alloy>
+<Alloy autoStyle="true">
     <Window class="container">
         <Require id="backCorner" src="backCorner" type="view"/>
         <Require id="homeCorner" src="homeCorner" type="view" if="Alloy.Globals.configured"/>
@@ -11,6 +11,9 @@
             <TableViewSection id="listSection">
                 <TableViewRow>
                     <Label class="choice">PlanGrid</Label>
+                </TableViewRow>
+                <TableViewRow if="Alloy.Globals.usingWebUi">
+                    <Label class="choice">Autodesk Build</Label>
                 </TableViewRow>
                 <TableViewRow if="Alloy.Globals.usingWebUi">
                     <Label class="choice">Procore</Label>

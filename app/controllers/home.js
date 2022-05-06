@@ -256,9 +256,20 @@ var goWebui = function(type) {
 	if (dialog.isSupported()) {
     if (Ti.App.Properties.getString("project_uid")) {
       switch (Ti.App.Properties.getString('constructionApp')) {
+        case 'Autodesk Build':
+          if (type == 'documents') {
+            type = 'files';
+          }
+          endpoint = type + '/projects/' + Ti.App.Properties.getString("project_uid");
+          break;
+
         case 'PlanGrid':
         default:
-          //endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/' + type;
+          if (type == 'submittals/dashboard') {
+            endpoint = 'app/projects/' + Ti.App.Properties.getString("project_uid") + '/' + type;
+          } else {
+            endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/' + type;
+          }
           break;
       }
     }
@@ -277,30 +288,42 @@ var goWebui = function(type) {
 };
 
 var goDrawings = function() {
+  Ti.API.info('*** DRAWINGS ***');
   if (global.usingWebUi) {
     goWebui('sheets');
   } else {
-    Ti.API.info('*** DRAWINGS ***');
     Alloy.createController('drawings').getView().open();
     global.isHome = false;
   }
 };
 
 var goSubmittals = function() {
-	Ti.API.info('*** SUBMITTALS ***');
-	Alloy.createController('submittals').getView().open();
-	global.isHome = false;
+  Ti.API.info('*** SUBMITTALS ***');
+  if (!global.hybridUi) {
+    goWebui('submittals/dashboard');
+  } else {
+    Alloy.createController('submittals').getView().open();
+    global.isHome = false;
+  }
 };
 
 var goDocuments = function() {
-	Ti.API.info('*** DOCUMENTS ***');
-	Alloy.createController('documents').getView().open();
-	global.isHome = false;
+  Ti.API.info('*** DOCUMENTS ***');
+  if (!global.hybridUi) {
+    goWebui('documents');
+  } else {
+    Alloy.createController('documents').getView().open();
+    global.isHome = false;
+  }
 };
 
 var goRfiChoice = function() {
-	Alloy.createController('rfiChoice').getView().open();
-	global.isHome = false;
+  if (!global.hybridUi) {
+    goWebui('rfis');
+  } else {
+    Alloy.createController('rfiChoice').getView().open();
+    global.isHome = false;
+  }
 };
 
 $.home.addEventListener('androidback', function() {
@@ -312,3 +335,5 @@ global.isHome = true;
 global.homeUIDirty = false;
 global.home = $.getView();
 global.adminMode = false;
+
+setTimeout(function() {global.setMainBtnLabels();}, 500);

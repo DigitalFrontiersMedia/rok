@@ -3,7 +3,7 @@
         <Require id="homeCorner" src="homeCorner" type="view"/>
         <Require id="configCorner" src="configCorner" type="view"/>
         <View id="mainButtons">
-	        <View id="View_submittals">
+	        <View id="View_submittals" if="Alloy.Globals.useROKbtns">
 	            <ImageView class="imgBtn_submittals" id="imgBtn_submittals_hotspot" onClick="goSubmittals"/>
 	            <Label class="fontSize20" id="Label_submittals"/>
 	        </View>
@@ -11,11 +11,11 @@
 	            <ImageView class="imgBtn_drawings" id="imgBtn_drawings_hotspot" onClick="goDrawings"/>
 	            <Label class="fontSize20" id="Label_drawings"/>
 	        </View>
-	        <View id="View_documents">
+	        <View id="View_documents" if="Alloy.Globals.useROKbtns">
 	            <ImageView class="imgBtn_documents" id="imgBtn_documents_hotspot" onClick="goDocuments"/>
 	            <Label class="fontSize20" id="Label_documents"/>
 	        </View>
-	        <View id="View_rfis">
+	        <View id="View_rfis" if="Alloy.Globals.useROKbtns">
 	            <ImageView id="imgBtn_rfis" onClick="goRfiChoice"/>
 	            <Label class="fontSize20" id="Label_rfis"/>
 	        </View>

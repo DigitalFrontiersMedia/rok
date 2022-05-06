@@ -30,9 +30,9 @@
 	height: "45.4%",
 	width: Titanium.UI.SIZE,
 },
-"#List_webUi": {
+"#View_webUi": {
 	"height": Ti.UI.FILL,
-	"width": "50%",
+	"width": "33%",
 	bubbleParent: false,
 },
 "#imgBtn_webUi": {
@@ -50,7 +50,7 @@
 },
 "#View_rokUi": {
 	"height": Ti.UI.FILL,
-	"width": "50%",
+	"width": "33%",
 	//left: "2.5%",
 	bubbleParent: false
 },
@@ -62,6 +62,25 @@
 },
 ".imgBtn_rokUi": {
 	"image": "/images/ROK-yellow-icon.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
+"#View_hybridUi": {
+	"height": Ti.UI.FILL,
+	"width": "34%",
+	//left: "2.5%",
+	bubbleParent: false
+},
+"#Label_hybridUi": {
+	"text": L('hybrid_ui'),
+	"width": "100%",
+	//bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".imgBtn_hybridUi": {
+	"image": "/images/hybrid-ui-icon.png",
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL,
 	top: 0,

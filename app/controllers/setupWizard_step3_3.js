@@ -4,6 +4,14 @@ var args = $.args;
 var setProject = function(index) {
 	Ti.App.Properties.setString("project", Ti.App.Properties.getObject("projects")[index].name);
 	Ti.App.Properties.setString("project_uid", Ti.App.Properties.getObject("projects")[index].uid);
+  if (!Ti.App.Properties.getString("project_uid")) {
+    //global.setUseROKbtns(false);
+    //global.setHybridUi(false);
+  } else {
+    //global.setUseROKbtns(true);
+    //global.setUsingWebUi(true);
+    //global.setHybridUi(false);
+  }
 };
 
 var wizardContinue = function(authResults) {

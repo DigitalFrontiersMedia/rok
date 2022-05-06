@@ -15,14 +15,20 @@ var self = Konstruction.prototype;
 // ================
 
 Konstruction.prototype.setPlatform = function(platform) {
-    this.platform = platform;
-    switch (platform) {
-    	case 'PlanGrid':
-    	default:
-    		this.apiURL = 'https://io.plangrid.com/';
-    		Ti.API.info('apiURL set as: ' + this.apiURL);
-    		break;
-    }
+  this.platform = platform;
+  global.konstruction.platform = platform;
+
+  switch (platform) {
+    case 'Autodesk Build':
+      this.apiURL = 'https://developer.api.autodesk.com/';
+      break;
+    
+    case 'PlanGrid':
+    default:
+      this.apiURL = 'https://io.plangrid.com/';
+      break;
+  }
+  Ti.API.info('apiURL set as: ' + this.apiURL);
 };
 
 Konstruction.prototype.apiURL = function() {
@@ -73,8 +79,8 @@ Konstruction.prototype.processPagination = function(results, callingFunction, on
 
 Konstruction.prototype.clearProjects = function(onSuccessCallback, next_page_url) {
 	var apiURL = global.konstruction.apiURL;
-	switch (this.platform) {
-		case 'PlanGrid':
+	switch (global.konstruction.platform) {
+    case 'PlanGrid':
 		default:
 			endpoint = 'projects';
 			break;
@@ -82,10 +88,91 @@ Konstruction.prototype.clearProjects = function(onSuccessCallback, next_page_url
 	global.xhr.clear(apiURL + endpoint);
 };
 
+Konstruction.prototype.getAcctID = function (onSuccessCallback, next_page_url) {
+  // Create some default params
+  var onSuccessCallback = onSuccessCallback || function () { };
+  var options = options || {};
+  var apiURL = global.konstruction.apiURL;
+  var endpoint;
+  //var onErrorCallback = global.onXHRError || function() {};
+  var onErrorCallback = function (xhrResults) {
+    if (!nonce) {
+      if (xhrResults.status === 401) {
+        Ti.API.info('401: ', JSON.stringify(xhrResults));
+        nonce++;
+        global.oauth.refresh(self.getAcctID, onSuccessCallback, next_page_url);
+      } else {
+        //alert('ERROR ' + xhrResults.error);
+        if (xhrResults.status != 429) {
+          alert('ERROR:  ' + xhrResults.error);
+          Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+        }
+      }
+    } else {
+      if (xhrResults.status === 401) {
+        Ti.API.info('401: ', JSON.stringify(xhrResults));
+        nonce--;
+        var dialog = Ti.UI.createAlertDialog({
+          cancel: 0,
+          reauth: 1,
+          buttonNames: ['Cancel', 'Okay'],
+          message: L('reauth'),
+          title: L('access_denied')
+        });
+        dialog.addEventListener('click', function (e) {
+          if (e.index === e.source.cancel) {
+            Ti.API.info('The cancel button was clicked');
+            Titanium.Android.currentActivity.finish();
+          }
+          if (e.index === e.source.reauth) {
+            //prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
+            global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);
+          }
+        });
+        dialog.show();
+      } else {
+        Ti.API.info('XHR error ' + xhrResults.status + '.  xhr = ' + JSON.stringify(xhrResults));
+        alert('An error occurred: \n', JSON.stringify(xhrResults));
+        nonce = null;
+      }
+    }
+    Alloy.Globals.loading.hide();
+  };
+  switch (global.konstruction.platform) {
+    case 'Autodesk Build':
+    default:
+      endpoint = 'project/v1/hubs';
+      break;
+  }
+  global.xhr.GET({
+    url: next_page_url ? next_page_url : apiURL + endpoint,
+    onSuccess: function (results) {
+      Ti.API.info('results = ' + JSON.stringify(results));
+      Ti.App.Properties.setString("acct_id", results.data[0].id);
+      self.getProjects(onSuccessCallback, next_page_url);
+    },
+    onError: onErrorCallback
+  });
+};
+
 Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) {
-    // Create some default params
-    var onSuccessCallback = onSuccessCallback || function() {};
-    var options = options || {};
+  switch (global.konstruction.platform) {
+    case 'Autodesk Build':
+      Ti.API.info('...ABOUT TO GET ACCTID...');
+      if (Ti.App.Properties.getString("acct_id", '') == '') {
+        Ti.App.Properties.setString("acct_id", '82005ed8-f14f-4a43-8c57-747996aee4c1');
+        self.getAcctID(onSuccessCallback, next_page_url);
+        return;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  // Create some default params
+  var onSuccessCallback = onSuccessCallback || function() {};
+  var options = options || {};
 	var apiURL = global.konstruction.apiURL;
 	var endpoint;
 	//var onErrorCallback = global.onXHRError || function() {};
@@ -132,8 +219,13 @@ Konstruction.prototype.getProjects = function(onSuccessCallback, next_page_url) 
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
-		case 'PlanGrid':
+  Ti.API.info('ABOUT TO TRY GETPROJECTS FOR ' + global.konstruction.platform + ' with project/v1/hubs/b.' + Ti.App.Properties.getString("acct_id") + '/projects');
+  switch (global.konstruction.platform) {
+    case 'Autodesk Build':
+      endpoint = 'project/v1/hubs/b.' + Ti.App.Properties.getString("acct_id") + '/projects';
+      break;
+
+    case 'PlanGrid':
 		default:
 			endpoint = 'projects';
 			break;
@@ -197,7 +289,7 @@ Konstruction.prototype.getRfis = function(onSuccessCallback, options, next_page_
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis';
@@ -263,7 +355,7 @@ Konstruction.prototype.createRfi = function(data, onSuccessCallback) {
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis';
@@ -327,7 +419,7 @@ Konstruction.prototype.getUserInfo = function(user, onSuccessCallback) {
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/users/' + user.uid;
@@ -390,7 +482,7 @@ Konstruction.prototype.getRfiPhotos = function(rfiUid, onSuccessCallback, next_p
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/photos';
@@ -455,7 +547,7 @@ Konstruction.prototype.getRfiDocuments = function(rfiUid, onSuccessCallback, nex
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/attachments';
@@ -520,7 +612,7 @@ Konstruction.prototype.getRfiSnapshots = function(rfiUid, onSuccessCallback, nex
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/snapshots';
@@ -585,7 +677,7 @@ Konstruction.prototype.getRfiHistoryEvents = function(rfiUid, onSuccessCallback,
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid + '/history';
@@ -650,7 +742,7 @@ Konstruction.prototype.updateRfi = function(rfiUid, data, onSuccessCallback) {
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/rfis/' + rfiUid;
@@ -714,7 +806,7 @@ Konstruction.prototype.getDocuments = function(onSuccessCallback, options, next_
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/attachments';
@@ -785,7 +877,7 @@ Konstruction.prototype.getDrawings = function(onSuccessCallback, options, next_p
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets';
@@ -851,7 +943,7 @@ Konstruction.prototype.getDrawing = function(drawingUid, onSuccessCallback, opti
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets/' + drawingUid;
@@ -915,7 +1007,7 @@ Konstruction.prototype.createDrawingPacket = function(data, onSuccessCallback, d
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets/packets';
@@ -987,7 +1079,7 @@ Konstruction.prototype.getDrawingPacket = function(packet_uid, onSuccessCallback
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/sheets/packets/' + packet_uid;
@@ -1055,7 +1147,7 @@ Konstruction.prototype.getSubmittalPackages = function(onSuccessCallback, option
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/packages';
@@ -1123,7 +1215,7 @@ Konstruction.prototype.getSubmittalPackageHistory = function(packageUid, onSucce
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/packages/' + packageUid + '/history';
@@ -1192,7 +1284,7 @@ Konstruction.prototype.getSubmittalFiles = function(packageUid, onSuccessCallbac
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/packages/' + packageUid + '/file_groups';
@@ -1261,7 +1353,7 @@ Konstruction.prototype.getSubmittalItems = function(onSuccessCallback, options, 
 		}
 		Alloy.Globals.loading.hide();
 	};
-	switch (this.platform) {
+	switch (global.konstruction.platform) {
 		case 'PlanGrid':
 		default:
 			endpoint = 'projects/' + Ti.App.Properties.getString("project_uid") + '/submittals/items';

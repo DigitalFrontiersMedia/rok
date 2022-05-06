@@ -13,7 +13,11 @@
                     <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth"/>
                     <Label class="btnText rokUi" id="Label_rokUi"/>
                 </View>
-                <View class="button-wrapper largeBtn" id="List_webUi" onClick="webUi">
+                <View class="button-wrapper largeBtn" id="View_hybridUi" onClick="hybridUi">
+                    <ImageView class="btnMainSecondary largeBtn fullWidth"/>
+                    <Label class="btnText hybridUi" id="Label_hybridUi"/>
+                </View>
+                <View class="button-wrapper largeBtn" id="View_webUi" onClick="webUi">
                     <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth mirror"/>
                     <Label class="btnText webUi" id="Label_webUi"/>
                 </View>

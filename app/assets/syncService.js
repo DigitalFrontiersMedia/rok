@@ -9,6 +9,7 @@ var syncCompleted = function() {
 	setTimeout(function() {
 		Alloy.Globals.loading.hide();
 		global.show429Error = true;
+    global.synchronizing = false;
 	}, global.syncCompleteDelay * 1000);
 };
 
@@ -227,6 +228,7 @@ global.checkSyncStart = function() {
 };
 
 if (Ti.Network.online && Ti.App.Properties.getBool('configured')) {
+  global.synchronizing = true;
 	Alloy.Globals.loading.show(L('syncing'));
 	global.show429Error = false;
 	// Iterate through all RFIs, Documents, Drawings, Submittals 
