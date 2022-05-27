@@ -61,7 +61,14 @@ overrode the settings with other TSS, XML, or JS settings:
 	"height": "48",
 	"width": "180"
 },
+".button-wrapper-tall": {
+	"height": "96",
+	"width": "180"
+},
 ".cornerButtonsWrapper": {
+	layout: "horizontal"
+},
+".layoutHorizontal": {
 	layout: "horizontal"
 },
 ".btnMainSecondary": {
@@ -71,6 +78,14 @@ overrode the settings with other TSS, XML, or JS settings:
 ".btnMainSecondaryEndCap": {
 	"image": "/images/btn_secondary_leftcap.png",
 	"height": "48"
+},
+".btnMainSecondaryTall": {
+	"image": "/images/btn_secondary_center_tall.png",
+	"height": 96
+},
+".btnMainSecondaryEndCapTall": {
+	"image": "/images/btn_secondary_leftcap_tall.png",
+	"height": 96
 },
 ".cornerBG": {
 	"image": "/images/bkg_btn_topLeft.png"
@@ -119,6 +134,9 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 ".largeBtn": {
 	height: 100,
+},
+".largeBtnTall": {
+	height: 175,
 },
 ".fullWidth": {
 	width: Ti.UI.FILL
@@ -191,4 +209,8 @@ overrode the settings with other TSS, XML, or JS settings:
 ".padTopBottom": {
 	top: 5,
 	bottom: 5
+},
+".padTopBottomQtr": {
+	top: '24%',
+	bottom: '24%'
 }

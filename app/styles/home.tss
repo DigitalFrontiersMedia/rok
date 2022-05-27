@@ -129,7 +129,7 @@
 "#View_secondaryButtons": {
 	"height": "25%",
 	"layout": "vertical",
-	"top": "75%"
+	"top": "65%"
 },
 "#View_row1": {
 },
@@ -156,6 +156,18 @@
 },
 ".whiteboard": {
 	text: L("whiteboard")
+},
+".whiteboardImg": {
+  "image": "/images/ico_whiteboard.png",
+  right: 10
+},
+".pageSuperImg": {
+  "image": "/images/ico_superintendantCall.png",
+  right: 10
+},
+".siteInfoImg": {
+  "image": "/images/ico_info.png",
+  right: 10
 },
 ".pageSuper": {
 	text: L("page_super")

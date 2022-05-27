@@ -22,17 +22,26 @@
         </View>
         <View id="View_secondaryButtons">
             <View class="btnRow" id="View_row1">
-                <View class="button-wrapper largeBtn" id="imgBtn_whiteboard" onClick="goWhiteboard">
-                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth"/>
-                    <Label class="btnText whiteboard"/>
+                <View class="button-wrapper-tall largeBtnTall" id="imgBtn_whiteboard" onClick="goWhiteboard">
+                    <ImageView class="btnMainSecondaryEndCapTall largeBtnTall fullWidth"/>
+                    <View class="layoutHorizontal widthToSize padTopBottomQtr">
+                      <ImageView class="whiteboardImg"/>
+                      <Label class="btnText whiteboard"/>
+                    </View>
                 </View>
-                <View class="button-wrapper largeBtn" id="imgBtn_pageSuper" onClick="pageSuperMenu">
-                    <ImageView class="btnMainSecondary largeBtn fullWidth"/>
-                    <Label class="btnText pageSuper"/>
+                <View class="button-wrapper-tall largeBtnTall" id="imgBtn_pageSuper" onClick="pageSuperMenu">
+                    <ImageView class="btnMainSecondaryTall largeBtnTall fullWidth"/>
+                    <View class="layoutHorizontal widthToSize padTopBottomQtr">
+                      <ImageView class="pageSuperImg"/>
+                      <Label class="btnText pageSuper"/>
+                    </View>
                 </View>
-                <View class="button-wrapper largeBtn" id="imgBtn_info" onClick="siteInfoMenu">
-                    <ImageView class="btnMainSecondaryEndCap largeBtn fullWidth mirror"/>
-                    <Label class="btnText siteInfo"/>
+                <View class="button-wrapper-tall largeBtnTall" id="imgBtn_info" onClick="siteInfoMenu">
+                    <ImageView class="btnMainSecondaryEndCapTall largeBtnTall fullWidth mirror"/>
+                      <View class="layoutHorizontal widthToSize padTopBottomQtr">
+                        <ImageView class="siteInfoImg"/>
+                        <Label class="btnText siteInfo"/>
+                      </View>
                 </View>
             </View>
             <View class="btnRow" id="View_row2">

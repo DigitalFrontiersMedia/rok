@@ -123,4 +123,4 @@ var wizContCheck = setInterval(function() {
     $.nxtBtn.visible = true;
     OauthSuccess(authResults);
   }
-}, 1000)
+}, 1000);
