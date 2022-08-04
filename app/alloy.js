@@ -368,7 +368,7 @@ global.setPlatform();
 
 global.setDeviceConfig = function(bypass) {
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
-	if (deviceInfo.length == 1) {
+  if (deviceInfo && deviceInfo.length == 1) {
 		Ti.App.Properties.setInt("deviceIndex", 0);
 	}
 	if (Ti.App.Properties.getInt("deviceIndex") !== null && Ti.App.Properties.getInt("deviceIndex") !== false && Ti.App.Properties.getInt("deviceIndex") !== '') {

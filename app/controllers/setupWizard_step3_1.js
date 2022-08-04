@@ -34,6 +34,7 @@ var setup = function() {
 	var dataRow;
 	var tableData = [];
 	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
+  Ti.API.info("deviceInfo: " + JSON.stringify(deviceInfo));
 	if (deviceInfo) {
 		deviceInfo.forEach(function(device) {
 			if (device.title) {

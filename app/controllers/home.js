@@ -336,4 +336,4 @@ global.homeUIDirty = false;
 global.home = $.getView();
 global.adminMode = false;
 
-setTimeout(function() {global.setMainBtnLabels();}, 500);
+setTimeout(function() {global.setMainBtnLabels();}, 1000);

@@ -72,16 +72,14 @@ var saveDeviceProfileNode = function(nid) {
 	Ti.API.info('saveDeviceProfileNode');
 	// Get full node.
 	global.jDrupal.nodeLoad(nid).then(function(node) {
-		Ti.API.info('node = ' + JSON.stringify(node));
+    Ti.API.info('node PRE-processing = ' + JSON.stringify(node));
 		// Remove protected fields
 		node = removeProtectedFields(node);
 		// Update field values
 		node.entity.title = [{value: Ti.App.Properties.getString('deviceName', '')}];
 		node.entity.field_device_id = [{value: Ti.Platform.id}];
 		node.entity.field_rok_app_version = [{value: Ti.App.version}];
-Ti.API.info('constructionApp (saveDeviceProfileNode BEFORE)' + Ti.App.Properties.getString('constructionApp'));
 		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp', '')}];
-Ti.API.info('constructionApp (saveDeviceProfileNode AFTER)' + Ti.App.Properties.getString('constructionApp'));
 		node.entity.field_project = [{value: Ti.App.Properties.getString('project', '')}];
 		node.entity.field_superintendent_name = [{value: Ti.App.Properties.getString('superName', '') == "false" ? '' : Ti.App.Properties.getString('superName', '')}];
 		node.entity.field_superintendent_mobile_numb = [{value: Ti.App.Properties.getString('superPhone', '') == "false" ? '' : Ti.App.Properties.getString('superPhone', '')}];
@@ -107,6 +105,8 @@ Ti.API.info('constructionApp (saveDeviceProfileNode AFTER)' + Ti.App.Properties.
 			});
 		}
 	
+    Ti.API.info('node POST-processing = ' + JSON.stringify(node));
+
 		// Save device profile with updated field values and report back then head home after Okay.
 		node.save().then(function(resp) {
 			Alloy.Globals.loading.hide();
@@ -146,7 +146,7 @@ var checkSave = function() {
 var wizardContinue = function() {
 	// Save all new/edited settings before going home
 	Alloy.Globals.loading.show(L('updating'));
-	var deviceInfo = Ti.App.Properties.getObject('deviceInfo', {});
+	var deviceInfo = Ti.App.Properties.getObject('deviceInfo');
 	var nid = deviceInfo[Ti.App.Properties.getInt("deviceIndex")].nid_export;
 	
 	// Update local Properties.

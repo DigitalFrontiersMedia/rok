@@ -84,7 +84,7 @@ var chooseApp = function(e) {
           constructionApp = choice;
           global.setOauthParams(constructionApp);
           //prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-          global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+          global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);
           break;
 
         default:
