@@ -32,7 +32,7 @@
 },
 "#View_webUi": {
 	"height": Ti.UI.FILL,
-	"width": "33%",
+	"width": "25%",
 	bubbleParent: false,
 },
 "#imgBtn_webUi": {
@@ -48,9 +48,27 @@
 	//bottom: "22.5%",
 	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
 },
+"#View_nativeUi": {
+	"height": Ti.UI.FILL,
+	"width": "25%",
+	bubbleParent: false,
+},
+"#imgBtn_nativeUi": {
+	"image": "/images/web_ui.png",
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	top: 0,
+	left: 0
+},
+"#Label_nativeUi": {
+	"text": L("native_ui"),
+	"width": "100%",
+	//bottom: "22.5%",
+	"textAlign": Ti.UI.TEXT_ALIGNMENT_CENTER
+},
 "#View_rokUi": {
 	"height": Ti.UI.FILL,
-	"width": "33%",
+	"width": "25%",
 	//left: "2.5%",
 	bubbleParent: false
 },
@@ -69,7 +87,7 @@
 },
 "#View_hybridUi": {
 	"height": Ti.UI.FILL,
-	"width": "34%",
+	"width": "25%",
 	//left: "2.5%",
 	bubbleParent: false
 },
@@ -93,11 +111,11 @@
 },
 ".btnRow": {
 	"layout": "horizontal",
-	width: "70%",
+	width: "80%",
 	height: Ti.UI.SIZE,
-	left: "15%"
+	left: "10%"
 },
 "#View_row1": {
-	width: "46.7%",
-	left: "26.7%"
+	width: "60%",
+	left: "20%"
 },

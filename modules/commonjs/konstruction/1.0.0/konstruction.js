@@ -26,6 +26,8 @@ Konstruction.prototype.setPlatform = function(platform) {
     case 'PlanGrid':
     default:
       this.apiURL = 'https://io.plangrid.com/';
+      this.packageName = 'com.plangrid.android';
+      global.konstruction.packageName = this.packageName;
       break;
   }
   Ti.API.info('apiURL set as: ' + this.apiURL);

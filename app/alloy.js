@@ -159,10 +159,12 @@ global.onOauthSuccess = function (authResults) {
 global.reAuth = function() {
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentTime = Date.now();
-	 if (Ti.Network.online && (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && !global.usingWebUi)) {
+	 if (Ti.Network.online && (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && (!global.usingWebUi || global.konstruction.platform == 'PlanGrid'))) {
 		global.reAuthStatus = true;
 		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-		global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+    if (!global.nativeUi) {
+		  global.oauth.authorize(true, global.onOauthSuccess, global.onOauthError, true, global.onOauthCancel);
+    }
 	}	
 };
 
@@ -181,6 +183,7 @@ global.onOauthError = function (authResults) {
 	    }
 	});
 	dialog.show();
+  Ti.API.info('global.usingWebUi: ', JSON.stringify(global.usingWebUi));
 };
 
 global.onOauthCancel = function (authResults) {
@@ -559,6 +562,19 @@ global.setHybridUi = function (hybridUi) {
   global.setMainBtnLabels();
 };
 global.setHybridUi();
+
+global.setNativeUi = function (nativeUi) {
+  if (nativeUi != null) {
+    Ti.App.Properties.setBool('nativeUi', nativeUi);
+  }
+  if (nativeUi != global.nativeUi) {
+    global.UiSwitched = true;
+  }
+  global.nativeUi = Ti.App.Properties.getBool('nativeUi', false);
+  Alloy.Globals.nativeUi = Ti.App.Properties.getBool('nativeUi', false);
+  global.setMainBtnLabels();
+};
+global.setNativeUi();
 
 global.userIsInactive = function() {
 	Ti.API.info('userIsInactive');

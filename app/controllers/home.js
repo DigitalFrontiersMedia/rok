@@ -289,7 +289,14 @@ var goWebui = function(type) {
 
 var goDrawings = function() {
   Ti.API.info('*** DRAWINGS ***');
-  if (global.usingWebUi) {
+  if (global.nativeUi && global.konstruction.packageName) {
+    // launch app
+    var intent = Ti.Android.createIntent({
+      action: Ti.Android.ACTION_MAIN,
+      packageName: global.konstruction.packageName
+    });
+    Ti.Android.currentActivity.startActivity(intent);
+  } else if (global.usingWebUi) {
     goWebui('sheets');
   } else {
     Alloy.createController('drawings').getView().open();

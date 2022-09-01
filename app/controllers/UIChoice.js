@@ -13,17 +13,27 @@ var wizardContinue = function() {
 var rokUi = function () {
   global.setUsingWebUi(false);
   global.setHybridUi(false);
+  global.setNativeUi(false);
   wizardContinue();
 };
 
 var hybridUi = function () {
   global.setUsingWebUi(true);
   global.setHybridUi(true);
+  global.setNativeUi(false);
   wizardContinue();
 };
 
 var webUi = function() {
 	global.setUsingWebUi(true);
   global.setHybridUi(false);
+  global.setNativeUi(false);
+	wizardContinue();
+};
+
+var nativeUi = function() {
+	global.setUsingWebUi(false);
+  global.setHybridUi(false);
+  global.setNativeUi(true);
 	wizardContinue();
 };

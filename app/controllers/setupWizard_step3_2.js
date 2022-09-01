@@ -40,20 +40,24 @@ var chooseApp = function(e) {
 	//Ti.API.info('e = ' + JSON.stringify(e));
 	var choice = e.row.children[0].text;
 
-  switch (choice) {
-    case 'Procore':
-    case 'Autodesk Build':
-      global.setUsingWebUi(true);
-      global.setUseROKbtns(false);
-      global.setHybridUi(false);
-      break;
+  if (global.nativeUi) {
+    global.setUseROKbtns(false);
+  } else {
+    switch (choice) {
+      case 'Procore':
+      case 'Autodesk Build':
+        global.setUsingWebUi(true);
+        global.setUseROKbtns(false);
+        global.setHybridUi(false);
+        break;
 
-    case 'PlanGrid':
-    default:
-      //global.setUsingWebUi(true);
-      global.setUseROKbtns(true);
-      //global.setHybridUi(false);
-      break;
+      case 'PlanGrid':
+      default:
+        //global.setUsingWebUi(true);
+        global.setUseROKbtns(true);
+        //global.setHybridUi(false);
+        break;
+    }
   }
 
 	for (var i = 0; i < $.ListView_apps.data[0].rows.length; ++i) {
@@ -62,11 +66,13 @@ var chooseApp = function(e) {
 	$.ListView_apps.data[0].rows[e.index].hasCheck = true;
 	var tokenExp = Ti.App.Properties.getInt('azure-ad-access-token-exp');
 	var currentTime = Date.now();
-	 if ((Ti.App.Properties.getString('constructionApp') != choice && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && !global.usingWebUi)) {
+	 if ((Ti.App.Properties.getString('constructionApp') != choice && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-access-token') && !global.usingWebUi) || (!Ti.App.Properties.getString('azure-ad-refresh-token') && !global.usingWebUi) || ((currentTime > tokenExp) && (!global.usingWebUi || global.konstruction.platform == 'PlanGrid'))) {
 		constructionApp = choice;
 		global.setOauthParams(constructionApp);
 		//prompt/show UI   |   success CB  |   error CB    |   allowCancel  |   cancel CB
-		global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);			
+    if (!global.nativeUi) {
+		  global.oauth.authorize(true, OauthSuccess, global.onOauthError, true, global.onOauthCancel);
+    }
 	} else if (global.usingWebUi) {
 		constructionApp = choice;
     if (choice != Ti.App.Properties.getString("constructionApp")) {
