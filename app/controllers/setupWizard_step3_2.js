@@ -97,14 +97,13 @@ var chooseApp = function(e) {
           break;
       }
     }
-    
-		Ti.App.Properties.setString("constructionApp", constructionApp);
-		//global.setPlatform();
-		wizardContinue();
-		setTimeout(function() {
-			$.nxtBtn.visible = true;
-		}, 500);
 	}
+  Ti.App.Properties.setString("constructionApp", constructionApp);
+  //global.setPlatform();
+  wizardContinue();
+  setTimeout(function() {
+    $.nxtBtn.visible = true;
+  }, 500);
 };
 
 var denoteInitial = function(val) {
