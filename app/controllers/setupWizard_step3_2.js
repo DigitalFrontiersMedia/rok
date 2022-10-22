@@ -45,6 +45,8 @@ var chooseApp = function(e) {
   } else {
     switch (choice) {
       case 'Procore':
+        break;
+
       case 'Autodesk Build':
         global.setUsingWebUi(true);
         global.setUseROKbtns(false);

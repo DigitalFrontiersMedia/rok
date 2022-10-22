@@ -23,7 +23,12 @@ Konstruction.prototype.setPlatform = function(platform) {
       this.apiURL = 'https://developer.api.autodesk.com/';
       break;
     
-    case 'PlanGrid':
+    case 'Procore':
+      this.apiURL = 'https://app.procore.com/';
+      this.packageName = 'com.procore.activities';
+      break;
+    
+      case 'PlanGrid':
     default:
       this.apiURL = 'https://io.plangrid.com/';
       this.packageName = 'com.plangrid.android';

@@ -9,11 +9,14 @@
         <Label id="Label_message"/>
         <TableView id="ListView_apps" onClick="chooseApp">
             <TableViewSection id="listSection">
+                <TableViewRow if="Alloy.Globals.usingWebUi">
+                    <Label class="choice">Autodesk Build</Label>
+                </TableViewRow>
                 <TableViewRow>
                     <Label class="choice">PlanGrid</Label>
                 </TableViewRow>
-                <TableViewRow if="Alloy.Globals.usingWebUi">
-                    <Label class="choice">Autodesk Build</Label>
+                <TableViewRow if="Alloy.Globals.nativeUi">
+                    <Label class="choice">Procore</Label>
                 </TableViewRow>
                 <TableViewRow if="Alloy.Globals.usingWebUi">
                     <Label class="choice">Procore</Label>
