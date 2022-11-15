@@ -606,7 +606,7 @@ global.userInteraction = function() {
         clearTimeout(global.timeoutID);
     }
     global.timeoutID = setTimeout(function(e) {
-    	global.userIsInactive();
+    	//global.userIsInactive();
 	}, global.idleTimeoutMinutes * 60 * 1000);
 };
 Ti.App.addEventListener('userinteraction', global.userInteraction);
