@@ -70,6 +70,7 @@
 	<string name="saved">SAVED</string>
 	<string name="app_version">ROK App version</string>
 	<string name="device_id">Device ID</string>
+	<string name="cellular_imei">Cellular IMEI</string>
 	<string name="changes_saved">Successfully saved changes to %s.</string>
 	<string name="created">CREATED</string>
 	<string name="rfi_created">Successfully created RFI on %s.</string>

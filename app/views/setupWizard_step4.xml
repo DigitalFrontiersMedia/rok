@@ -16,7 +16,7 @@
                     <View class="inputLine">
                         <Label class="right fontSize24" id="Label_app"/>
                     </View>
-                    <View class="inputLine">
+                    <View class="inputLine" if="Alloy.Globals.useROKbtns">
                         <Label class="right fontSize24" id="Label_project"/>
                     </View>
                     <View class="inputLine">
@@ -45,7 +45,7 @@
                     <View class="inputLine">
                         <TextField class="left fontSize24" id="appValue"/>
                     </View>
-                    <View class="inputLine">
+                    <View class="inputLine" if="Alloy.Globals.useROKbtns">
                         <TextField class="left fontSize24" id="projectValue"/>
                     </View>
                     <View class="inputLine">

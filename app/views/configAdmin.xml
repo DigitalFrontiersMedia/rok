@@ -8,6 +8,7 @@
         <View id="appDetails">
 	        <Label id="appVersion" />
 	        <Label id="deviceId" />
+	        <Label id="cellularImei" />
 	        <Label id="availableSpace" />
         </View>
         <View id="View_secondaryButtons">

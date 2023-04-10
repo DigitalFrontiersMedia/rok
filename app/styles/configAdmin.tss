@@ -27,6 +27,10 @@
 	height: Ti.UI.SIZE,
 	bottom: 10
 },
+"#cellularImei": {
+	height: Ti.UI.SIZE,
+	bottom: 10
+},
 "#availableSpace": {
 	height: Ti.UI.SIZE,
 	bottom: 10

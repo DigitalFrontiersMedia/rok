@@ -76,8 +76,11 @@ var saveDeviceProfileNode = function(nid) {
 		// Remove protected fields
 		node = removeProtectedFields(node);
 		// Update field values
+    var tm = require('ti.cellularinfo');
+  
 		node.entity.title = [{value: Ti.App.Properties.getString('deviceName', '')}];
 		node.entity.field_device_id = [{value: Ti.Platform.id}];
+		node.entity.field_cellular_imei = [{value: tm.getIMEI()}];
 		node.entity.field_rok_app_version = [{value: Ti.App.version}];
 		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp', '')}];
 		node.entity.field_project = [{value: Ti.App.Properties.getString('project', '')}];
@@ -179,7 +182,7 @@ var wizardContinue = function() {
 		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_construction_app = Ti.App.Properties.getString('constructionApp');
 		Ti.App.Properties.setString('constructionApp', $.appValue.value);
 	}
-	if (Ti.App.Properties.getString('project') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project) {
+	if (Alloy.Globals.useROKbtns && Ti.App.Properties.getString('project') != deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project) {
 		deviceInfo[Ti.App.Properties.getInt("deviceIndex")].field_project = Ti.App.Properties.getString('project');
 		Ti.App.Properties.setString('project', $.projectValue.value);
 	}
@@ -632,7 +635,9 @@ var showIntervalInfo = function() {
 
 $.deviceNameValue.value = Ti.App.Properties.getString('deviceName', '');
 $.appValue.value = Ti.App.Properties.getString('constructionApp', '');
-$.projectValue.value = Ti.App.Properties.getString('project', '');
+if (Alloy.Globals.useROKbtns) {
+  $.projectValue.value = Ti.App.Properties.getString('project', '');
+}
 $.superNameValue.value = Ti.App.Properties.getString('superName', '') == "false" ? '' : Ti.App.Properties.getString('superName', '');
 $.superPhoneValue.value = Ti.App.Properties.getString('superPhone', '') == "false" ? '' : Ti.App.Properties.getString('superPhone', '');
 $.adminSecretValue.value = Ti.App.Properties.getString('admin_secret', '') == "false" ? '' : Ti.App.Properties.getString('admin_secret', '');
@@ -642,6 +647,8 @@ if (Ti.App.Properties.getString('admin_secret', '') == "password") {
 $.autoAssetCacheSyncValue.value = Ti.App.Properties.getBool('autoAssetCacheSync', false);
 
 $.appValue.addEventListener('focus', selectApp);
-$.projectValue.addEventListener('focus', selectProject);
+if (Alloy.Globals.useROKbtns) {
+  $.projectValue.addEventListener('focus', selectProject);
+}
 
 $.on('checkSave', checkSave);
