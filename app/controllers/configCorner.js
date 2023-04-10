@@ -35,16 +35,15 @@ var configAdminChallenge = function() {
 var updateCurrentWifiStatus = function() {
 	var level = global.Wifi.getCurrentConnection().Rssi;
   $.signalLevelIcon.image = global.wifiIcon(level);
-  //var netInfo = require('com.clever_apps.tinetworkinfo');
-  //Ti.API.info("SIGNAL STRENGTH = " + netInfo.getSignalStrength);
-  var tm = require('ti.cellularinfo');
-  //var activity = Ti.Android.currentActivity;
-  //var t = activity.getSystemService();
-  //var sigStrengthInst = new sigStrength();
-  //var sigLevel = sigStrengthInst.getLevel();
-  var sigLevel2 = tm.getCellID();
-  //Ti.API.info("SIGNAL STRENGTH LEVEL = " + sigLevel);
-  Ti.API.info("SIGNAL STRENGTH getCellSignalStrengths = " + sigLevel2);
+
+  // var tm = require('ti.cellularinfo');
+  // //var activity = Ti.Android.currentActivity;
+  // //var t = activity.getSystemService();
+  // //var sigStrengthInst = new sigStrength();
+  // //var sigLevel = sigStrengthInst.getLevel();
+  // var sigLevel2 = tm.getCellID();
+  // //Ti.API.info("SIGNAL STRENGTH LEVEL = " + sigLevel);
+  // Ti.API.info("SIGNAL STRENGTH getCellSignalStrengths = " + sigLevel2);
 };
 setInterval(updateCurrentWifiStatus, 30000);
 setTimeout(updateCurrentWifiStatus, 100);

@@ -77,10 +77,16 @@ var saveDeviceProfileNode = function(nid) {
 		node = removeProtectedFields(node);
 		// Update field values
     var tm = require('ti.cellularinfo');
+    var cellImei;
+    if (global.permissions && tm.getIMEI() != null) {
+      cellImei = tm.getIMEI();
+    } else {
+      cellImei = '';
+    }
   
 		node.entity.title = [{value: Ti.App.Properties.getString('deviceName', '')}];
 		node.entity.field_device_id = [{value: Ti.Platform.id}];
-		node.entity.field_cellular_imei = [{value: tm.getIMEI()}];
+		node.entity.field_cellular_imei = [{value: cellImei}];
 		node.entity.field_rok_app_version = [{value: Ti.App.version}];
 		node.entity.field_construction_app = [{value: Ti.App.Properties.getString('constructionApp', '')}];
 		node.entity.field_project = [{value: Ti.App.Properties.getString('project', '')}];

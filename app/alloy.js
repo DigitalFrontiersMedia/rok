@@ -94,6 +94,7 @@ global.adminMode = false;
 global.usingWebUi = false;
 global.UiSwitched = false;
 global.overlayZoom = null;
+global.permissions = null;
 
 global.domainPrepend = global.usingBasicAuth ? global.basicAuthUser + ':' + global.basicAuthPass + '@' : '';
 global.jDrupal.config('sitePath', global.scheme + global.domainPrepend + global.domain);
@@ -646,3 +647,30 @@ global.syncService = function() {
 	
 };
 //setTimeout(global.syncService, global.backgroundServiceDelay * 60 * 1000);
+
+var permissions = [
+  'android.permission.ACCESS_WIFI_STATE', 
+  'android.permission.CHANGE_WIFI_STATE', 
+  'android.permission.CHANGE_NETWORK_STATE',
+  'android.permission.INTERNET', 
+  'android.permission.ACCESS_NETWORK_STATE', 
+  'android.permission.CHANGE_WIFI_STATE',
+  'android.permission.CHANGE_WIFI_MULTICAST_STATE', 
+  'android.permission.ACCESS_COARSE_LOCATION', 
+  'android.permission.OVERRIDE_WIFI_CONFIG',
+  'android.permission.ACCESS_FINE_LOCATION', 
+  'android.permission.READ_PHONE_STATE'
+];
+if (Ti.Platform.versionMajor >= 13) {
+  // example for camera and image permission on Android 13
+  //permissions = [ 'android.permission.CAMERA', 'android.permission.READ_MEDIA_IMAGES' ]
+}
+Ti.Android.requestPermissions(permissions, function (e) {
+    if (e.success) {
+        Ti.API.info('SUCCESS');
+        global.permissions = true;
+    } else {
+        Ti.API.info('ERROR: ' + e.error);
+        global.permissions = false;
+    }
+});

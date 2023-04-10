@@ -9,7 +9,9 @@ var resetInvoked = false;
 var tm = require('ti.cellularinfo');
 
 $.deviceId.text = L('device_id') + ':  ' + Ti.Platform.id;
-$.cellularImei.text = L('cellular_imei') + ':  ' + tm.getIMEI();
+if (global.permissions && tm.getIMEI() != null) {
+  $.cellularImei.text = L('cellular_imei') + ':  ' + tm.getIMEI();
+}
 $.appVersion.text = L('app_version') + ':  ' + Ti.App.version;
 $.availableSpace.text = L('avail_space') + ':  ' + global.UTIL.readableBytes(Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory).spaceAvailable());
 
