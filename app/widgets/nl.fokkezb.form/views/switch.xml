@@ -1,3 +1,0 @@
-<Alloy>
-  <Switch id="input" class="input" onChange="onChange" />
-</Alloy>

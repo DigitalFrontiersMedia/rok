@@ -1,3 +1,0 @@
-<Alloy>
-  <TextArea id="input" class="input" onChange="onChange"  />
-</Alloy>

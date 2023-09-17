@@ -1,9 +1,0 @@
-<Alloy>
-	<View id="imgBtn_backCorner">
-    	<ImageView id="ImageView_backBackground" class="cornerBG" />
-    	<View class="cornerButtonsWrapper">
-        	<Label id="lbl_backCorner" class="btnText" module="xp.ui" onClick="checkConfirmation" />
-        	<!--Widget id="lbl_backCorner" src="nl.fokkezb.html2as.widget" class="btnText" onClick="goBack" /-->
-    	</View>
-	</View>
-</Alloy>

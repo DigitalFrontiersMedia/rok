@@ -1,7 +1,0 @@
-".container": {
-},
-"#WebView_drawing": {
-	"zIndex": "-99",
-},
-"#configCorner": {
-}

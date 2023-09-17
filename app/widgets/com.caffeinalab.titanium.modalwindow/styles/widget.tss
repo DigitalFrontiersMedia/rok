@@ -1,9 +1,0 @@
-"#closeButton": {
-	title: L('close')
-},
-"#overlayButton": {
-	title: L('overlay')
-},
-"#removeOverlayButton": {
-	title: L('remove_overlay')
-}

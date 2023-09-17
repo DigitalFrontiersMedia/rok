@@ -1,8 +1,0 @@
-<Alloy autoStyle="true">
-	<View id="imgBtn_optionCorner">
-    	<ImageView id="ImageView_optionBackground" class="cornerBG mirror"/>
-    	<View class="cornerButtonsWrapper">
-        	<Label id="lbl_optionCorner" class="btnText"/>
-    	</View>
-	</View>
-</Alloy>

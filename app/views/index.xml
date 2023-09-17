@@ -1,8 +1,0 @@
-<Alloy>
-    <Window class="container" id="index" left="0.00%" top="0.00%">
-        <Label id="lbl_select">Select Startup Type:</Label>
-        <ImageView id="imgBtn_Initial" onClick="goSetup"/>
-        <ImageView id="imgBtn_Established"/>
-        <Require id="configCorner" src="configCorner" type="view"/>
-    </Window>
-</Alloy>

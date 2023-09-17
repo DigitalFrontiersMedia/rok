@@ -1,3 +1,0 @@
-<Alloy>
-  <TableView id="table" class="table" onSingletap="onTableSingletap" />
-</Alloy>
